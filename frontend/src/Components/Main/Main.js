@@ -1,10 +1,12 @@
 import { useEffect } from "react";
-import { Routes, Route, Link } from "react-router-dom";
-import Login from "../Login/Login";
-import Register from "../Register/Register";
-import Home from "../Home/Home";
 import { addToken, deleteUser } from "../../redux/features/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
+import { Routes, Route, Link } from "react-router-dom";
+import AllRecipes from "../Recipes/AllRecipes";
+import Header from "./Header";
+import Sidebar from "./Sidebar";
+import Footer from "./Footer";
+import MealPlans from "../MealPlans/MealPlans";
 
 const Main = () => {
   const user = useSelector((state) => state.auth.user);
@@ -18,33 +20,16 @@ const Main = () => {
     console.log("logout done");
   };
 
-  useEffect(() => {
-    console.log("token is ", token);
-    console.log("user is ", user);
-  }, [user, token]);
-
   return (
-    <div>
-      {token !== undefined ? (
-        <div>
-          <Link to="/home">Home token working | </Link>
-          <Link to="/login" onClick={handleLogout}>
-            Logout
-          </Link>
-        </div>
-      ) : (
-        <Link to="/login">Home Main | </Link>
-      )}
+    <>
+      <Header />
+      <Sidebar />
       <Routes>
-        <Route exact path="/login" component={() => <Login />} />
-        <Route exact path="/register" component={() => <Register />} />
-        <Route
-          exact
-          path="/home"
-          component={token !== undefined ? () => <Home /> : null}
-        />
+        <Route path="/recipes" element={<AllRecipes />} />
+        <Route path="/mealplans" element={<MealPlans />} />
       </Routes>
-    </div>
+      <Footer />
+    </>
   );
 };
 

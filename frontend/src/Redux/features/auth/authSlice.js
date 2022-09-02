@@ -4,7 +4,7 @@ const initialState = {
   user: {
     id: null,
     username: "",
-    authorities: [],
+    authorities: ["USER"],
   },
   token: undefined,
 };

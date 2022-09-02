@@ -1,16 +1,15 @@
 import Main from "./components/Main/Main";
-import Login from "./components/Login/Login";
-import Register from "./components/Register/Register";
-import Home from "./components/Home/Home";
 import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import Home from "./components/Home/Home";
 
 function App() {
+  const token = useSelector((state) => state.auth.token);
+
   return (
     <Routes>
-      <Route exact path="/" element={<Main />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/home" element={<Home />} />
+      <Route path="/*" element={token !== undefined ? <Main /> : <Home />} />
     </Routes>
   );
 }
