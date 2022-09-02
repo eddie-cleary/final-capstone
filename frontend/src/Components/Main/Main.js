@@ -1,56 +1,51 @@
-import {Component} from 'react'
-import {Switch, Route, Redirect, Link} from 'react-router-dom'
-import Login from '../Login/Login'
-import Register from '../Register/Register'
-import Home from '../Home/Home'
-import {addToken, deleteUser} from '../../Redux/actionCreators'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
+import { useEffect } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+import Login from "../Login/Login";
+import Register from "../Register/Register";
+import Home from "../Home/Home";
+import { addToken, deleteUser } from "../../redux/features/auth/authSlice";
+import { useSelector, useDispatch } from "react-redux";
 
-const mapStateToProps = state => {
-    return {
-        token: state.token,
-        user: state.user
-    }
-}
+const Main = () => {
+  const user = useSelector((state) => state.auth.user);
+  const token = useSelector((state) => state.auth.token);
+  const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch) => ({
-    addToken: () => { dispatch(addToken()) },
-    deleteUser: () => { dispatch(deleteUser())}
-});
+  const handleLogout = async () => {
+    console.log("logout called");
+    await dispatch(addToken(""));
+    await dispatch(deleteUser());
+    console.log("logout done");
+  };
 
-class Main extends Component {
-    constructor(props){
-        super(props);
-    }
+  useEffect(() => {
+    console.log("token is ", token);
+    console.log("user is ", user);
+  }, [user, token]);
 
-    handleLogout = () => {
-        this.props.addToken("")
-        this.props.deleteUser()
-    }
+  return (
+    <div>
+      {token !== undefined ? (
+        <div>
+          <Link to="/home">Home token working | </Link>
+          <Link to="/login" onClick={handleLogout}>
+            Logout
+          </Link>
+        </div>
+      ) : (
+        <Link to="/login">Home Main | </Link>
+      )}
+      <Routes>
+        <Route exact path="/login" component={() => <Login />} />
+        <Route exact path="/register" component={() => <Register />} />
+        <Route
+          exact
+          path="/home"
+          component={token !== undefined ? () => <Home /> : null}
+        />
+      </Routes>
+    </div>
+  );
+};
 
-    render(){
-        return(
-            <div>
-                {this.props.token.token !== undefined ?
-                        <div>
-                            <Link to='/home'>Home | </Link>
-                            <Link to='/login' onClick={this.handleLogout}>logout</Link> 
-                            <Redirect to='/home'/>
-
-                        </div>  
-                    : 
-                        <Link to='/login'>Home | </Link>
-                }
-                <Switch>
-                    <Route path='/login' component={() => <Login/>}/>
-                    <Route path='/register'component={() => <Register/>}/>
-                    <Route path='/home' component={this.props.token.token !== undefined ? () => <Home/> : null}/>
-                    <Redirect to='/login'/>
-                </Switch>
-            </div>
-        )
-    }
-} 
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
+export default Main;

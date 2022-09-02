@@ -1,79 +1,66 @@
-import { Component } from 'react'
-import {Link} from 'react-router-dom'
-import {connect} from 'react-redux'
-import {withRouter} from 'react-router-dom'
-import {addToken, addUser} from '../../Redux/actionCreators'
-import {baseUrl} from '../../Shared/baseUrl'
-import axios from 'axios'
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToken, addUser } from "../../redux/features/auth/authSlice";
+import { baseUrl } from "../../shared/baseUrl";
+import axios from "axios";
 
+const Login = () => {
+  const dispatch = useDispatch();
+  const [state, setState] = useState({ username: "", password: "" });
 
+  const handleInputChange = (e) => {
+    e.preventDefault();
+    setState({
+      ...state,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-const mapDispatchToProps = (dispatch) => ({
-    addToken: () =>  dispatch(addToken()),
-    addUser: () => dispatch(addUser()) 
-});
+  const handleLogin = async () => {
+    const data = {
+      username: state.username,
+      password: state.password,
+    };
 
-class Login extends Component {
-    
-    constructor(props){
-        super(props);
-        this.state = {
-            username: '',
-            password: ''
-        }
-        this.handleInputChange = this.handleInputChange.bind(this);
-    }
-    
+    const userWithToken = await axios.post(baseUrl + "/login", data);
 
-    handleLogin = async () => {
-        const data = { username: this.state.username, password: this.state.password };
-        
+    await dispatch(addToken(userWithToken.data.token));
+    await dispatch(addUser(userWithToken.data.user));
+  };
 
-        const userWithToken = await axios.post(baseUrl + '/login', data)
+  return (
+    <div>
+      <h1>Please Sign In</h1>
+      <label className="sr-only">Username</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        className="form-control"
+        placeholder="Username"
+        v-model="user.username"
+        onChange={handleInputChange}
+        required
+      />
+      <label className="sr-only">Password</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        className="form-control"
+        placeholder="Password"
+        v-model="user.password"
+        onChange={handleInputChange}
+        required
+      />
+      <Link to="/register">Need an account?</Link>
+      <Link to="/home">Home</Link>
+      <button type="submit" onClick={handleLogin}>
+        Sign in
+      </button>
+    </div>
+  );
+};
 
-        
-        await this.props.dispatch(addToken(userWithToken.data.token))
-        await this.props.dispatch(addUser(userWithToken.data.user));
-    }
-
-    handleInputChange = (event) => {
-        event.preventDefault()
-        this.setState({
-            [event.target.name]: event.target.value
-        })
-    }
-
-    render(){
-        return(
-            <div>
-                <h1>Please Sign In</h1>
-                <label class="sr-only">Username</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    class="form-control"
-                    placeholder="Username"
-                    v-model="user.username"
-                    onChange={this.handleInputChange}
-                    required
-                />
-                <label class="sr-only">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    class="form-control"
-                    placeholder="Password"
-                    v-model="user.password"
-                    onChange={this.handleInputChange}
-                    required
-                />
-                <Link to="/register">Need an account?</Link>
-                <button type="submit" onClick={this.handleLogin}>Sign in</button>
-            </div>
-        )
-    }
-}
-
-export default withRouter(connect(mapDispatchToProps)(Login));
+export default Login;

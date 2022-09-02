@@ -1,18 +1,17 @@
-import Main from './Components/Main/Main'
-import {Provider} from 'react-redux'
-import {BrowserRouter} from 'react-router-dom'
-import {ConfigureStore} from './Redux/configureStore'
-
-const store = ConfigureStore();
+import Main from "./components/Main/Main";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import Home from "./components/Home/Home";
+import { Routes, Route } from "react-router-dom";
 
 function App() {
-
   return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Main/>
-      </BrowserRouter>
-    </Provider>
+    <Routes>
+      <Route exact path="/" element={<Main />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/home" element={<Home />} />
+    </Routes>
   );
 }
 
