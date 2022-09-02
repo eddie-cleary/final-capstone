@@ -1,7 +1,6 @@
-import { useEffect } from "react";
 import { addToken, deleteUser } from "../../redux/features/auth/authSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import AllRecipes from "../Recipes/AllRecipes";
 import Header from "./Header";
 import Sidebar from "./Sidebar";

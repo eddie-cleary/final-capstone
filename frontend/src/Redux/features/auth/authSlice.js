@@ -6,7 +6,9 @@ const initialState = {
     username: "",
     authorities: ["USER"],
   },
-  token: undefined,
+  token: null,
+  isModalLogin: false,
+  isModalRegister: false,
 };
 
 export const authSlice = createSlice({
@@ -26,9 +28,11 @@ export const authSlice = createSlice({
     deleteUser: (state) => {
       return {
         ...state,
-        id: null,
-        username: "",
-        authorities: [],
+        user: {
+          id: null,
+          username: "",
+          authorities: [],
+        },
       };
     },
     addToken: (state, action) => {
@@ -37,9 +41,27 @@ export const authSlice = createSlice({
         token: action.payload,
       };
     },
+    showModalLogin: (state, action) => {
+      return {
+        ...state,
+        isModalLogin: action.payload,
+      };
+    },
+    showModalRegister: (state, action) => {
+      return {
+        ...state,
+        isModalRegister: action.payload,
+      };
+    },
   },
 });
 
-export const { addUser, deleteUser, addToken } = authSlice.actions;
+export const {
+  addUser,
+  deleteUser,
+  addToken,
+  showModalLogin,
+  showModalRegister,
+} = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,7 +1,8 @@
 import React from "react";
+import { Typography } from "@mui/material";
 
 const Footer = () => {
-  return <div>Footer</div>;
+  return <Typography variant="h4">Footer</Typography>;
 };
 
 export default Footer;

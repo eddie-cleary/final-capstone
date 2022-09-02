@@ -1,18 +1,29 @@
 import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { baseUrl } from "../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import { Stack, Typography, TextField, Button, Modal } from "@mui/material";
-import { showRegisterModal } from "../../redux/features/login/loginSlice";
+import { showModalRegister } from "../../redux/features/auth/authSlice";
 
-const Register = () => {
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 400,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+};
+
+const ModalRegister = () => {
   const [registerForm, setRegisterForm] = useState({
     username: "",
     password: "",
     confirmPassword: "",
   });
-  const isRegisterModal = useSelector((state) => state.login.isRegisterModal);
+  const isModalRegister = useSelector((state) => state.auth.isModalRegister);
   const dispatch = useDispatch();
 
   const handleInputChange = (e) => {
@@ -39,13 +50,13 @@ const Register = () => {
 
   return (
     <Modal
-      open={isRegisterModal}
-      onClose={() => dispatch(showRegisterModal(false))}
+      open={isModalRegister}
+      onClose={() => dispatch(showModalRegister(false))}
       aria-labelledby="modal-register"
       aria-describedby="modal-register"
     >
-      <Stack>
-        <Typography variant="h1">Create Account</Typography>
+      <Stack sx={style}>
+        <Typography variant="h3">Create Account</Typography>
         <TextField
           name="username"
           onChange={handleInputChange}
@@ -65,7 +76,6 @@ const Register = () => {
           required
         />
         <Stack direction="row">
-          <Link to="/login">Have an account?</Link>
           <Button variant="contained" onClick={handleSubmit}>
             Create Account
           </Button>
@@ -75,4 +85,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default ModalRegister;

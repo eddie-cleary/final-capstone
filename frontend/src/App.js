@@ -9,7 +9,7 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/*" element={token !== undefined ? <Main /> : <Home />} />
+      <Route path="/*" element={token !== null ? <Main /> : <Home />} />
     </Routes>
   );
 }
