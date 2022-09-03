@@ -2,6 +2,7 @@ package com.techelevator.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 public class RegisterUserDTO {
 
     @NotEmpty
+    @Length(min = 4, max = 15, message= "DTO username fail")
     private String username;
     @NotEmpty
     private String password;

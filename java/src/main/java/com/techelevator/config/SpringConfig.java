@@ -18,20 +18,20 @@ public class SpringConfig {
             appUserService.saveRole(new Role(null, "ROLE_ADMIN"));
             appUserService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
-            appUserService.saveUser(new RegisterUserDTO("ej", "1234"));
-            appUserService.saveUser(new RegisterUserDTO("kb", "1234"));
-            appUserService.saveUser(new RegisterUserDTO("bv", "1234"));
-            appUserService.saveUser(new RegisterUserDTO("cl", "1234"));
+            appUserService.saveUser(new RegisterUserDTO("eddie", "12345"));
+            appUserService.saveUser(new RegisterUserDTO("kimberly", "12345"));
+            appUserService.saveUser(new RegisterUserDTO("brandon", "12345"));
+            appUserService.saveUser(new RegisterUserDTO("chantele", "12345"));
 
-            appUserService.addRoleToAppUser("ej", "ROLE_SUPER_ADMIN");
-            appUserService.addRoleToAppUser("ej", "ROLE_ADMIN");
-            appUserService.addRoleToAppUser("ej", "ROLE_USER");
-            appUserService.addRoleToAppUser("kb", "ROLE_ADMIN");
-            appUserService.addRoleToAppUser("kb", "ROLE_USER");
-            appUserService.addRoleToAppUser("bv", "ROLE_ADMIN");
-            appUserService.addRoleToAppUser("bv", "ROLE_USER");
-            appUserService.addRoleToAppUser("cl", "ROLE_ADMIN");
-            appUserService.addRoleToAppUser("cl", "ROLE_USER");
+            appUserService.addRoleToAppUser("eddie", "ROLE_SUPER_ADMIN");
+            appUserService.addRoleToAppUser("eddie", "ROLE_ADMIN");
+            appUserService.addRoleToAppUser("eddie", "ROLE_USER");
+            appUserService.addRoleToAppUser("kimberly", "ROLE_ADMIN");
+            appUserService.addRoleToAppUser("kimberly", "ROLE_USER");
+            appUserService.addRoleToAppUser("brandon", "ROLE_ADMIN");
+            appUserService.addRoleToAppUser("brandon", "ROLE_USER");
+            appUserService.addRoleToAppUser("chantele", "ROLE_ADMIN");
+            appUserService.addRoleToAppUser("chantele", "ROLE_USER");
         };
     }
 

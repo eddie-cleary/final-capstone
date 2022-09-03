@@ -2,6 +2,7 @@ package com.techelevator.service;
 
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Role;
+import com.techelevator.exception.ValidationException;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.repo.AppUserRepo;
 import com.techelevator.repo.RoleRepo;
@@ -47,14 +48,17 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser saveUser(RegisterUserDTO newUser) {
+    public AppUser saveUser(RegisterUserDTO newUser) throws ValidationException {
         log.info("Saving new AppUser {} to the database", newUser.getUsername());
+        if (newUser.getPassword().length() > 15 || newUser.getPassword().length() < 4) {
+            throw new ValidationException("Password must be between 4 and 15 characters");
+        }
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         AppUser appUser = AppUser.builder()
                 .username(newUser.getUsername())
                 .password(newUser.getPassword())
-                .activated(true)
                 .roles(new ArrayList<Role>())
+                .activated(true)
                 .build();
         return appUserRepo.save(appUser);
     }

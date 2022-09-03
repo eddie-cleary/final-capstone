@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.entity.AppUser;
+import com.techelevator.exception.ValidationException;
 import com.techelevator.model.LoginDTO;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.model.UserAlreadyExistsException;
@@ -53,7 +54,7 @@ public class AuthenticationController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public void register(@Valid @RequestBody RegisterUserDTO newUser) {
+    public void register(@Valid @RequestBody RegisterUserDTO newUser) throws ValidationException {
         System.out.println("New user is " + newUser);
         try {
             AppUser appUser = appUserService.getUser(newUser.getUsername());
