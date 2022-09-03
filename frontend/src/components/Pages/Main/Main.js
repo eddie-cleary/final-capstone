@@ -10,8 +10,7 @@ import Features from "./Features";
 import Footer from "../../Layout/Footer";
 
 const btn = {
-  justifyContent: "space-evenly",
-  marginTop: "10%",
+  margin: "10%",
 };
 
 const Main = () => {
@@ -22,18 +21,18 @@ const Main = () => {
       <Typography variant="h2">My Digital Meal Planner</Typography>
 
       <Features />
-      <Stack direction="row" className="Button-Container">
+      <Stack direction="row">
         <Button
           onClick={() => dispatch(showModalLogin(true))}
           variant="contained"
-          sx={{ btn }}
+          sx={ btn }
         >
           Login
         </Button>
         <Button
           onClick={() => dispatch(showModalRegister(true))}
           variant="contained"
-          sx={{ btn }}
+          sx={ btn }
         >
           Register
         </Button>
