@@ -34,6 +34,12 @@ const ModalRegister = () => {
     });
   };
 
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+
   const handleSubmit = () => {
     const data = {
       username: registerForm.username,
@@ -72,6 +78,7 @@ const ModalRegister = () => {
           onChange={handleInputChange}
           label="Confirm Password"
           required
+          onKeyDown={handleKeyDown}
         />
         <Stack direction="row">
           <Button variant="contained" onClick={handleSubmit}>

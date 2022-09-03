@@ -13,7 +13,9 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    dispatch(addToken(token));
+    if (token !== "null") {
+      dispatch(addToken(token));
+    }
   }, []);
 
   return (

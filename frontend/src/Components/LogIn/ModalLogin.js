@@ -26,10 +26,17 @@ const ModalLogin = () => {
 
   const handleInputChange = (e) => {
     e.preventDefault();
+
     setLoginForm({
       ...loginForm,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
   };
 
   const handleLogin = async () => {
@@ -68,6 +75,7 @@ const ModalLogin = () => {
           onChange={handleInputChange}
           label="Password"
           variant="outlined"
+          onKeyDown={handleKeyDown}
         />
         <Button onClick={handleLogin} variant="contained">
           Login
