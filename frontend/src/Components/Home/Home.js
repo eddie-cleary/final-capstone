@@ -6,26 +6,32 @@ import {
 } from "../../redux/features/auth/authSlice";
 import ModalLogin from "../LogIn/ModalLogin";
 import ModalRegister from "../LogIn/ModalRegister";
+import './Home.css'
+import Features from "./Features";
 
 const Home = () => {
   const dispatch = useDispatch();
 
   return (
     <Stack>
-      <Typography variant="h2">This is the landing page</Typography>
-      <Stack direction="row">
+      <Typography variant="h2">My Digital Meal Planner</Typography>
+      
+      <Features />
+      <Stack direction="row" className="Button-Container">
         <Button
           onClick={() => dispatch(showModalLogin(true))}
           variant="contained"
+          className="Button"
         >
           Login
         </Button>
         <Button
           onClick={() => dispatch(showModalRegister(true))}
           variant="contained"
+          className="Button"
         >
           Register
-        </Button>
+        </Button >
       </Stack>
       <ModalLogin />
       <ModalRegister />

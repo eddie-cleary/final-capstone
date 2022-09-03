@@ -7,6 +7,7 @@ import Sidebar from "./Sidebar";
 import Footer from "./Footer";
 import MealPlans from "../MealPlans/MealPlans";
 
+
 const Main = () => {
   const user = useSelector((state) => state.auth.user);
   const token = useSelector((state) => state.auth.token);
