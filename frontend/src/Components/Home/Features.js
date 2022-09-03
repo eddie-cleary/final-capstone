@@ -13,7 +13,7 @@ export default function Features() {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="100"
+          height="200"
           image="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1472&q=80"
           alt="Meal Plan"
         />
@@ -32,7 +32,7 @@ export default function Features() {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="100"
+          height="200"
           image="https://images.unsplash.com/photo-1542010589005-d1eacc3918f2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1492&q=80"
           alt="Recipe Book"
         />
@@ -50,7 +50,8 @@ export default function Features() {
       <CardActionArea>
         <CardMedia
           component="img"
-          height="100"
+          height="200"
+
           image="https://images.unsplash.com/photo-1623265300797-4a3541e29a60?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
           alt="Shopping List"
         />

@@ -8,6 +8,7 @@ import ModalLogin from "../LogIn/ModalLogin";
 import ModalRegister from "../LogIn/ModalRegister";
 import './Home.css'
 import Features from "./Features";
+import Footer from "../Main/Footer"
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -35,6 +36,7 @@ const Home = () => {
       </Stack>
       <ModalLogin />
       <ModalRegister />
+      <Footer />
     </Stack>
   );
 };
