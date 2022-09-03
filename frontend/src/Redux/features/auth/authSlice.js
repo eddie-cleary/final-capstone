@@ -26,6 +26,7 @@ export const authSlice = createSlice({
       };
     },
     deleteUser: (state) => {
+      localStorage.removeItem("token");
       return {
         ...state,
         user: {
@@ -36,6 +37,7 @@ export const authSlice = createSlice({
       };
     },
     addToken: (state, action) => {
+      localStorage.setItem("token", action.payload);
       return {
         ...state,
         token: action.payload,
