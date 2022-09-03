@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +25,7 @@ public class AppUser {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
    @NotNull(message = "Username should not be null")
-   @Size(min = 4, max = 15, message="Username should be between 4 and 15 characters long")
+   @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Username not valid")
    private String username;
    @JsonIgnore
    @NotNull

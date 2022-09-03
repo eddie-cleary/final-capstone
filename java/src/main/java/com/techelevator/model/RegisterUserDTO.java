@@ -5,15 +5,17 @@ import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @AllArgsConstructor
 @Data
 public class RegisterUserDTO {
 
     @NotEmpty
-    @Length(min = 4, max = 15, message= "DTO username fail")
+    @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Username not valid")
     private String username;
     @NotEmpty
+    @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Password not valid")
     private String password;
 
     public String getUsername() {

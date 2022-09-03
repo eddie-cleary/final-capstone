@@ -35,7 +35,7 @@ public class AuthenticationController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginDTO loginDto) {
+    public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginDTO loginDto) throws ValidationException{
 
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
@@ -55,12 +55,12 @@ public class AuthenticationController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public void register(@Valid @RequestBody RegisterUserDTO newUser) throws ValidationException {
-        System.out.println("New user is " + newUser);
         try {
             AppUser appUser = appUserService.getUser(newUser.getUsername());
             throw new UserAlreadyExistsException();
         } catch (UsernameNotFoundException e) {
             AppUser appUser = appUserService.saveUser(newUser);
+            //Todo: refactor this later
             appUserService.addRoleToAppUser(appUser.getUsername(), "ROLE_USER");
         }
     }

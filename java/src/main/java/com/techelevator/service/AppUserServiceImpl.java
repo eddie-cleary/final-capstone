@@ -16,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -32,9 +33,9 @@ public class AppUserServiceImpl implements AppUserService {
     @Override
     public AppUser getUser(String username) {
         log.info("Fetching AppUser {} from database", username);
-        AppUser appUser = appUserRepo.findByUsername(username);
-        if (Objects.nonNull(appUser)) {
-            return appUser;
+        Optional<AppUser> appUser = Optional.ofNullable(appUserRepo.findByUsername(username));
+        if (appUser.isPresent()) {
+            return appUser.get();
         }
         throw new UsernameNotFoundException(username + " not found");
     }
@@ -53,10 +54,9 @@ public class AppUserServiceImpl implements AppUserService {
         if (newUser.getPassword().length() > 15 || newUser.getPassword().length() < 4) {
             throw new ValidationException("Password must be between 4 and 15 characters");
         }
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         AppUser appUser = AppUser.builder()
                 .username(newUser.getUsername())
-                .password(newUser.getPassword())
+                .password(passwordEncoder.encode(newUser.getPassword()))
                 .roles(new ArrayList<Role>())
                 .activated(true)
                 .build();
