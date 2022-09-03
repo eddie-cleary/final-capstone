@@ -3,36 +3,40 @@ import { useDispatch } from "react-redux";
 import {
   showModalLogin,
   showModalRegister,
-} from "../../redux/features/auth/authSlice";
-import ModalLogin from "../LogIn/ModalLogin";
-import ModalRegister from "../LogIn/ModalRegister";
-import './Home.css'
+} from "../../../redux/features/auth/authSlice";
+import ModalLogin from "../../LogIn/ModalLogin";
+import ModalRegister from "../../LogIn/ModalRegister";
 import Features from "./Features";
-import Footer from "../Main/Footer"
+import Footer from "../../Layout/Footer";
 
-const Home = () => {
+const btn = {
+  justifyContent: "space-evenly",
+  marginTop: "10%",
+};
+
+const Main = () => {
   const dispatch = useDispatch();
 
   return (
     <Stack>
       <Typography variant="h2">My Digital Meal Planner</Typography>
-      
+
       <Features />
       <Stack direction="row" className="Button-Container">
         <Button
           onClick={() => dispatch(showModalLogin(true))}
           variant="contained"
-          className="Button"
+          sx={{ btn }}
         >
           Login
         </Button>
         <Button
           onClick={() => dispatch(showModalRegister(true))}
           variant="contained"
-          className="Button"
+          sx={{ btn }}
         >
           Register
-        </Button >
+        </Button>
       </Stack>
       <ModalLogin />
       <ModalRegister />
@@ -41,4 +45,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Main;
