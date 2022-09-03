@@ -45,7 +45,7 @@ const ModalRegister = () => {
       username: registerForm.username,
       password: registerForm.password,
     };
-    if (registerForm.password == registerForm.confirmPassword) {
+    if (registerForm.password === registerForm.confirmPassword) {
       axios.post(baseUrl + "/register", data);
     } else {
       alert("Password and Confirm password must match");
