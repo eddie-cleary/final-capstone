@@ -1,17 +1,18 @@
 package com.techelevator.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+
 import javax.validation.constraints.NotEmpty;
 
+@AllArgsConstructor
+@Data
 public class RegisterUserDTO {
 
     @NotEmpty
     private String username;
     @NotEmpty
     private String password;
-    @NotEmpty
-    private String confirmPassword;
-    @NotEmpty(message = "Please select a role for this user.")
-    private String role;
 
     public String getUsername() {
         return username;
@@ -29,19 +30,4 @@ public class RegisterUserDTO {
         this.password = password;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
 }
