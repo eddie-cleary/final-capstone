@@ -21,6 +21,7 @@ public class SpringConfig {
             appUserService.saveUser(new RegisterUserDTO("ej", "1234"));
             appUserService.saveUser(new RegisterUserDTO("kb", "1234"));
             appUserService.saveUser(new RegisterUserDTO("bv", "1234"));
+            appUserService.saveUser(new RegisterUserDTO("cl", "1234"));
 
             appUserService.addRoleToAppUser("ej", "ROLE_SUPER_ADMIN");
             appUserService.addRoleToAppUser("ej", "ROLE_ADMIN");
@@ -29,6 +30,8 @@ public class SpringConfig {
             appUserService.addRoleToAppUser("kb", "ROLE_USER");
             appUserService.addRoleToAppUser("bv", "ROLE_ADMIN");
             appUserService.addRoleToAppUser("bv", "ROLE_USER");
+            appUserService.addRoleToAppUser("cl", "ROLE_ADMIN");
+            appUserService.addRoleToAppUser("cl", "ROLE_USER");
         };
     }
 
