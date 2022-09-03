@@ -2,13 +2,13 @@
 justify-content: space-evenly;
 margin-top: 10%; 
 }
-.Features-Container{
+.Grid{
 display: flex;
+justify-content: space-evenly;
 }
 .Features{
     display: inline-flex;
     margin: .5em;
     width: 30%;
     height: 300px;
-    justify-items: space-evenly;
 }
