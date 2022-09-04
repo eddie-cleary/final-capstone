@@ -81,26 +81,32 @@ const ModalLogin = () => {
       aria-describedby="modal-login"
     >
       <Stack sx={style}>
-        <Typography variant="h3">Login</Typography>
+        <Typography variant="h4">Login</Typography>
         <Typography sx={{ color: "red" }}>{errMsg}</Typography>
-        <FormControl sx={{ mt: 2 }}>
-          <TextField
-            name="username"
-            onChange={handleInputChange}
-            label="Username"
-            variant="outlined"
-          />
-        </FormControl>
-        <FormControl sx={{ mt: 2 }}>
-          <TextField
-            name="password"
-            type="password"
-            onChange={handleInputChange}
-            label="Password"
-            variant="outlined"
-            onKeyDown={handleKeyDown}
-          />
-        </FormControl>
+        <form>
+          <Stack>
+            <FormControl sx={{ mt: 2 }}>
+              <TextField
+                name="username"
+                onChange={handleInputChange}
+                label="Username"
+                variant="outlined"
+                autoComplete="off"
+              />
+            </FormControl>
+            <FormControl sx={{ mt: 2 }}>
+              <TextField
+                name="password"
+                type="password"
+                onChange={handleInputChange}
+                label="Password"
+                autoComplete="off"
+                variant="outlined"
+                onKeyDown={handleKeyDown}
+              />
+            </FormControl>
+          </Stack>
+        </form>
         <Button sx={{ mt: 2 }} onClick={handleLogin} variant="contained">
           Login
         </Button>
