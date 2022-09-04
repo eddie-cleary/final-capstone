@@ -6,6 +6,6 @@ import java.security.Principal;
 import java.util.Optional;
 
 public interface RecipeService {
-    Recipe saveRecipe(Principal principal, Recipe recipe);
+    Recipe addRecipe(Principal principal, Recipe recipe);
     Recipe getRecipeById(Long id);
 }

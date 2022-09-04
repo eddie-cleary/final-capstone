@@ -3,7 +3,6 @@ package com.techelevator.config;
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
 import com.techelevator.entity.Role;
-import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.repo.RoleRepo;
 import com.techelevator.service.AppUserService;
 import com.techelevator.service.RecipeService;
@@ -27,9 +26,9 @@ public class SpringConfig {
     CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {
         return args -> {
 
-            roleService.saveRole(new Role(null, "ROLE_USER"));
-            roleService.saveRole(new Role(null, "ROLE_ADMIN"));
-            roleService.saveRole(new Role(null, "ROLE_SUPER_ADMIN"));
+            roleService.addRole(new Role(null, "ROLE_USER"));
+            roleService.addRole(new Role(null, "ROLE_ADMIN"));
+            roleService.addRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
             Role userRole = roleRepo.findByName("ROLE_USER");
 

@@ -22,7 +22,7 @@ public class RecipeServiceImpl implements RecipeService {
     private final AppUserRepo appUserRepo;
 
     @Override
-    public Recipe saveRecipe(Principal principal, Recipe recipe) {
+    public Recipe addRecipe(Principal principal, Recipe recipe) {
         AppUser currUser = appUserRepo.findByUsername(principal.getName());
         recipe.setAppUser(currUser);
         return recipeRepo.save(recipe);

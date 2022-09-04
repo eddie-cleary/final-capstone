@@ -63,7 +63,7 @@ public class AuthenticationController {
             AppUser appUser = appUserService.getUser(newUser.getUsername());
             throw new UserAlreadyExistsException();
         } catch (UsernameNotFoundException e) {
-            appUserService.registerNewUser(newUser);
+            appUserService.addNewUser(newUser);
         }
     }
 

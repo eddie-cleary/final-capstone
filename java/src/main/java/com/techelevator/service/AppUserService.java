@@ -9,11 +9,11 @@ import javax.validation.Valid;
 import java.util.List;
 
 public interface AppUserService {
-    AppUser saveUser(AppUser appUser) throws ValidationException;
+    AppUser addUser(AppUser appUser) throws ValidationException;
 
     AppUser addRoleToAppUser(String username, String roleName);
     AppUser getUser(String username);
     List<AppUser> getUsers();
 
-    AppUser registerNewUser(RegisterUserDTO newUser);
+    AppUser addNewUser(RegisterUserDTO newUser);
 }

@@ -47,13 +47,13 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public AppUser saveUser(AppUser appUser) throws ValidationException {
+    public AppUser addUser(AppUser appUser) throws ValidationException {
         log.info("Saving new AppUser {} to the database", appUser.getUsername());
         return appUserRepo.save(appUser);
     }
 
     @Override
-    public AppUser registerNewUser(RegisterUserDTO newUser) {
+    public AppUser addNewUser(RegisterUserDTO newUser) {
         log.info("Registering new user {} to the database", newUser.getUsername());
         Role userRole = roleRepo.findByName("ROLE_USER");
         AppUser appUser = AppUser.builder()
