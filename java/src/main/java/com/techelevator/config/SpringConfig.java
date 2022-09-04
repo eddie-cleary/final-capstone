@@ -39,17 +39,7 @@ public class SpringConfig {
                     .roles(List.of(userRole))
                     .build();
 
-            appUserService.saveUser(eddie);
-
-            Recipe newRecipe = Recipe.builder()
-                    .title("New recipe")
-                    .description("Recipe description")
-                    .servings(1)
-                    .image_url("https://www.google.com")
-                    .appUser(eddie)
-                    .build();
-
-//            recipeService.saveRecipe(newRecipe);
+            appUserService.addUser(eddie);
         };
     }
 
