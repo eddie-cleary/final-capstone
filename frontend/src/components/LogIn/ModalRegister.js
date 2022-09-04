@@ -28,7 +28,7 @@ const style = {
 };
 
 const USER_REGEX = /^[a-zA-Z0-9_-]{4,15}$/;
-const PWD_REGEX = /^(?=.*?[a-z])(?=.*?[0-9]).{8,18}$/;
+const PWD_REGEX = /^(?=.*?[a-zA-Z])(?=.*?[0-9]).{8,18}$/;
 
 const ModalRegister = () => {
   const userRef = useRef();
@@ -165,9 +165,10 @@ const ModalRegister = () => {
       } catch (err) {
         if (!err?.response) {
           setErrMsg("No server response");
-        } else if (err.response?.status === 409) {
+        } else if (err.response.data.message === "User Already Exists.") {
           setErrMsg("Username taken");
         } else {
+          console.log(err.response.data);
           setErrMsg("Registration Failed");
         }
         errRef.current.focus();
@@ -204,7 +205,7 @@ const ModalRegister = () => {
                 label="Username"
                 id="username"
                 helperText={
-                  usernameValid ? " " : "3-15 characters no special symbols"
+                  usernameValid ? " " : "4-15 characters no special symbols"
                 }
                 color={usernameColor}
                 required
@@ -228,6 +229,7 @@ const ModalRegister = () => {
                 }
                 color={passwordColor}
                 required
+                onKeyDown={handleKeyDown}
                 aria-invalid={passwordValid ? "false" : "true"}
               ></TextField>
             </FormControl>
@@ -243,6 +245,7 @@ const ModalRegister = () => {
                 helperText={validMatch ? "" : "Passwords do not match"}
                 color={confirmPasswordColor}
                 required
+                onKeyDown={handleKeyDown}
                 aria-invalid={confirmPasswordValid ? "false" : "true"}
               ></TextField>
             </FormControl>

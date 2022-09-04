@@ -3,7 +3,14 @@ import { useDispatch } from "react-redux";
 import { addToken, addUser } from "../../redux/features/auth/authSlice";
 import { baseUrl } from "../../shared/baseUrl";
 import axios from "axios";
-import { TextField, Modal, Stack, Button, Typography } from "@mui/material";
+import {
+  TextField,
+  Modal,
+  Stack,
+  Button,
+  Typography,
+  FormControl,
+} from "@mui/material";
 import { useSelector } from "react-redux";
 import { showModalLogin } from "../../redux/features/auth/authSlice";
 
@@ -21,6 +28,7 @@ const style = {
 
 const ModalLogin = () => {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
+  const [errMsg, setErrMsg] = useState("");
   const isModalLogin = useSelector((state) => state.auth.isModalLogin);
   const dispatch = useDispatch();
 
@@ -45,14 +53,24 @@ const ModalLogin = () => {
       password: loginForm.password,
     };
 
-    const userWithToken = await axios.post(baseUrl + "/login", data);
-
-    //Todo: add logic to make sure login was successful
-
-    dispatch(showModalLogin(false));
-
-    await dispatch(addToken(userWithToken.data.token));
-    await dispatch(addUser(userWithToken.data.user));
+    try {
+      const userWithToken = await axios.post(baseUrl + "/login", data);
+      setLoginForm({
+        username: "",
+        password: "",
+      });
+      dispatch(showModalLogin(false));
+      await dispatch(addToken(userWithToken.data.token));
+      await dispatch(addUser(userWithToken.data.user));
+    } catch (err) {
+      if (!err?.response) {
+        setErrMsg("No server response");
+      } else if (err.response?.status === 401) {
+        setErrMsg("Invalid username or password");
+      } else {
+        setErrMsg("Registration Failed");
+      }
+    }
   };
 
   return (
@@ -64,20 +82,26 @@ const ModalLogin = () => {
     >
       <Stack sx={style}>
         <Typography variant="h3">Login</Typography>
-        <TextField
-          name="username"
-          onChange={handleInputChange}
-          label="Username"
-          variant="outlined"
-        />
-        <TextField
-          name="password"
-          onChange={handleInputChange}
-          label="Password"
-          variant="outlined"
-          onKeyDown={handleKeyDown}
-        />
-        <Button onClick={handleLogin} variant="contained">
+        <Typography sx={{ color: "red" }}>{errMsg}</Typography>
+        <FormControl sx={{ mt: 2 }}>
+          <TextField
+            name="username"
+            onChange={handleInputChange}
+            label="Username"
+            variant="outlined"
+          />
+        </FormControl>
+        <FormControl sx={{ mt: 2 }}>
+          <TextField
+            name="password"
+            type="password"
+            onChange={handleInputChange}
+            label="Password"
+            variant="outlined"
+            onKeyDown={handleKeyDown}
+          />
+        </FormControl>
+        <Button sx={{ mt: 2 }} onClick={handleLogin} variant="contained">
           Login
         </Button>
       </Stack>
