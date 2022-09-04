@@ -11,8 +11,7 @@ import Footer from "../../Layout/Footer";
 import Header from "../../Layout/Header";
 
 const btn = {
-  justifyContent: "space-evenly",
-  marginTop: "10%",
+  margin: "10%",
 };
 
 const Main = () => {
@@ -23,18 +22,18 @@ const Main = () => {
      <Header/>
 
       <Features />
-      <Stack direction="row" className="Button-Container">
+      <Stack direction="row">
         <Button
           onClick={() => dispatch(showModalLogin(true))}
           variant="contained"
-          sx={{ btn }}
+          sx={ btn }
         >
           Login
         </Button>
         <Button
           onClick={() => dispatch(showModalRegister(true))}
           variant="contained"
-          sx={{ btn }}
+          sx={ btn }
         >
           Register
         </Button>
