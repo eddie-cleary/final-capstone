@@ -25,7 +25,7 @@ public class AppUser {
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
    @NotNull(message = "Username should not be null")
-   @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Username not valid")
+   @Pattern(regexp = "^[a-zA-Z0-9_-]{4,15}$", message="Username not valid")
    private String username;
    @JsonIgnore
    @NotNull

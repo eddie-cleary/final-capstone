@@ -12,10 +12,10 @@ import javax.validation.constraints.Pattern;
 public class RegisterUserDTO {
 
     @NotEmpty
-    @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Username not valid")
+    @Pattern(regexp = "^[a-zA-Z0-9_-]{4,15}$", message="Username not valid")
     private String username;
     @NotEmpty
-    @Pattern(regexp = "^[a-z0-9_-]{4,15}$", message="Password not valid")
+    @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[0-9]).{8,18}$", message="Password not valid")
     private String password;
 
     public String getUsername() {
