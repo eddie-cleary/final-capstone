@@ -1,27 +1,48 @@
 import Footer from "./Footer";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { Grid } from "@mui/material"
+import { cardClasses, Grid, Hidden } from "@mui/material"
 
 import React from "react";
+const gridContainer = {
+  width: '100vw',
+  height: '100vh',
+}
 
-
+const header = {
+  height: '200px',
+}
+const sidebar = {
+  width: '200px',
+}
+const main = {
+  width: 'calc(100vw - 200px)',
+  height: 'calc(100vh -300px)',
+}
+const footer = {
+height: '100px',
+}
 
 const Layout = ({ children }) => {
   return (
 
-    <Grid container >
+    <Grid container sx={gridContainer}>
       <Grid item xs={12}>
-        <Header />
+        <Header sx={{ header }} />
       </Grid>
-      <Grid item xs={3}>
-        <Sidebar />
+      <Hidden smDown>
+      <Grid item  sm>
+        <Sidebar sx={ sidebar }/>
       </Grid>
-      <Grid item xs={9}>
-        <main >{children}</main>
+      </Hidden>
+      <Hidden mdUp>
+        Insert Collapsible menu
+      </Hidden>
+      <Grid item sm={9}>
+        <main sx = { main }>{children}</main>
       </Grid>
       <Grid item xs={12}>
-        <Footer />
+        <Footer sx= { footer }/>
       </Grid>
     </Grid>
 
