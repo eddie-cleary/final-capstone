@@ -46,7 +46,6 @@ const ModalRegister = () => {
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
   const [confirmPasswordColor, setConfirmPasswordColor] = useState("");
 
-  const [validMatch, setValidMatch] = useState(false);
   const [validForm, setValidForm] = useState(false);
 
   const [errMsg, setErrMsg] = useState("");
@@ -76,14 +75,6 @@ const ModalRegister = () => {
     const result = PWD_REGEX.test(confirmPassword);
     setConfirmPasswordValid(result);
   }, [confirmPassword]);
-
-  useEffect(() => {
-    if (passwordValid && confirmPasswordValid && password === confirmPassword) {
-      setValidMatch(true);
-    } else {
-      setValidMatch(false);
-    }
-  }, [password, confirmPassword]);
 
   useEffect(() => {
     if (
@@ -129,7 +120,6 @@ const ModalRegister = () => {
   }, [confirmPassword, confirmPasswordValid]);
 
   useEffect(() => {
-    console.log("here");
     if (passwordValid && confirmPasswordValid) {
       if (password === confirmPassword) {
         setErrMsg(" ");
@@ -140,7 +130,7 @@ const ModalRegister = () => {
     } else {
       setErrMsg("");
     }
-  }, [password, confirmPassword]);
+  }, [password, confirmPassword, passwordValid, confirmPasswordValid]);
 
   // Allow form to submit when pressing enter
   const handleKeyDown = (e) => {
@@ -227,7 +217,7 @@ const ModalRegister = () => {
                 aria-invalid={usernameValid ? "false" : "true"}
               ></TextField>
             </FormControl>
-            <FormControl sx={{ mt: 1 }}>
+            <FormControl sx={{ mt: 2 }}>
               <TextField
                 name="password"
                 onChange={(e) => setPassword(e.target.value)}
@@ -247,7 +237,7 @@ const ModalRegister = () => {
                 aria-invalid={passwordValid ? "false" : "true"}
               ></TextField>
             </FormControl>
-            <FormControl sx={{ mt: 1 }}>
+            <FormControl sx={{ mt: 2 }}>
               <TextField
                 name="confirmPassword"
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -258,7 +248,7 @@ const ModalRegister = () => {
                 value={confirmPassword}
                 helperText={
                   confirmPasswordValid
-                    ? ""
+                    ? " "
                     : "8-18 characters 1 lowercase 1 uppercase 1 number"
                 }
                 color={confirmPasswordColor}
