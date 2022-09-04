@@ -10,7 +10,10 @@ import {
   Modal,
   FormControl,
 } from "@mui/material";
-import { showModalRegister } from "../../redux/features/auth/authSlice";
+import {
+  showModalRegister,
+  showModalLogin,
+} from "../../redux/features/auth/authSlice";
 
 const style = {
   position: "absolute",
@@ -24,7 +27,7 @@ const style = {
   p: 4,
 };
 
-const USER_REGEX = /^[a-z0-9_-]{4,15}$/;
+const USER_REGEX = /^[a-zA-Z0-9_-]{4,15}$/;
 const PWD_REGEX = /^(?=.*?[a-z])(?=.*?[0-9]).{8,18}$/;
 
 const ModalRegister = () => {
@@ -33,21 +36,21 @@ const ModalRegister = () => {
 
   const [username, setUsername] = useState("");
   const [usernameValid, setUsernameValid] = useState(false);
-  const [usernameFocus, setUsernameFocus] = useState(false);
   const [usernameColor, setUsernameColor] = useState("");
 
   const [password, setPassword] = useState("");
   const [passwordValid, setPasswordValid] = useState(false);
-  const [passwordFocus, setPasswordFocus] = useState(false);
   const [passwordColor, setPasswordColor] = useState("");
 
   const [confirmPassword, setConfirmPassword] = useState("");
   const [confirmPasswordValid, setConfirmPasswordValid] = useState(false);
-  const [confirmPasswordFocus, setConfirmPasswordFocus] = useState(false);
   const [confirmPasswordColor, setConfirmPasswordColor] = useState("");
 
+  const [validMatch, setValidMatch] = useState(false);
+  const [validForm, setValidForm] = useState(false);
+
   const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   const isModalRegister = useSelector((state) => state.auth.isModalRegister);
   const dispatch = useDispatch();
@@ -73,6 +76,27 @@ const ModalRegister = () => {
     const result = PWD_REGEX.test(confirmPassword);
     setConfirmPasswordValid(result);
   }, [confirmPassword]);
+
+  useEffect(() => {
+    if (passwordValid && confirmPasswordValid && password === confirmPassword) {
+      setValidMatch(true);
+    } else {
+      setValidMatch(false);
+    }
+  }, [password, confirmPassword]);
+
+  useEffect(() => {
+    if (
+      passwordValid &&
+      confirmPasswordValid &&
+      usernameValid &&
+      password === confirmPassword
+    ) {
+      setValidForm(true);
+    } else {
+      setValidForm(false);
+    }
+  }, [username, password, confirmPassword]);
 
   useEffect(() => {
     if (usernameValid) {
@@ -115,15 +139,41 @@ const ModalRegister = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const data = {
       username: username,
       password: password,
     };
+    const v1 = USER_REGEX.test(username);
+    const v2 = PWD_REGEX.test(password);
+    if (!v1 || !v2 || !usernameValid) {
+      setErrMsg("Invalid Entry");
+      return;
+    }
     if (password === confirmPassword) {
-      axios.post(baseUrl + "/register", data);
+      try {
+        const response = await axios.post(baseUrl + "/register", data);
+        setSuccessMsg("Success!");
+        setUsername("");
+        setPassword("");
+        setConfirmPassword("");
+        setTimeout(() => {
+          dispatch(showModalRegister(false));
+          dispatch(showModalLogin(true));
+          setSuccessMsg("");
+        }, 1000);
+      } catch (err) {
+        if (!err?.response) {
+          setErrMsg("No server response");
+        } else if (err.response?.status === 409) {
+          setErrMsg("Username taken");
+        } else {
+          setErrMsg("Registration Failed");
+        }
+        errRef.current.focus();
+      }
     } else {
-      alert("Password and Confirm password must match");
+      setErrMsg("Password and Confirm password must match");
     }
   };
 
@@ -136,20 +186,26 @@ const ModalRegister = () => {
       aria-describedby="modal-register"
     >
       <Stack sx={style}>
-        <TextField ref={errRef} aria-live="assertive">
-          {errMsg}{" "}
-        </TextField>
-        <Typography variant="h3">Create Account</Typography>
+        <Typography variant="h4">Create Account</Typography>
+        <Typography sx={{ color: "red" }} ref={errRef} aria-live="assertive">
+          {errMsg}
+        </Typography>
+        <Typography sx={{ color: "green" }} aria-live="assertive">
+          {successMsg}
+        </Typography>
         <form>
           <Stack>
-            <FormControl>
+            <FormControl sx={{ mt: 2 }}>
               <TextField
                 inputRef={userRef}
                 name="username"
                 onChange={(e) => setUsername(e.target.value)}
+                value={username}
                 label="Username"
                 id="username"
-                helperText={usernameValid ? " " : "3-15 characters"}
+                helperText={
+                  usernameValid ? " " : "3-15 characters no special symbols"
+                }
                 color={usernameColor}
                 required
                 autoComplete="off"
@@ -163,6 +219,8 @@ const ModalRegister = () => {
                 label="Password"
                 type="password"
                 id="password"
+                autoComplete="off"
+                value={password}
                 helperText={
                   passwordValid
                     ? " "
@@ -180,11 +238,9 @@ const ModalRegister = () => {
                 label="Confirm Password"
                 id="confirmPassword"
                 type="password"
-                helperText={
-                  confirmPasswordValid
-                    ? " "
-                    : "8-18 characters 1 lowercase 1 uppercase 1 number"
-                }
+                autoComplete="off"
+                value={confirmPassword}
+                helperText={validMatch ? "" : "Passwords do not match"}
                 color={confirmPasswordColor}
                 required
                 aria-invalid={confirmPasswordValid ? "false" : "true"}
@@ -192,8 +248,12 @@ const ModalRegister = () => {
             </FormControl>
           </Stack>
         </form>
-        <Stack direction="row">
-          <Button variant="contained" onClick={handleSubmit}>
+        <Stack direction="row" sx={{ mt: 2 }}>
+          <Button
+            disabled={validForm ? false : true}
+            variant="contained"
+            onClick={handleSubmit}
+          >
             Create Account
           </Button>
         </Stack>
