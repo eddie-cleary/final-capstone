@@ -8,6 +8,7 @@ import ModalLogin from "../../LogIn/ModalLogin";
 import ModalRegister from "../../LogIn/ModalRegister";
 import Features from "./Features";
 import Footer from "../../Layout/Footer";
+import Header from "../../Layout/Header";
 
 const btn = {
   justifyContent: "space-evenly",
@@ -19,7 +20,7 @@ const Main = () => {
 
   return (
     <Stack>
-      <Typography variant="h2">My Digital Meal Planner</Typography>
+     <Header/>
 
       <Features />
       <Stack direction="row" className="Button-Container">
