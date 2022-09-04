@@ -1,13 +1,11 @@
 package com.techelevator.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
 
 @Entity
 @Data
@@ -22,7 +20,7 @@ public class Recipe {
     private String title;
     private String description;
     private int servings;
-    private String image_url;
+    private String img_url;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appuser_id", referencedColumnName = "id")

@@ -7,12 +7,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
 @CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping("/recipe")
+@RequestMapping("/recipes")
 public class RecipeController {
 
     private final RecipeService recipeService;
@@ -25,5 +26,10 @@ public class RecipeController {
     @PostMapping("/add")
     public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) {
         return recipeService.addRecipe(principal, recipe);
+    }
+
+    @GetMapping("/all")
+    public List<Recipe> getAllRecipes() {
+        return recipeService.getAllRecipes();
     }
 }
