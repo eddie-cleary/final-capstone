@@ -1,6 +1,7 @@
 package com.techelevator.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,8 +12,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.*;
 
 @Entity
 @Data
@@ -32,6 +32,7 @@ public class AppUser {
    private String password;
    @JsonIgnore
    private boolean activated = true;
+
    @ManyToMany(fetch = FetchType.EAGER)
    private Collection<Role> roles = new ArrayList<>();
 }

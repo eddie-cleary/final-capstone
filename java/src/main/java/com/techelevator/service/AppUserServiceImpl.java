@@ -74,4 +74,5 @@ public class AppUserServiceImpl implements AppUserService {
         log.info("Fetching all AppUsers from database");
         return appUserRepo.findAll();
     }
+
 }

@@ -1,8 +1,10 @@
 package com.techelevator.config;
 
+import com.techelevator.entity.Recipe;
 import com.techelevator.entity.Role;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.service.AppUserService;
+import com.techelevator.service.RecipeService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SpringConfig {
     @Bean
-    CommandLineRunner run(AppUserService appUserService) {
+    CommandLineRunner run(AppUserService appUserService, RecipeService recipeService) {
         return args -> {
             appUserService.saveRole(new Role(null, "ROLE_USER"));
             appUserService.saveRole(new Role(null, "ROLE_ADMIN"));
@@ -32,6 +34,8 @@ public class SpringConfig {
             appUserService.addRoleToAppUser("brandon", "ROLE_USER");
             appUserService.addRoleToAppUser("chantele", "ROLE_ADMIN");
             appUserService.addRoleToAppUser("chantele", "ROLE_USER");
+
+//            recipeService.addRecipe(new Recipe(null, "A recipe", "Recipe description", 1, "https://www.google.com", appUserService.getUser("eddie")));
         };
     }
 
