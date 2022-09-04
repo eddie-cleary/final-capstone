@@ -37,15 +37,27 @@ public class AuthenticationController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginDTO loginDto) throws ValidationException{
 
+
+        System.out.println("you are here");
+
+        System.out.println(loginDto + " loginDto received");
+
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
+        System.out.println("You are here 2");
+
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
+        System.out.println("You are here 3");
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = tokenProvider.createToken(authentication, false);
 
+        System.out.println("You are here 4");
+
         AppUser appUser = appUserService.getUser(loginDto.getUsername());
+        System.out.println("Found " + appUser.getUsername());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
@@ -56,10 +68,12 @@ public class AuthenticationController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public void register(@Valid @RequestBody RegisterUserDTO newUser) throws ValidationException {
         try {
+            System.out.println("RegisterUserDTO " + newUser);
             AppUser appUser = appUserService.getUser(newUser.getUsername());
             throw new UserAlreadyExistsException();
         } catch (UsernameNotFoundException e) {
             AppUser appUser = appUserService.saveUser(newUser);
+            System.out.println("Created " + appUser);
             //Todo: refactor this later
             appUserService.addRoleToAppUser(appUser.getUsername(), "ROLE_USER");
         }
