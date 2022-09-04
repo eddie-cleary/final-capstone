@@ -2,10 +2,12 @@ package com.techelevator.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.entity.AppUser;
+import com.techelevator.entity.Role;
 import com.techelevator.exception.ValidationException;
 import com.techelevator.model.LoginDTO;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.model.UserAlreadyExistsException;
+import com.techelevator.repo.RoleRepo;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
 import com.techelevator.service.AppUserService;
@@ -22,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Objects;
 
 @RestController
 @CrossOrigin
@@ -31,6 +35,8 @@ public class AuthenticationController {
     private final TokenProvider tokenProvider;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AppUserService appUserService;
+
+    private final RoleRepo roleRepo;
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ResponseEntity<LoginResponse> login(@Valid @RequestBody LoginDTO loginDto) throws ValidationException{
@@ -57,9 +63,7 @@ public class AuthenticationController {
             AppUser appUser = appUserService.getUser(newUser.getUsername());
             throw new UserAlreadyExistsException();
         } catch (UsernameNotFoundException e) {
-            AppUser appUser = appUserService.saveUser(newUser);
-            //Todo: refactor this later
-            appUserService.addRoleToAppUser(appUser.getUsername(), "ROLE_USER");
+            appUserService.registerNewUser(newUser);
         }
     }
 

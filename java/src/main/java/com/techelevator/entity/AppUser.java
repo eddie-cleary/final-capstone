@@ -2,6 +2,7 @@ package com.techelevator.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.techelevator.model.RegisterUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,8 +32,12 @@ public class AppUser {
    @NotNull
    private String password;
    @JsonIgnore
-   private boolean activated = true;
+   private boolean activated;
 
-   @ManyToMany(fetch = FetchType.EAGER)
-   private Collection<Role> roles = new ArrayList<>();
+   @ManyToMany
+   private List<Role> roles = new ArrayList<>();
+
+   @JsonIgnore
+   @OneToMany(mappedBy = "appUser")
+   private List<Recipe> recipes = new ArrayList<>();
 }

@@ -1,6 +1,7 @@
 package com.techelevator.service;
 
 import com.techelevator.entity.AppUser;
+import com.techelevator.entity.Recipe;
 import com.techelevator.entity.Role;
 import com.techelevator.exception.ValidationException;
 import com.techelevator.model.RegisterUserDTO;
@@ -13,14 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 @Slf4j
 public class AppUserServiceImpl implements AppUserService {
 
@@ -41,32 +38,31 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
-    public void addRoleToAppUser(String username, String roleName) {
+    public AppUser addRoleToAppUser(String username, String roleName) {
         log.info("Saving new Role {} to AppUser {}", roleName, username);
         AppUser appUser = appUserRepo.findByUsername(username);
         Role role = roleRepo.findByName(roleName);
         appUser.getRoles().add(role);
-    }
-
-    @Override
-    public AppUser saveUser(RegisterUserDTO newUser) throws ValidationException {
-        log.info("Saving new AppUser {} to the database", newUser.getUsername());
-        if (newUser.getPassword().length() > 15 || newUser.getPassword().length() < 4) {
-            throw new ValidationException("Password must be between 4 and 15 characters");
-        }
-        AppUser appUser = AppUser.builder()
-                .username(newUser.getUsername())
-                .password(passwordEncoder.encode(newUser.getPassword()))
-                .roles(new ArrayList<Role>())
-                .activated(true)
-                .build();
         return appUserRepo.save(appUser);
     }
 
     @Override
-    public Role saveRole(Role role) {
-        log.info("Saving new Role {} to the database", role.getName());
-        return roleRepo.save(role);
+    public AppUser saveUser(AppUser appUser) throws ValidationException {
+        log.info("Saving new AppUser {} to the database", appUser.getUsername());
+        return appUserRepo.save(appUser);
+    }
+
+    @Override
+    public AppUser registerNewUser(RegisterUserDTO newUser) {
+        log.info("Registering new user {} to the database", newUser.getUsername());
+        Role userRole = roleRepo.findByName("ROLE_USER");
+        AppUser appUser = AppUser.builder()
+                .username(newUser.getUsername())
+                .password(passwordEncoder.encode(newUser.getPassword()))
+                .activated(true)
+                .roles(List.of(userRole))
+                .build();
+        return appUserRepo.save(appUser);
     }
 
     @Override

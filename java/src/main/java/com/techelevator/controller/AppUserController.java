@@ -9,18 +9,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @Slf4j
-@RequiredArgsConstructor
-@RequestMapping("/user")
 public class AppUserController {
 
-    private AppUserService appUserService;
+    private final AppUserService appUserService;
 
-    @GetMapping
-    public AppUser getLoggedInUser(Principal principal) {
-        return appUserService.getUser(principal.getName());
+    private AppUserController(AppUserService appUserService) {
+        this.appUserService = appUserService;
     }
 
+    @GetMapping
+    @RequestMapping("/users")
+    public List<AppUser> getUsers() {
+        return appUserService.getUsers();
+    }
+
+    @GetMapping("/getme")
+    public String getLoggedInUser(Principal principal) {
+        return appUserService.getUser(principal.getName()).getUsername();
+    }
 }

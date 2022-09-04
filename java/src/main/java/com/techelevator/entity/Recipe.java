@@ -25,9 +25,6 @@ public class Recipe {
     private String image_url;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(
-            name = "appuser_id",
-            referencedColumnName = "id"
-    )
+    @JoinColumn(name = "appuser_id", referencedColumnName = "id")
     private AppUser appUser;
 }
