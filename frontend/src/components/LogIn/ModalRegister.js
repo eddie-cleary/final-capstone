@@ -129,8 +129,18 @@ const ModalRegister = () => {
   }, [confirmPassword, confirmPasswordValid]);
 
   useEffect(() => {
-    setErrMsg("");
-  }, [username, password, confirmPassword]);
+    console.log("here");
+    if (passwordValid && confirmPasswordValid) {
+      if (password === confirmPassword) {
+        setErrMsg(" ");
+      } else {
+        console.log("setting err msg");
+        setErrMsg("Passwords do not match");
+      }
+    } else {
+      setErrMsg("");
+    }
+  }, [password, confirmPassword]);
 
   // Allow form to submit when pressing enter
   const handleKeyDown = (e) => {
@@ -188,7 +198,11 @@ const ModalRegister = () => {
     >
       <Stack sx={style}>
         <Typography variant="h4">Create Account</Typography>
-        <Typography sx={{ color: "red" }} ref={errRef} aria-live="assertive">
+        <Typography
+          sx={{ color: "red", height: "20px" }}
+          ref={errRef}
+          aria-live="assertive"
+        >
           {errMsg}
         </Typography>
         <Typography sx={{ color: "green" }} aria-live="assertive">
@@ -242,7 +256,11 @@ const ModalRegister = () => {
                 type="password"
                 autoComplete="off"
                 value={confirmPassword}
-                helperText={validMatch ? "" : "Passwords do not match"}
+                helperText={
+                  confirmPasswordValid
+                    ? ""
+                    : "8-18 characters 1 lowercase 1 uppercase 1 number"
+                }
                 color={confirmPasswordColor}
                 required
                 onKeyDown={handleKeyDown}
