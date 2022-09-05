@@ -1,7 +1,9 @@
 package com.techelevator.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.techelevator.model.RegisterUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +22,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class AppUser {
 
    @Id
@@ -37,7 +40,7 @@ public class AppUser {
    @ManyToMany
    private List<Role> roles = new ArrayList<>();
 
-   @JsonIgnore
    @OneToMany(mappedBy = "appUser")
+   @JsonIgnore
    private List<Recipe> recipes = new ArrayList<>();
 }
