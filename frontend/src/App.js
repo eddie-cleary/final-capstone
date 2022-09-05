@@ -8,6 +8,7 @@ import MealPlans from "./components/Pages/MealPlans/MealPlans";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToken } from "./redux/features/auth/authSlice";
+import AddRecipe from "./components/Pages/Recipes/AddRecipe";
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/mealplans" element={<MealPlans />} />
         <Route path="/recipes" element={<AllRecipes />} />
+        <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/:id" element={<SingleRecipe />} />
         <Route path="*" element={<Home />} />
       </Route>
