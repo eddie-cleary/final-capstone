@@ -2,6 +2,7 @@ package com.techelevator.service;
 
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
+import com.techelevator.entity.Step;
 import com.techelevator.repo.AppUserRepo;
 import com.techelevator.repo.RecipeRepo;
 import lombok.RequiredArgsConstructor;
@@ -24,9 +25,14 @@ public class RecipeServiceImpl implements RecipeService {
 
     @Override
     public Recipe addRecipe(Principal principal, Recipe recipe) {
-        AppUser currUser = appUserRepo.findByUsername(principal.getName());
-        recipe.setAppUser(currUser);
-        return recipeRepo.save(recipe);
+//        System.out.println("recipe " + recipe);
+//        AppUser currUser = appUserRepo.findByUsername(principal.getName());
+//        recipe.setAppUser(currUser);
+
+        // save to generate the recipe id
+        // create the steps and record the recipe in them
+        // need to set the steps
+        return new Recipe();
     }
 
     @Override

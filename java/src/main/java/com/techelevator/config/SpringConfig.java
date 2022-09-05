@@ -22,6 +22,9 @@ public class SpringConfig {
     @Autowired
     private RoleRepo roleRepo;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Bean
     CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {
         return args -> {
@@ -32,14 +35,14 @@ public class SpringConfig {
 
             Role userRole = roleRepo.findByName("ROLE_USER");
 
-            AppUser eddie = AppUser.builder()
-                    .username("eddie")
-                    .password("12345")
+            AppUser brandon = AppUser.builder()
+                    .username("brandon")
+                    .password(passwordEncoder().encode("brandon123"))
                     .activated(true)
                     .roles(List.of(userRole))
                     .build();
 
-            appUserService.addUser(eddie);
+            appUserService.addUser(brandon);
         };
     }
 
