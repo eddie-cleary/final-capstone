@@ -78,7 +78,6 @@ const Ingredient = ({ index, data, ingredientList, setIngredientList }) => {
         onClick={deleteMe}
         variant="outlined"
         sx={{ height: "56px", ml: 2, alignSelf: "flex-end" }}
-        disabled={index === 0 ? true : false}
       >
         -
       </Button>
