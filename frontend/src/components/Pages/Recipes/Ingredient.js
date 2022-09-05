@@ -2,6 +2,7 @@ import React from "react";
 import {
   Stack,
   InputLabel,
+  Box,
   Typography,
   Select,
   MenuItem,
@@ -18,9 +19,7 @@ const Ingredient = ({ index, data, ingredientList, setIngredientList }) => {
     <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }}>
       <Stack sx={{ flexGrow: 1 }}>
         <InputLabel>&nbsp;</InputLabel>
-        <Typography variant="h6" sx={{ textAlign: "center" }}>
-          {data.name}
-        </Typography>
+        <Typography variant="h6">{data.name}</Typography>
       </Stack>
       <Stack sx={{ mx: 2 }}>
         <InputLabel id="quantity">Quantity</InputLabel>

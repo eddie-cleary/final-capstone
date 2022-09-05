@@ -16,22 +16,18 @@ const Header = () => {
   const dispatch = useDispatch();
   return (
     <AppBar style={{ position: "static", height: "10vh" }}>
-        <Toolbar>
-            <IconButton
-              size="large"
-              textS
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <h4
-              >
-                My Digital Meal Planner 🥗
-            </h4>
-        </Toolbar>
+      <Toolbar>
+        <IconButton
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ mr: 2 }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <h4>My Digital Meal Planner 🥗</h4>
+      </Toolbar>
     </AppBar>
   );
 };
