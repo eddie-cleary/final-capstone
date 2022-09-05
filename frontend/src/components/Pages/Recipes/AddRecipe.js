@@ -20,6 +20,7 @@ const AddRecipe = () => {
   const ingredient = { name: "", quantity: "1", measurement: "1" };
   const [ingredientList, setIngredientList] = useState([]);
   const [chosenIngredient, setChosenIngredient] = useState("");
+  const [validIngredient, setValidIngredient] = useState(false);
 
   useEffect(() => {
     console.log(chosenIngredient);
@@ -83,9 +84,22 @@ const AddRecipe = () => {
                   sx={{ flexGrow: 1 }}
                   options={allIngredients}
                   onChange={(e) => {
-                    if (e.target.textContent) {
-                      setChosenIngredient(e.target.textContent);
-                    }
+                    console.log("change detected");
+                    const choice = e.target.textContent;
+                    console.log("choice is " + choice);
+                    console.log("detected change " + choice);
+                    allIngredients.every((validIngredient) => {
+                      if (choice === validIngredient) {
+                        setChosenIngredient(choice);
+                        setValidIngredient(true);
+                        // end loop
+                        return false;
+                      }
+                      setChosenIngredient("");
+                      setValidIngredient(false);
+                      // continue loop
+                      return true;
+                    });
                   }}
                   renderInput={(params) => (
                     <TextField {...params} label="Choose ingredient" />
@@ -95,6 +109,7 @@ const AddRecipe = () => {
                   onClick={addIngredientToList}
                   sx={{ ml: 2 }}
                   variant="outlined"
+                  disabled={validIngredient ? false : true}
                 >
                   +
                 </Button>
