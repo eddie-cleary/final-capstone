@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { showModalLogin } from "../../redux/features/auth/authSlice";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const style = {
   position: "absolute",
@@ -31,6 +32,7 @@ const ModalLogin = () => {
   const [errMsg, setErrMsg] = useState("");
   const isModalLogin = useSelector((state) => state.auth.isModalLogin);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -62,6 +64,7 @@ const ModalLogin = () => {
       dispatch(showModalLogin(false));
       await dispatch(addToken(userWithToken.data.token));
       await dispatch(addUser(userWithToken.data.user));
+      navigate("/mealplans");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No server response");

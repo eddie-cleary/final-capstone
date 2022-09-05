@@ -1,11 +1,12 @@
 import React from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { Button, Typography, Stack, Link } from "@mui/material";
 import { deleteUser, addToken } from "../../redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
 const Sidebar = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   return (
     <Stack>
       <Typography variant="h4">Sidebar</Typography>
@@ -28,6 +29,7 @@ const Sidebar = () => {
         onClick={() => {
           dispatch(deleteUser());
           dispatch(addToken(null));
+          navigate("/");
         }}
       >
         Logout
