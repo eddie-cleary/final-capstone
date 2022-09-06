@@ -37,6 +37,8 @@ const Layout = ({ children }) => {
 
   const main = {
     gridArea: "main",
+    padding: "20px",
+    paddingTop: "50px",
   };
 
   const footer = {

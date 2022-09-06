@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 
 const sidebar = {
   width: "200px",
-  alignItems: "start",
+  marginTop: "30px",
 };
 
 const Sidebar = () => {
@@ -16,10 +16,14 @@ const Sidebar = () => {
   return (
     <>
       <Stack sx={sidebar}>
-        <Typography variant="h4">Menu</Typography>
         <Button variant="text">
           <Link to="/recipes" component={ReactLink} underline="none">
             View Recipes
+          </Link>
+        </Button>
+        <Button variant="text">
+          <Link to="/myrecipes" component={ReactLink} underline="none">
+            My Recipes
           </Link>
         </Button>
         <Button variant="text">
@@ -30,11 +34,6 @@ const Sidebar = () => {
         <Button variant="text">
           <Link to="/recipes/add" component={ReactLink} underline="none">
             Add Recipe
-          </Link>
-        </Button>
-        <Button variant="text">
-          <Link to="/myrecipes" component={ReactLink} underline="none">
-            My Recipes
           </Link>
         </Button>
         <Button
