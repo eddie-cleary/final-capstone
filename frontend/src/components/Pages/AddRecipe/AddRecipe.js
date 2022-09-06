@@ -40,9 +40,7 @@ const AddRecipe = () => {
 
   const [validForm, setValidForm] = useState(false);
 
-  const handleSubmit = () => {
-    console.log("submitted");
-  };
+  const handleSubmit = () => {};
 
   useEffect(() => {
     if (

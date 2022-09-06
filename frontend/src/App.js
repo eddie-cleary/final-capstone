@@ -2,13 +2,14 @@ import { Routes, Route } from "react-router-dom";
 import ProtectedRoutes from "./components/Routes/ProtectedRoutes";
 import Main from "./components/Pages/Main/Main";
 import Home from "./components/Pages/Home/Home";
-import AllRecipes from "./components/Pages/Recipes/AllRecipes";
-import SingleRecipe from "./components/Pages/Recipes/SingleRecipe";
+import ViewRecipe from "./components/Pages/ViewRecipe/ViewRecipe";
 import MealPlans from "./components/Pages/MealPlans/MealPlans";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToken } from "./redux/features/auth/authSlice";
-import AddRecipe from "./components/Pages/Recipes/AddRecipe";
+import AddRecipe from "./components/Pages/AddRecipe/AddRecipe";
+import AllRecipes from "./components/Pages/AllRecipes/AllRecipes";
+import MyRecipes from "./components/Pages/MyRecipes/MyRecipes";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +28,8 @@ function App() {
         <Route path="/mealplans" element={<MealPlans />} />
         <Route path="/recipes" element={<AllRecipes />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
-        <Route path="/recipes/:id" element={<SingleRecipe />} />
+        <Route path="/recipes/:id" element={<ViewRecipe />} />
+        <Route path="/myrecipes" element={<MyRecipes />} />s
         <Route path="*" element={<Home />} />
       </Route>
       <Route path="*" element={<Main />} />
