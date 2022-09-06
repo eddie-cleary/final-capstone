@@ -1,3 +1,9 @@
+
+
+
+
+
+
 import React from "react";
 import {
   Box,
@@ -8,7 +14,18 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
-
+const btn = {
+  
+ 
+  border: 'solid .5px #142d4c',
+  color: '#385170',
+  background: '#9fd3c7',
+  "&:hover": {
+    background: '#385170',
+    color:'#9fd3c7',
+    border: 'solid .5px #9fd3c7',
+  }
+}
 const StepsList = ({ stepsList, setStepsList }) => {
   let displaySteps;
   if (stepsList.length > 0) {
@@ -34,7 +51,7 @@ const StepsList = ({ stepsList, setStepsList }) => {
                 setStepsList([...stepsList].splice(0, stepsList.length - 1))
               }
               disabled={index === 0 ? true : false}
-              sx={{ ml: 2 }}
+              sx={ {ml: 2} }
               variant="outlined"
               color="warning"
             >
@@ -53,7 +70,7 @@ const StepsList = ({ stepsList, setStepsList }) => {
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
         <Button
           onClick={() => setStepsList([...stepsList, ""])}
-          sx={{ px: 3 }}
+          sx={btn}
           variant="contained"
         >
           <Add fontSize="small" />
@@ -64,3 +81,4 @@ const StepsList = ({ stepsList, setStepsList }) => {
 };
 
 export default StepsList;
+
