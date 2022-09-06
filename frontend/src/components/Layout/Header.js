@@ -12,24 +12,23 @@ import {
 } from "@mui/material";
 import { useDispatch } from "react-redux";
 
+const header ={
+  background: 'linear-gradient(90deg, rgb(56, 81, 112) 0%, rgb(159, 211, 199) 100%)',
+position: 'static',
+height: '75px',
+}
+
 const Header = () => {
   const dispatch = useDispatch();
   return (
-    <AppBar style={{ position: "static", height: "10vh" }}>
+    <AppBar sx = { header }>
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
-        <h4>My Digital Meal Planner 🥗</h4>
+      
+        <h1>My Digital Meal Planner 🥗</h1>
       </Toolbar>
     </AppBar>
   );
 };
 
 export default Header;
+

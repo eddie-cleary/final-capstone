@@ -4,12 +4,18 @@ import { Button, Typography, Stack, Link } from "@mui/material";
 import { deleteUser, addToken } from "../../redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 
+const sidebar ={
+  width: '200px',
+  height: '100px',
+  alignItems: 'start',
+}
+
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   return (
-    <Stack>
-      <Typography variant="h4">Sidebar</Typography>
+    <Stack sx= {sidebar}>
+      <Typography variant="h4">Menu</Typography>
       <Button variant="text">
         <Link to="/recipes" component={ReactLink} underline="none">
           View Recipes

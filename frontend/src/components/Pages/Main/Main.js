@@ -11,7 +11,10 @@ import Footer from "../../Layout/Footer";
 import Header from "../../Layout/Header";
 
 const btn = {
-  margin: "10%",
+  position: 'static',
+  margin: 'auto',
+  background: 'radial-gradient(rgb(56, 81, 112) 0%, rgb(20, 45, 76) 97%)',
+  width: '20%',
 };
 
 const Main = () => {
