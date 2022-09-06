@@ -25,7 +25,7 @@ const AllRecipes = () => {
   }, []);
 
   const recipes = recipesData.map((recipe) => {
-    return <ListItem key={recipe.id}>{recipe.title}</ListItem>;
+    return <ListItem key={recipe.id}>Pancakes</ListItem>;
   });
 
   return (

@@ -1,9 +1,3 @@
-
-
-
-
-
-
 import React from "react";
 import {
   Box,
@@ -15,21 +9,19 @@ import {
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 const btn = {
-  
- 
-  border: 'solid .5px #142d4c',
-  color: '#385170',
-  background: '#9fd3c7',
+  border: "solid .5px #142d4c",
+  color: "#385170",
+  background: "#9fd3c7",
   "&:hover": {
-    background: '#385170',
-    color:'#9fd3c7',
-    border: 'solid .5px #9fd3c7',
-  }
-}
-const StepsList = ({ stepsList, setStepsList }) => {
+    background: "#385170",
+    color: "#9fd3c7",
+    border: "solid .5px #9fd3c7",
+  },
+};
+const StepsList = ({ steps, setSteps }) => {
   let displaySteps;
-  if (stepsList.length > 0) {
-    displaySteps = stepsList.map((step, index) => {
+  if (steps.length > 0) {
+    displaySteps = steps.map((step, index) => {
       return (
         <Box key={index + 1}>
           <Stack direction="row" alignItems="stretch" sx={{ mt: 2 }}>
@@ -38,20 +30,18 @@ const StepsList = ({ stepsList, setStepsList }) => {
             </InputLabel>
             <TextField
               onChange={(e) => {
-                const newList = [...stepsList];
-                newList[index] = e.target.value;
-                setStepsList(newList);
+                const newList = [...steps];
+                newList[index] = { info: e.target.value };
+                setSteps(newList);
               }}
               sx={{ flexGrow: 1 }}
             >
-              {stepsList.index}
+              {steps.index}
             </TextField>
             <Button
-              onClick={() =>
-                setStepsList([...stepsList].splice(0, stepsList.length - 1))
-              }
+              onClick={() => setSteps([...steps].splice(0, steps.length - 1))}
               disabled={index === 0 ? true : false}
-              sx={ {ml: 2} }
+              sx={{ ml: 2 }}
               variant="outlined"
               color="warning"
             >
@@ -69,7 +59,7 @@ const StepsList = ({ stepsList, setStepsList }) => {
       <Stack>{displaySteps}</Stack>
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
         <Button
-          onClick={() => setStepsList([...stepsList, ""])}
+          onClick={() => setSteps([...steps, { info: "" }])}
           sx={btn}
           variant="contained"
         >
@@ -81,4 +71,3 @@ const StepsList = ({ stepsList, setStepsList }) => {
 };
 
 export default StepsList;
-

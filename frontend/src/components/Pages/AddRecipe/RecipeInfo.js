@@ -37,13 +37,13 @@ const RecipeInfo = ({ info, setInfo, favorite, setFavorite }) => {
         </Box>
         <Box sx={{ mx: 3 }}>
           <OutlinedInput
-            id="preptime"
-            value={info.preptime}
+            id="prepTime"
+            value={info.prepTime}
             required
             placeholder="Prep time"
             onChange={(e) => {
               if (!isNaN(e.target.value)) {
-                setInfo({ ...info, preptime: e.target.value });
+                setInfo({ ...info, prepTime: e.target.value });
               }
             }}
             endAdornment={<InputAdornment position="end">mins</InputAdornment>}
@@ -51,13 +51,13 @@ const RecipeInfo = ({ info, setInfo, favorite, setFavorite }) => {
         </Box>
         <Box>
           <OutlinedInput
-            id="cooktime"
-            value={info.cooktime}
+            id="cookTime"
+            value={info.cookTime}
             required
             placeholder="Cook Time"
             onChange={(e) => {
               if (!isNaN(e.target.value)) {
-                setInfo({ ...info, cooktime: e.target.value });
+                setInfo({ ...info, cookTime: e.target.value });
               }
             }}
             endAdornment={<InputAdornment position="end">mins</InputAdornment>}

@@ -1,22 +1,29 @@
 import { Autocomplete, TextField, Button } from "@mui/material";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 
-const IngredientSelect = ({ setIngredientList, ingredientList }) => {
+const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
   //Todo: make this a fetch call later
-  const allIngredients = ["Garlic", "Salt"];
+  const allIngredients = [
+    { name: "Garlic", isLiquid: false },
+    { name: "Water", isLiquid: true },
+  ];
 
-  const defaultIngredient = { name: "", quantity: "1", measurement: "1" };
+  const defaultIngredient = { name: "", quantity: "" };
 
   const [chosenIngredient, setChosenIngredient] = useState("");
   const [validIngredient, setValidIngredient] = useState(false);
 
   const addIngredientToList = () => {
-    const newList = [...ingredientList];
+    const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
-    newIngredient = { ...defaultIngredient, name: chosenIngredient };
+    newIngredient = {
+      ...defaultIngredient,
+      name: chosenIngredient.name,
+      isLiquid: chosenIngredient.isLiquid,
+    };
     newList.push(newIngredient);
-    setIngredientList(newList);
+    setRecipeIngredients(newList);
   };
 
   return (
@@ -26,11 +33,13 @@ const IngredientSelect = ({ setIngredientList, ingredientList }) => {
         id="ingredient-select"
         sx={{ flexGrow: 1 }}
         options={allIngredients}
+        getOptionLabel={(option) => option.name}
+        isOptionEqualToValue={(option, value) => option.name === value.name}
         onChange={(e) => {
           const choice = e.target.textContent;
           allIngredients.every((validIngredient) => {
-            if (choice === validIngredient) {
-              setChosenIngredient(choice);
+            if (choice === validIngredient.name) {
+              setChosenIngredient(validIngredient);
               setValidIngredient(true);
               // end loop
               return false;

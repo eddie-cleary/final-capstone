@@ -10,46 +10,90 @@ import { Box } from "@mui/system";
 import Layout from "../../Layout/Layout";
 import IngredientSelect from "./IngredientSelect";
 import StepsList from "./StepsList";
-import ChosenIngredients from "./ChosenIngredients";
+import ChosenIngredientsList from "./ChosenIngredientsList";
 import RecipeInfo from "./RecipeInfo";
+import axios from "axios";
+import { baseUrl } from "../../../shared/baseUrl";
+import { useSelector } from "react-redux";
 
 const AddRecipe = () => {
+  const token = useSelector((state) => state.auth.token);
+
   const [title, setTitle] = useState(" ");
   const [description, setDescription] = useState("");
 
-  const [ingredientList, setIngredientList] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
+  const [isRecipeIngredientsValid, setIsRecipeIngredientsValid] =
+    useState(false);
 
-  const [stepsList, setStepsList] = useState([""]);
+  const [steps, setSteps] = useState([{ info: "" }]);
+  const [isStepsValid, setIsStepsValid] = useState(false);
 
   const [favorite, setFavorite] = useState(true);
 
   const [info, setInfo] = useState({
     servings: 1,
-    preptime: "",
-    cooktime: "",
+    prepTime: "",
+    cookTime: "",
   });
 
   const [postObject, setPostObject] = useState({
     title,
     description,
-    ingredientList,
-    stepsList,
-    info,
-    favorite,
+    servings: info.servings,
+    prepTime: info.prepTime,
+    cookTime: info.cookTime,
+    recipeIngredients,
+    steps,
   });
 
   const [validForm, setValidForm] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    console.log(postObject);
+
+    axios
+      .post(baseUrl + `/recipes/add`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        alert(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    const result = steps.every((step) => {
+      if (step.info.length > 2) {
+        return true;
+      }
+      return false;
+    });
+    setIsStepsValid(result);
+  }, [steps]);
+
+  useEffect(() => {
+    const result = recipeIngredients.every((ingredient) => {
+      if (ingredient.quantity !== "") {
+        return true;
+      }
+      return false;
+    });
+    setIsRecipeIngredientsValid(result);
+  }, [recipeIngredients]);
 
   useEffect(() => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
-      postObject.ingredientList.length > 0 &&
-      postObject.stepsList[0].length > 2 &&
-      postObject.info.preptime.length > 0 &&
-      postObject.info.cooktime.length > 0
+      postObject.recipeIngredients.length > 0 &&
+      isStepsValid &&
+      postObject.prepTime.length > 0 &&
+      postObject.cookTime.length > 0
     ) {
       setValidForm(true);
     } else {
@@ -61,12 +105,13 @@ const AddRecipe = () => {
     setPostObject({
       title,
       description,
-      ingredientList,
-      stepsList,
-      info,
-      favorite,
+      servings: info.servings,
+      prepTime: info.prepTime,
+      cookTime: info.cookTime,
+      recipeIngredients,
+      steps,
     });
-  }, [title, description, ingredientList, stepsList, info, favorite]);
+  }, [title, description, recipeIngredients, steps, info, favorite]);
 
   return (
     <Layout>
@@ -96,19 +141,19 @@ const AddRecipe = () => {
             </Stack>
             <Box sx={{ mt: 3 }}>
               <Typography>Ingredients</Typography>
-              <ChosenIngredients
-                ingredientList={ingredientList}
-                setIngredientList={setIngredientList}
+              <ChosenIngredientsList
+                recipeIngredients={recipeIngredients}
+                setRecipeIngredients={setRecipeIngredients}
               />
               <Stack direction="row" sx={{ mt: 2 }}>
                 <IngredientSelect
-                  ingredientList={ingredientList}
-                  setIngredientList={setIngredientList}
+                  recipeIngredients={recipeIngredients}
+                  setRecipeIngredients={setRecipeIngredients}
                 />
               </Stack>
             </Box>
             <Box sx={{ mt: 3 }}>
-              <StepsList stepsList={stepsList} setStepsList={setStepsList} />
+              <StepsList steps={steps} setSteps={setSteps} />
             </Box>
             <RecipeInfo
               info={info}
