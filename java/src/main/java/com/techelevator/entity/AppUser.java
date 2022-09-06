@@ -26,6 +26,7 @@ import java.util.*;
 public class AppUser {
 
    @Id
+   @Column(name = "appuser_id")
    @GeneratedValue(strategy = GenerationType.AUTO)
    private Long id;
    @NotNull(message = "Username should not be null")
@@ -43,4 +44,15 @@ public class AppUser {
    @OneToMany(mappedBy = "appUser")
    @JsonIgnore
    private List<Recipe> recipes = new ArrayList<>();
+
+   @Override
+   public String toString() {
+      return "AppUser{" +
+              "id=" + id +
+              ", username='" + username + '\'' +
+              ", password='" + password + '\'' +
+              ", activated=" + activated +
+              ", roles=" + roles +
+              '}';
+   }
 }

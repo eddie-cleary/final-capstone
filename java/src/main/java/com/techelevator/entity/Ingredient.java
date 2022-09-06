@@ -1,17 +1,19 @@
 package com.techelevator.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,8 +24,13 @@ import javax.validation.constraints.NotNull;
 public class Ingredient {
 
     @Id
+    @Column(name = "ingredient_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
     @NotNull
-    String name;
+    private String name;
+
+    @OneToMany(mappedBy = "ingredient")
+    @JsonIgnore
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 }

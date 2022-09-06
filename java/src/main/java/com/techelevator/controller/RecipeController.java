@@ -2,6 +2,7 @@ package com.techelevator.controller;
 
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
+import com.techelevator.model.RecipeDTO;
 import com.techelevator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class RecipeController {
     }
 
     @PostMapping("/add")
-    public Recipe addRecipe(@RequestBody Recipe recipe, Principal principal) {
-        return recipeService.addRecipe(principal, recipe);
+    public Recipe addRecipe(@RequestBody RecipeDTO recipeDTO, Principal principal) {
+        return recipeService.addRecipe(principal, recipeDTO);
     }
 
     @GetMapping("/all")
