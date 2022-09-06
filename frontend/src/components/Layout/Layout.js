@@ -1,55 +1,66 @@
-import Footer from "./Footer";
+import React, { useState } from "react";
+import { Box, Drawer, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
-import { Grid, Hidden } from "@mui/material";
-
-import React from "react";
-const gridContainer = {
-  minWidth: "100vw",
-  minHeight: "100vh",
- 
-};
-
-const header = {
-  height: "100px",
-};
-const sidebar = {
-  width: "200px",
-  position: 'fixed',
-  top: '100px',
-
-};
-const main = {
-  width: "calc(100vw - 200px)",
-  height: "calc(100vh -100px)",
-  position: 'fixed',
-  left: "200px",
-  top: '100px',
-
-};
-const footer = {
-  height: "100px",
-};
+import Footer from "./Footer";
 
 const Layout = ({ children }) => {
+  const [open, setOpen] = useState(false);
+  const matches = useMediaQuery("(min-width: 600px)");
+
+  const toggleMenu = () => {
+    setOpen(!open);
+  };
+
+  const gridStyles = (theme) => ({
+    display: "grid",
+    gridTemplateColumns: "260px 1fr",
+    gridTemplateRows: "100px 1fr 100px",
+    gridTemplateAreas: `"header header" "aside main" "footer footer"`,
+    [theme.breakpoints.down("md")]: {
+      gridTemplateColumns: "1fr",
+      gridTemplateAreas: `"header" "main" "footer"`,
+    },
+    minHeight: "100vh",
+  });
+
+  const header = {
+    gridArea: "header",
+  };
+
+  const aside = (theme) => ({
+    gridArea: "aside",
+    [theme.breakpoints.down("md")]: {
+      display: "none",
+    },
+  });
+
+  const main = {
+    gridArea: "main",
+  };
+
+  const footer = {
+    gridArea: "footer",
+  };
+
   return (
-    <Grid container sx={gridContainer}>
-      <Grid sx={header} item xs={12}>
-        <Header />
-      </Grid>
-      {/* <Hidden smDown> */}
-        <Grid item sm sx={sidebar}>
-          <Sidebar  />
-        </Grid>
-      {/* </Hidden> */}
-      {/* <Hidden mdUp>Insert Collapsible menu</Hidden> */}
-      <Grid item sm={9} sx={main}>
-        <main >{children}</main>
-      </Grid>
-      <Grid item xs={12} sx={footer}>
-        <Footer  />
-      </Grid>
-    </Grid>
+    <>
+      <Box sx={gridStyles}>
+        <Box sx={header}>
+          <Header open={open} setOpen={setOpen} matches={matches} />
+        </Box>
+        <Box sx={aside}>
+          <Sidebar />
+        </Box>
+        <Box sx={main}>{children}</Box>
+        <Box sx={footer}>
+          <Footer />
+        </Box>
+      </Box>
+      <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+        <Sidebar />
+      </Drawer>
+    </>
   );
 };
 
