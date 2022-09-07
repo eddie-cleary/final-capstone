@@ -18,6 +18,7 @@ const AllRecipes = () => {
       })
       .then((res) => {
         setRecipesData(res.data);
+        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
@@ -25,7 +26,7 @@ const AllRecipes = () => {
   }, []);
 
   const recipes = recipesData.map((recipe) => {
-    return <ListItem key={recipe.id}>Pancakes</ListItem>;
+    return <ListItem key={recipe.id}>{recipe.title}</ListItem>;
   });
 
   return (

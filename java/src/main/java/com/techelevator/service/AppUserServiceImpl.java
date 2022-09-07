@@ -60,7 +60,7 @@ public class AppUserServiceImpl implements AppUserService {
                 .username(newUser.getUsername())
                 .password(passwordEncoder.encode(newUser.getPassword()))
                 .activated(true)
-                .roles(List.of(userRole))
+                .roles(Set.of(userRole))
                 .build();
         return appUserRepo.save(appUser);
     }

@@ -2,6 +2,7 @@ package com.techelevator.entity;
 
 import antlr.build.ANTLR;
 import com.fasterxml.jackson.annotation.*;
+import com.techelevator.model.RecipeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -46,6 +47,27 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name="recipes_liked",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "appuser_id")
+    )
+    Set<AppUser> recipesLiked = new HashSet<>();
+
+    public void addUserToLiked(AppUser appUser) {
+        recipesLiked.add(appUser);
+    }
+
+    public void addRecipeDTO(RecipeDTO recipeDTO) {
+        this.title = recipeDTO.getTitle();
+        this.description = recipeDTO.getDescription();
+        this.cookTime = recipeDTO.getCookTime();
+        this.prepTime = recipeDTO.getPrepTime();
+        this.servings = recipeDTO.getServings();
+        this.imgUrl = recipeDTO.getImgUrl();
+    }
 
     @Override
     public String toString() {

@@ -8,7 +8,6 @@ import {
   Button,
 } from "@mui/material";
 import { quantityOptions } from "../../../shared/quantityOptions";
-import { current } from "@reduxjs/toolkit";
 
 const ChosenIngredient = ({
   index,
@@ -35,7 +34,10 @@ const ChosenIngredient = ({
 
   useEffect(() => {
     currentIngredient.quantity = currentQuantity;
-  }, [currentQuantity]);
+    const newList = [...recipeIngredients];
+    newList[index] = currentIngredient;
+    setRecipeIngredients(newList);
+  }, [currentQuantity, currentIngredient]);
 
   const MeasurementOptions = ({ isLiquid }) => {
     const measurementOptions = isLiquid

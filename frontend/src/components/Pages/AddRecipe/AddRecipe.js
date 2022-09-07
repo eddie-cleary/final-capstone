@@ -29,7 +29,7 @@ const AddRecipe = () => {
   const [steps, setSteps] = useState([{ info: "" }]);
   const [isStepsValid, setIsStepsValid] = useState(false);
 
-  const [favorite, setFavorite] = useState(true);
+  const [liked, setLiked] = useState(true);
 
   const [info, setInfo] = useState({
     servings: 1,
@@ -45,6 +45,7 @@ const AddRecipe = () => {
     cookTime: info.cookTime,
     recipeIngredients,
     steps,
+    liked,
   });
 
   const [validForm, setValidForm] = useState(false);
@@ -53,14 +54,12 @@ const AddRecipe = () => {
     console.log(postObject);
 
     axios
-      .post(baseUrl + `/recipes/add`, {
+      .post(baseUrl + `/recipes/add`, postObject, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => {
-        alert(res.data);
-      })
+      .then((res) => console.log(res.data))
       .catch((err) => {
         console.log(err);
       });
@@ -78,7 +77,7 @@ const AddRecipe = () => {
 
   useEffect(() => {
     const result = recipeIngredients.every((ingredient) => {
-      if (ingredient.quantity !== "") {
+      if (ingredient.quantity) {
         return true;
       }
       return false;
@@ -90,8 +89,8 @@ const AddRecipe = () => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
-      postObject.recipeIngredients.length > 0 &&
       isStepsValid &&
+      isRecipeIngredientsValid &&
       postObject.prepTime.length > 0 &&
       postObject.cookTime.length > 0
     ) {
@@ -110,8 +109,9 @@ const AddRecipe = () => {
       cookTime: info.cookTime,
       recipeIngredients,
       steps,
+      liked,
     });
-  }, [title, description, recipeIngredients, steps, info, favorite]);
+  }, [title, description, recipeIngredients, steps, info, liked]);
 
   return (
     <Layout>
@@ -158,8 +158,8 @@ const AddRecipe = () => {
             <RecipeInfo
               info={info}
               setInfo={setInfo}
-              favorite={favorite}
-              setFavorite={setFavorite}
+              favorite={liked}
+              setFavorite={setLiked}
             />
 
             <Button

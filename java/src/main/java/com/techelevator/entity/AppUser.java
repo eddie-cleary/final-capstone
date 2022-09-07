@@ -39,11 +39,15 @@ public class AppUser {
    private boolean activated;
 
    @ManyToMany
-   private List<Role> roles = new ArrayList<>();
+   private Set<Role> roles = new HashSet<>();
 
    @OneToMany(mappedBy = "appUser")
    @JsonIgnore
-   private List<Recipe> recipes = new ArrayList<>();
+   private Set<Recipe> recipes = new HashSet<>();
+
+   @JsonIgnore
+   @ManyToMany(mappedBy = "recipesLiked")
+   private Set<Recipe> recipesLiked = new HashSet<>();
 
    @Override
    public String toString() {

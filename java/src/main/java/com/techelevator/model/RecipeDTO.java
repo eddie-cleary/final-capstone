@@ -23,4 +23,5 @@ public class RecipeDTO {
     private String imgUrl;
     private List<RecipeIngredientDTO> recipeIngredients;
     private List<Step> steps;
+    private boolean liked;
 }
