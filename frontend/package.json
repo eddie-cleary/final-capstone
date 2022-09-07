@@ -9,6 +9,7 @@
     "@mui/material": "^5.10.3",
     "@reduxjs/toolkit": "^1.8.5",
     "axios": "^0.27.2",
+    "dot-env": "^0.0.1",
     "install": "^0.13.0",
     "npm": "^8.19.1",
     "react": "^18.2.0",

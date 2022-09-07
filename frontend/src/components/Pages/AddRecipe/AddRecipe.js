@@ -15,6 +15,7 @@ import RecipeInfo from "./RecipeInfo";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
+import ImageUpload from "./ImageUpload";
 
 const AddRecipe = () => {
   const token = useSelector((state) => state.auth.token);
@@ -29,7 +30,13 @@ const AddRecipe = () => {
   const [steps, setSteps] = useState([{ info: "" }]);
   const [isStepsValid, setIsStepsValid] = useState(false);
 
+  const [imageUpload, setImageUpload] = useState("");
+
   const [liked, setLiked] = useState(true);
+
+  useEffect(() => {
+    console.log("wow it worked " + imageUpload);
+  }, [imageUpload]);
 
   const [info, setInfo] = useState({
     servings: 1,
@@ -161,7 +168,10 @@ const AddRecipe = () => {
               favorite={liked}
               setFavorite={setLiked}
             />
-
+            <ImageUpload
+              imageUpload={ImageUpload}
+              setImageUpload={setImageUpload}
+            />
             <Button
               disabled={validForm ? false : true}
               onClick={handleSubmit}
