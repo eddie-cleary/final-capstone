@@ -28,18 +28,17 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
       currentFraction,
       currentMeasurement
     );
-    console.log("current quantity " + currQuantity);
     const string = convertToMeasurement(
       currQuantity,
       currentIngredient.isLiquid
     );
     console.log("the string " + string);
-    // convertToMeasurement()
+    convertToMeasurement();
     const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
     newIngredient = {
       name: currentIngredient.name,
-      quantity: currentQuantity,
+      quantity: currQuantity,
       isLiquid: currentIngredient.isLiquid,
     };
     newList.push(newIngredient);

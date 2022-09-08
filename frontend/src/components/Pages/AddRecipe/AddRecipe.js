@@ -62,22 +62,23 @@ const AddRecipe = () => {
   const [validForm, setValidForm] = useState(false);
 
   const handleSubmit = async () => {
+    console.log(postObject);
     setIsLoading(true);
-    await handleImageUpload(fileInput);
+    // await handleImageUpload(fileInput);
 
-    axios
-      .post(baseUrl + `/recipes/add`, postObject, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        console.log(err);
-      })
-      .then(() => {
-        setIsLoading(false);
-      });
+    // axios
+    //   .post(baseUrl + `/recipes/add`, postObject, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .then(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const handleImageUpload = async (fileInput) => {
@@ -130,6 +131,8 @@ const AddRecipe = () => {
     });
     setIsRecipeIngredientsValid(result);
   }, [recipeIngredients]);
+
+  useEffect(() => {});
 
   useEffect(() => {
     if (
