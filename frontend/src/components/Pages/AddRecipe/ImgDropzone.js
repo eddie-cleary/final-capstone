@@ -1,18 +1,29 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Typography, Box, Stack } from "@mui/material";
 import { Image, Close } from "@mui/icons-material";
 
-const ImgDropzone = ({ setFileInput, setimgId }) => {
-  const [preview, setPreview] = useState("");
-
+const ImgDropzone = ({
+  imgPreview,
+  setImgPreview,
+  fileInput,
+  setFileInput,
+  setimgId,
+}) => {
   const handleDeletePreview = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    setPreview("");
+    setImgPreview("");
     setimgId("");
     setFileInput("");
   };
+
+  useEffect(() => {
+    if (!fileInput) {
+      console.log("no file input");
+      setImgPreview("");
+    }
+  }, [fileInput]);
 
   const onDrop = useCallback((acceptedFiles) => {
     const reader = new FileReader();
@@ -20,7 +31,7 @@ const ImgDropzone = ({ setFileInput, setimgId }) => {
     reader.readAsDataURL(file);
     reader.onloadend = () => {
       // Do whatever you want with the file contents
-      setPreview(reader.result);
+      setImgPreview(reader.result);
     };
     setFileInput(file);
   }, []);
@@ -49,12 +60,12 @@ const ImgDropzone = ({ setFileInput, setimgId }) => {
     >
       <Box component="input" {...getInputProps()} />
       <Stack alignItems="center">
-        {preview ? (
+        {imgPreview ? (
           <Stack direction="row" alignItems="center">
             <Box
               sx={{ height: "200px", width: "200px", objectFit: "cover" }}
               component="img"
-              src={preview}
+              src={imgPreview}
             ></Box>
             <Close
               sx={{

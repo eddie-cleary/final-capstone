@@ -31,7 +31,6 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
       quantity: currQuantity,
       isLiquid: currentIngredient.isLiquid,
     };
-    console.log("the new ingredient is ", newIngredient);
     newList.push(newIngredient);
     setRecipeIngredients(newList);
     setCurrentIngredient("");

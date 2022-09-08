@@ -42,6 +42,7 @@ const AddRecipe = () => {
 
   const [fileInput, setFileInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [imgPreview, setImgPreview] = useState("");
   const [imageUploading, setImageUploading] = useState(false);
   const [validForm, setValidForm] = useState(false);
   const [errMsg, setErrMsg] = useState("");
@@ -67,28 +68,6 @@ const AddRecipe = () => {
     liked,
   });
 
-  const postToServer = () => {
-    console.log("post object ", postObject);
-
-    axios
-      .post(baseUrl + `/recipes/add`, postObject, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((res) => console.log(res.data))
-      .catch((err) => {
-        setErrMsg(err);
-        openError();
-      })
-      .then(() => {
-        setIsLoading(false);
-        clearFormState();
-        setSuccessMsg("Recipe Added!");
-        openSuccess();
-      });
-  };
-
   const clearFormState = () => {
     setTitle("");
     setDescription("");
@@ -99,11 +78,55 @@ const AddRecipe = () => {
     setFileInput("");
     setImageUploading(false);
     setValidForm(false);
+    setImgPreview("");
     setInfo({
       servings: 1,
       prepTime: "",
       cookTime: "",
     });
+  };
+
+  const openSuccess = () => {
+    setShowSuccess(true);
+  };
+
+  const closeSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowSuccess(false);
+  };
+
+  const openError = () => {
+    setShowError(true);
+  };
+
+  const closeError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowError(false);
+  };
+
+  const postToServer = () => {
+    axios
+      .post(baseUrl + `/recipes/add`, postObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSuccessMsg("Recipe Added!");
+        openSuccess();
+      })
+      .catch((err) => {
+        setErrMsg(err);
+        openError();
+      })
+      .then(() => {
+        setIsLoading(false);
+        clearFormState();
+      });
   };
 
   const handleSubmit = async () => {
@@ -148,35 +171,12 @@ const AddRecipe = () => {
     setimgId(cloudinaryResponse.data.public_id);
   };
 
-  const openSuccess = () => {
-    setShowSuccess(true);
-  };
-
-  const closeSuccess = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowSuccess(false);
-  };
-
-  const openError = () => {
-    setShowError(true);
-  };
-
-  const closeError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowError(false);
-  };
-
   useEffect(() => {
-    if (imgId) {
-      console.log("img id exists ", imgId);
+    if (imageUploading) {
       setImageUploading(false);
       postToServer();
     }
-  }, [imageUploading, imgId]);
+  }, [postObject.imgId]);
 
   useEffect(() => {
     const result = steps.every((step) => {
@@ -198,8 +198,6 @@ const AddRecipe = () => {
     setIsRecipeIngredientsValid(result);
   }, [recipeIngredients]);
 
-  useEffect(() => {});
-
   useEffect(() => {
     if (
       postObject.title.length > 2 &&
@@ -216,7 +214,6 @@ const AddRecipe = () => {
   }, [postObject]);
 
   useEffect(() => {
-    console.log("updating post object");
     setPostObject({
       title,
       description,
@@ -280,7 +277,12 @@ const AddRecipe = () => {
             <RecipeInfo info={info} setInfo={setInfo} />
             <Box sx={{ mt: 5 }}>
               {" "}
-              <ImgDropzone setFileInput={setFileInput} setimgId={setimgId} />
+              <ImgDropzone
+                imgPreview={imgPreview}
+                setImgPreview={setImgPreview}
+                setFileInput={setFileInput}
+                setimgId={setimgId}
+              />
             </Box>
             <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
               <FormControlLabel

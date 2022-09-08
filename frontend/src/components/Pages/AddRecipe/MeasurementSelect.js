@@ -67,7 +67,6 @@ const MeasurementSelect = ({
           label="Number"
           value={currentNumber}
           onChange={(e) => {
-            console.log("setting current number to " + e.target.value);
             setCurrentNumber(e.target.value);
           }}
         >
@@ -82,7 +81,6 @@ const MeasurementSelect = ({
           label="Fraction"
           value={currentFraction}
           onChange={(e) => {
-            console.log("setting current fraction to " + e.target.value);
             setCurrentFraction(e.target.value);
           }}
         >
@@ -97,7 +95,6 @@ const MeasurementSelect = ({
           label="Measurement"
           value={currentMeasurement}
           onChange={(e) => {
-            console.log("setting current measurement to " + e.target.value);
             setCurrentMeasurement(e.target.value);
           }}
         >
