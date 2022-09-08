@@ -1,33 +1,29 @@
-import { Container, Grid, Box, Link } from "@mui/material";
+import { Box } from "@mui/material";
 
 import React from "react";
 import { Typography } from "@mui/material";
-import { combineReducers } from "@reduxjs/toolkit";
 
 const footer = (theme) => ({
-  background: '#71af47',
+  background: "#71af47",
   color: "#142d4c",
-  width: '100%',
-  position: 'fixed',
+  width: "100%",
+  position: "fixed",
   bottom: 0,
-  paddingTop: '10px',
-  height: '40px',
-  [theme.breakpoints.down('md')]: {
-    paddingTop: '2px',
-    height: '40px'
-  }
+  paddingTop: "10px",
+  height: "40px",
+  [theme.breakpoints.down("md")]: {
+    paddingTop: "2px",
+    height: "40px",
+  },
 });
 
 const Footer = () => {
   return (
-
-    <Box sx={footer} >
-      <Typography textAlign='center'>
+    <Box sx={footer}>
+      <Typography textAlign="center">
         My Digital Meal Planner &reg; {new Date().getFullYear()} <br />
       </Typography>
-
     </Box>
-
   );
 };
 

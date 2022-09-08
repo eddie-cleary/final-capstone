@@ -24,7 +24,8 @@ function App() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route path="/" element={<Home />} />
+        <Route exact path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/mealplans" element={<MealPlans />} />
         <Route path="/recipes" element={<AllRecipes />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
