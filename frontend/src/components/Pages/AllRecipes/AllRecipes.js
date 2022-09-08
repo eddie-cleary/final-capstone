@@ -109,7 +109,7 @@ const AllRecipes = () => {
       <List>
         <Stack sx={imageGroup}>
           {recipes}
-          {/* {recipeData.map((item) => (
+          {recipeData.map((item) => (
             <Card sx={recipeCard}>
               <CardActionArea component={RouterLink} to="/">
                 <CardMedia
@@ -123,7 +123,7 @@ const AllRecipes = () => {
                 </CardContent>
               </CardActionArea>
             </Card>
-          ))} */}
+          ))}
         </Stack>
       </List>
     </Layout>
