@@ -28,12 +28,6 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
       currentFraction,
       currentMeasurement
     );
-    const string = convertToMeasurement(
-      currQuantity,
-      currentIngredient.isLiquid
-    );
-    console.log("the string " + string);
-    convertToMeasurement();
     const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
     newIngredient = {
@@ -43,6 +37,9 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
     };
     newList.push(newIngredient);
     setRecipeIngredients(newList);
+    setCurrentIngredient("");
+    setCurrentNumber("");
+    setCurrentFraction("");
   };
 
   useEffect(() => {
