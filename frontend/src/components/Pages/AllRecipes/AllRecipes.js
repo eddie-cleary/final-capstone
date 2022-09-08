@@ -24,7 +24,7 @@ const recipeCard = (theme) => ({
   height: 250,
   margin: "10px",
 });
-const itemData = [
+const recipeData = [
   {
     img: "https://images.unsplash.com/photo-1619096118293-a34a2f9b7339",
     title: "Perfect Poached Egg",
@@ -105,7 +105,7 @@ const AllRecipes = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">All Recipes</Typography>
+      <Typography variant="h3">All My Recipes</Typography>
       <List>
         <Stack sx={imageGroup}>
           {recipes}

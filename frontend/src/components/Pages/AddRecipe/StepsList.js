@@ -11,10 +11,10 @@ import { Add, Remove } from "@mui/icons-material";
 const btn = {
   border: "solid .5px #142d4c",
   color: "#385170",
-  background: "#9fd3c7",
-  "&:hover": {
-    background: "#385170",
-    color: "#9fd3c7",
+  background: '#9fcf6f',
+    "&:hover": {
+      boxShadow: 8,
+      background: '#71af47',
     border: "solid .5px #9fd3c7",
   },
 };
