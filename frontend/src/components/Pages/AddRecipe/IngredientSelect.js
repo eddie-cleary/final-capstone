@@ -15,7 +15,6 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
   const [currentNumber, setCurrentNumber] = useState(0);
   const [currentFraction, setCurrentFraction] = useState(0);
   const [currentMeasurement, setCurrentMeasurement] = useState("");
-  const [currentQuantity, setCurrentQuantity] = useState(0);
   const [validIngredient, setValidIngredient] = useState(false);
   const [validForm, setValidForm] = useState(false);
 
@@ -32,6 +31,7 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
       quantity: currQuantity,
       isLiquid: currentIngredient.isLiquid,
     };
+    console.log("the new ingredient is ", newIngredient);
     newList.push(newIngredient);
     setRecipeIngredients(newList);
     setCurrentIngredient("");

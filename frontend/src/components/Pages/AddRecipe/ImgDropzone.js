@@ -1,71 +1,85 @@
 import React, { useCallback, useState } from "react";
-import { Stack, Box } from "@mui/system";
-import { Typography } from "@mui/material";
-import CloseIcon from "@mui/icons-material/Close";
 import { useDropzone } from "react-dropzone";
+import { Typography, Box, Stack } from "@mui/material";
+import { Image, Close } from "@mui/icons-material";
 
-const ImgDropzone = ({ setImgId, setFileInput }) => {
+const ImgDropzone = ({ setFileInput, setimgId }) => {
   const [preview, setPreview] = useState("");
 
-  const handleDeleteImg = () => {
-    setImgId("");
-    setFileInput("");
+  const handleDeletePreview = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     setPreview("");
+    setimgId("");
+    setFileInput("");
   };
 
   const onDrop = useCallback((acceptedFiles) => {
     const reader = new FileReader();
-
-    reader.onabort = () => console.log("file reading was aborted");
-    reader.onerror = () => console.log("file reading has failed");
-    reader.onload = () => {
+    const file = acceptedFiles[0];
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
       // Do whatever you want with the file contents
       setPreview(reader.result);
     };
-    setFileInput(acceptedFiles[0]);
+    setFileInput(file);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (
-    <>
-      <Box
-        component="div"
-        {...getRootProps()}
-        sx={{ mt: 4 }}
-        alignItems="center"
-      >
-        <Box component="input" sx={{ ml: 11 }} {...getInputProps()} />
-        {isDragActive ? (
-          <Box component="p">Stuff</Box>
-        ) : (
-          <Box component="p">Stuff</Box>
-        )}
-      </Box>
-      {preview && (
-        <Stack>
-          <Stack alignItems="center">
+    <Box
+      sx={{
+        flex: 1,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "50px",
+        cursor: "pointer",
+        borderWidth: 2,
+        borderRadius: 2,
+        borderColor: "#bbbbbb",
+        borderStyle: "dotted",
+        backgroundColor: "#fafafa",
+        color: "#bdbdbd",
+        outline: "none",
+        transition: "border .24s ease-in-out",
+      }}
+      component="div"
+      {...getRootProps()}
+    >
+      <Box component="input" {...getInputProps()} />
+      <Stack alignItems="center">
+        {preview ? (
+          <Stack direction="row" alignItems="center">
             <Box
-              sx={{
-                height: "150px",
-                width: "150px",
-                objectFit: "cover",
-                mt: 2,
-              }}
+              sx={{ height: "200px", width: "200px", objectFit: "cover" }}
               component="img"
               src={preview}
-              alt=""
+            ></Box>
+            <Close
+              sx={{
+                ml: 2,
+                "&:hover": {
+                  color: "black",
+                },
+              }}
+              color="warning"
+              onClick={handleDeletePreview}
             />
-            {preview && (
-              <CloseIcon
-                onClick={handleDeleteImg}
-                sx={{ mt: 1, "&:hover": { cursor: "pointer" } }}
-                color="warning"
-              />
-            )}
           </Stack>
-        </Stack>
-      )}
-    </>
+        ) : isDragActive ? (
+          <>
+            <Image fontSize="large" />
+            <Typography>Drop here...</Typography>
+          </>
+        ) : (
+          <>
+            <Image fontSize="large" />
+            <Typography>Recipe Image</Typography>
+          </>
+        )}
+      </Stack>
+    </Box>
   );
 };
 

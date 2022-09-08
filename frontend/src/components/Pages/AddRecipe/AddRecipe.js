@@ -5,7 +5,11 @@ import {
   TextField,
   Typography,
   Button,
+  FormControlLabel,
+  Checkbox,
   CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Layout from "../../Layout/Layout";
@@ -16,8 +20,9 @@ import RecipeInfo from "./RecipeInfo";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
-// import ImageUpload from "./ImageUpload";
 import ImgDropzone from "./ImgDropzone";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+
 const AddRecipe = () => {
   const token = useSelector((state) => state.auth.token);
 
@@ -37,10 +42,12 @@ const AddRecipe = () => {
 
   const [fileInput, setFileInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    console.log("wow it worked " + imgId);
-  }, [imgId]);
+  const [imageUploading, setImageUploading] = useState(false);
+  const [validForm, setValidForm] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const [successMsg, setSuccessMsg] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const [info, setInfo] = useState({
     servings: 1,
@@ -60,31 +67,59 @@ const AddRecipe = () => {
     liked,
   });
 
-  const [validForm, setValidForm] = useState(false);
+  const postToServer = () => {
+    console.log("post object ", postObject);
 
-  const handleSubmit = async () => {
-    console.log(postObject);
-    setIsLoading(true);
-    // await handleImageUpload(fileInput);
-
-    // axios
-    //   .post(baseUrl + `/recipes/add`, postObject, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   })
-    //   .then((res) => console.log(res.data))
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .then(() => {
-    //     setIsLoading(false);
-    //   });
+    axios
+      .post(baseUrl + `/recipes/add`, postObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => console.log(res.data))
+      .catch((err) => {
+        setErrMsg(err);
+        openError();
+      })
+      .then(() => {
+        setIsLoading(false);
+        clearFormState();
+        setSuccessMsg("Recipe Added!");
+        openSuccess();
+      });
   };
 
-  const handleImageUpload = async (fileInput) => {
+  const clearFormState = () => {
+    setTitle("");
+    setDescription("");
+    setRecipeIngredients([]);
+    setSteps([{ info: "" }]);
+    setimgId("");
+    setLiked(true);
+    setFileInput("");
+    setImageUploading(false);
+    setValidForm(false);
+    setInfo({
+      servings: 1,
+      prepTime: "",
+      cookTime: "",
+    });
+  };
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    if (fileInput) {
+      uploadImage(fileInput);
+      return;
+    }
+    postToServer();
+  };
+
+  const uploadImage = async (fileInput) => {
     const API_KEY = "362171829159456";
     const CLOUD_NAME = "djoe";
+
+    setImageUploading(true);
 
     const signatureResponse = await axios.get(baseUrl + "/get-signature", {
       headers: {
@@ -92,8 +127,8 @@ const AddRecipe = () => {
       },
     });
 
-    const signature = signatureResponse.data.signature;
-    const timestamp = signatureResponse.data.timestamp;
+    const signature = signatureResponse?.data?.signature;
+    const timestamp = signatureResponse?.data?.timestamp;
 
     const data = new FormData();
     data.append("file", fileInput);
@@ -112,6 +147,36 @@ const AddRecipe = () => {
 
     setimgId(cloudinaryResponse.data.public_id);
   };
+
+  const openSuccess = () => {
+    setShowSuccess(true);
+  };
+
+  const closeSuccess = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowSuccess(false);
+  };
+
+  const openError = () => {
+    setShowError(true);
+  };
+
+  const closeError = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setShowError(false);
+  };
+
+  useEffect(() => {
+    if (imgId) {
+      console.log("img id exists ", imgId);
+      setImageUploading(false);
+      postToServer();
+    }
+  }, [imageUploading, imgId]);
 
   useEffect(() => {
     const result = steps.every((step) => {
@@ -151,6 +216,7 @@ const AddRecipe = () => {
   }, [postObject]);
 
   useEffect(() => {
+    console.log("updating post object");
     setPostObject({
       title,
       description,
@@ -211,13 +277,25 @@ const AddRecipe = () => {
             <Box sx={{ mt: 3 }}>
               <StepsList steps={steps} setSteps={setSteps} />
             </Box>
-            <RecipeInfo
-              info={info}
-              setInfo={setInfo}
-              favorite={liked}
-              setFavorite={setLiked}
-            />
-            <ImgDropzone setFileInput={setFileInput} setimgId={setimgId} />
+            <RecipeInfo info={info} setInfo={setInfo} />
+            <Box sx={{ mt: 5 }}>
+              {" "}
+              <ImgDropzone setFileInput={setFileInput} setimgId={setimgId} />
+            </Box>
+            <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
+              <FormControlLabel
+                sx={{ textAlign: "center" }}
+                control={
+                  <Checkbox
+                    checked={liked}
+                    icon={<FavoriteBorder color="warning" />}
+                    checkedIcon={<Favorite color="warning" />}
+                    onChange={(e) => setLiked(e.target.checked)}
+                  />
+                }
+                label="Mark as favorite?"
+              />
+            </Stack>
             <Button
               disabled={validForm ? false : true}
               onClick={handleSubmit}
@@ -226,6 +304,34 @@ const AddRecipe = () => {
             >
               {isLoading ? <CircularProgress /> : "Add Recipe"}
             </Button>
+            <Snackbar
+              open={showSuccess}
+              autoHideDuration={5000}
+              onClose={closeSuccess}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <Alert
+                onClose={closeSuccess}
+                severity="success"
+                sx={{ width: "100%" }}
+              >
+                {successMsg}
+              </Alert>
+            </Snackbar>
+            <Snackbar
+              open={showError}
+              autoHideDuration={5000}
+              onClose={closeError}
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            >
+              <Alert
+                onClose={closeError}
+                severity="error"
+                sx={{ width: "100%" }}
+              >
+                {errMsg}
+              </Alert>
+            </Snackbar>
           </Stack>
         </form>
       </section>
