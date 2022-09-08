@@ -59,18 +59,6 @@ public class SpringConfig {
         };
     }
 
-//    @Bean
-//    public Cloudinary cloudinaryConfig() {
-//        Cloudinary cloudinary = null;
-//        Map config = new HashMap();
-//        config.put("cloud_name", dotenv.get("CLOUDNAME"));
-//        config.put("api_key", dotenv.get("CLOUDAPIKEY"));
-//        config.put("api_secret", dotenv.get("CLOUDSECRET"));
-//        config.put("secure", true);
-//        cloudinary = new Cloudinary(config);
-//        return cloudinary;
-//    }
-
 
     @Bean
     public Cloudinary getCloudinaryConfig() {

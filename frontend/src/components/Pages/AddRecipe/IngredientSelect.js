@@ -2,10 +2,7 @@ import { Autocomplete, TextField, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
-import {
-  convertToMeasurement,
-  calculateQuantity,
-} from "../../../shared/conversions";
+import { calculateQuantity } from "../../../shared/conversions";
 
 const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
   //Todo: make this a fetch call later
