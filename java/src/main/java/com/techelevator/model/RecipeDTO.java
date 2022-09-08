@@ -20,7 +20,8 @@ public class RecipeDTO {
     private int servings;
     private int prepTime;
     private int cookTime;
-    private String imgUrl;
+    private String imgId;
     private List<RecipeIngredientDTO> recipeIngredients;
     private List<Step> steps;
+    private boolean liked;
 }

@@ -30,6 +30,8 @@ public class Ingredient {
     @NotNull
     private String name;
 
+    private boolean isLiquid;
+
     @OneToMany(mappedBy = "ingredient")
     @JsonIgnore
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();

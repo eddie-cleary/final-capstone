@@ -8,7 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RecipeService {
-    Recipe addRecipe(Principal principal, RecipeDTO recipeDTO);
+    Recipe addRecipe(String username, RecipeDTO recipeDTO);
     Recipe getRecipeById(Long id);
     List<Recipe> getAllRecipes();
+    boolean likeRecipeForUser(String username, Long recipeId);
 }

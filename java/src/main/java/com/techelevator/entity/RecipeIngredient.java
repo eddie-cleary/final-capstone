@@ -24,6 +24,8 @@ public class RecipeIngredient {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private int quantity;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
@@ -31,8 +33,6 @@ public class RecipeIngredient {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ingredient_id")
-    @JsonIgnore
     private Ingredient ingredient;
 
-    private int quantity;
 }

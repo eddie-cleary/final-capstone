@@ -1,5 +1,7 @@
 package com.techelevator.config;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
 import com.techelevator.entity.Role;
@@ -7,14 +9,22 @@ import com.techelevator.repo.RoleRepo;
 import com.techelevator.service.AppUserService;
 import com.techelevator.service.RecipeService;
 import com.techelevator.service.RoleService;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Configuration
 public class SpringConfig {
@@ -24,6 +34,9 @@ public class SpringConfig {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private Dotenv dotenv;
 
     @Bean
     CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {
@@ -39,12 +52,42 @@ public class SpringConfig {
                     .username("brandon")
                     .password(passwordEncoder().encode("brandon123"))
                     .activated(true)
-                    .roles(List.of(userRole))
+                    .roles(Set.of(userRole))
                     .build();
 
             appUserService.addUser(brandon);
         };
     }
+
+//    @Bean
+//    public Cloudinary cloudinaryConfig() {
+//        Cloudinary cloudinary = null;
+//        Map config = new HashMap();
+//        config.put("cloud_name", dotenv.get("CLOUDNAME"));
+//        config.put("api_key", dotenv.get("CLOUDAPIKEY"));
+//        config.put("api_secret", dotenv.get("CLOUDSECRET"));
+//        config.put("secure", true);
+//        cloudinary = new Cloudinary(config);
+//        return cloudinary;
+//    }
+
+
+    @Bean
+    public Cloudinary getCloudinaryConfig() {
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", dotenv.get("CLOUDNAME"),
+                "api_key", dotenv.get("CLOUDAPIKEY"),
+                "api_secret", dotenv.get("CLOUDSECRET"),
+                "secure", true
+        ));
+        return cloudinary;
+    }
+
+    @Bean
+    public Dotenv getDotEnv() {
+        return Dotenv.load();
+    }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {

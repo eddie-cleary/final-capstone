@@ -27,44 +27,19 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeIngredientRepo recipeIngredientRepo;
 
-//    @Override
-//    public Recipe addRecipe(Principal principal, Recipe recipe) {
-//        System.out.println("recipe " + recipe);
-//        AppUser currUser = appUserRepo.findByUsername(principal.getName());
-//        recipe.setAppUser(currUser);
-//        List<Step> newSteps = new ArrayList<>();
-//        for (Step step : recipe.getSteps()) {
-//            Step newStep = Step.builder()
-//                    .index(step.getIndex())
-//                    .info(step.getInfo())
-//                    .recipe(recipe)
-//                    .build();
-//            Step savedStep = stepRepo.save(newStep);
-//            newSteps.add(savedStep);
-//        }
-//        recipe.setSteps(newSteps);
-//        return recipeRepo.save(recipe);
-//    }
-
     @Override
-    public Recipe addRecipe(Principal principal, RecipeDTO recipeDTO) {
-        AppUser currUser = appUserRepo.findByUsername(principal.getName());
+    public Recipe addRecipe(String username, RecipeDTO recipeDTO) {
+        AppUser recipeCreator = appUserRepo.findByUsername(username);
 
         // New recipe obj + direct fields
         Recipe newRecipe = new Recipe();
-        newRecipe.setAppUser(currUser);
-        newRecipe.setTitle(recipeDTO.getTitle());
-        newRecipe.setDescription(recipeDTO.getDescription());
-        newRecipe.setServings(recipeDTO.getServings());
-        newRecipe.setPrepTime(recipeDTO.getPrepTime());
-        newRecipe.setCookTime(recipeDTO.getCookTime());
-        newRecipe.setImgUrl(recipeDTO.getImgUrl());
+        newRecipe.addRecipeDTO(recipeDTO);
+        newRecipe.setAppUser(recipeCreator);
 
         // Set steps on recipe
         List<Step> newSteps = new ArrayList<>();
         for (Step step : recipeDTO.getSteps()) {
             Step newStep = Step.builder()
-                    .index(step.getIndex())
                     .info(step.getInfo())
                     .recipe(newRecipe)
                     .build();
@@ -87,7 +62,20 @@ public class RecipeServiceImpl implements RecipeService {
         }
         newRecipe.setRecipeIngredients(newRecipeIngredients);
 
+        if (recipeDTO.isLiked()) {
+            newRecipe.addUserToLiked(recipeCreator);
+        }
+
         return recipeRepo.save(newRecipe);
+    }
+
+    @Override
+    public boolean likeRecipeForUser(String username, Long recipeId) {
+        AppUser appUser = appUserRepo.findByUsername(username);
+        Recipe recipe = recipeRepo.findById(recipeId).get();
+        recipe.addUserToLiked(appUser);
+        recipeRepo.save(recipe);
+        return true;
     }
 
     @Override

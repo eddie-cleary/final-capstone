@@ -2,6 +2,7 @@ package com.techelevator.entity;
 
 import antlr.build.ANTLR;
 import com.fasterxml.jackson.annotation.*;
+import com.techelevator.model.RecipeDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -33,7 +34,7 @@ public class Recipe {
     private int prepTime;
     @NotNull
     private int cookTime;
-    private String imgUrl;
+    private String imgId;
 
     // add not null
     @ManyToOne(cascade = CascadeType.ALL)
@@ -47,6 +48,27 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
+    @ManyToMany
+    @JoinTable(
+            name="recipes_liked",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "appuser_id")
+    )
+    Set<AppUser> recipesLiked = new HashSet<>();
+
+    public void addUserToLiked(AppUser appUser) {
+        recipesLiked.add(appUser);
+    }
+
+    public void addRecipeDTO(RecipeDTO recipeDTO) {
+        this.title = recipeDTO.getTitle();
+        this.description = recipeDTO.getDescription();
+        this.cookTime = recipeDTO.getCookTime();
+        this.prepTime = recipeDTO.getPrepTime();
+        this.servings = recipeDTO.getServings();
+        this.imgId = recipeDTO.getImgId();
+    }
+
     @Override
     public String toString() {
         return "Recipe{" +
@@ -56,7 +78,7 @@ public class Recipe {
                 ", servings=" + servings +
                 ", prepTime=" + prepTime +
                 ", cookTime=" + cookTime +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", imgUrl='" + imgId + '\'' +
                 '}';
     }
 
@@ -65,11 +87,11 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(imgUrl, recipe.imgUrl);
+        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(imgId, recipe.imgId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, servings, prepTime, cookTime, imgUrl);
+        return Objects.hash(id, title, description, servings, prepTime, cookTime, imgId);
     }
 }

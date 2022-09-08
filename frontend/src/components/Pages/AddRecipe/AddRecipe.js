@@ -5,51 +5,143 @@ import {
   TextField,
   Typography,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Layout from "../../Layout/Layout";
 import IngredientSelect from "./IngredientSelect";
 import StepsList from "./StepsList";
-import ChosenIngredients from "./ChosenIngredients";
+import ChosenIngredientsList from "./ChosenIngredientsList";
 import RecipeInfo from "./RecipeInfo";
-
+import axios from "axios";
+import { baseUrl } from "../../../shared/baseUrl";
+import { useSelector } from "react-redux";
+import ImageUpload from "./ImageUpload";
 const AddRecipe = () => {
+  const token = useSelector((state) => state.auth.token);
+
   const [title, setTitle] = useState(" ");
   const [description, setDescription] = useState("");
 
-  const [ingredientList, setIngredientList] = useState([]);
+  const [recipeIngredients, setRecipeIngredients] = useState([]);
+  const [isRecipeIngredientsValid, setIsRecipeIngredientsValid] =
+    useState(false);
 
-  const [stepsList, setStepsList] = useState([""]);
+  const [steps, setSteps] = useState([{ info: "" }]);
+  const [isStepsValid, setIsStepsValid] = useState(false);
 
-  const [favorite, setFavorite] = useState(true);
+  const [imgId, setimgId] = useState("");
+
+  const [liked, setLiked] = useState(true);
+
+  const [fileInput, setFileInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    console.log("wow it worked " + imgId);
+  }, [imgId]);
 
   const [info, setInfo] = useState({
     servings: 1,
-    preptime: "",
-    cooktime: "",
+    prepTime: "",
+    cookTime: "",
   });
 
   const [postObject, setPostObject] = useState({
     title,
     description,
-    ingredientList,
-    stepsList,
-    info,
-    favorite,
+    servings: info.servings,
+    prepTime: info.prepTime,
+    cookTime: info.cookTime,
+    imgId,
+    recipeIngredients,
+    steps,
+    liked,
   });
 
   const [validForm, setValidForm] = useState(false);
 
-  const handleSubmit = () => {};
+  const handleSubmit = async () => {
+    console.log(postObject);
+    setIsLoading(true);
+    // await handleImageUpload(fileInput);
+
+    // axios
+    //   .post(baseUrl + `/recipes/add`, postObject, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`,
+    //     },
+    //   })
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .then(() => {
+    //     setIsLoading(false);
+    //   });
+  };
+
+  const handleImageUpload = async (fileInput) => {
+    const API_KEY = "362171829159456";
+    const CLOUD_NAME = "djoe";
+
+    const signatureResponse = await axios.get(baseUrl + "/get-signature", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const signature = signatureResponse.data.signature;
+    const timestamp = signatureResponse.data.timestamp;
+
+    const data = new FormData();
+    data.append("file", fileInput);
+    data.append("api_key", API_KEY);
+    data.append("signature", signature);
+    data.append("timestamp", timestamp);
+    data.append("folder", "MealPlanner");
+
+    const cloudinaryResponse = await axios.post(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+      data,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+
+    setimgId(cloudinaryResponse.data.public_id);
+  };
+
+  useEffect(() => {
+    const result = steps.every((step) => {
+      if (step.info.length > 2) {
+        return true;
+      }
+      return false;
+    });
+    setIsStepsValid(result);
+  }, [steps]);
+
+  useEffect(() => {
+    const result = recipeIngredients.every((ingredient) => {
+      if (ingredient.quantity) {
+        return true;
+      }
+      return false;
+    });
+    setIsRecipeIngredientsValid(result);
+  }, [recipeIngredients]);
+
+  useEffect(() => {});
 
   useEffect(() => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
-      postObject.ingredientList.length > 0 &&
-      postObject.stepsList[0].length > 2 &&
-      postObject.info.preptime.length > 0 &&
-      postObject.info.cooktime.length > 0
+      isStepsValid &&
+      isRecipeIngredientsValid &&
+      postObject.prepTime.length > 0 &&
+      postObject.cookTime.length > 0
     ) {
       setValidForm(true);
     } else {
@@ -61,12 +153,15 @@ const AddRecipe = () => {
     setPostObject({
       title,
       description,
-      ingredientList,
-      stepsList,
-      info,
-      favorite,
+      servings: info.servings,
+      prepTime: info.prepTime,
+      cookTime: info.cookTime,
+      imgId,
+      recipeIngredients,
+      steps,
+      liked,
     });
-  }, [title, description, ingredientList, stepsList, info, favorite]);
+  }, [title, description, recipeIngredients, steps, info, liked, imgId]);
 
   return (
     <Layout>
@@ -96,34 +191,39 @@ const AddRecipe = () => {
             </Stack>
             <Box sx={{ mt: 3 }}>
               <Typography>Ingredients</Typography>
-              <ChosenIngredients
-                ingredientList={ingredientList}
-                setIngredientList={setIngredientList}
+              <ChosenIngredientsList
+                recipeIngredients={recipeIngredients}
+                setRecipeIngredients={setRecipeIngredients}
               />
-              <Stack direction="row" sx={{ mt: 2 }}>
+              <Stack
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="space-evenly"
+                sx={{ mt: 2, gap: "10px" }}
+              >
                 <IngredientSelect
-                  ingredientList={ingredientList}
-                  setIngredientList={setIngredientList}
+                  recipeIngredients={recipeIngredients}
+                  setRecipeIngredients={setRecipeIngredients}
                 />
               </Stack>
             </Box>
             <Box sx={{ mt: 3 }}>
-              <StepsList stepsList={stepsList} setStepsList={setStepsList} />
+              <StepsList steps={steps} setSteps={setSteps} />
             </Box>
             <RecipeInfo
               info={info}
               setInfo={setInfo}
-              favorite={favorite}
-              setFavorite={setFavorite}
+              favorite={liked}
+              setFavorite={setLiked}
             />
-
+            <ImageUpload setFileInput={setFileInput} setimgId={setimgId} />
             <Button
               disabled={validForm ? false : true}
               onClick={handleSubmit}
               sx={{ mt: 3 }}
               variant="contained"
             >
-              Add Recipe
+              {isLoading ? <CircularProgress /> : "Add Recipe"}
             </Button>
           </Stack>
         </form>
