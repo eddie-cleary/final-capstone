@@ -70,8 +70,8 @@ const RecipeInfo = ({ info, setInfo, favorite, setFavorite }) => {
           control={
             <Checkbox
               checked={favorite}
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite />}
+              icon={<FavoriteBorder color="warning" />}
+              checkedIcon={<Favorite color="warning" />}
               onChange={(e) => setFavorite(e.target.checked)}
             />
           }

@@ -1,10 +1,11 @@
 import { AppBar, Toolbar, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { useSelector } from "react-redux";
 import React from "react";
 import { Stack, Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
 import { Menu } from "@mui/icons-material";
+import useAuth from "../../shared/useAuth";
 
 const header = (theme) => ({
   background:
@@ -20,6 +21,8 @@ const title = (theme) => ({
 });
 
 const Header = ({ setOpen, open, matches }) => {
+  const isAuth = useAuth();
+
   const dispatch = useDispatch();
   return (
     <Stack
@@ -31,16 +34,18 @@ const Header = ({ setOpen, open, matches }) => {
       <Typography color="white" variant="h4" component="h1" sx={title}>
         My Digital Meal Planner 🥗
       </Typography>
-      <Button
-        sx={{
-          position: "absolute",
-          right: "15px",
-          ...(matches && { display: "none" }),
-        }}
-        onClick={() => setOpen(!open)}
-      >
-        <Menu />
-      </Button>
+      {isAuth && (
+        <Button
+          sx={{
+            position: "absolute",
+            right: "15px",
+            ...(matches && { display: "none" }),
+          }}
+          onClick={() => setOpen(!open)}
+        >
+          <Menu />
+        </Button>
+      )}
     </Stack>
   );
 };

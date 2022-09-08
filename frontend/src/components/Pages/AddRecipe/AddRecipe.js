@@ -5,6 +5,7 @@ import {
   TextField,
   Typography,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import Layout from "../../Layout/Layout";
@@ -16,7 +17,6 @@ import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
 import ImageUpload from "./ImageUpload";
-
 const AddRecipe = () => {
   const token = useSelector((state) => state.auth.token);
 
@@ -30,13 +30,16 @@ const AddRecipe = () => {
   const [steps, setSteps] = useState([{ info: "" }]);
   const [isStepsValid, setIsStepsValid] = useState(false);
 
-  const [imageUpload, setImageUpload] = useState("");
+  const [imgId, setimgId] = useState("");
 
   const [liked, setLiked] = useState(true);
 
+  const [fileInput, setFileInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
   useEffect(() => {
-    console.log("wow it worked " + imageUpload);
-  }, [imageUpload]);
+    console.log("wow it worked " + imgId);
+  }, [imgId]);
 
   const [info, setInfo] = useState({
     servings: 1,
@@ -50,6 +53,7 @@ const AddRecipe = () => {
     servings: info.servings,
     prepTime: info.prepTime,
     cookTime: info.cookTime,
+    imgId,
     recipeIngredients,
     steps,
     liked,
@@ -58,7 +62,8 @@ const AddRecipe = () => {
   const [validForm, setValidForm] = useState(false);
 
   const handleSubmit = async () => {
-    console.log(postObject);
+    setIsLoading(true);
+    await handleImageUpload(fileInput);
 
     axios
       .post(baseUrl + `/recipes/add`, postObject, {
@@ -69,7 +74,41 @@ const AddRecipe = () => {
       .then((res) => console.log(res.data))
       .catch((err) => {
         console.log(err);
+      })
+      .then(() => {
+        setIsLoading(false);
       });
+  };
+
+  const handleImageUpload = async (fileInput) => {
+    const API_KEY = "362171829159456";
+    const CLOUD_NAME = "djoe";
+
+    const signatureResponse = await axios.get(baseUrl + "/get-signature", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const signature = signatureResponse.data.signature;
+    const timestamp = signatureResponse.data.timestamp;
+
+    const data = new FormData();
+    data.append("file", fileInput);
+    data.append("api_key", API_KEY);
+    data.append("signature", signature);
+    data.append("timestamp", timestamp);
+    data.append("folder", "MealPlanner");
+
+    const cloudinaryResponse = await axios.post(
+      `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`,
+      data,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+      }
+    );
+
+    setimgId(cloudinaryResponse.data.public_id);
   };
 
   useEffect(() => {
@@ -114,11 +153,12 @@ const AddRecipe = () => {
       servings: info.servings,
       prepTime: info.prepTime,
       cookTime: info.cookTime,
+      imgId,
       recipeIngredients,
       steps,
       liked,
     });
-  }, [title, description, recipeIngredients, steps, info, liked]);
+  }, [title, description, recipeIngredients, steps, info, liked, imgId]);
 
   return (
     <Layout>
@@ -152,7 +192,12 @@ const AddRecipe = () => {
                 recipeIngredients={recipeIngredients}
                 setRecipeIngredients={setRecipeIngredients}
               />
-              <Stack direction="row" sx={{ mt: 2 }}>
+              <Stack
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="space-evenly"
+                sx={{ mt: 2, gap: "10px" }}
+              >
                 <IngredientSelect
                   recipeIngredients={recipeIngredients}
                   setRecipeIngredients={setRecipeIngredients}
@@ -168,17 +213,14 @@ const AddRecipe = () => {
               favorite={liked}
               setFavorite={setLiked}
             />
-            <ImageUpload
-              imageUpload={ImageUpload}
-              setImageUpload={setImageUpload}
-            />
+            <ImageUpload setFileInput={setFileInput} setimgId={setimgId} />
             <Button
               disabled={validForm ? false : true}
               onClick={handleSubmit}
               sx={{ mt: 3 }}
               variant="contained"
             >
-              Add Recipe
+              {isLoading ? <CircularProgress /> : "Add Recipe"}
             </Button>
           </Stack>
         </form>

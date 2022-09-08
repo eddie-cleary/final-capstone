@@ -35,6 +35,9 @@ public class SpringConfig {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private Dotenv dotenv;
+
     @Bean
     CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {
         return args -> {
@@ -53,8 +56,6 @@ public class SpringConfig {
                     .build();
 
             appUserService.addUser(brandon);
-
-//            System.out.println(dotenv.get("CLOUDNAME"));
         };
     }
 
@@ -62,32 +63,31 @@ public class SpringConfig {
 //    public Cloudinary cloudinaryConfig() {
 //        Cloudinary cloudinary = null;
 //        Map config = new HashMap();
-//        config.put("cloud_name", cloudName);
-//        config.put("api_key", apiKey);
-//        config.put("api_secret", apiSecret);
+//        config.put("cloud_name", dotenv.get("CLOUDNAME"));
+//        config.put("api_key", dotenv.get("CLOUDAPIKEY"));
+//        config.put("api_secret", dotenv.get("CLOUDSECRET"));
+//        config.put("secure", true);
 //        cloudinary = new Cloudinary(config);
 //        return cloudinary;
 //    }
 
-//    @Bean
-//    public Cloudinary getCloudinaryConfig() {
-//        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
-//                "cloud_name", "djoe",
-//                "api_key", "362171829159456",
-//                "api_secret", "jpGk4VgYFHr7jJcrIXdEVRLgxCo",
-//                "secure", true
-//        ));
-//        return cloudinary;
-//    }
 
-//    @Bean
-//    public void getDotEnvConfig() {
-//        Dotenv.configure()
-//                .directory("/")
-//                .ignoreIfMalformed()
-//                .ignoreIfMissing()
-//                .load();
-//    }
+    @Bean
+    public Cloudinary getCloudinaryConfig() {
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", dotenv.get("CLOUDNAME"),
+                "api_key", dotenv.get("CLOUDAPIKEY"),
+                "api_secret", dotenv.get("CLOUDSECRET"),
+                "secure", true
+        ));
+        return cloudinary;
+    }
+
+    @Bean
+    public Dotenv getDotEnv() {
+        return Dotenv.load();
+    }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
