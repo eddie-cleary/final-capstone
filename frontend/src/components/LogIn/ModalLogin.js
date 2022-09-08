@@ -28,7 +28,7 @@ const style = {
   p: 4,
 }
 const btn = {
-  background: 'radial-gradient(rgb(159, 211, 199) 0%, rgb(56, 81, 112) 100%)',
+  background: '#9fcf6f',
   color: '#142d4c',
   fontWeight: 'bold',
   marginTop: '1em',
@@ -36,7 +36,8 @@ const btn = {
   boxShadow: 3,
   "&:hover": {
     boxShadow: 8,
-}
+    background: '#71af47'
+  }
 
 };
 
@@ -77,7 +78,7 @@ const ModalLogin = () => {
       dispatch(showModalLogin(false));
       await dispatch(addToken(userWithToken.data.token));
       await dispatch(addUser(userWithToken.data.user));
-      navigate("/mealplans");
+      navigate("/home");
     } catch (err) {
       if (!err?.response) {
         setErrMsg("No server response");

@@ -1,15 +1,14 @@
 import { AppBar, Toolbar, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-
+import { Link } from "react-router-dom";
 import React from "react";
 import { Stack, Typography, Button } from "@mui/material";
 import { useDispatch } from "react-redux";
-import { Menu } from "@mui/icons-material";
+import { Menu, Home } from "@mui/icons-material";
 
 const header = (theme) => ({
-  background:
-    "linear-gradient(90deg, rgb(56, 81, 112) 0%, rgb(159, 211, 199) 100%)",
   height: "100%",
+ 
 });
 
 const title = (theme) => ({
@@ -28,13 +27,26 @@ const Header = ({ setOpen, open, matches }) => {
       justifyContent="center"
       sx={header}
     >
-      <Typography color="white" variant="h4" component="h1" sx={title}>
-        My Digital Meal Planner 🥗
+ 
+        <Link to="/home" underline="none" color="#bed9d2">
+      <Home sx={{
+        color:"#71af47",
+        position:"absolute",
+        left:"5px",
+       top: "1px",
+        fontSize: "2em",
+        }}/>
+      </Link>
+
+      <Typography color="
+#4f5453" variant="h4" component="h1" sx={title}>
+        My Digital Meal Planner 
       </Typography>
       <Button
         sx={{
           position: "absolute",
-          right: "15px",
+          right: "5px",
+          color:"#41262d",
           ...(matches && { display: "none" }),
         }}
         onClick={() => setOpen(!open)}
