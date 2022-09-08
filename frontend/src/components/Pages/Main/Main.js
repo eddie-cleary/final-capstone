@@ -13,7 +13,7 @@ import Header from "../../Layout/Header";
 const btn = {
   position: 'static',
   margin: 'auto',
-  background: 'radial-gradient(rgb(159, 211, 199) 0%, rgb(56, 81, 112) 100%)',
+  background: '#9fcf6f',
   color: '#142d4c',
   fontWeight: 'bold',
   border: 'solid .5px #142d4c',
@@ -22,6 +22,8 @@ const btn = {
   boxShadow: 3,
   "&:hover": {
     boxShadow: 8,
+    background: '#71af47',
+    border: "solid .5px #9fd3c7",
 
   },
 };

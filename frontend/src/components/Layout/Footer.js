@@ -4,32 +4,30 @@ import React from "react";
 import { Typography } from "@mui/material";
 import { combineReducers } from "@reduxjs/toolkit";
 
-const footer = {
-
-  background: 'linear-gradient(-0deg, rgb(56, 81, 112) 0%, rgb(159, 211, 199) 100%)',
+const footer = (theme) => ({
+  background: '#71af47',
   color: "#142d4c",
-  fontWeight: 'bolder',
   width: '100%',
   position: 'fixed',
   bottom: 0,
-  paddingTop: '20px',
-  height: '100px',
-
-}
+  paddingTop: '10px',
+  height: '40px',
+  [theme.breakpoints.down('md')]: {
+    paddingTop: '2px',
+    height: '40px'
+  }
+});
 
 const Footer = () => {
   return (
 
     <Box sx={footer} >
-      <Typography textAlign="center" fontWeight='bold' >
-      Created in Collaboration by: Edward Cleary, Kimberly Bryant, Chantele Lohr, and Brandon Vo 
-        <br />
-    
-        My Digital Meal Planner &reg; {new Date().getFullYear()} <br/>
-      
+      <Typography textAlign='center'>
+        My Digital Meal Planner &reg; {new Date().getFullYear()} <br />
       </Typography>
+
     </Box>
-  
+
   );
 };
 
