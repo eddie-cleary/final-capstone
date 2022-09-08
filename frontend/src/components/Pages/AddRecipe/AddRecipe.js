@@ -16,7 +16,8 @@ import RecipeInfo from "./RecipeInfo";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
-import ImageUpload from "./ImageUpload";
+// import ImageUpload from "./ImageUpload";
+import ImgDropzone from "./ImgDropzone";
 const AddRecipe = () => {
   const token = useSelector((state) => state.auth.token);
 
@@ -216,7 +217,7 @@ const AddRecipe = () => {
               favorite={liked}
               setFavorite={setLiked}
             />
-            <ImageUpload setFileInput={setFileInput} setimgId={setimgId} />
+            <ImgDropzone setFileInput={setFileInput} setimgId={setimgId} />
             <Button
               disabled={validForm ? false : true}
               onClick={handleSubmit}
