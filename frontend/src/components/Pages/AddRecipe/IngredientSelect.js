@@ -1,6 +1,8 @@
 import { Autocomplete, TextField, Button } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
+import MeasurementSelect from "./MeasurementSelect";
+import { calculateQuantity } from "../../../shared/conversions";
 
 const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
   //Todo: make this a fetch call later
@@ -9,22 +11,45 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
     { name: "Water", isLiquid: true },
   ];
 
-  const defaultIngredient = { name: "", quantity: "" };
-
-  const [chosenIngredient, setChosenIngredient] = useState("");
+  const [currentIngredient, setCurrentIngredient] = useState("");
+  const [currentNumber, setCurrentNumber] = useState(0);
+  const [currentFraction, setCurrentFraction] = useState(0);
+  const [currentMeasurement, setCurrentMeasurement] = useState("");
   const [validIngredient, setValidIngredient] = useState(false);
+  const [validForm, setValidForm] = useState(false);
 
-  const addIngredientToList = () => {
+  const handleAddIngredient = () => {
+    const currQuantity = calculateQuantity(
+      currentNumber,
+      currentFraction,
+      currentMeasurement
+    );
     const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
     newIngredient = {
-      ...defaultIngredient,
-      name: chosenIngredient.name,
-      isLiquid: chosenIngredient.isLiquid,
+      name: currentIngredient.name,
+      quantity: currQuantity,
+      isLiquid: currentIngredient.isLiquid,
     };
+    console.log("the new ingredient is ", newIngredient);
     newList.push(newIngredient);
     setRecipeIngredients(newList);
+    setCurrentIngredient("");
+    setCurrentNumber("");
+    setCurrentFraction("");
   };
+
+  useEffect(() => {
+    if (
+      validIngredient &&
+      (currentNumber > 0 || currentFraction > 0) &&
+      currentMeasurement
+    ) {
+      setValidForm(true);
+      return;
+    }
+    setValidForm(false);
+  }, [validIngredient, currentMeasurement, currentNumber, currentFraction]);
 
   return (
     <>
@@ -39,14 +64,14 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
           const choice = e.target.textContent;
           allIngredients.every((validIngredient) => {
             if (choice === validIngredient.name) {
-              setChosenIngredient(validIngredient);
+              setCurrentMeasurement("");
+              setCurrentIngredient(validIngredient);
               setValidIngredient(true);
-              // end loop
               return false;
             }
-            setChosenIngredient("");
+            setCurrentMeasurement("");
+            setCurrentIngredient("");
             setValidIngredient(false);
-            // continue loop
             return true;
           });
         }}
@@ -54,11 +79,20 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
           <TextField {...params} label="Choose ingredient" />
         )}
       />
+      <MeasurementSelect
+        currentIngredient={currentIngredient}
+        currentNumber={currentNumber}
+        setCurrentNumber={setCurrentNumber}
+        currentFraction={currentFraction}
+        setCurrentFraction={setCurrentFraction}
+        currentMeasurement={currentMeasurement}
+        setCurrentMeasurement={setCurrentMeasurement}
+      />
       <Button
-        onClick={addIngredientToList}
-        sx={{ ml: 2 }}
+        onClick={handleAddIngredient}
+        sx={{ height: "58px" }}
         variant="outlined"
-        disabled={validIngredient ? false : true}
+        disabled={validForm ? false : true}
       >
         <Add fontSize="small" />
       </Button>

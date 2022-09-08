@@ -8,12 +8,9 @@ import {
   OutlinedInput,
   InputAdornment,
   MenuItem,
-  FormControlLabel,
-  Checkbox,
 } from "@mui/material";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
 
-const RecipeInfo = ({ info, setInfo, favorite, setFavorite }) => {
+const RecipeInfo = ({ info, setInfo }) => {
   return (
     <>
       <Stack direction="row" alignItems="flex-end" sx={{ mt: 4 }}>
@@ -63,20 +60,6 @@ const RecipeInfo = ({ info, setInfo, favorite, setFavorite }) => {
             endAdornment={<InputAdornment position="end">mins</InputAdornment>}
           />
         </Box>
-      </Stack>
-      <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
-        <FormControlLabel
-          sx={{ textAlign: "center" }}
-          control={
-            <Checkbox
-              checked={favorite}
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite />}
-              onChange={(e) => setFavorite(e.target.checked)}
-            />
-          }
-          label="Mark as favorite?"
-        />
       </Stack>
     </>
   );

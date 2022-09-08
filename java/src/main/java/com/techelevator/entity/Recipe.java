@@ -34,7 +34,7 @@ public class Recipe {
     private int prepTime;
     @NotNull
     private int cookTime;
-    private String imgUrl;
+    private String imgId;
 
     // add not null
     @ManyToOne(cascade = CascadeType.ALL)
@@ -66,7 +66,7 @@ public class Recipe {
         this.cookTime = recipeDTO.getCookTime();
         this.prepTime = recipeDTO.getPrepTime();
         this.servings = recipeDTO.getServings();
-        this.imgUrl = recipeDTO.getImgUrl();
+        this.imgId = recipeDTO.getImgId();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class Recipe {
                 ", servings=" + servings +
                 ", prepTime=" + prepTime +
                 ", cookTime=" + cookTime +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", imgUrl='" + imgId + '\'' +
                 '}';
     }
 
@@ -87,11 +87,11 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(imgUrl, recipe.imgUrl);
+        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(imgId, recipe.imgId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, servings, prepTime, cookTime, imgUrl);
+        return Objects.hash(id, title, description, servings, prepTime, cookTime, imgId);
     }
 }
