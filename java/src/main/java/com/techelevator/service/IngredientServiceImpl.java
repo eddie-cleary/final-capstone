@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -31,5 +32,10 @@ public class IngredientServiceImpl implements IngredientService{
     @Override
     public Optional<Ingredient> getIngredientById(Long id) {
         return ingredientRepo.findById(id);
+    }
+
+    @Override
+    public List<Ingredient> getAllIngredients() {
+        return ingredientRepo.findAll();
     }
 }

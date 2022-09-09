@@ -11,7 +11,7 @@ const MeasurementSelect = ({
   currentMeasurement,
   setCurrentMeasurement,
 }) => {
-  const measurementOptions = currentIngredient.isLiquid
+  const measurementOptions = currentIngredient.liquid
     ? [
         <MenuItem key="1" value="Ounce">
           Ounce
@@ -36,7 +36,7 @@ const MeasurementSelect = ({
       ];
 
   useEffect(() => {
-    setCurrentMeasurement(currentIngredient.isLiquid ? "Ounce" : "Teaspoon");
+    setCurrentMeasurement(currentIngredient.liquid ? "Ounce" : "Teaspoon");
   }, [currentIngredient]);
 
   const numberSelectors = [];

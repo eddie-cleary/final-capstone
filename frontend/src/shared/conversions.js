@@ -1,7 +1,7 @@
 const Fraction = require("fractional").Fraction;
 
-export const convertToMeasurement = (quantity, isLiquid) => {
-  const values = getValues(isLiquid);
+export const convertToMeasurement = (quantity, liquid) => {
+  const values = getValues(liquid);
 
   let counts = {};
 
@@ -74,7 +74,7 @@ export const convertToMeasurement = (quantity, isLiquid) => {
       fraction = fraction.toString();
     }
 
-    if (!isLiquid) {
+    if (!liquid) {
       if (counts.teaspoon) {
         counts.teaspoon =
           counts.teaspoon + ` ${fraction === 0 ? "" : fraction}`;
@@ -122,7 +122,7 @@ const formatCountsString = (countsObj) => {
   return newString.replace(/\s+/g, " ").trim();
 };
 
-const getValues = (isLiquid) => {
+const getValues = (liquid) => {
   const solidValues = {
     cup: 384,
     tablespoon: 24,
@@ -134,7 +134,7 @@ const getValues = (isLiquid) => {
     ounce: 48,
   };
 
-  if (isLiquid) {
+  if (liquid) {
     return liquidValues;
   } else {
     return solidValues;

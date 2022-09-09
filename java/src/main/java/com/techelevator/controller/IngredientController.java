@@ -5,6 +5,7 @@ import com.techelevator.service.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -28,5 +29,10 @@ public class IngredientController {
     @PostMapping
     public Ingredient addIngredient(@RequestBody Ingredient ingredient) {
         return ingredientService.addIngredient(ingredient);
+    }
+
+    @GetMapping
+    public List<Ingredient> getAllIngredients() {
+        return ingredientService.getAllIngredients();
     }
 }

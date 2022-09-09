@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
 import { useParams } from "react-router-dom";
-import { Stack, Card, CardMedia, Box, Grid, Paper, Typography, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {
+  Stack,
+  Card,
+  CardMedia,
+  Box,
+  Grid,
+  Paper,
+  Typography,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import servingsIcon from './icons/servings.png'
-import prepIcon from './icons/prepare.png'
-import cookIcon from './icons/cooking.png'
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import servingsIcon from "./icons/servings.png";
+import prepIcon from "./icons/prepare.png";
+import cookIcon from "./icons/cooking.png";
 
 //////////////////////////////////////////////////////////remove after import is working
 const Fraction = require("fractional").Fraction;
 
-
-function convertToMeasurement(quantity, isLiquid) {
-  const values = getValues(isLiquid);
+function convertToMeasurement(quantity, liquid) {
+  const values = getValues(liquid);
 
   let counts = {};
 
@@ -89,7 +100,7 @@ function convertToMeasurement(quantity, isLiquid) {
       fraction = fraction.toString();
     }
 
-    if (!isLiquid) {
+    if (!liquid) {
       if (counts.teaspoon) {
         counts.teaspoon =
           counts.teaspoon + ` ${fraction === 0 ? "" : fraction}`;
@@ -108,7 +119,7 @@ function convertToMeasurement(quantity, isLiquid) {
   }
 
   return formatCountsString(counts);
-};
+}
 
 export const calculateQuantity = (number, fraction, unitOfMeasure) => {
   const allValues = {
@@ -137,7 +148,7 @@ const formatCountsString = (countsObj) => {
   return newString.replace(/\s+/g, " ").trim();
 };
 
-const getValues = (isLiquid) => {
+const getValues = (liquid) => {
   const solidValues = {
     cup: 384,
     tablespoon: 24,
@@ -149,7 +160,7 @@ const getValues = (isLiquid) => {
     ounce: 48,
   };
 
-  if (isLiquid) {
+  if (liquid) {
     return liquidValues;
   } else {
     return solidValues;
@@ -161,76 +172,103 @@ const getValues = (isLiquid) => {
 let RenderIngredients = ({ ingredients }) => {
   let renderedIngredients = [];
   ingredients?.map((ingredient) => {
-    const { id: recipeId, quantity: quantityTsp, ingredient: ingredientName } = ingredient;
-    let isLiquid = false; //either axios.get, or change the obj returned from endpoint.
-    let convertedMeasurement = convertToMeasurement(quantityTsp, isLiquid)
-    renderedIngredients.push(convertedMeasurement + " of " + ingredientName) 
+    const {
+      id: recipeId,
+      quantity: quantityTsp,
+      ingredient: ingredientName,
+    } = ingredient;
+    let liquid = false; //either axios.get, or change the obj returned from endpoint.
+    let convertedMeasurement = convertToMeasurement(quantityTsp, liquid);
+    renderedIngredients.push(convertedMeasurement + " of " + ingredientName);
   });
-  return (
-    renderedIngredients.map(ingredient => (
-      <List key={ingredient}>
-        <ListItem>
-          <ListItemIcon><AddShoppingCartIcon /></ListItemIcon>
-          <ListItemText primary={ingredient} />
-        </ListItem>
-      </List>
-    )))
-}
+  return renderedIngredients.map((ingredient) => (
+    <List key={ingredient}>
+      <ListItem>
+        <ListItemIcon>
+          <AddShoppingCartIcon />
+        </ListItemIcon>
+        <ListItemText primary={ingredient} />
+      </ListItem>
+    </List>
+  ));
+};
 
 const RenderSteps = ({ steps }) => {
   let renderedSteps = [];
 
   steps?.map((step, index) => {
     const { info: currentStep } = step;
-    renderedSteps.push((index + 1) + ". " + currentStep)
+    renderedSteps.push(index + 1 + ". " + currentStep);
   });
-  return (
-    renderedSteps.map(step => (
-      <List key={step}>
-        <ListItem>
-          <ListItemIcon><ChevronRightIcon /></ListItemIcon>
-          <ListItemText primary={step} />
-        </ListItem>
-      </List>
-    )))
-}
+  return renderedSteps.map((step) => (
+    <List key={step}>
+      <ListItem>
+        <ListItemIcon>
+          <ChevronRightIcon />
+        </ListItemIcon>
+        <ListItemText primary={step} />
+      </ListItem>
+    </List>
+  ));
+};
 
 const InfoCard = (props) => {
   return (
-    <Card variant="outlined" sx={{ display: "flex", flexDirection: "column", alignItems: "center", maxWidth: 180 }}>
+    <Card
+      variant="outlined"
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        maxWidth: 180,
+      }}
+    >
       <CardMedia
         component="img"
         alt="prepare icon"
         height="140"
-        image={props.img} />
-      <Typography variant="h5" component="div"><BoldUnderline text={props.name} /></Typography>
+        image={props.img}
+      />
+      <Typography variant="h5" component="div">
+        <BoldUnderline text={props.name} />
+      </Typography>
       <Typography variant="h5">{props.text}</Typography>
     </Card>
-  )
-}
+  );
+};
 
 const GridItem = ({ title }) => {
   return (
-    <Grid item xs={12}><Paper elevation={5}>
-      <Box display="flex" justifyContent="center" alignItems="center" p={4} sx={{ width: "38vw" }}>
-        <Typography variant="h3">{title}</Typography>
-      </Box></Paper></Grid>
-  )
-}
+    <Grid item xs={12}>
+      <Paper elevation={5}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          p={4}
+          sx={{ width: "38vw" }}
+        >
+          <Typography variant="h3">{title}</Typography>
+        </Box>
+      </Paper>
+    </Grid>
+  );
+};
 
 const BoldUnderline = ({ text }) => {
   return (
-    <Box fontWeight="fontWeightBold" textDecoration= "underline">{text}</Box>
-  )
-}
-
+    <Box fontWeight="fontWeightBold" textDecoration="underline">
+      {text}
+    </Box>
+  );
+};
 
 const SingleRecipe = ({ props }) => {
   const { id } = useParams();
   const [recipe, setRecipe] = useState([]);
   const token = useSelector((state) => state.auth.token);
-  const recipePrepTime = recipe.prepTime
-  const recipeCookTime = recipe.cookTime
+  const recipePrepTime = recipe.prepTime;
+  const recipeCookTime = recipe.cookTime;
 
   useEffect(() => {
     axios
@@ -247,7 +285,7 @@ const SingleRecipe = ({ props }) => {
       });
   }, []);
 
-  console.log(JSON.stringify({ recipe }))
+  console.log(JSON.stringify({ recipe }));
 
   return (
     <Layout>
@@ -258,9 +296,24 @@ const SingleRecipe = ({ props }) => {
         alignItems="center"
         spacing={3}
       >
-        <Grid item xs={12}><Paper elevation={5}>
-          <Box display="flex" justifyContent="center" p={2} component="img" src={recipe.imgUrl} alt={`Picture of ${recipe.title}`} sx={{ aspectRatio: "6/4", width: "38vw", maxHeight: "68vh", objectFit: "cover" }} />
-        </Paper></Grid>
+        <Grid item xs={12}>
+          <Paper elevation={5}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              p={2}
+              component="img"
+              src={recipe.imgUrl}
+              alt={`Picture of ${recipe.title}`}
+              sx={{
+                aspectRatio: "6/4",
+                width: "38vw",
+                maxHeight: "68vh",
+                objectFit: "cover",
+              }}
+            />
+          </Paper>
+        </Grid>
 
         <GridItem title={recipe.title} />
         {/* <GridItem title={`Category: ${recipe.category}`} /> */}
@@ -272,10 +325,27 @@ const SingleRecipe = ({ props }) => {
           alignItems="center"
           width="38vw"
           spacing={4}
-          sx={{ mt: 4 }}>
-          <InfoCard name="Servings" text={`${recipe.servings}`} img={servingsIcon} />
-          <InfoCard name="Prep time" text={recipePrepTime == 1 ? "1 minute" : `${recipePrepTime} minutes`} img={prepIcon} />
-          <InfoCard name="Cook time" text={recipeCookTime == 1 ? "1 minute" : `${recipeCookTime} minutes`} img={cookIcon} />
+          sx={{ mt: 4 }}
+        >
+          <InfoCard
+            name="Servings"
+            text={`${recipe.servings}`}
+            img={servingsIcon}
+          />
+          <InfoCard
+            name="Prep time"
+            text={
+              recipePrepTime == 1 ? "1 minute" : `${recipePrepTime} minutes`
+            }
+            img={prepIcon}
+          />
+          <InfoCard
+            name="Cook time"
+            text={
+              recipeCookTime == 1 ? "1 minute" : `${recipeCookTime} minutes`
+            }
+            img={cookIcon}
+          />
         </Stack>
 
         <Stack
@@ -283,11 +353,13 @@ const SingleRecipe = ({ props }) => {
           justifyContent="center"
           width="38vw"
           spacing={2}
-          sx={{ mt: 5 }}>
-          <Paper elevation={5}><Box p={4}>
-            <Typography variant="h4">Ingredients</Typography>
-            <RenderIngredients ingredients={recipe.recipeIngredients} />
-          </Box>
+          sx={{ mt: 5 }}
+        >
+          <Paper elevation={5}>
+            <Box p={4}>
+              <Typography variant="h4">Ingredients</Typography>
+              <RenderIngredients ingredients={recipe.recipeIngredients} />
+            </Box>
           </Paper>
         </Stack>
 
@@ -297,11 +369,14 @@ const SingleRecipe = ({ props }) => {
           alignItems="center"
           width="100vh"
           spacing={2}
-          sx={{ mt: 5, mb: 4}}>
-          <Paper elevation={5}><Box p={4} sx={{ width: "38vw" }}>
-            <Typography variant="h4">Steps</Typography>
-            <RenderSteps steps={recipe.steps} />
-          </Box></Paper>
+          sx={{ mt: 5, mb: 4 }}
+        >
+          <Paper elevation={5}>
+            <Box p={4} sx={{ width: "38vw" }}>
+              <Typography variant="h4">Steps</Typography>
+              <RenderSteps steps={recipe.steps} />
+            </Box>
+          </Paper>
         </Stack>
       </Grid>
     </Layout>
