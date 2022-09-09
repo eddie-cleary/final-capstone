@@ -4,21 +4,7 @@ import { useSelector } from "react-redux";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
 import MyRecipeCard from "../../shared/MyRecipeCard";
-import {
-  Typography,
-  Stack,
-  List,
-  ListItem,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  Card,
-  CardActionArea,
-  CardContent,
-  CardHeader,
-  CardMedia,
-} from "@mui/material";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Typography, Stack, List } from "@mui/material";
 
 const imageGroup = {
   flexDirection: "row",
@@ -55,7 +41,7 @@ const AllRecipes = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">All My Recipes</Typography>
+      <Typography variant="h3">All Recipes</Typography>
       <List>
         <Stack sx={imageGroup}>{recipes}</Stack>
       </List>
