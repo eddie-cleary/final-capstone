@@ -22,7 +22,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import servingsIcon from "./icons/servings.png";
 import prepIcon from "./icons/prepare.png";
 import cookIcon from "./icons/cooking.png";
-import {convertToMeasurement} from "../../../shared/conversions"
+import { convertToMeasurement } from "../../../shared/conversions";
 
 let RenderIngredients = ({ ingredients }) => {
   let renderedIngredients = [];
@@ -30,9 +30,9 @@ let RenderIngredients = ({ ingredients }) => {
     const {
       id: recipeId,
       quantity: quantityTsp,
-      ingredient: ingredients
+      ingredient: ingredients,
     } = ingredient;
-    let liquid = ingredients.liquid; 
+    let liquid = ingredients.liquid;
     let convertedMeasurement = convertToMeasurement(quantityTsp, liquid);
     renderedIngredients.push(convertedMeasurement + " of " + ingredients.name);
   });
