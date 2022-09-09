@@ -45,6 +45,10 @@ public class AppUser {
    @JsonIgnore
    private Set<Recipe> recipes = new HashSet<>();
 
+   @OneToMany(mappedBy = "appUser")
+   @JsonIgnore
+   private Set<MealPlan> mealPlans = new HashSet<>();
+
    @JsonIgnore
    @ManyToMany(mappedBy = "recipesLiked")
    private Set<Recipe> recipesLiked = new HashSet<>();
