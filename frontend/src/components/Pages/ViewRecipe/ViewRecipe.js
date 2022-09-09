@@ -140,7 +140,7 @@ const SingleRecipe = ({ props }) => {
       });
   }, []);
 
-  console.log(JSON.stringify({ recipe }));
+  console.log(recipe)
 
   return (
     <Layout>
@@ -158,7 +158,7 @@ const SingleRecipe = ({ props }) => {
               justifyContent="center"
               p={2}
               component="img"
-              src={recipe.imgUrl}
+              src={`https://res.cloudinary.com/djoe/image/upload/c_fill/${recipe.imgId}.jpg`}
               alt={`Picture of ${recipe.title}`}
               sx={{
                 aspectRatio: "6/4",
