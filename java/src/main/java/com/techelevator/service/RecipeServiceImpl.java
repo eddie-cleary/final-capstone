@@ -114,11 +114,14 @@ public class RecipeServiceImpl implements RecipeService {
         try {
             AppUser appUser = appUserService.getUser(username);
             if (id == recipe.getId() && appUser.getId() == recipe.getAppUser().getId()) {
-            return recipeRepo.save(recipe);}
-        } catch (Exception e){
-                log.warn("Fetching failed for updating recipe {} by user {}", recipe, username);
+                recipe.setAppUser(appUser);
+                return recipeRepo.save(recipe);
             }
-        throw new RuntimeException("Recipe update failed");
+        } catch (Exception e){
+            log.warn("Fetching failed for updating recipe {} by user {} reason: {} || message: {} ", recipe, username, e.getCause(), e.getMessage());
+            throw new RuntimeException("Recipe update failed", e.getCause());
+        }
+        return null;
     }
 }
 

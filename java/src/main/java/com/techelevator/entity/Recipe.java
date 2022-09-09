@@ -1,5 +1,6 @@
 package com.techelevator.entity;
 
+import antlr.CommonAST;
 import antlr.build.ANTLR;
 import com.fasterxml.jackson.annotation.*;
 import com.techelevator.model.RecipeDTO;
@@ -42,7 +43,7 @@ public class Recipe {
     private AppUser appUser;
 
     // add not null
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Step> steps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
