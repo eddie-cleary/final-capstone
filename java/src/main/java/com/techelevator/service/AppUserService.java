@@ -10,10 +10,9 @@ import java.util.List;
 
 public interface AppUserService {
     AppUser addUser(AppUser appUser) throws ValidationException;
-
     AppUser addRoleToAppUser(String username, String roleName);
     AppUser getUser(String username);
     List<AppUser> getUsers();
-
     AppUser addNewUser(RegisterUserDTO newUser);
+    AppUser getId(String username);
 }

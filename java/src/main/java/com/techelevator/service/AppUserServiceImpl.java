@@ -38,6 +38,20 @@ public class AppUserServiceImpl implements AppUserService {
     }
 
     @Override
+    public AppUser getId(String username) {
+        log.info("Fetching AppUser with id of {} from database", username);
+        Optional<AppUser> userId = Optional.ofNullable(appUserRepo.findAppUser__IdByUsername(username));
+        try {
+            if (userId.isPresent()) {
+                return userId.get();
+            }
+        } catch (Exception e) {
+            log.info("Could not retrieve user with id of {}. Error:" + e, username);
+        }
+        return null;
+    }
+
+    @Override
     public AppUser addRoleToAppUser(String username, String roleName) {
         log.info("Saving new Role {} to AppUser {}", roleName, username);
         AppUser appUser = appUserRepo.findByUsername(username);
