@@ -44,9 +44,13 @@ public class RecipeController {
         return recipeService.updateRecipe(principal.getName(), id, recipe);
     }
 
-
     @GetMapping("/myRecipes")
     public List<Recipe> getMyRecipes(Principal principal) {
         return recipeService.getMyRecipes(principal.getName());
+    }
+
+    @DeleteMapping("/myRecipes")
+    public Boolean deleteMyRecipe(Principal principal, @RequestParam Long recipeId) {
+        return recipeService.deleteRecipe(principal.getName(), recipeId);
     }
 }

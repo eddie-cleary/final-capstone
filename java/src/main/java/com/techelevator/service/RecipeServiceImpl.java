@@ -8,8 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.*;
 
 @Service
@@ -123,5 +121,22 @@ public class RecipeServiceImpl implements RecipeService {
         }
         return null;
     }
+
+    @Override
+    public Boolean deleteRecipe(String username, Long recipeId) {
+        //Validate user is deleting their own recipe
+        log.info("Attemping to delete recipe id: {}. Requested by {}", recipeId, username);
+        Recipe recipe = getRecipeById(recipeId);
+        AppUser currentUser = appUserService.getId(username);
+        if (currentUser.getId().equals(recipe.getAppUser().getId())) {
+            recipeRepo.deleteById(recipeId);
+            log.info("Successfully deleted recipe with id of: {}", recipeId);
+            return true;
+        } else {
+            log.info("Failed to delete recipe with id of: {}", recipeId);
+            return false;
+        }
+    }
+
 }
 
