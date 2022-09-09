@@ -107,5 +107,18 @@ public class RecipeServiceImpl implements RecipeService {
         }
         throw new RuntimeException("Recipes not found.");
     }
+
+    @Override
+    public Recipe updateRecipe (String username, Long id, Recipe recipe) {
+        log.info("Updating Recipe for id {}", id);
+        try {
+            AppUser appUser = appUserService.getUser(username);
+            if (id == recipe.getId() && appUser.getId() == recipe.getAppUser().getId()) {
+            return recipeRepo.save(recipe);}
+        } catch (Exception e){
+                log.warn("Fetching failed for updating recipe {} by user {}", recipe, username);
+            }
+        throw new RuntimeException("Recipe update failed");
+    }
 }
 

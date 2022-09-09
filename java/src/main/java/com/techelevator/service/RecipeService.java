@@ -13,4 +13,6 @@ public interface RecipeService {
     List<Recipe> getAllRecipes();
     boolean likeRecipeForUser(String username, Long recipeId);
     List<Recipe> getMyRecipes(String username);
+
+    Recipe updateRecipe (String username, Long id, Recipe recipe);
 }

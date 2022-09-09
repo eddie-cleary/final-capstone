@@ -39,6 +39,12 @@ public class RecipeController {
         return recipeService.likeRecipeForUser(principal.getName(), recipeId);
     }
 
+    @PutMapping("/{id}")
+    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody Recipe recipe) {
+        return recipeService.updateRecipe(principal.getName(), id, recipe);
+    }
+
+
     @GetMapping("/myRecipes")
     public List<Recipe> getMyRecipes(Principal principal) {
         return recipeService.getMyRecipes(principal.getName());
