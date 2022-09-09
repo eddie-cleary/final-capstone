@@ -3,13 +3,34 @@ import React, { useState, useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
 import { calculateQuantity } from "../../../shared/conversions";
+import { baseUrl } from "../../../shared/baseUrl";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
-const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
-  //Todo: make this a fetch call later
-  const allIngredients = [
-    { name: "Garlic", isLiquid: false },
-    { name: "Water", isLiquid: true },
-  ];
+const IngredientSelect = ({
+  setErrMsg,
+  setRecipeIngredients,
+  recipeIngredients,
+}) => {
+  const token = useSelector((state) => state.auth.token);
+
+  useEffect(() => {
+    axios
+      .get(baseUrl + `/ingredient`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setAllIngredients(res.data);
+      })
+      .catch((err) => {
+        setErrMsg("Error retrieving ingredients. ");
+      })
+      .then(() => {
+        setLoadingIngredients(false);
+      });
+  }, []);
 
   const [currentIngredient, setCurrentIngredient] = useState("");
   const [currentNumber, setCurrentNumber] = useState(0);
@@ -17,6 +38,8 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
   const [currentMeasurement, setCurrentMeasurement] = useState("");
   const [validIngredient, setValidIngredient] = useState(false);
   const [validForm, setValidForm] = useState(false);
+  const [allIngredients, setAllIngredients] = useState([]);
+  const [loadingIngredients, setLoadingIngredients] = useState(true);
 
   const handleAddIngredient = () => {
     const currQuantity = calculateQuantity(
@@ -29,7 +52,7 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
     newIngredient = {
       name: currentIngredient.name,
       quantity: currQuantity,
-      isLiquid: currentIngredient.isLiquid,
+      liquid: currentIngredient.liquid,
     };
     newList.push(newIngredient);
     setRecipeIngredients(newList);
@@ -56,7 +79,9 @@ const IngredientSelect = ({ setRecipeIngredients, recipeIngredients }) => {
         disablePortal
         id="ingredient-select"
         sx={{ flexGrow: 1 }}
+        loading={loadingIngredients}
         options={allIngredients}
+        noOptionsText="Failed to load."
         getOptionLabel={(option) => option.name}
         isOptionEqualToValue={(option, value) => option.name === value.name}
         onChange={(e) => {

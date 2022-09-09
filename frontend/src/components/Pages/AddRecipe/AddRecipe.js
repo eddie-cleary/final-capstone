@@ -266,6 +266,7 @@ const AddRecipe = () => {
                 sx={{ mt: 2, gap: "10px" }}
               >
                 <IngredientSelect
+                  setErrMsg={setErrMsg}
                   recipeIngredients={recipeIngredients}
                   setRecipeIngredients={setRecipeIngredients}
                 />

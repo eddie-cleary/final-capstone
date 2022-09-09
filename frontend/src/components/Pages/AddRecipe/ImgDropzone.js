@@ -20,7 +20,6 @@ const ImgDropzone = ({
 
   useEffect(() => {
     if (!fileInput) {
-      console.log("no file input");
       setImgPreview("");
     }
   }, [fileInput]);

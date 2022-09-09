@@ -10,6 +10,7 @@ import { addToken } from "./redux/features/auth/authSlice";
 import AddRecipe from "./components/Pages/AddRecipe/AddRecipe";
 import AllRecipes from "./components/Pages/AllRecipes/AllRecipes";
 import MyRecipes from "./components/Pages/MyRecipes/MyRecipes";
+import AddIngredient from "./components/Pages/AddIngredient/AddIngredient";
 
 function App() {
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/mealplans" element={<MealPlans />} />
         <Route path="/recipes" element={<AllRecipes />} />
+        <Route path="/ingredient/add" element={<AddIngredient />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/:id" element={<ViewRecipe />} />
         <Route path="/myrecipes" element={<MyRecipes />} />s
