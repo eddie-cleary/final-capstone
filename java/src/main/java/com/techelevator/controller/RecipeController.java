@@ -38,4 +38,9 @@ public class RecipeController {
     public boolean likeRecipeForCurrentUser(Principal principal, @PathVariable Long recipeId) {
         return recipeService.likeRecipeForUser(principal.getName(), recipeId);
     }
+
+    @GetMapping("/myRecipes")
+    public List<Recipe> getMyRecipes(Principal principal) {
+        return recipeService.getMyRecipes(principal.getName());
+    }
 }

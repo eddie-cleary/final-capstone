@@ -4,14 +4,9 @@ import com.cloudinary.Cloudinary;
 import com.techelevator.entity.AppUser;
 import com.techelevator.service.AppUserService;
 import io.github.cdimascio.dotenv.Dotenv;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.security.Principal;
@@ -48,6 +43,11 @@ public class AppUserController {
     @GetMapping("/getme")
     public String getLoggedInUser(Principal principal) {
         return appUserService.getUser(principal.getName()).getUsername();
+    }
+
+    @GetMapping("/getMyId")
+    public Long getIdByUsername(Principal principal) {
+        return appUserService.getId(principal.getName()).getId();
     }
 
     @GetMapping("/get-signature")

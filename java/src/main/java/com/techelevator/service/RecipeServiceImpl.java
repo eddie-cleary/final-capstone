@@ -27,6 +27,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final RecipeIngredientRepo recipeIngredientRepo;
 
+    private final AppUserServiceImpl appUserService;
+
     @Override
     public Recipe addRecipe(String username, RecipeDTO recipeDTO) {
         AppUser recipeCreator = appUserRepo.findByUsername(username);
@@ -91,4 +93,19 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getAllRecipes() {
         return recipeRepo.findAll();
     }
+
+    @Override
+    public List<Recipe> getMyRecipes(String username) {
+        log.info("Fetching {}'s myRecipes from database", username);
+        try {
+            Long userId = appUserService.getId(username).getId();
+            AppUser appUser = new AppUser();
+            appUser.setId(userId);
+            return recipeRepo.findByAppUser(appUser);
+        } catch (Exception e){
+            log.info("Fetching failed for {}. Exception: " + e.getMessage(), username);
+        }
+        throw new RuntimeException("Recipes not found.");
+    }
 }
+
