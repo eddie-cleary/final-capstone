@@ -12,7 +12,7 @@ const MyRecipes = () => {
   const token = useSelector((state) => state.auth.token);
 
   const recipesList = recipes.map((recipe) => {
-    return <MyRecipeCard recipe={recipe} />;
+    return <MyRecipeCard key={recipe.id} recipe={recipe} />;
   });
 
   useEffect(() => {
