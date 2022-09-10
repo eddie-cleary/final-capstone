@@ -49,6 +49,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<MealRecipe> mealRecipes = new ArrayList<>();
+
     @ManyToMany
     @JoinTable(
             name="recipes_liked",

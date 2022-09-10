@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
-import com.techelevator.entity.MealPlan;
+import com.techelevator.entity.Meal;
 
 @Entity
 @Data
@@ -24,19 +24,23 @@ import com.techelevator.entity.MealPlan;
 @AllArgsConstructor
 @Builder
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class Day {
+public class MealRecipe {
 
     @Id
-    @Column(name = "day_id")
+    @Column(name = "meal_recipe_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mealplan_id", referencedColumnName = "mealplan_id")
-    private MealPlan mealPlan;
+    @NotNull
+    private int servings;
 
-    @OneToMany(mappedBy = "day")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "meal_id", referencedColumnName = "meal_id")
     @JsonIgnore
-    private Set<Meal> meals = new HashSet<>();
+    private Meal meal;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")
+    @JsonIgnore
+    private Recipe recipe;
 }

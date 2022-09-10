@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.techelevator.model.RegisterUserDTO;
+import com.techelevator.entity.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.util.*;
-import com.techelevator.entity.MealPlan;
 
 @Entity
 @Data
@@ -24,19 +24,22 @@ import com.techelevator.entity.MealPlan;
 @AllArgsConstructor
 @Builder
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-public class Day {
+public class Meal {
 
     @Id
-    @Column(name = "day_id")
+    @Column(name = "meal_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mealplan_id", referencedColumnName = "mealplan_id")
-    private MealPlan mealPlan;
+    @NotNull(message = "Title should not be null")
+    private String title;
 
-    @OneToMany(mappedBy = "day")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "day_id", referencedColumnName = "day_id")
     @JsonIgnore
-    private Set<Meal> meals = new HashSet<>();
+    private Day day;
+
+    @OneToMany(mappedBy = "meal")
+    @JsonIgnore
+    private Set<MealRecipe> mealRecipes = new HashSet<>();
 }
