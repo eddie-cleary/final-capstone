@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 public class RecipeDTO {
 
+    private Long id;
     private String title;
     private String description;
     private int servings;

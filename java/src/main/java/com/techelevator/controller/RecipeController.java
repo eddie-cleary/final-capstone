@@ -40,8 +40,8 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody Recipe recipe) {
-        return recipeService.updateRecipe(principal.getName(), id, recipe);
+    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipeDTO recipeDTO) {
+        return recipeService.updateRecipe(principal.getName(), id, recipeDTO);
     }
 
     @GetMapping("/myRecipes")

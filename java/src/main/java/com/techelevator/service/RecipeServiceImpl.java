@@ -96,9 +96,7 @@ public class RecipeServiceImpl implements RecipeService {
     public List<Recipe> getMyRecipes(String username) {
         log.info("Fetching {}'s myRecipes from database", username);
         try {
-            Long userId = appUserService.getId(username).getId();
-            AppUser appUser = new AppUser();
-            appUser.setId(userId);
+            AppUser appUser = appUserRepo.findByUsername(username);
             return recipeRepo.findByAppUser(appUser);
         } catch (Exception e){
             log.info("Fetching failed for {}. Exception: " + e.getMessage(), username);
@@ -107,16 +105,50 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe updateRecipe (String username, Long id, Recipe recipe) {
+    public Recipe updateRecipe (String username, Long id, RecipeDTO recipeDTO) {
         log.info("Updating Recipe for id {}", id);
+
         try {
             AppUser appUser = appUserService.getUser(username);
-            if (id == recipe.getId() && appUser.getId() == recipe.getAppUser().getId()) {
-                recipe.setAppUser(appUser);
-                return recipeRepo.save(recipe);
+            if (id == recipeDTO.getId() && appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
+
+                Recipe oldRecipe = recipeRepo.findById(id).get();
+                oldRecipe.addRecipeDTO(recipeDTO);
+
+                oldRecipe.getSteps().removeAll(oldRecipe.getSteps());
+
+                // Set steps on recipe
+                List<Step> newSteps = new ArrayList<>();
+                for (Step step : recipeDTO.getSteps()) {
+                    Step newStep = Step.builder()
+                            .info(step.getInfo())
+                            .recipe(oldRecipe)
+                            .build();
+                    Step savedStep = stepRepo.save(newStep);
+                    newSteps.add(savedStep);
+                }
+                oldRecipe.setSteps(newSteps);
+
+                oldRecipe.getRecipeIngredients().removeAll(oldRecipe.getRecipeIngredients());
+
+                // Set ingredients on recipe
+                List<RecipeIngredient> newRecipeIngredients = new ArrayList<>();
+                for (RecipeIngredientDTO recipeIngredientDTO : recipeDTO.getRecipeIngredients()) {
+                    Ingredient foundIngredient = ingredientRepo.findByName(recipeIngredientDTO.getName());
+                    RecipeIngredient newRecipeIngredient = RecipeIngredient.builder()
+                            .ingredient(foundIngredient)
+                            .recipe(oldRecipe)
+                            .quantity(recipeIngredientDTO.getQuantity())
+                            .build();
+                    RecipeIngredient savedRecipeIngredient = recipeIngredientRepo.save(newRecipeIngredient);
+                    newRecipeIngredients.add(savedRecipeIngredient);
+                }
+                oldRecipe.setRecipeIngredients(newRecipeIngredients);
+
+                return recipeRepo.save(oldRecipe);
             }
         } catch (Exception e){
-            log.warn("Fetching failed for updating recipe {} by user {} reason: {} || message: {} ", recipe, username, e.getCause(), e.getMessage());
+            log.warn("Fetching failed for updating recipe {} by user {} reason: {} || message: {} ", recipeDTO, username, e.getCause(), e.getMessage());
             throw new RuntimeException("Recipe update failed", e.getCause());
         }
         return null;
