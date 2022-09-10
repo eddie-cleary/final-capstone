@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -18,12 +19,26 @@ public class MealServiceImpl implements MealService {
     AppUserService appUserService;
     @Autowired
     MealRepo mealRepo;
+
     @Override
-    public List<MealDTO> getMeals(String username) {
+    public Meal getMealById(String username, Long mealId) {
         try {
             AppUser currentUser = new AppUser();
             currentUser.setId(getId(username));
-            return mealRepo.findByAppUser(currentUser);
+            Optional<Meal> meal = mealRepo.findById(mealId);
+            return meal.get();
+        } catch (Exception e) {
+            log.warn("Unable to get meal id {} for \"{}\"", mealId, username);
+            throw new RuntimeException("Unable to get meal.");
+        }
+    }
+    @Override
+    public List<Meal> getMeals(String username) {
+        try {
+            AppUser currentUser = new AppUser();
+            currentUser.setId(getId(username));
+            Optional<Meal> meals = mealRepo.findByAppUser(currentUser);
+            return meals.get();
         } catch (Exception e) {
             log.warn("Unable to get meal for \"{}\"", username);
             throw new RuntimeException("Unable to get meals.");
@@ -31,7 +46,7 @@ public class MealServiceImpl implements MealService {
     }
 
     @Override
-    public MealDTO createMeal(String username, MealDTO mealDTO) {
+    public Meal createMeal(String username, MealDTO mealDTO) {
         Long currentUserId = getId(username);
         try {
             log.info("Creating meal for \"{}\"", username);

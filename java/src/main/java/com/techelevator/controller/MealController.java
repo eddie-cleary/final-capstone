@@ -20,16 +20,16 @@ public class MealController {
 
     @GetMapping("{id}")
     public Meal getMeal(Principal principal, @PathVariable Long mealId) {
-        return mealService.getMeal(principal.getName());
+        return mealService.getMealById(principal.getName(), mealId);
     }
     @GetMapping("/all")
-    public List<MealDTO> getMeals(Principal principal) {
+    public List<Meal> getMeals(Principal principal) {
         return mealService.getMeals(principal.getName());
     }
 
     @PostMapping("/create") //create
-    public MealPlan createMeal(Principal principal, @RequestBody MealDTO mealDTO) { //dto b/c id field
-        return mealService.createMealPlan(principal.getName(), mealDTO);
+    public Meal createMeal(Principal principal, @RequestBody MealDTO mealDTO) { //dto b/c id field
+        return mealService.createMeal(principal.getName(), mealDTO);
     }
 
     @PutMapping("/{id}") //update

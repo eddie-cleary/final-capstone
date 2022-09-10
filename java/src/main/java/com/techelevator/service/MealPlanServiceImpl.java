@@ -30,7 +30,7 @@ public class MealPlanServiceImpl implements MealPlanService {
             Optional<MealPlan> mealPlan = mealPlanRepo.findById(mealPlanId);
             return mealPlan.get();
         } catch (Exception e) {
-            log.warn("Unable to get meal id {} for \"{}\"", mealPlanId, username);
+            log.warn("Unable to get meal plan id {} for \"{}\"", mealPlanId, username);
             throw new RuntimeException("Unable to get meal plans.");
         }
     }
