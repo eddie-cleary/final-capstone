@@ -2,7 +2,9 @@ package com.techelevator.service;
 
 
 import com.techelevator.entity.AppUser;
+import com.techelevator.entity.Meal;
 import com.techelevator.model.MealDTO;
+import com.techelevator.repo.MealRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,49 +31,48 @@ public class MealServiceImpl implements MealService {
             if (meal.isPresent()) {
                 return meal.get();
             }
+            return null;
         } catch (Exception e) {
             log.warn("Unable to get meal id {} for \"{}\"", mealId, username);
             throw new RuntimeException("Unable to get meal.");
         }
     }
-    @Override
-    public List<Meal> getMeals(String username) {
-        try {
-            AppUser currentUser = new AppUser();
-            currentUser.setId(getId(username));
-            Optional<Meal> meals = mealRepo.findByAppUser(currentUser);
-            return meals.get();
-        } catch (Exception e) {
-            log.warn("Unable to get meal for \"{}\"", username);
-            throw new RuntimeException("Unable to get meals.");
-        }
-    }
+//    @Override
+//    public List<Meal> getMeals(String username) {
+//        try {
+//            AppUser currentUser = new AppUser();
+//            currentUser.setId(getId(username));
+//            return mealRepo.findByAppUser(currentUser);
+//        } catch (Exception e) {
+//            log.warn("Unable to get meal for \"{}\"", username);
+//            throw new RuntimeException("Unable to get meals.");
+//        }
+//    }
 
-    @Override
-    public Meal createMeal(String username, MealDTO mealDTO) {
-        Long currentUserId = getId(username);
-        try {
-            log.info("Creating meal for \"{}\"", username);
-            Meal newMeal = new Meal();
-            newMeal.setTitle(mealDTO.getTitle());
-            newMeal.setAppUserId(currentUserId);
-            return mealRepo.save(newMeal);
-        } catch (Exception e) {
-            log.warn("Exception occurred trying to create a meal for \"{}\": " + e.getMessage(), username);
-            throw new RuntimeException("Could not create a new meal.");
-        }
-    }
+//    @Override
+//    public Meal createMeal(String username, MealDTO mealDTO) {
+//        try {
+//            log.info("Creating meal for \"{}\"", username);
+//            Meal newMeal = new Meal();
+//            newMeal.setTitle(mealDTO.getTitle());
+//            newMeal.setAppUser();
+//            return mealRepo.save(newMeal);
+//        } catch (Exception e) {
+//            log.warn("Exception occurred trying to create a meal for \"{}\": " + e.getMessage(), username);
+//            throw new RuntimeException("Could not create a new meal.");
+//        }
+//    }
 
     @Override
     public Boolean updateMealTitle(String username, MealDTO mealDTO, Long mealId) {
         Long currentUserId = getId(username);
-        log.info("User \"{}\" is updating meal id {}", username, mealDTO.mealId);
+        log.info("User \"{}\" is updating meal id {}", username, mealId);
         try {
             if (isMealCreator(username, mealId, "update")) {
                 log.info("Updating \"{}\"'s meal with id {}", username);
-                if (mealDTO.getId().equals(currentUserId)) { //validates the meal obj
-                    mealRepo.save(mealDTO);
-                }
+//                if (mealDTO.getId().equals(currentUserId)) { //validates the meal obj
+//                    mealRepo.save(mealDTO);
+//                }
             }
         } catch (Exception e) {
             log.warn("Exception occurred trying to update meal with id {}" + e.getMessage());
@@ -102,10 +103,10 @@ public class MealServiceImpl implements MealService {
     }
 
     public Boolean isMealCreator(String username, Long mealId, String action) {
-        //validates if meal is created by user
+//        validates if meal is created by user
         try {
-            MealDTO mealFromDB = mealRepo.findById(mealId);
-            if (getId(username).equals(mealFromDB.getAppUser().getId())) {
+            Meal mealFromDB = mealRepo.findById(mealId).get();
+            if (getId(username).equals(mealFromDB.getDay().getMealPlan().getAppUser().getId())) {
                 return true;
             } else {
                 log.warn("User \"{}\" attempted to {} a meal that is not theirs.", username, action);

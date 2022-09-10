@@ -18,19 +18,19 @@ import java.util.List;
 public class MealController {
     private final MealService mealService;
 
-    @GetMapping("{id}")
-    public Meal getMeal(Principal principal, @PathVariable Long mealId) {
-        return mealService.getMealById(principal.getName(), mealId);
-    }
-    @GetMapping("/all")
-    public List<Meal> getMeals(Principal principal) {
-        return mealService.getMeals(principal.getName());
-    }
-
-    @PostMapping("/create") //create
-    public Meal createMeal(Principal principal, @RequestBody MealDTO mealDTO) { //dto b/c id field
-        return mealService.createMeal(principal.getName(), mealDTO);
-    }
+//    @GetMapping("{id}")
+//    public Meal getMeal(Principal principal, @PathVariable Long mealId) {
+//        return mealService.getMealById(principal.getName(), mealId);
+//    }
+//    @GetMapping("/all")
+//    public List<Meal> getMeals(Principal principal) {
+//        return mealService.getMeals(principal.getName());
+//    }
+//
+//    @PostMapping("/create") //create
+//    public Meal createMeal(Principal principal, @RequestBody MealDTO mealDTO) { //dto b/c id field
+//        return mealService.createMeal(principal.getName(), mealDTO);
+//    }
 
     @PutMapping("/{id}") //update
     public Boolean updateMealTitle(Principal principal, @RequestBody MealDTO mealDTO, @PathVariable Long mealId) {

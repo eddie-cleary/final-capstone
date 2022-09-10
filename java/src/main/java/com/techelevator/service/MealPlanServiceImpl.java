@@ -2,7 +2,9 @@ package com.techelevator.service;
 
 
 import com.techelevator.entity.AppUser;
+import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealPlanDTO;
+
 import com.techelevator.repo.MealPlanRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,36 +29,32 @@ public class MealPlanServiceImpl implements MealPlanService {
         try {
             AppUser currentUser = new AppUser();
             currentUser.setId(getId(username));
-            Optional<MealPlan> mealPlan = mealPlanRepo.findById(mealPlanId);
-            if (mealPlan.isPresent()) {
-                return mealPlan.get();
-            }
+            return mealPlanRepo.findById(mealPlanId).get();
         } catch (Exception e) {
             log.warn("Unable to get meal plan id {} for \"{}\"", mealPlanId, username);
             throw new RuntimeException("Unable to get meal plans.");
         }
     }
 
-    @Override
-    public List<MealPlan> getMealPlans(String username) {
-        try {
-            AppUser currentUser = new AppUser();
-            currentUser.setId(getId(username));
-            return mealPlanRepo.findByAppUser(currentUser);
-        } catch (Exception e) {
-            log.warn("Unable to get meal plans for \"{}\"", username);
-            throw new RuntimeException("Unable to get meal plans.");
-        }
-    }
+//    @Override
+//    public List<MealPlan> getMealPlans(String username) {
+//        try {
+//            AppUser currentUser = new AppUser();
+//            currentUser.setId(getId(username));
+//            return mealPlanRepo.findByAppUser(currentUser);
+//        } catch (Exception e) {
+//            log.warn("Unable to get meal plans for \"{}\"", username);
+//            throw new RuntimeException("Unable to get meal plans.");
+//        }
+//    }
 
     @Override
     public MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO) {
-        Long currentUserId = getId(username);
         try {
             log.info("Creating meal plan for \"{}\"", username);
-            Mealplan newMealPlan = new Mealplan();
+            MealPlan newMealPlan = new MealPlan();
             newMealPlan.setTitle(mealPlanDTO.getTitle());
-            newMealPlan.setAppUserId(currentUserId);
+            newMealPlan.setAppUser(appUserService.getUser(username));
             return mealPlanRepo.save(newMealPlan);
         } catch (Exception e) {
             log.warn("Exception occurred trying to create a meal plan for \"{}\": " + e.getMessage(), username);
@@ -67,7 +65,7 @@ public class MealPlanServiceImpl implements MealPlanService {
     @Override
     public Boolean updateMealPlanTitle(String username, MealPlan mealPlan, Long mealPlanId) {
         Long currentUserId = getId(username);
-        log.info("User \"{}\" is updating meal id {}", username, mealPlan.mealPlanId);
+        log.info("User \"{}\" is updating meal id {}", username, mealPlanId);
         try {
             if (isMealCreator(username, mealPlanId, "update")) {
                 log.info("Updating \"{}\"'s meal plan with id {}", username);
@@ -86,7 +84,7 @@ public class MealPlanServiceImpl implements MealPlanService {
     @Override
     public Boolean deleteMealPlan(String username, Long mealPlanId) {
         Long currentUserId = getId(username);
-        log.info("User \"{}\" is deleting meal with id {}", username, mealPlan.mealPlanId);
+        log.info("User \"{}\" is deleting meal with id {}", username, mealPlanId);
         try {
             if (isMealCreator(username, mealPlanId, "delete")) {
                 mealPlanRepo.deleteById(mealPlanId);
@@ -107,7 +105,7 @@ public class MealPlanServiceImpl implements MealPlanService {
     public Boolean isMealCreator(String username, Long mealPlanId, String action) {
         //validates if meal plan is created by user
         try {
-            MealPlan mealPlanFromDB = mealPlanRepo.findById(mealPlanId);
+            MealPlan mealPlanFromDB = mealPlanRepo.findById(mealPlanId).get();
             if (getId(username).equals(mealPlanFromDB.getAppUser().getId())) {
                 return true;
             } else {
