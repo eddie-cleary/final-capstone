@@ -29,7 +29,8 @@ public class MealPlan {
     @Column(name = "mealplan_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @NotNull
+
+    @NotNull(message = "Title should not be null")
     private String title;
 
 
@@ -39,6 +40,6 @@ public class MealPlan {
     private AppUser appUser;
 
     @OneToMany(mappedBy = "mealPlan")
-    @JoinColumn(name = "mealplan_id")
-    private Day day;
+    @JsonIgnore
+    private Set<Day> days = new HashSet<>();
 }
