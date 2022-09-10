@@ -49,7 +49,7 @@ public class RecipeController {
         return recipeService.getMyRecipes(principal.getName());
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{recipeId}")
     public Boolean deleteRecipe(Principal principal, @PathVariable Long recipeId) {
         return recipeService.deleteRecipe(principal.getName(), recipeId);
     }

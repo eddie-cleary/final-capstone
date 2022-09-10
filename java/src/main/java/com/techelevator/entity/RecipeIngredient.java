@@ -26,12 +26,12 @@ public class RecipeIngredient {
 
     private int quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "recipe_id")
     @JsonIgnore
     private Recipe recipe;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
 

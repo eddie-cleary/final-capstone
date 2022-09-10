@@ -11,11 +11,7 @@ const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const token = useSelector((state) => state.auth.token);
 
-  const recipesList = recipes.map((recipe) => {
-    return <MyRecipeCard key={recipe.id} recipe={recipe} />;
-  });
-
-  useEffect(() => {
+  const loadRecipes = () => {
     axios
       .get(baseUrl + `/recipes/myRecipes`, {
         headers: {
@@ -28,7 +24,21 @@ const MyRecipes = () => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  useEffect(() => {
+    loadRecipes();
   }, []);
+
+  const recipesList = recipes.map((recipe) => {
+    return (
+      <MyRecipeCard
+        key={recipe.id}
+        recipe={recipe}
+        refreshOnDelete={loadRecipes}
+      />
+    );
+  });
 
   return (
     <Layout>

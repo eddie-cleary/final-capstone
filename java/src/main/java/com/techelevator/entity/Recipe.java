@@ -38,7 +38,7 @@ public class Recipe {
     private String imgId;
 
     // add not null
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
     private AppUser appUser;
 

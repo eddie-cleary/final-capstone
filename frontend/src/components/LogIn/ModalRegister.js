@@ -15,7 +15,7 @@ import {
   showModalLogin,
 } from "../../redux/features/auth/authSlice";
 
-const style = {
+const modalStyle = {
   position: "absolute",
   top: "50%",
   left: "50%",
@@ -186,7 +186,7 @@ const ModalRegister = () => {
       aria-labelledby="modal-register"
       aria-describedby="modal-register"
     >
-      <Stack sx={style}>
+      <Stack sx={modalStyle}>
         <Typography variant="h4">Create Account</Typography>
         <Typography
           sx={{ color: "red", height: "20px" }}

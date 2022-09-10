@@ -36,8 +36,8 @@ let RenderIngredients = ({ ingredients }) => {
     let convertedMeasurement = convertToMeasurement(quantityTsp, liquid);
     renderedIngredients.push(convertedMeasurement + " of " + ingredients.name);
   });
-  return renderedIngredients.map((ingredient) => (
-    <List key={ingredient}>
+  return renderedIngredients.map((ingredient, index) => (
+    <List key={index}>
       <ListItem>
         <ListItemIcon>
           <AddShoppingCartIcon />

@@ -11,14 +11,26 @@ import AddRecipe from "./components/Pages/AddRecipe/AddRecipe";
 import AllRecipes from "./components/Pages/AllRecipes/AllRecipes";
 import MyRecipes from "./components/Pages/MyRecipes/MyRecipes";
 import AddIngredient from "./components/Pages/AddIngredient/AddIngredient";
+import getAppUserFromToken from "./shared/getAppUserFromToken";
+import { addUser } from "./redux/features/auth/authSlice";
 
 function App() {
   const dispatch = useDispatch();
 
+  async function loadUser(token) {
+    if (token !== "null") {
+      const user = await getAppUserFromToken(token)
+        .then((res) => res)
+        .catch((err) => console.log(err));
+      await dispatch(addUser(user));
+      await dispatch(addToken(token));
+    }
+  }
+
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token !== "null") {
-      dispatch(addToken(token));
+    if (token) {
+      loadUser(token);
     }
   }, []);
 

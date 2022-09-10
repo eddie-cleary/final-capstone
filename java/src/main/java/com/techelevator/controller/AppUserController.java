@@ -45,9 +45,9 @@ public class AppUserController {
         return appUserService.getUser(principal.getName()).getUsername();
     }
 
-    @GetMapping("/getMyId")
-    public Long getIdByUsername(Principal principal) {
-        return appUserService.getId(principal.getName()).getId();
+    @GetMapping("/verifyUser")
+    public AppUser getUserByToken(Principal principal) {
+        return appUserService.getUser(principal.getName());
     }
 
     @GetMapping("/get-signature")

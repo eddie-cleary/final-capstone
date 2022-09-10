@@ -3,7 +3,7 @@ import Layout from "../../Layout/Layout";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
-import MyRecipeCard from "../../shared/MyRecipeCard";
+import RecipeCard from "../../shared/RecipeCard";
 import { Typography, Stack, List } from "@mui/material";
 
 const imageGroup = {
@@ -36,7 +36,7 @@ const AllRecipes = () => {
   }, []);
 
   const recipes = recipesData?.map((recipe) => {
-    return <MyRecipeCard key={recipe.id} recipe={recipe} />;
+    return <RecipeCard key={recipe.id} recipe={recipe} />;
   });
 
   return (
