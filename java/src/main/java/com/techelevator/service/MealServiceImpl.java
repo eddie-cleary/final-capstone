@@ -26,7 +26,9 @@ public class MealServiceImpl implements MealService {
             AppUser currentUser = new AppUser();
             currentUser.setId(getId(username));
             Optional<Meal> meal = mealRepo.findById(mealId);
-            return meal.get();
+            if (meal.isPresent()) {
+                return meal.get();
+            }
         } catch (Exception e) {
             log.warn("Unable to get meal id {} for \"{}\"", mealId, username);
             throw new RuntimeException("Unable to get meal.");
