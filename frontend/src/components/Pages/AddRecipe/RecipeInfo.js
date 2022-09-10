@@ -9,8 +9,19 @@ import {
   InputAdornment,
   MenuItem,
 } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setServings,
+  setPrepTime,
+  setCookTime,
+} from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
-const RecipeInfo = ({ info, setInfo }) => {
+const RecipeInfo = () => {
+  const servings = useSelector((state) => state.addRecipeData.servings);
+  const prepTime = useSelector((state) => state.addRecipeData.prepTime);
+  const cookTime = useSelector((state) => state.addRecipeData.cookTime);
+  const dispatch = useDispatch();
+
   return (
     <>
       <Stack direction="row" alignItems="flex-end" sx={{ mt: 4 }}>
@@ -20,9 +31,9 @@ const RecipeInfo = ({ info, setInfo }) => {
             <Select
               labelId="servings-label"
               id="servings"
-              value={info.servings}
+              value={servings}
               label="Servings"
-              onChange={(e) => setInfo({ ...info, servings: e.target.value })}
+              onChange={(e) => dispatch(setServings(e.target.value))}
             >
               <MenuItem value={1}>1</MenuItem>
               <MenuItem value={2}>2</MenuItem>
@@ -35,12 +46,12 @@ const RecipeInfo = ({ info, setInfo }) => {
         <Box sx={{ mx: 3 }}>
           <OutlinedInput
             id="prepTime"
-            value={info.prepTime}
+            value={prepTime}
             required
             placeholder="Prep time"
             onChange={(e) => {
               if (!isNaN(e.target.value)) {
-                setInfo({ ...info, prepTime: e.target.value });
+                dispatch(setPrepTime(e.target.value));
               }
             }}
             endAdornment={<InputAdornment position="end">mins</InputAdornment>}
@@ -49,12 +60,12 @@ const RecipeInfo = ({ info, setInfo }) => {
         <Box>
           <OutlinedInput
             id="cookTime"
-            value={info.cookTime}
+            value={cookTime}
             required
             placeholder="Cook Time"
             onChange={(e) => {
               if (!isNaN(e.target.value)) {
-                setInfo({ ...info, cookTime: e.target.value });
+                dispatch(setCookTime(e.target.value));
               }
             }}
             endAdornment={<InputAdornment position="end">mins</InputAdornment>}

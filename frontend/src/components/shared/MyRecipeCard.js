@@ -19,6 +19,7 @@ import {
   FavoriteBorder,
   Favorite,
   Delete,
+  Edit,
 } from "@mui/icons-material";
 import { useState } from "react";
 import { Link as ReactLink } from "react-router-dom";
@@ -56,6 +57,10 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
       setShowDeleteModal(true);
     }
     return;
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
   };
 
   const openSuccess = () => {
@@ -107,11 +112,11 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
       <Link component={ReactLink} to={`/recipes/${recipe.id}`}>
         <Card elevation={5} sx={{ height: 340, width: 330 }}>
           <CardHeader
-            action={
-              <IconButton>
-                <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
-              </IconButton>
-            }
+            // action={
+            //   <IconButton>
+            //     <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
+            //   </IconButton>
+            // }
             title={recipe.title}
           />
           <CardMedia
@@ -132,6 +137,9 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
           /> */}
             <Button onClick={handleDelete}>
               <Delete />
+            </Button>
+            <Button onClick={handleEdit}>
+              <Edit />
             </Button>
           </CardActions>
         </Card>

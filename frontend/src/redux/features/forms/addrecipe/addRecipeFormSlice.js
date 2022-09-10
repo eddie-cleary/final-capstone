@@ -15,7 +15,7 @@ const initialState = {
 };
 
 export const addRecipeFormSlice = createSlice({
-  name: "addRecipeFormSlice",
+  name: "addRecipeForm",
   initialState,
   reducers: {
     setFileInput: (state, action) => {
@@ -46,6 +46,12 @@ export const addRecipeFormSlice = createSlice({
       return {
         ...state,
         successMsg: action.paload,
+      };
+    },
+    setShowSuccess: (state, action) => {
+      return {
+        ...state,
+        showSuccess: action.payload,
       };
     },
     setErrMsg: (state, action) => {
@@ -87,6 +93,7 @@ export const {
   setIsLoading,
   setIsImageUploading,
   setSuccessMsg,
+  setShowSuccess,
   setErrMsg,
   setShowError,
   setIsFormValid,

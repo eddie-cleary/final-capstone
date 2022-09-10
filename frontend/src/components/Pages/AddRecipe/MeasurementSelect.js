@@ -1,17 +1,26 @@
 import React, { useEffect } from "react";
 import { MenuItem, Stack, InputLabel, Select } from "@mui/material";
 import { fractionOptions } from "../../../shared/quantityOptions";
+import { useSelector } from "react-redux";
+import {
+  setMeasurement,
+  setNumber,
+  setFraction,
+} from "../../../redux/features/forms/addrecipe/addRecipeIngredientSlice";
+import { useDispatch } from "react-redux";
 
-const MeasurementSelect = ({
-  currentIngredient,
-  currentNumber,
-  setCurrentNumber,
-  currentFraction,
-  setCurrentFraction,
-  currentMeasurement,
-  setCurrentMeasurement,
-}) => {
-  const measurementOptions = currentIngredient.liquid
+const MeasurementSelect = () => {
+  const ingredient = useSelector(
+    (state) => state.addRecipeIngredient.ingredient
+  );
+  const fraction = useSelector((state) => state.addRecipeIngredient.fraction);
+  const number = useSelector((state) => state.addRecipeIngredient.number);
+  const measurement = useSelector(
+    (state) => state.addRecipeIngredient.measurement
+  );
+  const dispatch = useDispatch();
+
+  const measurementOptions = ingredient.liquid
     ? [
         <MenuItem key="1" value="Ounce">
           Ounce
@@ -36,8 +45,8 @@ const MeasurementSelect = ({
       ];
 
   useEffect(() => {
-    setCurrentMeasurement(currentIngredient.liquid ? "Ounce" : "Teaspoon");
-  }, [currentIngredient]);
+    dispatch(setMeasurement(ingredient.liquid ? "Ounce" : "Teaspoon"));
+  }, [ingredient]);
 
   const numberSelectors = [];
   for (let i = 0; i < 11; i++) {
@@ -65,9 +74,9 @@ const MeasurementSelect = ({
           labelId="number"
           id="number-select"
           label="Number"
-          value={currentNumber}
+          value={number}
           onChange={(e) => {
-            setCurrentNumber(e.target.value);
+            dispatch(setNumber(e.target.value));
           }}
         >
           {numberSelectors}
@@ -79,9 +88,9 @@ const MeasurementSelect = ({
           labelId="fraction"
           id="fraction-select"
           label="Fraction"
-          value={currentFraction}
+          value={fraction}
           onChange={(e) => {
-            setCurrentFraction(e.target.value);
+            dispatch(setFraction(e.target.value));
           }}
         >
           {fractionSelectors}
@@ -93,9 +102,9 @@ const MeasurementSelect = ({
           labelId="measurement"
           id="measurement-select"
           label="Measurement"
-          value={currentMeasurement}
+          value={measurement}
           onChange={(e) => {
-            setCurrentMeasurement(e.target.value);
+            dispatch(setMeasurement(e.target.value));
           }}
         >
           {measurementOptions}

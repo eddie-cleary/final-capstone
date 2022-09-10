@@ -8,17 +8,28 @@ import {
   Typography,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
-const btn = {
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setSteps,
+  addStep,
+  deleteStep,
+} from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+
+const btnStyle = {
   border: "solid .5px #142d4c",
   color: "#385170",
-  background: '#9fcf6f',
-    "&:hover": {
-      boxShadow: 8,
-      background: '#71af47',
+  background: "#9fcf6f",
+  "&:hover": {
+    boxShadow: 8,
+    background: "#71af47",
     border: "solid .5px #9fd3c7",
   },
 };
-const StepsList = ({ steps, setSteps }) => {
+
+const StepsList = () => {
+  const steps = useSelector((state) => state.addRecipeData.steps);
+  const dispatch = useDispatch();
+
   let displaySteps;
   if (steps.length > 0) {
     displaySteps = steps.map((step, index) => {
@@ -32,14 +43,14 @@ const StepsList = ({ steps, setSteps }) => {
               onChange={(e) => {
                 const newList = [...steps];
                 newList[index] = { info: e.target.value };
-                setSteps(newList);
+                dispatch(setSteps(newList));
               }}
               sx={{ flexGrow: 1 }}
             >
               {steps.index}
             </TextField>
             <Button
-              onClick={() => setSteps([...steps].splice(0, steps.length - 1))}
+              onClick={() => dispatch(deleteStep())}
               disabled={index === 0 ? true : false}
               sx={{ ml: 2 }}
               variant="outlined"
@@ -59,8 +70,8 @@ const StepsList = ({ steps, setSteps }) => {
       <Stack>{displaySteps}</Stack>
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
         <Button
-          onClick={() => setSteps([...steps, { info: "" }])}
-          sx={btn}
+          onClick={() => dispatch(addStep())}
+          sx={btnStyle}
           variant="contained"
         >
           <Add fontSize="small" />

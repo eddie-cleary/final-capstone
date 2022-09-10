@@ -1,18 +1,55 @@
 import { Autocomplete, TextField, Button } from "@mui/material";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
 import { calculateQuantity } from "../../../shared/conversions";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
-import { useSelector } from "react-redux";
-
-const IngredientSelect = ({
+import { useSelector, useDispatch } from "react-redux";
+import {
+  setIngredient,
+  setFraction,
+  setIsFormValid,
+  setMeasurement,
+  setIsIngredientsLoading,
+  setNumber,
+  setIsIngredientValid,
+  setAllIngredients,
+} from "../../../redux/features/forms/addrecipe/addRecipeIngredientSlice.js";
+import { setRecipeIngredients } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import {
   setErrMsg,
-  setRecipeIngredients,
-  recipeIngredients,
-}) => {
+  setShowError,
+  showErrorMessage,
+} from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
+
+const IngredientSelect = () => {
   const token = useSelector((state) => state.auth.token);
+
+  const ingredient = useSelector(
+    (state) => state.addRecipeIngredient.ingredient
+  );
+  const recipeIngredients = useSelector(
+    (state) => state.addRecipeData.recipeIngredients
+  );
+  const number = useSelector((state) => state.addRecipeIngredient.number);
+  const fraction = useSelector((state) => state.addRecipeIngredient.fraction);
+  const measurement = useSelector(
+    (state) => state.addRecipeIngredient.measurement
+  );
+  const isIngredientValid = useSelector(
+    (state) => state.addRecipeIngredient.isIngredientValid
+  );
+  const isFormValid = useSelector(
+    (state) => state.addRecipeIngredient.isFormValid
+  );
+  const allIngredients = useSelector(
+    (state) => state.addRecipeIngredient.allIngredients
+  );
+  const isIngredientsLoading = useSelector(
+    (state) => state.addRecipeIngredient.isIngredientsLoading
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -22,56 +59,40 @@ const IngredientSelect = ({
         },
       })
       .then((res) => {
-        setAllIngredients(res.data);
+        dispatch(setAllIngredients(res.data));
       })
       .catch((err) => {
-        setErrMsg("Error retrieving ingredients. ");
+        dispatch(setErrMsg("Error retrieving ingredients. "));
+        dispatch(setShowError(true));
       })
       .then(() => {
-        setLoadingIngredients(false);
+        dispatch(setIsIngredientsLoading(false));
       });
   }, []);
 
-  const [currentIngredient, setCurrentIngredient] = useState("");
-  const [currentNumber, setCurrentNumber] = useState(0);
-  const [currentFraction, setCurrentFraction] = useState(0);
-  const [currentMeasurement, setCurrentMeasurement] = useState("");
-  const [validIngredient, setValidIngredient] = useState(false);
-  const [validForm, setValidForm] = useState(false);
-  const [allIngredients, setAllIngredients] = useState([]);
-  const [loadingIngredients, setLoadingIngredients] = useState(true);
+  useEffect(() => {
+    if (isIngredientValid && (number > 0 || fraction > 0) && measurement) {
+      dispatch(setIsFormValid(true));
+      return;
+    }
+    setIsFormValid(false);
+  }, [isIngredientValid, measurement, number, fraction]);
 
   const handleAddIngredient = () => {
-    const currQuantity = calculateQuantity(
-      currentNumber,
-      currentFraction,
-      currentMeasurement
-    );
+    const currQuantity = calculateQuantity(number, fraction, measurement);
     const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
     newIngredient = {
-      name: currentIngredient.name,
+      name: ingredient.name,
       quantity: currQuantity,
-      liquid: currentIngredient.liquid,
+      liquid: ingredient.liquid,
     };
     newList.push(newIngredient);
-    setRecipeIngredients(newList);
-    setCurrentIngredient("");
-    setCurrentNumber("");
-    setCurrentFraction("");
+    dispatch(setRecipeIngredients(newList));
+    dispatch(setIngredient(""));
+    dispatch(setNumber(""));
+    dispatch(setFraction(""));
   };
-
-  useEffect(() => {
-    if (
-      validIngredient &&
-      (currentNumber > 0 || currentFraction > 0) &&
-      currentMeasurement
-    ) {
-      setValidForm(true);
-      return;
-    }
-    setValidForm(false);
-  }, [validIngredient, currentMeasurement, currentNumber, currentFraction]);
 
   return (
     <>
@@ -79,7 +100,7 @@ const IngredientSelect = ({
         disablePortal
         id="ingredient-select"
         sx={{ flexGrow: 1 }}
-        loading={loadingIngredients}
+        loading={isIngredientsLoading}
         options={allIngredients}
         noOptionsText="Failed to load."
         getOptionLabel={(option) => option.name}
@@ -88,14 +109,14 @@ const IngredientSelect = ({
           const choice = e.target.textContent;
           allIngredients.every((validIngredient) => {
             if (choice === validIngredient.name) {
-              setCurrentMeasurement("");
-              setCurrentIngredient(validIngredient);
-              setValidIngredient(true);
+              dispatch(setMeasurement(""));
+              dispatch(setIngredient(validIngredient));
+              dispatch(setIsIngredientValid(true));
               return false;
             }
-            setCurrentMeasurement("");
-            setCurrentIngredient("");
-            setValidIngredient(false);
+            dispatch(setMeasurement(""));
+            dispatch(setIngredient(""));
+            dispatch(setIsIngredientValid(false));
             return true;
           });
         }}
@@ -103,20 +124,12 @@ const IngredientSelect = ({
           <TextField {...params} label="Choose ingredient" />
         )}
       />
-      <MeasurementSelect
-        currentIngredient={currentIngredient}
-        currentNumber={currentNumber}
-        setCurrentNumber={setCurrentNumber}
-        currentFraction={currentFraction}
-        setCurrentFraction={setCurrentFraction}
-        currentMeasurement={currentMeasurement}
-        setCurrentMeasurement={setCurrentMeasurement}
-      />
+      <MeasurementSelect />
       <Button
         onClick={handleAddIngredient}
         sx={{ height: "58px" }}
         variant="outlined"
-        disabled={validForm ? false : true}
+        disabled={isFormValid ? false : true}
       >
         <Add fontSize="small" />
       </Button>

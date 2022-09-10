@@ -4,7 +4,7 @@ const initialState = {
   ingredient: "",
   number: 0,
   fraction: 0,
-  measurementUnit: "",
+  measurement: "",
   isIngredientValid: false,
   isFormValid: false,
   allIngredients: [],
@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const addRecipeIngredientSlice = createSlice({
-  name: "addRecipeIngredientSlice",
+  name: "addRecipeIngredient",
   initialState,
   reducers: {
     setIngredient: (state, action) => {
@@ -33,10 +33,10 @@ export const addRecipeIngredientSlice = createSlice({
         fraction: action.payload,
       };
     },
-    setMeasurementUnit: (state, action) => {
+    setMeasurement: (state, action) => {
       return {
         ...state,
-        measurementUnit: action.payload,
+        measurement: action.payload,
       };
     },
     setIsIngredientValid: (state, action) => {
@@ -51,16 +51,35 @@ export const addRecipeIngredientSlice = createSlice({
         isFormValid: action.payload,
       };
     },
-    initAllIngredients: (state, action) => {
+    setAllIngredients: (state, action) => {
       return {
         ...state,
         allIngredients: action.payload,
+      };
+    },
+    addIngredient: (state, action) => {
+      return {
+        ...state,
+        allIngredients: [...state.allIngredients].push(action.payload),
+      };
+    },
+    deleteIngredient: (state, action) => {
+      return {
+        ...state,
+        allIngredients: state.allIngredients.filter(
+          (i, idx) => idx !== action.payload
+        ),
       };
     },
     setIsIngredientsLoading: (state, action) => {
       return {
         ...state,
         isIngredientsLoading: action.payload,
+      };
+    },
+    resetState: () => {
+      return {
+        ...initialState,
       };
     },
   },
@@ -70,11 +89,14 @@ export const {
   setIngredient,
   setNumber,
   setFraction,
-  setMeasurementUnit,
+  setMeasurement,
   setIsIngredientValid,
   setIsFormValid,
-  initAllIngredients,
+  setAllIngredients,
+  addIngredient,
+  deleteIngredient,
   setIsIngredientsLoading,
+  resetState,
 } = addRecipeIngredientSlice.actions;
 
 export default addRecipeIngredientSlice.reducer;

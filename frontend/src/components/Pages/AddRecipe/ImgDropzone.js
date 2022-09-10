@@ -2,19 +2,22 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Typography, Box, Stack } from "@mui/material";
 import { Image, Close } from "@mui/icons-material";
-
-const ImgDropzone = ({
-  imgPreview,
-  setImgPreview,
-  fileInput,
+import { useSelector, useDispatch } from "react-redux";
+import { setImgId } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import {
   setFileInput,
-  setimgId,
-}) => {
+  setImgPreview,
+} from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
+
+const ImgDropzone = ({ fileInput, setFileInput }) => {
+  const [imgPreview, setImgPreview] = useState("");
+  const dispatch = useDispatch();
+
   const handleDeletePreview = (e) => {
     e.stopPropagation();
     e.preventDefault();
     setImgPreview("");
-    setimgId("");
+    dispatch(setImgId(""));
     setFileInput("");
   };
 

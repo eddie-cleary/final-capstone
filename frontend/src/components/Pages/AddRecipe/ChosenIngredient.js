@@ -1,18 +1,14 @@
 import React from "react";
 import { Stack, InputLabel, Typography, Button } from "@mui/material";
 import { convertToMeasurement } from "../../../shared/conversions";
+import { useDispatch } from "react-redux";
+import { deleteRecipeIngredient } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
-const ChosenIngredient = ({
-  index,
-  data,
-  recipeIngredients,
-  setRecipeIngredients,
-}) => {
+const ChosenIngredient = ({ index, data }) => {
+  const dispatch = useDispatch();
+
   const deleteChosenIngredient = () => {
-    const newList = recipeIngredients.filter(
-      (ingredient, idx) => idx !== index
-    );
-    setRecipeIngredients(newList);
+    dispatch(deleteRecipeIngredient(index));
   };
 
   return (

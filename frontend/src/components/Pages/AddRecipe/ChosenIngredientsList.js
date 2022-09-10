@@ -1,18 +1,15 @@
 import React from "react";
 import ChosenIngredient from "./ChosenIngredient";
 import { Stack } from "@mui/system";
+import { useSelector } from "react-redux";
 
-const ChosenIngredientsList = ({ recipeIngredients, setRecipeIngredients }) => {
+const ChosenIngredientsList = () => {
+  const recipeIngredients = useSelector(
+    (state) => state.addRecipeData.recipeIngredients
+  );
+
   const ingredients = recipeIngredients.map((ingredient, index) => {
-    return (
-      <ChosenIngredient
-        index={index}
-        data={ingredient}
-        recipeIngredients={recipeIngredients}
-        setRecipeIngredients={setRecipeIngredients}
-        key={index}
-      />
-    );
+    return <ChosenIngredient index={index} data={ingredient} key={index} />;
   });
 
   return <Stack>{ingredients}</Stack>;

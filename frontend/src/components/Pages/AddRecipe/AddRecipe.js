@@ -19,96 +19,57 @@ import ChosenIngredientsList from "./ChosenIngredientsList";
 import RecipeInfo from "./RecipeInfo";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import ImgDropzone from "./ImgDropzone";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import {
+  resetState,
+  setImgId,
+  setTitle,
+  setDescription,
+  setLiked,
+} from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import {
+  setShowSuccess,
+  setShowError,
+  setSuccessMsg,
+  setErrMsg,
+  setIsLoading,
+  setIsImageUploading,
+  setIsStepsValid,
+  setIsRecipeIngredientsValid,
+  setIsFormValid,
+} from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 
 const AddRecipe = () => {
   const token = useSelector((state) => state.auth.token);
+  const title = useSelector((state) => state.addRecipeData.title);
+  const description = useSelector((state) => state.addRecipeData.description);
 
-  const [title, setTitle] = useState(" ");
-  const [description, setDescription] = useState("");
-
-  const [recipeIngredients, setRecipeIngredients] = useState([]);
-  const [isRecipeIngredientsValid, setIsRecipeIngredientsValid] =
-    useState(false);
-
-  const [steps, setSteps] = useState([{ info: "" }]);
-  const [isStepsValid, setIsStepsValid] = useState(false);
-
-  const [imgId, setimgId] = useState("");
-
-  const [liked, setLiked] = useState(true);
-
+  const steps = useSelector((state) => state.addRecipeData.steps);
+  const recipeIngredients = useSelector(
+    (state) => state.addRecipeData.recipeIngredients
+  );
+  const liked = useSelector((state) => state.addRecipeData.liked);
   const [fileInput, setFileInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [imgPreview, setImgPreview] = useState("");
-  const [imageUploading, setImageUploading] = useState(false);
-  const [validForm, setValidForm] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-  const [successMsg, setSuccessMsg] = useState("");
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-
-  const [info, setInfo] = useState({
-    servings: 1,
-    prepTime: "",
-    cookTime: "",
-  });
-
-  const [postObject, setPostObject] = useState({
-    title,
-    description,
-    servings: info.servings,
-    prepTime: info.prepTime,
-    cookTime: info.cookTime,
-    imgId,
-    recipeIngredients,
-    steps,
-    liked,
-  });
-
-  const clearFormState = () => {
-    setTitle("");
-    setDescription("");
-    setRecipeIngredients([]);
-    setSteps([{ info: "" }]);
-    setimgId("");
-    setLiked(true);
-    setFileInput("");
-    setImageUploading(false);
-    setValidForm(false);
-    setImgPreview("");
-    setInfo({
-      servings: 1,
-      prepTime: "",
-      cookTime: "",
-    });
-  };
-
-  const openSuccess = () => {
-    setShowSuccess(true);
-  };
-
-  const closeSuccess = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowSuccess(false);
-  };
-
-  const openError = () => {
-    setShowError(true);
-  };
-
-  const closeError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowError(false);
-  };
+  const isLoading = useSelector((state) => state.addRecipeForm.isLoading);
+  const isImageUploading = useSelector(
+    (state) => state.addRecipeForm.isImageUploading
+  );
+  const isFormValid = useSelector((state) => state.addRecipeForm.isFormValid);
+  const isRecipeIngredientsValid = useSelector(
+    (state) => state.addRecipeForm.isRecipeIngredientsValid
+  );
+  const isStepsValid = useSelector((state) => state.addRecipeForm.isStepsValid);
+  const errMsg = useSelector((state) => state.addRecipeForm.errMsg);
+  const successMsg = useSelector((state) => state.addRecipeForm.successMsg);
+  const showSuccess = useSelector((state) => state.addRecipeForm.showSuccess);
+  const showError = useSelector((state) => state.addRecipeForm.showError);
+  const postObject = useSelector((state) => state.addRecipeData);
+  const dispatch = useDispatch();
 
   const postToServer = () => {
+    console.log("the post object ", postObject);
     axios
       .post(baseUrl + `/recipes/add`, postObject, {
         headers: {
@@ -116,22 +77,25 @@ const AddRecipe = () => {
         },
       })
       .then((res) => {
-        setSuccessMsg("Recipe Added!");
-        openSuccess();
+        dispatch(setSuccessMsg("Recipe Added!"));
+        dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        setErrMsg(err);
-        openError();
+        console.log("the error ", err);
+        // dispatch(setErrMsg(err.message));
+        dispatch(setShowError(true));
       })
       .then(() => {
-        setIsLoading(false);
-        clearFormState();
+        dispatch(setIsLoading(false));
+        dispatch(resetState());
       });
   };
 
   const handleSubmit = async () => {
-    setIsLoading(true);
+    console.log("handling submit");
+    dispatch(setIsLoading(true));
     if (fileInput) {
+      console.log("file input found");
       uploadImage(fileInput);
       return;
     }
@@ -139,16 +103,19 @@ const AddRecipe = () => {
   };
 
   const uploadImage = async (fileInput) => {
+    console.log("uploading image");
     const API_KEY = "362171829159456";
     const CLOUD_NAME = "djoe";
 
-    setImageUploading(true);
+    dispatch(setIsImageUploading(true));
 
     const signatureResponse = await axios.get(baseUrl + "/get-signature", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
+
+    console.log("sig response ", signatureResponse);
 
     const signature = signatureResponse?.data?.signature;
     const timestamp = signatureResponse?.data?.timestamp;
@@ -168,12 +135,15 @@ const AddRecipe = () => {
       }
     );
 
-    setimgId(cloudinaryResponse.data.public_id);
+    console.log("setting image id to ", cloudinaryResponse.data.public_id);
+    dispatch(setImgId(cloudinaryResponse.data.public_id));
   };
 
   useEffect(() => {
-    if (imageUploading) {
-      setImageUploading(false);
+    console.log("post object image id is updated");
+    if (isImageUploading) {
+      dispatch(setIsImageUploading(false));
+      console.log("posting image to server");
       postToServer();
     }
   }, [postObject.imgId]);
@@ -185,7 +155,7 @@ const AddRecipe = () => {
       }
       return false;
     });
-    setIsStepsValid(result);
+    dispatch(setIsStepsValid(result));
   }, [steps]);
 
   useEffect(() => {
@@ -195,7 +165,7 @@ const AddRecipe = () => {
       }
       return false;
     });
-    setIsRecipeIngredientsValid(result);
+    dispatch(setIsRecipeIngredientsValid(result));
   }, [recipeIngredients]);
 
   useEffect(() => {
@@ -207,25 +177,11 @@ const AddRecipe = () => {
       postObject.prepTime.length > 0 &&
       postObject.cookTime.length > 0
     ) {
-      setValidForm(true);
+      dispatch(setIsFormValid(true));
     } else {
-      setValidForm(false);
+      dispatch(setIsFormValid(false));
     }
   }, [postObject]);
-
-  useEffect(() => {
-    setPostObject({
-      title,
-      description,
-      servings: info.servings,
-      prepTime: info.prepTime,
-      cookTime: info.cookTime,
-      imgId,
-      recipeIngredients,
-      steps,
-      liked,
-    });
-  }, [title, description, recipeIngredients, steps, info, liked, imgId]);
 
   return (
     <Layout>
@@ -237,7 +193,7 @@ const AddRecipe = () => {
               <InputLabel>Title</InputLabel>
               <TextField
                 value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                onChange={(e) => dispatch(setTitle(e.target.value))}
                 sx={{ mt: 1 }}
                 placeholder="Recipe title"
               ></TextField>
@@ -250,40 +206,28 @@ const AddRecipe = () => {
                 multiline
                 placeholder="Description"
                 value={description}
-                onChange={(e) => setDescription(e.target.value)}
+                onChange={(e) => dispatch(setDescription(e.target.value))}
               />
             </Stack>
             <Box sx={{ mt: 3 }}>
               <Typography>Ingredients</Typography>
-              <ChosenIngredientsList
-                recipeIngredients={recipeIngredients}
-                setRecipeIngredients={setRecipeIngredients}
-              />
+              <ChosenIngredientsList />
               <Stack
                 direction="row"
                 alignItems="flex-end"
                 justifyContent="space-evenly"
                 sx={{ mt: 2, gap: "10px" }}
               >
-                <IngredientSelect
-                  setErrMsg={setErrMsg}
-                  recipeIngredients={recipeIngredients}
-                  setRecipeIngredients={setRecipeIngredients}
-                />
+                <IngredientSelect />
               </Stack>
             </Box>
             <Box sx={{ mt: 3 }}>
-              <StepsList steps={steps} setSteps={setSteps} />
+              <StepsList />
             </Box>
-            <RecipeInfo info={info} setInfo={setInfo} />
+            <RecipeInfo />
             <Box sx={{ mt: 5 }}>
               {" "}
-              <ImgDropzone
-                imgPreview={imgPreview}
-                setImgPreview={setImgPreview}
-                setFileInput={setFileInput}
-                setimgId={setimgId}
-              />
+              <ImgDropzone fileInput={fileInput} setFileInput={setFileInput} />
             </Box>
             <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
               <FormControlLabel
@@ -293,14 +237,14 @@ const AddRecipe = () => {
                     checked={liked}
                     icon={<FavoriteBorder color="warning" />}
                     checkedIcon={<Favorite color="warning" />}
-                    onChange={(e) => setLiked(e.target.checked)}
+                    onChange={(e) => dispatch(setLiked(e.target.checked))}
                   />
                 }
                 label="Mark as favorite?"
               />
             </Stack>
             <Button
-              disabled={validForm ? false : true}
+              disabled={isFormValid ? false : true}
               onClick={handleSubmit}
               sx={{ mt: 3 }}
               variant="contained"
@@ -310,11 +254,11 @@ const AddRecipe = () => {
             <Snackbar
               open={showSuccess}
               autoHideDuration={5000}
-              onClose={closeSuccess}
+              onClose={() => setShowSuccess(false)}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
               <Alert
-                onClose={closeSuccess}
+                onClose={(e) => setShowSuccess(false)}
                 severity="success"
                 sx={{ width: "100%" }}
               >
@@ -324,11 +268,11 @@ const AddRecipe = () => {
             <Snackbar
               open={showError}
               autoHideDuration={5000}
-              onClose={closeError}
+              onClose={() => setShowError(false)}
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             >
               <Alert
-                onClose={closeError}
+                onClose={() => setShowError(false)}
                 severity="error"
                 sx={{ width: "100%" }}
               >
