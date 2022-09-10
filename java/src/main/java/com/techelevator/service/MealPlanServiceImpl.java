@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
+import java.util.Optional;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -17,6 +21,19 @@ public class MealPlanServiceImpl implements MealPlanService {
     AppUserService appUserService;
     @Autowired
     MealPlanRepo mealPlanRepo;
+
+    @Override
+    public MealPlan getMealPlanById(String username, Long mealPlanId) {
+        try {
+            AppUser currentUser = new AppUser();
+            currentUser.setId(getId(username));
+            Optional<MealPlan> mealPlan = mealPlanRepo.findById(mealPlanId);
+            return mealPlan.get();
+        } catch (Exception e) {
+            log.warn("Unable to get meal id {} for \"{}\"", mealPlanId, username);
+            throw new RuntimeException("Unable to get meal plans.");
+        }
+    }
 
     @Override
     public List<MealPlan> getMealPlans(String username) {

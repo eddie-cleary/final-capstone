@@ -20,14 +20,13 @@ public class MealPlanController {
     private final MealPlanService mealPlanService;
     private final MealService mealService;
 
-    @GetMapping
-    public List<MealPlan> getMealPlans(String username) {
-        return mealPlanService.getMealPlans(principal.getName());
+    @GetMapping("{id}")
+    public MealPlan getMealPlan(Principal principal, @PathVariable Long mealPlanId) {
+        return mealPlanService.getMealPlanById(principal.getName(), mealPlanId);
     }
-
-    @GetMapping("/meals")
-    public List<MealDTO> getMeals(String username) {
-        return mealService.getMeals(principal.getName());
+    @GetMapping("/all")
+    public List<MealPlan> getMealPlans(Principal principal) {
+        return mealPlanService.getMealPlans(principal.getName());
     }
 
     @PostMapping("/create") //create a meal plan
@@ -35,29 +34,14 @@ public class MealPlanController {
         return mealPlanService.createMealPlan(principal.getName(), mealPlanDTO);
     }
 
-    @PostMapping("/meal") //create a meal
-    public MealDTO createMeal(Principal principal, @RequestBody MealDTO mealDTO) {
-        return mealService.createMeal(principal.getName(), mealDTO);
-    }
-
     @PutMapping("/{id}") //update a meal plan title
     public Boolean updateMealPlanTitle(Principal principal, @RequestBody MealPlan mealPlan, @PathVariable Long mealPlanId) {
         return mealPlanService.updateMealPlanTitle(principal.getName(), mealPlan, mealPlanId);
     }
 
-    @PutMapping("/meal/{id}") //update a meal title
-    public Boolean updateMealTitle(Principal principal, @RequestBody MealDTO mealDTO, @PathVariable Long mealId) {
-        return mealService.updateMealTitle(principal.getName(), mealDTO, mealId);
-    }
-
     @DeleteMapping("/{id}")
     public Boolean deleteMealPlan(Principal principal, @PathVariable Long mealPlanId) {
         return mealPlanService.deleteMealPlan(principal.getName(), mealPlanId);
-    }
-
-    @DeleteMapping("/meal/{id}")
-    public Boolean deleteMeal(Principal principal, @PathVariable Long mealId) {
-        return mealService.deleteMeal(principal.getName(), mealId);
     }
 
 }

@@ -4,9 +4,13 @@ import com.techelevator.model.MealPlanDTO;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.security.Principal;
+import java.util.List;
+
 public interface MealPlanService {
 
-    List<MealPlan> getMealPlans(String username);
+    MealPlan getMealPlanById(String username, Long mealPlanId);
+    public List<MealPlan> getMealPlans(String username);
 
     MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO);
 
