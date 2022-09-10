@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import ProtectedRoutes from "./components/Routes/ProtectedRoutes";
 import Main from "./components/Pages/Main/Main";
 import Home from "./components/Pages/Home/Home";
@@ -10,12 +10,14 @@ import { addToken } from "./redux/features/auth/authSlice";
 import AddRecipe from "./components/Pages/AddRecipe/AddRecipe";
 import AllRecipes from "./components/Pages/AllRecipes/AllRecipes";
 import MyRecipes from "./components/Pages/MyRecipes/MyRecipes";
+import EditRecipe from "./components/Pages/EditRecipe/EditRecipe";
 import AddIngredient from "./components/Pages/AddIngredient/AddIngredient";
 import getAppUserFromToken from "./shared/getAppUserFromToken";
 import { addUser } from "./redux/features/auth/authSlice";
 
 function App() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   async function loadUser(token) {
     if (token !== "null") {
@@ -31,6 +33,8 @@ function App() {
     const token = localStorage.getItem("token");
     if (token) {
       loadUser(token);
+    } else {
+      navigate("/");
     }
   }, []);
 
@@ -44,6 +48,7 @@ function App() {
         <Route path="/ingredient/add" element={<AddIngredient />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/:id" element={<ViewRecipe />} />
+        <Route path="/recipes/edit/:id" element={<EditRecipe />} />
         <Route path="/myrecipes" element={<MyRecipes />} />s
         <Route path="*" element={<Home />} />
       </Route>

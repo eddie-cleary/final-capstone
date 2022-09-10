@@ -40,6 +40,7 @@ const StepsList = () => {
               {index + 1}
             </InputLabel>
             <TextField
+              value={steps[index].info}
               onChange={(e) => {
                 const newList = [...steps];
                 newList[index] = { info: e.target.value };

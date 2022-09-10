@@ -9,7 +9,7 @@ import {
   setImgPreview,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 
-const ImgDropzone = ({ fileInput, setFileInput }) => {
+const ImgDropzone = ({ fileInput, setFileInput, isEdit }) => {
   const [imgPreview, setImgPreview] = useState("");
   const dispatch = useDispatch();
 
@@ -88,7 +88,9 @@ const ImgDropzone = ({ fileInput, setFileInput }) => {
         ) : (
           <>
             <Image fontSize="large" />
-            <Typography>Recipe Image</Typography>
+            <Typography>
+              {isEdit ? "Add new image to change original" : "Recipe Image"}
+            </Typography>
           </>
         )}
       </Stack>

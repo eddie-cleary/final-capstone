@@ -11,10 +11,8 @@ const Home = () => {
   const dispatch = useDispatch();
 
   const handleLogout = async () => {
-    console.log("logout called");
     await dispatch(addToken(""));
     await dispatch(deleteUser());
-    console.log("logout done");
   };
 
   const btn = {

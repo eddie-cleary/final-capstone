@@ -45,7 +45,7 @@ export const addRecipeFormSlice = createSlice({
     setSuccessMsg: (state, action) => {
       return {
         ...state,
-        successMsg: action.paload,
+        successMsg: action.payload,
       };
     },
     setShowSuccess: (state, action) => {

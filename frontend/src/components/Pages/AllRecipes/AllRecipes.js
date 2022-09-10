@@ -16,10 +16,6 @@ const AllRecipes = () => {
   const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
-    console.log("the data ", recipesData);
-  }, [recipesData]);
-
-  useEffect(() => {
     axios
       .get(baseUrl + `/recipes/all`, {
         headers: {
@@ -28,7 +24,6 @@ const AllRecipes = () => {
       })
       .then((res) => {
         setRecipesData(res.data);
-        console.log("the response ", res);
       })
       .catch((err) => {
         console.log(err);

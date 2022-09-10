@@ -22,7 +22,7 @@ import {
   Edit,
 } from "@mui/icons-material";
 import { useState } from "react";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { baseUrl } from "../../shared/baseUrl";
@@ -50,10 +50,11 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
   const [successMsg, setSuccessMsg] = useState("");
   const [showError, setShowError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleDelete = (e) => {
     e.preventDefault();
-    if (recipe.appUser.id === currUserId) {
+    if (recipe?.appUser?.id === currUserId || recipe?.appUser === currUserId) {
       setShowDeleteModal(true);
     }
     return;
@@ -61,6 +62,9 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
 
   const handleEdit = (e) => {
     e.preventDefault();
+    if (recipe.appUser.id === currUserId) {
+      navigate(`/recipes/edit/${recipe.id}`);
+    }
   };
 
   const openSuccess = () => {
@@ -101,7 +105,6 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
         refreshOnDelete();
       })
       .catch((err) => {
-        console.log("the error ", err);
         setErrMsg(`Error deleting recipe. ${err.message}`);
         setShowError(true);
       });

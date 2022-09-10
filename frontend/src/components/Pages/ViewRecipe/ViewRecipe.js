@@ -140,8 +140,6 @@ const SingleRecipe = ({ props }) => {
       });
   }, []);
 
-  console.log(recipe)
-
   return (
     <Layout>
       <Grid

@@ -2,28 +2,23 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   likedRecipes: new Set(),
+  myRecipes: new Set(),
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    initLikedRecipes: (state, action) => {
+    setLikedRecipes: (state, action) => {
       return {
         ...state,
         likedRecipes: new Set(action.payload),
       };
     },
-    addLikedRecipe: (state, action) => {
+    setMyRecipes: (state, action) => {
       return {
         ...state,
-        likedRecipes: state.likedRecipes.add(action.payload),
-      };
-    },
-    removeLikedRecipe: (state, action) => {
-      return {
-        ...state,
-        likedRecipes: state.likedRecipes.delete(action.payload),
+        myRecipes: new Set(action.payload),
       };
     },
   },

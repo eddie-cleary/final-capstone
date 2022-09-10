@@ -7,9 +7,10 @@ const initialState = {
   prepTime: "",
   cookTime: "",
   imgId: "",
+  ingredient: "",
   steps: [{ info: "" }],
   recipeIngredients: [],
-  liked: true,
+  liked: false,
 };
 
 export const addRecipeDataSlice = createSlice({
@@ -70,6 +71,12 @@ export const addRecipeDataSlice = createSlice({
         steps: action.payload,
       };
     },
+    setIngredient: (state, action) => {
+      return {
+        ...state,
+        ingredient: action.payload,
+      };
+    },
     addRecipeIngredient: (state, action) => {
       return {
         ...state,
@@ -96,6 +103,26 @@ export const addRecipeDataSlice = createSlice({
         liked: action.payload,
       };
     },
+    setRecipeFormData: (state, action) => {
+      return {
+        ...action.payload,
+        recipeIngredients: action.payload.recipeIngredients.map(
+          (ingredient) => {
+            return {
+              name: ingredient.ingredient.name,
+              quantity: ingredient.quantity,
+            };
+          }
+        ),
+        steps: action.payload.steps.map((step, index) => {
+          return {
+            index: index,
+            info: step.info,
+          };
+        }),
+        liked: false,
+      };
+    },
     resetState: () => {
       return {
         ...initialState,
@@ -114,11 +141,13 @@ export const {
   addStep,
   deleteStep,
   setSteps,
+  setIngredient,
   addRecipeIngredient,
   deleteRecipeIngredient,
   setRecipeIngredients,
   setLiked,
   resetState,
+  setRecipeFormData,
 } = addRecipeDataSlice.actions;
 
 export default addRecipeDataSlice.reducer;
