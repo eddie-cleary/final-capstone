@@ -10,6 +10,5 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class MealPlanDTO {
-    private Long user_id;
     private String title;
 }

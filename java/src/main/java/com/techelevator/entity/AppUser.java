@@ -45,7 +45,7 @@ public class AppUser {
    @JsonIgnore
    private Set<Recipe> recipes = new HashSet<>();
 
-   @OneToMany(mappedBy = "appUser")
+   @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
    @JsonIgnore
    private Set<MealPlan> mealPlans = new HashSet<>();
 

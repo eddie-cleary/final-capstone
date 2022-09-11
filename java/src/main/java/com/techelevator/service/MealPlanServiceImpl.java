@@ -10,10 +10,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,26 +26,29 @@ public class MealPlanServiceImpl implements MealPlanService {
     @Override
     public MealPlan getMealPlanById(String username, Long mealPlanId) {
         try {
-            AppUser currentUser = new AppUser();
-            currentUser.setId(getId(username));
-            return mealPlanRepo.findById(mealPlanId).get();
+            AppUser appUser = appUserService.getUser(username);
+            MealPlan mealPlan = mealPlanRepo.findById(mealPlanId).get();
+            if (appUser.getId() == mealPlan.getAppUser().getId()) {
+                return mealPlan;
+            } else {
+                throw new IllegalAccessException("You are not authorized to view this meal plan.");
+            }
         } catch (Exception e) {
             log.warn("Unable to get meal plan id {} for \"{}\"", mealPlanId, username);
-            throw new RuntimeException("Unable to get meal plans.");
+            throw new ResourceAccessException("Unabled to retrieve meal plan.");
         }
     }
 
-//    @Override
-//    public List<MealPlan> getMealPlans(String username) {
-//        try {
-//            AppUser currentUser = new AppUser();
-//            currentUser.setId(getId(username));
-//            return mealPlanRepo.findByAppUser(currentUser);
-//        } catch (Exception e) {
-//            log.warn("Unable to get meal plans for \"{}\"", username);
-//            throw new RuntimeException("Unable to get meal plans.");
-//        }
-//    }
+    @Override
+    public List<MealPlan> getMealPlans(String username) {
+        try {
+            AppUser currentUser = appUserService.getUser(username);
+            return mealPlanRepo.findByAppUser(currentUser);
+        } catch (Exception e) {
+            log.warn("Unable to get meal plans for \"{}\"", username);
+            throw new ResourceAccessException("Unable to get meal plans.");
+        }
+    }
 
     @Override
     public MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO) {
@@ -63,31 +65,31 @@ public class MealPlanServiceImpl implements MealPlanService {
     }
 
     @Override
-    public Boolean updateMealPlanTitle(String username, MealPlan mealPlan, Long mealPlanId) {
-        Long currentUserId = getId(username);
-        log.info("User \"{}\" is updating meal id {}", username, mealPlanId);
+    public MealPlan updateMealPlan(String username, Long id, MealPlanDTO mealPlanDTO) {
+        log.info("User \"{}\" is updating meal id {}", username, id);
         try {
-            if (isMealCreator(username, mealPlanId, "update")) {
-                log.info("Updating \"{}\"'s meal plan with id {}", username);
-                if (mealPlan.getId().equals(currentUserId)) { //validates the meal plan obj
+            AppUser appUser = appUserService.getUser(username);
+            MealPlan mealPlan = mealPlanRepo.findById(id).get();
 
-                    mealPlanRepo.save(mealPlan);
-                }
+            if (appUser.getId() == mealPlan.getAppUser().getId()) {
+                mealPlan.setTitle(mealPlanDTO.getTitle());
+                return mealPlanRepo.save(mealPlan);
+            } else {
+                throw new IllegalAccessException("You are not authorized to update this meal plan.");
             }
         } catch (Exception e) {
             log.warn("Exception occurred trying to update meal plan with id {}" + e.getMessage());
-            return false;
         }
-        return false;
+        return null;
     }
 
     @Override
     public Boolean deleteMealPlan(String username, Long mealPlanId) {
-        Long currentUserId = getId(username);
         log.info("User \"{}\" is deleting meal with id {}", username, mealPlanId);
         try {
             if (isMealCreator(username, mealPlanId, "delete")) {
                 mealPlanRepo.deleteById(mealPlanId);
+                return true;
             }
         } catch (Exception e) {
             log.warn("Exception occurred trying to delete meal plan with id {} " + e.getMessage());

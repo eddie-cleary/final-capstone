@@ -3,6 +3,7 @@ package com.techelevator.controller;
 import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealDTO;
 import com.techelevator.model.MealPlanDTO;
+import com.techelevator.service.AppUserService;
 import com.techelevator.service.MealPlanService;
 import com.techelevator.service.MealService;
 import lombok.RequiredArgsConstructor;
@@ -19,30 +20,30 @@ import java.util.List;
 public class MealPlanController {
 
     private final MealPlanService mealPlanService;
-    private final MealService mealService;
+    private final AppUserService appUserService;
 
-//    @GetMapping("{id}")
-//    public MealPlan getMealPlan(Principal principal, @PathVariable Long mealPlanId) {
-//        return mealPlanService.getMealPlanById(principal.getName(), mealPlanId);
-//    }
-//    @GetMapping("/all")
-//    public List<MealPlan> getMealPlans(Principal principal) {
-//        return mealPlanService.getMealPlans(principal.getName());
-//    }
-//
-//    @PostMapping("/create") //create a meal plan
-//    public MealPlan createMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO) { //dto b/c id field
-//        return mealPlanService.createMealPlan(principal.getName(), mealPlanDTO);
-//    }
+    @GetMapping
+    public List<MealPlan> getMealPlans(Principal principal) {
+        return mealPlanService.getMealPlans(principal.getName());
+    }
+    @GetMapping("/{id}")
+    public MealPlan getMealPlanById(Principal principal, @PathVariable Long id) throws IllegalAccessException {
+        return mealPlanService.getMealPlanById(principal.getName(), id);
+    }
 
-    @PutMapping("/{id}") //update a meal plan title
-    public Boolean updateMealPlanTitle(Principal principal, @RequestBody MealPlan mealPlan, @PathVariable Long mealPlanId) {
-        return mealPlanService.updateMealPlanTitle(principal.getName(), mealPlan, mealPlanId);
+    @PostMapping
+    public MealPlan createMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO) {
+        return mealPlanService.createMealPlan(principal.getName(), mealPlanDTO);
+    }
+
+    @PutMapping("/{id}")
+    public MealPlan updateMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO, @PathVariable Long id) {
+        return mealPlanService.updateMealPlan(principal.getName(), id, mealPlanDTO);
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteMealPlan(Principal principal, @PathVariable Long mealPlanId) {
-        return mealPlanService.deleteMealPlan(principal.getName(), mealPlanId);
+    public Boolean deleteMealPlan(Principal principal, @PathVariable Long id) {
+        return mealPlanService.deleteMealPlan(principal.getName(), id);
     }
 
 }

@@ -34,12 +34,12 @@ public class Meal {
     @NotNull(message = "Title should not be null")
     private String title;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "day_id", referencedColumnName = "day_id")
     @JsonIgnore
     private Day day;
 
-    @OneToMany(mappedBy = "meal")
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<MealRecipe> mealRecipes = new HashSet<>();
 }

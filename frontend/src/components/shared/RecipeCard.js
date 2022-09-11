@@ -27,11 +27,11 @@ export default function RecipeCard({ recipe }) {
       <Link component={ReactLink} to={`/recipes/${recipe.id}`}>
         <Card elevation={5} sx={{ height: 340, width: 330 }}>
           <CardHeader
-            action={
-              <IconButton>
-                <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
-              </IconButton>
-            }
+            // action={
+            //   <IconButton>
+            //     <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
+            //   </IconButton>
+            // }
             title={recipe.title}
           />
           <CardMedia

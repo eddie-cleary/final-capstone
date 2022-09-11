@@ -9,6 +9,6 @@ import java.util.List;
 public interface MealPlanRepo extends JpaRepository<MealPlan, Long> {
 
 //    MealPlan findMealPlanByTitle(Long userId, String title); //Useful if we impl a search feature
-//    List<MealPlan> findByAppUser(AppUser appuser); //FK appuser_id
+    List<MealPlan> findByAppUser(AppUser appUser);
 
 }

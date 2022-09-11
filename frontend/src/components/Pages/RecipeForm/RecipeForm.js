@@ -44,6 +44,7 @@ import {
 const RecipeForm = ({ isEdit }) => {
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
+  const recipeId = useSelector((state) => state.addRecipeData.id);
   const title = useSelector((state) => state.addRecipeData.title);
   const description = useSelector((state) => state.addRecipeData.description);
 
@@ -91,13 +92,39 @@ const RecipeForm = ({ isEdit }) => {
       });
   };
 
+  const putToServer = () => {
+    axios
+      .put(baseUrl + `/recipes/${recipeId}`, postObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        dispatch(setSuccessMsg("Recipe Updated!"));
+        dispatch(setShowSuccess(true));
+      })
+      .catch((err) => {
+        // dispatch(setErrMsg(err.message));
+        dispatch(setShowError(true));
+      })
+      .then(() => {
+        dispatch(setIsLoading(false));
+        dispatch(resetState());
+      });
+  };
+
   const handleSubmit = async () => {
     dispatch(setIsLoading(true));
     if (fileInput) {
       uploadImage(fileInput);
       return;
     }
-    postToServer();
+
+    if (!isEdit) {
+      postToServer();
+    } else {
+      putToServer();
+    }
   };
 
   useEffect(() => {

@@ -32,11 +32,11 @@ public class Day {
     private Long id;
 
 //    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "mealplan_id", referencedColumnName = "mealplan_id")
     private MealPlan mealPlan;
 
-    @OneToMany(mappedBy = "day")
+    @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Meal> meals = new HashSet<>();
 }
