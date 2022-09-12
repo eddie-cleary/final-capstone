@@ -22,7 +22,7 @@ const MealRecipesList = ({ dayIndex, mealIndex }) => {
   ));
 
   return (
-    <Stack>
+    <Stack sx={{ width: "100%" }}>
       {mealRecipeComponents}
       <Button
         sx={{ mt: 2 }}

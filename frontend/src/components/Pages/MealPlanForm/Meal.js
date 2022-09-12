@@ -12,6 +12,8 @@ const mealStyles = {
   "& .MuiInputBase-input": {
     textAlign: "center",
   },
+  width: "70%",
+  margin: "0 auto",
 };
 
 const Meal = ({ mealIndex, dayIndex }) => {
@@ -49,7 +51,8 @@ const Meal = ({ mealIndex, dayIndex }) => {
         <RemoveCircle
           color="warning"
           sx={{
-            fontSize: "25px",
+            fontSize: "20px",
+            mt: 0.5,
           }}
         />
       </Button>

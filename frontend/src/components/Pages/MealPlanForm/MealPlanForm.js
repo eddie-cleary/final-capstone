@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Layout from "../../Layout/Layout";
-import { TextField, Modal, Button, Stack, Typography } from "@mui/material";
+import {
+  TextField,
+  Modal,
+  Button,
+  Stack,
+  Snackbar,
+  Alert,
+  Typography,
+} from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTitle,
@@ -29,18 +37,91 @@ const styledInput = {
   minWidth: "300px",
 };
 
-const MealPlanForm = () => {
+const MealPlanForm = ({ isEdit }) => {
   const dispatch = useDispatch();
   const title = useSelector((state) => state.mealPlanData.title);
   const isModalShowing = useSelector(
     (state) => state.mealPlanData.recipesModal.isShowing
   );
-  const modalDayIndex = useSelector(
-    (state) => state.mealPlanData.recipesModal.dayIndex
-  );
-  const modalMealIndex = useSelector(
-    (state) => state.mealPlanData.recipesModal.mealIndex
-  );
+  const postObject = useSelector((state) => state.mealPlanData);
+  const [currentErrors, setCurrentErrors] = useState();
+  const [successMsg, setSuccessMsg] = useState();
+  const [showSuccess, setShowSuccess] = useState();
+  const [errMsg, setErrMsg] = useState();
+  const [showError, setShowError] = useState();
+  const [validForm, setValidForm] = useState(false);
+
+  useEffect(() => {
+    const newErrorList = [];
+
+    if (!postObject.title) {
+      newErrorList.push("Meal plan must have a title.");
+    }
+
+    if (postObject.days.length === 0) {
+      newErrorList.push("Add at least 1 day to plan.");
+    }
+
+    if (
+      !postObject.days.every((day) => {
+        if (day.length > 0) {
+          return true;
+        }
+        return false;
+      })
+    ) {
+      newErrorList.push("Every day must have at least 1 meal.");
+    }
+
+    postObject.days.forEach((day) => {
+      if (
+        !day.every((meal) => {
+          if (meal.title.length > 0) {
+            return true;
+          }
+          return false;
+        })
+      ) {
+        newErrorList.push("Each meal must have a title.");
+      }
+    });
+
+    postObject.days.forEach((day) => {
+      day.forEach((meal) => {
+        if (meal.recipes.length === 0) {
+          newErrorList.push("Each meal must have at least 1 recipe.");
+        }
+      });
+    });
+
+    if (newErrorList.length === 0) {
+      setValidForm(true);
+    } else {
+      setValidForm(false);
+    }
+
+    setCurrentErrors(newErrorList);
+  }, [postObject]);
+
+  const formatErrors = () =>
+    currentErrors.map((error, index) => (
+      <Typography key={index}>{error}</Typography>
+    ));
+
+  const handleSubmit = () => {
+    if (!validForm) {
+      setErrMsg(formatErrors());
+      setShowError(true);
+    } else if (!isEdit) {
+      postMealPlan();
+    }
+  };
+
+  const postMealPlan = () => {
+    console.log("Meal plan posted ", postObject);
+    setSuccessMsg("Meal plan saved!");
+    setShowSuccess(true);
+  };
 
   //Todo: move stack to the left x amount when sidebar is opened to keep centered
   return (
@@ -60,8 +141,8 @@ const MealPlanForm = () => {
             ></TextField>
             <Stack sx={{ mt: 3, ml: 2 }} direction="row" alignSelf="flex-start">
               <Button variant="contained">Edit</Button>
-              <Button sx={{ ml: 4 }} variant="contained">
-                Save
+              <Button onClick={handleSubmit} sx={{ ml: 4 }} variant="contained">
+                Save Meal Plan
               </Button>
             </Stack>
           </Stack>
@@ -70,6 +151,35 @@ const MealPlanForm = () => {
           </Stack>
         </Stack>
       </Stack>
+
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={5000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setShowSuccess(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          {successMsg}
+        </Alert>
+      </Snackbar>
+      <Snackbar
+        open={showError}
+        autoHideDuration={5000}
+        onClose={() => setShowError(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={() => setShowError(false)}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          {errMsg}
+        </Alert>
+      </Snackbar>
 
       <Modal
         open={isModalShowing}
