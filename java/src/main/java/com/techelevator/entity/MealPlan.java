@@ -32,12 +32,10 @@ public class MealPlan {
 
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
-//    @JsonBackReference(value="user-mealplans")
+    @JsonIgnore
     private AppUser appUser;
 
     @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    @JsonManagedReference(value="mealplan-days")
     private Set<Day> days = new HashSet<>();
 
     @Override

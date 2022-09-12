@@ -22,8 +22,7 @@ public class Step {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")
-//    @JsonIgnore
-//    @JsonBackReference(value="recipe-steps")
+    @JsonIgnore
     private Recipe recipe;
 
 }

@@ -15,9 +15,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RecipeIngredient {
-//
-//    @EmbeddedId
-//    private RecipeIngredientKey id;
+
     @Id
     @Column(name = "recipeingredient_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +25,7 @@ public class RecipeIngredient {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
-//    @JsonIgnore
-//    @JsonBackReference(value="recipe-recipeingredients")
+    @JsonIgnore
     private Recipe recipe;
 
     @ManyToOne

@@ -17,7 +17,7 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Long.class)
+//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Long.class)
 @Builder
 public class Recipe {
 
@@ -40,6 +40,7 @@ public class Recipe {
     // add not null
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
+    @JsonIgnore
     private AppUser appUser;
 
     // add not null
@@ -58,6 +59,7 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "appuser_id")
     )
+    @JsonIgnore
     Set<AppUser> recipesLiked = new HashSet<>();
 
     public void addUserToLiked(AppUser appUser) {
