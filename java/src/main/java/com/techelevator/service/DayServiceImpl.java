@@ -1,31 +1,51 @@
-package com.techelevator.service;
-
-import com.techelevator.entity.AppUser;
-import com.techelevator.entity.Day;
-import com.techelevator.entity.MealPlan;
-import com.techelevator.model.MealDTO;
-import com.techelevator.repo.DayRepo;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Optional;
-
-@Slf4j
-@Service
-@AllArgsConstructor
-public class DayServiceImpl implements DayService{
-    private final DayRepo dayRepo;
-    private final MealPlanService mealPlanService;
-    private final AppUserService appUserService;
+//package com.techelevator.service;
+//
+//import com.techelevator.entity.AppUser;
+//import com.techelevator.entity.Day;
+//import com.techelevator.entity.MealPlan;
+//import com.techelevator.model.DayDTO;
+//import com.techelevator.model.MealDTO;
+//import com.techelevator.model.MealPlanDTO;
+//import com.techelevator.repo.DayRepo;
+//import com.techelevator.repo.MealPlanRepo;
+//import lombok.AllArgsConstructor;
+//import lombok.extern.slf4j.Slf4j;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.stereotype.Service;
+//
+//import java.util.List;
+//import java.util.Optional;
+//
+//@Slf4j
+//@Service
+//@AllArgsConstructor
+//public class DayServiceImpl implements DayService{
+//    @Autowired
+//    AppUserService appUserService;
+//    @Autowired
+//    DayRepo DayRepo;
+//
 //    @Override
-//    public Day addDay(String username, Day day) {
+//    public Day addDay(String username, DayDTO dayDTO) {
+//        try {
+//            log.info("Adding days to meal plan for \"{}\"", username);
+//            Day newDay = new Day();
+//
+//            return dayRepo.save(newDay);
+//        } catch (Exception e) {
+//            log.warn("Exception occurred trying to add day to  \"{}\": " + e.getMessage(), username);
+//            throw new RuntimeException("Could not add day to meal plan.");
+//        }
+//    }
+
+
+//    @Override
+//    public Day addDay(String username, DayDTO dayDTO) {
 //        Long currentUserId = getId(username);
 //        try {
 //            log.info("Creating day for \"{}\"", username);
 //            Day newDay = new Day();
-////            day.setMealPlan(day.getMealPlanId());
+//            day.setMealPlan(day.getMealPlanId());
 //            return dayRepo.save(newDay);
 //        } catch (Exception e) {
 //            log.warn("Exception occurred trying to create day for \"{}\": " + e.getMessage(), username);
@@ -65,7 +85,7 @@ public class DayServiceImpl implements DayService{
 //    }
 
 //    @Override
-//    public Boolean deleteDayById(String username, Long dayId) {
+//    public Boolean deleteDay(String username, Long dayId) {
 //        Long currentUserId = getId(username);
 //        log.info("User \"{}\" is deleting day with id {}", username, dayId);
 //        try {
@@ -101,10 +121,10 @@ public class DayServiceImpl implements DayService{
 //            return false;
 //        }
 //    }
-    public Long getId(String username) {
-        //returns user id
-        AppUser appUser = appUserService.getId(username);
-        return appUser.getId();
-    }
-
-}
+//    public Long getId(String username) {
+//        //returns user id
+//        AppUser appUser = appUserService.getId(username);
+//        return appUser.getId();
+//    }
+//
+//}
