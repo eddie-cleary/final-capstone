@@ -1,9 +1,6 @@
 package com.techelevator.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.techelevator.model.RegisterUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,12 +28,32 @@ public class Day {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-//    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "mealplan_id", referencedColumnName = "mealplan_id")
+//    @JsonBackReference(value="mealplan-days")
     private MealPlan mealPlan;
 
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Meal> meals = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "id=" + id +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Day day = (Day) o;
+        return id.equals(day.id) && Objects.equals(mealPlan, day.mealPlan);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, mealPlan);
+    }
 }

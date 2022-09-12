@@ -36,10 +36,9 @@ public class Meal {
 
     @ManyToOne
     @JoinColumn(name = "day_id", referencedColumnName = "day_id")
-    @JsonIgnore
     private Day day;
 
-    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private Set<MealRecipe> mealRecipes = new HashSet<>();
+//    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private Set<MealRecipe> mealRecipes = new HashSet<>();
 }

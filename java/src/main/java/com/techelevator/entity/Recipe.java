@@ -40,17 +40,20 @@ public class Recipe {
     // add not null
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
+    @JsonBackReference(value="user-recipes")
     private AppUser appUser;
 
     // add not null
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonManagedReference(value="recipe-steps")
     private List<Step> steps = new ArrayList<>();
 
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @JsonManagedReference("recipe-recipeingredients")
     List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-    private List<MealRecipe> mealRecipes = new ArrayList<>();
+//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+//    private List<MealRecipe> mealRecipes = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

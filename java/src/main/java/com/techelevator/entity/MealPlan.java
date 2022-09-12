@@ -1,9 +1,6 @@
 package com.techelevator.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.*;
 import com.techelevator.model.RegisterUserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,10 +32,32 @@ public class MealPlan {
 
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
-    @JsonIgnore
+//    @JsonBackReference(value="user-mealplans")
     private AppUser appUser;
 
     @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)
-    @JsonIgnore
+//    @JsonIgnore
+//    @JsonManagedReference(value="mealplan-days")
     private Set<Day> days = new HashSet<>();
+
+    @Override
+    public String toString() {
+        return "MealPlan{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MealPlan mealPlan = (MealPlan) o;
+        return id.equals(mealPlan.id) && title.equals(mealPlan.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
 }

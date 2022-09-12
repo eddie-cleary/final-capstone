@@ -2,9 +2,12 @@ package com.techelevator.service;
 
 
 import com.techelevator.entity.AppUser;
+import com.techelevator.entity.Day;
+import com.techelevator.entity.Meal;
 import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealPlanDTO;
 
+import com.techelevator.repo.DayRepo;
 import com.techelevator.repo.MealPlanRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -22,6 +28,8 @@ public class MealPlanServiceImpl implements MealPlanService {
     AppUserService appUserService;
     @Autowired
     MealPlanRepo mealPlanRepo;
+    @Autowired
+    DayRepo dayRepo;
 
     @Override
     public MealPlan getMealPlanById(String username, Long mealPlanId) {
@@ -57,7 +65,29 @@ public class MealPlanServiceImpl implements MealPlanService {
             MealPlan newMealPlan = new MealPlan();
             newMealPlan.setTitle(mealPlanDTO.getTitle());
             newMealPlan.setAppUser(appUserService.getUser(username));
-            return mealPlanRepo.save(newMealPlan);
+            mealPlanRepo.save(newMealPlan);
+
+            // Set days
+            Set<Day> newDays = new HashSet<>();
+            for (Day day : mealPlanDTO.getDays()) {
+                Day newDay = new Day();
+                newDay.setMealPlan(newMealPlan);
+                dayRepo.save(newDay);
+                newDays.add(newDay);
+            }
+            newMealPlan.setDays(newDays);
+
+//            // Set meals for each day
+//            for (Day day : mealPlanDTO.getDays()) {
+//                Set<Meal> meals = new HashSet<>();
+//                for (Meal meal : day.getMeals()) {
+//                    Meal meal = new Meal();
+//                    
+//
+//                }
+//            }
+
+            return newMealPlan;
         } catch (Exception e) {
             log.warn("Exception occurred trying to create a meal plan for \"{}\": " + e.getMessage(), username);
             throw new RuntimeException("Could not create a new meal plan.");

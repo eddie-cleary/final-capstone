@@ -1,5 +1,6 @@
 package com.techelevator.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,8 @@ public class RecipeIngredient {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
-    @JsonIgnore
+//    @JsonIgnore
+    @JsonBackReference(value="recipe-recipeingredients")
     private Recipe recipe;
 
     @ManyToOne

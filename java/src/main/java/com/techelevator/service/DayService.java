@@ -9,7 +9,7 @@ public interface DayService {
 
     Day addDay(String username, DayDTO dayDTO);
 
-    Day deleteDay(String username, Long dayId);
+//    Day deleteDay(String username, Long dayId);
 
 //    List<Day>getDaysByMealPlanId(String username, Long mealPlanId);
 

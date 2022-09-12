@@ -5,7 +5,7 @@ import com.techelevator.model.MealDTO;
 import com.techelevator.model.MealPlanDTO;
 import com.techelevator.service.AppUserService;
 import com.techelevator.service.MealPlanService;
-import com.techelevator.service.MealService;
+//import com.techelevator.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +26,7 @@ public class MealPlanController {
     public List<MealPlan> getMealPlans(Principal principal) {
         return mealPlanService.getMealPlans(principal.getName());
     }
+
     @GetMapping("/{id}")
     public MealPlan getMealPlanById(Principal principal, @PathVariable Long id) throws IllegalAccessException {
         return mealPlanService.getMealPlanById(principal.getName(), id);
