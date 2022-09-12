@@ -41,6 +41,11 @@ const Sidebar = () => {
             Add Ingredient
           </Link>
         </Button>
+        <Button variant="text">
+          <Link to="/mealplans/add" component={ReactLink} underline="none">
+            Add Meal Plan
+          </Link>
+        </Button>
         <Button
           onClick={() => {
             dispatch(deleteUser());

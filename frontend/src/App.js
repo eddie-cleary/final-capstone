@@ -3,7 +3,6 @@ import ProtectedRoutes from "./components/Routes/ProtectedRoutes";
 import Main from "./components/Pages/Main/Main";
 import Home from "./components/Pages/Home/Home";
 import ViewRecipe from "./components/Pages/ViewRecipe/ViewRecipe";
-import MealPlans from "./components/Pages/MealPlans/MealPlans";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { addToken } from "./redux/features/auth/authSlice";
@@ -14,6 +13,7 @@ import EditRecipe from "./components/Pages/EditRecipe/EditRecipe";
 import AddIngredient from "./components/Pages/AddIngredient/AddIngredient";
 import getAppUserFromToken from "./shared/getAppUserFromToken";
 import { addUser } from "./redux/features/auth/authSlice";
+import AddMealPlan from "./components/Pages/AddMealPlan/AddMealPlan";
 
 function App() {
   const dispatch = useDispatch();
@@ -43,8 +43,8 @@ function App() {
       <Route element={<ProtectedRoutes />}>
         <Route exact path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/mealplans" element={<MealPlans />} />
         <Route path="/recipes" element={<AllRecipes />} />
+        <Route path="/mealplans/add" element={<AddMealPlan />} />
         <Route path="/ingredient/add" element={<AddIngredient />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/:id" element={<ViewRecipe />} />

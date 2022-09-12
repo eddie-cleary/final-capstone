@@ -42,8 +42,8 @@ const MyRecipes = () => {
 
   return (
     <Layout>
-      <Grid container justifyContent="center" alignItems="center">
-        <Typography variant="h1">My Recipes</Typography>
+      <Grid container justifyContent="flex-start" alignItems="center">
+        <Typography variant="h3">My Recipes</Typography>
         <Grid
           container
           sx={{ mt: 2, mb: 10 }}
