@@ -83,7 +83,7 @@ public class MealPlanServiceImpl implements MealPlanService {
                 // Set meals
                 for (MealDTO mealDTO : dayDTO.getMeals()) {
                     Meal newMeal = new Meal();
-                    newMeal.setTitle(mealPlanDTO.getTitle());
+                    newMeal.setTitle(mealDTO.getTitle());
                     newMeal.setDay(newDay);
                     mealRepo.save(newMeal);
 
