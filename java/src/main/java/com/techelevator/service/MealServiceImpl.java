@@ -29,7 +29,9 @@ public class MealServiceImpl implements MealService {
             currentUser.setId(getId(username));
             Optional<Meal> meal = mealRepo.findById(mealId);
             if (meal.isPresent()) {
-                return meal.get();
+                if (isMealCreator(username, mealId, "get")) {
+                    return meal.get();
+                }
             }
             return null;
         } catch (Exception e) {

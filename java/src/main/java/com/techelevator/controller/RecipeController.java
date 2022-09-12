@@ -20,8 +20,8 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/{id}")
-    public Recipe getRecipeById(@PathVariable Long id) {
-        return recipeService.getRecipeById(id);
+    public Recipe getRecipeById(Principal principal, @PathVariable Long id) {
+        return recipeService.getRecipeById(principal.getName(), id);
     }
 
     @PostMapping("/add")

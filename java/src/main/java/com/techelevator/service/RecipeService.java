@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface RecipeService {
     Recipe addRecipe(String username, RecipeDTO recipeDTO);
-    Recipe getRecipeById(Long id);
+    Recipe getRecipeById(String username, Long id);
     List<Recipe> getAllRecipes();
     boolean likeRecipeForUser(String username, Long recipeId);
     List<Recipe> getMyRecipes(String username);

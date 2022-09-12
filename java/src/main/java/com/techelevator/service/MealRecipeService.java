@@ -1,18 +1,19 @@
 package com.techelevator.service;
 
 import com.techelevator.entity.MealPlan;
+import com.techelevator.entity.MealRecipe;
 import com.techelevator.model.MealPlanDTO;
+import com.techelevator.model.MealRecipeDTO;
 
 import java.util.List;
 
 public interface MealRecipeService {
-    MealPlan getMealPlanById(String username, Long mealPlanId);
 
-    List<MealPlan> getMealPlans(String username);
+    MealRecipe getMealRecipeById(String username, Long mealRecipeId);
 
-    MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO);
+    MealRecipe createMealRecipe(String username, MealRecipeDTO mealRecipeDTO);
 
-    MealPlan updateMealPlan(String username, Long id, MealPlanDTO mealPlanDTO);
+    Boolean updateServingsById(String username, Long mealRecipeId, MealRecipeDTO mealRecipeDTO);
 
-    Boolean deleteMealPlan(String username, Long mealPlanId);
+    Boolean deleteMealRecipe(String username, Long mealRecipeId);
 }
