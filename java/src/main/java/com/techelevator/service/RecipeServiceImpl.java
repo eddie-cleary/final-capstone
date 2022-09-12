@@ -79,10 +79,12 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe getRecipeById(Long id) {
+    public Recipe getRecipeById(String username, Long id) {
         Optional<Recipe> recipe = recipeRepo.findById(id);
-        if (recipe != null) {
-            return recipe.get();
+        if (isRecipeCreator(username, id, "get")) {
+            if (recipe.isPresent()) {
+                return recipe.get();
+            }
         }
         throw new RuntimeException("Recipe not found");
     }
@@ -158,7 +160,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Boolean deleteRecipe(String username, Long recipeId) {
         //Validate user is deleting their own recipe
         log.info("Attemping to delete recipe id: {}. Requested by {}", recipeId, username);
-        Recipe recipe = getRecipeById(recipeId);
+        Recipe recipe = getRecipeById(username, recipeId);
         AppUser currentUser = appUserService.getId(username);
         if (currentUser.getId().equals(recipe.getAppUser().getId())) {
             recipeRepo.deleteById(recipeId);
@@ -168,6 +170,31 @@ public class RecipeServiceImpl implements RecipeService {
             log.info("Failed to delete recipe with id of: {}", recipeId);
             return false;
         }
+    }
+
+    public Long getId(String username) {
+        //returns user id
+        AppUser appUser = appUserService.getId(username);
+        return appUser.getId();
+    }
+
+    public Boolean isRecipeCreator(String username, Long recipeId, String action) {
+        //validates if recipe is created by user
+        try {
+            Optional<Recipe> recipeFromDB = recipeRepo.findById(recipeId);
+            if (recipeFromDB.isPresent()) {
+                if (getId(username).equals(recipeFromDB.get().getAppUser().getId())) {
+                    return true;
+                }
+            } else {
+                log.warn("User \"{}\" attempted to {} a recipe that is not theirs.", username, action);
+                throw new RuntimeException("You attempted to get a recipe that is not yours.");
+            }
+
+        } catch (Exception e) {
+            log.warn("Exception occurred trying to validate user: " + e.getMessage());
+        }
+        throw new RuntimeException("Unable to validate user.");
     }
 
 }
