@@ -54,9 +54,7 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
 
   const handleDelete = (e) => {
     e.preventDefault();
-    if (recipe?.appUser?.id === currUserId || recipe?.appUser === currUserId) {
-      setShowDeleteModal(true);
-    }
+    setShowDeleteModal(true);
     return;
   };
 
