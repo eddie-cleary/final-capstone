@@ -34,7 +34,6 @@ public class Day {
     private MealPlan mealPlan;
 
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)
-    @JsonIgnore
     private Set<Meal> meals = new HashSet<>();
 
     @Override

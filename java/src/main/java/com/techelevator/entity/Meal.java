@@ -36,9 +36,32 @@ public class Meal {
 
     @ManyToOne
     @JoinColumn(name = "day_id", referencedColumnName = "day_id")
+    @JsonIgnore
     private Day day;
 
 //    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
 //    @JsonIgnore
 //    private Set<MealRecipe> mealRecipes = new HashSet<>();
+
+
+    @Override
+    public String toString() {
+        return "Meal{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Meal meal = (Meal) o;
+        return id.equals(meal.id) && title.equals(meal.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title);
+    }
 }

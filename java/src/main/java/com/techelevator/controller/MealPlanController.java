@@ -20,7 +20,6 @@ import java.util.List;
 public class MealPlanController {
 
     private final MealPlanService mealPlanService;
-    private final AppUserService appUserService;
 
     @GetMapping
     public List<MealPlan> getMealPlans(Principal principal) {

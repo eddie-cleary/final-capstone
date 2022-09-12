@@ -19,5 +19,5 @@ public class MealPlanDTO {
     @NotNull
     private String title;
     @NotNull
-    private List<Day> days;
+    private List<DayDTO> days;
 }

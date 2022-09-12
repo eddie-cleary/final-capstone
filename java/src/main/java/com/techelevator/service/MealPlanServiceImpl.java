@@ -5,10 +5,13 @@ import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Day;
 import com.techelevator.entity.Meal;
 import com.techelevator.entity.MealPlan;
+import com.techelevator.model.DayDTO;
+import com.techelevator.model.MealDTO;
 import com.techelevator.model.MealPlanDTO;
 
 import com.techelevator.repo.DayRepo;
 import com.techelevator.repo.MealPlanRepo;
+import com.techelevator.repo.MealRepo;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,8 @@ public class MealPlanServiceImpl implements MealPlanService {
     MealPlanRepo mealPlanRepo;
     @Autowired
     DayRepo dayRepo;
+    @Autowired
+    MealRepo mealRepo;
 
     @Override
     public MealPlan getMealPlanById(String username, Long mealPlanId) {
@@ -69,23 +74,30 @@ public class MealPlanServiceImpl implements MealPlanService {
 
             // Set days
             Set<Day> newDays = new HashSet<>();
-            for (Day day : mealPlanDTO.getDays()) {
+            for (DayDTO dayDTO : mealPlanDTO.getDays()) {
                 Day newDay = new Day();
                 newDay.setMealPlan(newMealPlan);
                 dayRepo.save(newDay);
+                Set<Meal> newMeals = new HashSet<>();
+                for (MealDTO mealDTO : dayDTO.getMeals()) {
+                    Meal newMeal = new Meal();
+                    newMeal.setTitle(mealPlanDTO.getTitle());
+                    newMeal.setDay(newDay);
+                    mealRepo.save(newMeal);
+                    newMeals.add(newMeal);
+                }
+                newDay.setMeals(newMeals);
                 newDays.add(newDay);
             }
             newMealPlan.setDays(newDays);
 
 //            // Set meals for each day
-//            for (Day day : mealPlanDTO.getDays()) {
-//                Set<Meal> meals = new HashSet<>();
-//                for (Meal meal : day.getMeals()) {
-//                    Meal meal = new Meal();
-//                    
-//
-//                }
+//            for (Day day : newMealPlan.getDays()) {
+//                Set<Meal> newMeals = new HashSet<>();
+//                for (MealDTO )
+//                day.setMeals(newMeals);
 //            }
+//            mealPlanRepo.save(newMealPlan);
 
             return newMealPlan;
         } catch (Exception e) {
