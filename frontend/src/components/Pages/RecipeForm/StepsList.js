@@ -14,17 +14,7 @@ import {
   addStep,
   deleteStep,
 } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
-
-const btnStyle = {
-  border: "solid .5px #142d4c",
-  color: "#385170",
-  background: "#9fcf6f",
-  "&:hover": {
-    boxShadow: 8,
-    background: "#71af47",
-    border: "solid .5px #9fd3c7",
-  },
-};
+import { CustomButton } from "../../..";
 
 const StepsList = () => {
   const steps = useSelector((state) => state.addRecipeData.steps);
@@ -70,13 +60,9 @@ const StepsList = () => {
       <Typography sx={{ mt: 2 }}>Steps</Typography>
       <Stack>{displaySteps}</Stack>
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
-        <Button
-          onClick={() => dispatch(addStep())}
-          sx={btnStyle}
-          variant="contained"
-        >
+        <CustomButton onClick={() => dispatch(addStep())} variant="contained">
           <Add fontSize="small" />
-        </Button>
+        </CustomButton>
       </Stack>
     </>
   );

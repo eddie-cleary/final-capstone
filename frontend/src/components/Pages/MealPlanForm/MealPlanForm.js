@@ -16,6 +16,7 @@ import {
 } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
+import { CustomButton } from "../../..";
 
 const modalStyles = {
   position: "absolute",
@@ -140,10 +141,14 @@ const MealPlanForm = ({ isEdit }) => {
               placeholder="Meal plan title"
             ></TextField>
             <Stack sx={{ mt: 3, ml: 2 }} direction="row" alignSelf="flex-start">
-              <Button variant="contained">Edit</Button>
-              <Button onClick={handleSubmit} sx={{ ml: 4 }} variant="contained">
+              <CustomButton variant="contained">Edit</CustomButton>
+              <CustomButton
+                onClick={handleSubmit}
+                sx={{ ml: 4 }}
+                variant="contained"
+              >
                 Save Meal Plan
-              </Button>
+              </CustomButton>
             </Stack>
           </Stack>
           <Stack sx={{ width: "100%", mt: 5 }}>

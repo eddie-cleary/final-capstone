@@ -17,6 +17,7 @@ import Layout from "../../Layout/Layout";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
+import { CustomButton } from "../../..";
 
 const AddIngredient = () => {
   const [name, setName] = useState("");
@@ -116,13 +117,13 @@ const AddIngredient = () => {
                     />
                   </RadioGroup>
                 </FormControl>
-                <Button
+                <CustomButton
                   sx={{ mt: 3 }}
                   onClick={handleSubmit}
                   variant="contained"
                 >
                   {isLoading ? <CircularProgress /> : "Add Ingredient"}
-                </Button>
+                </CustomButton>
               </Stack>
             </form>
           </Stack>

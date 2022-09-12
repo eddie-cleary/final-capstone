@@ -40,7 +40,7 @@ const RecipeCardAddToMeal = ({ recipe }) => {
   };
 
   return (
-    <Card elevation={5} sx={{ height: 340, width: 330 }}>
+    <Card elevation={5} sx={{ height: 340, width: 330, mt: 3 }}>
       <CardHeader title={recipe.title} />
       <CardMedia
         component="img"
@@ -52,7 +52,7 @@ const RecipeCardAddToMeal = ({ recipe }) => {
         alt={recipe.title}
       />
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        <FormControl sx={{ minWidth: "80px" }}>
+        <FormControl sx={{ minWidth: "120px" }}>
           <InputLabel
             sx={{ textTransform: "capitalize" }}
             id="servings-select-label"

@@ -22,6 +22,7 @@ import {
   setShowError,
   showErrorMessage,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
+import { CustomButton } from "../../..";
 
 const IngredientSelect = () => {
   const token = useSelector((state) => state.auth.token);
@@ -125,14 +126,14 @@ const IngredientSelect = () => {
         )}
       />
       <MeasurementSelect />
-      <Button
+      <CustomButton
         onClick={handleAddIngredient}
         sx={{ height: "58px" }}
-        variant="outlined"
+        variant="contained"
         disabled={isFormValid ? false : true}
       >
         <Add fontSize="small" />
-      </Button>
+      </CustomButton>
     </>
   );
 };

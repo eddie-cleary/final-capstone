@@ -40,6 +40,7 @@ import {
   setIsRecipeIngredientsValid,
   setIsFormValid,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
+import { CustomButton } from "../../..";
 
 const RecipeForm = ({ isEdit }) => {
   const token = useSelector((state) => state.auth.token);
@@ -291,7 +292,7 @@ const RecipeForm = ({ isEdit }) => {
               label="Mark as favorite?"
             />
           </Stack>
-          <Button
+          <CustomButton
             disabled={isFormValid ? false : true}
             onClick={handleSubmit}
             sx={{ mt: 3 }}
@@ -304,7 +305,7 @@ const RecipeForm = ({ isEdit }) => {
             ) : (
               "Add Recipe"
             )}
-          </Button>
+          </CustomButton>
           <Snackbar
             open={showSuccess}
             autoHideDuration={5000}

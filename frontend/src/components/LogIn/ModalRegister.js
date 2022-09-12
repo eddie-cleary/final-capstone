@@ -14,6 +14,7 @@ import {
   showModalRegister,
   showModalLogin,
 } from "../../redux/features/auth/authSlice";
+import { CustomButton } from "../..";
 
 const modalStyle = {
   position: "absolute",
@@ -260,13 +261,13 @@ const ModalRegister = () => {
           </Stack>
         </form>
         <Stack direction="row" sx={{ mt: 2 }}>
-          <Button
+          <CustomButton
             disabled={validForm ? false : true}
             variant="contained"
             onClick={handleSubmit}
           >
             Create Account
-          </Button>
+          </CustomButton>
         </Stack>
       </Stack>
     </Modal>

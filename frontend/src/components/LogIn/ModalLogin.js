@@ -14,7 +14,7 @@ import {
 import { useSelector } from "react-redux";
 import { showModalLogin } from "../../redux/features/auth/authSlice";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import { CustomButton } from "../..";
 
 const style = {
   position: "absolute",
@@ -26,19 +26,6 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-}
-const btn = {
-  background: '#9fcf6f',
-  color: '#142d4c',
-  fontWeight: 'bold',
-  marginTop: '1em',
-  border: 'solid .5px #142d4c',
-  boxShadow: 3,
-  "&:hover": {
-    boxShadow: 8,
-    background: '#71af47'
-  }
-
 };
 
 const ModalLogin = () => {
@@ -124,9 +111,9 @@ const ModalLogin = () => {
             </FormControl>
           </Stack>
         </form>
-        <Button sx={btn} onClick={handleLogin} variant="contained">
+        <CustomButton sx={{ mt: 2 }} onClick={handleLogin} variant="contained">
           Login
-        </Button>
+        </CustomButton>
       </Stack>
     </Modal>
   );
