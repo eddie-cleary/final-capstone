@@ -30,6 +30,8 @@ export const CustomButton = styled(Button)(({ theme }) => ({
   "&:hover": {
     backgroundColor: "#B8D59C",
   },
+  boxShadow:
+    "0px 1px 1px -2px rgb(0 0 0 / 20%), 0px 1px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)",
 }));
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
