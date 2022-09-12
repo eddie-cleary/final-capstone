@@ -28,7 +28,7 @@ public class RecipeIngredient {
     @ManyToOne
     @JoinColumn(name = "recipe_id")
 //    @JsonIgnore
-    @JsonBackReference(value="recipe-recipeingredients")
+//    @JsonBackReference(value="recipe-recipeingredients")
     private Recipe recipe;
 
     @ManyToOne

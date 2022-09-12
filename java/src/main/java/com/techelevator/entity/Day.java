@@ -30,7 +30,7 @@ public class Day {
 
     @ManyToOne
     @JoinColumn(name = "mealplan_id", referencedColumnName = "mealplan_id")
-//    @JsonBackReference(value="mealplan-days")
+    @JsonIgnore
     private MealPlan mealPlan;
 
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)

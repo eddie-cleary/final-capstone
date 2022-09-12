@@ -39,10 +39,8 @@ public class Meal {
     @JsonIgnore
     private Day day;
 
-//    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private Set<MealRecipe> mealRecipes = new HashSet<>();
-
+    @OneToMany(mappedBy = "meal", cascade = CascadeType.ALL)
+    private Set<MealRecipe> mealRecipes = new HashSet<>();
 
     @Override
     public String toString() {

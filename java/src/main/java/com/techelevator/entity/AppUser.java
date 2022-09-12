@@ -42,8 +42,7 @@ public class AppUser {
    private Set<Role> roles = new HashSet<>();
 
    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
-//   @JsonIgnore
-   @JsonManagedReference(value="user-recipes")
+   @JsonIgnore
    private Set<Recipe> recipes = new HashSet<>();
 
    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
