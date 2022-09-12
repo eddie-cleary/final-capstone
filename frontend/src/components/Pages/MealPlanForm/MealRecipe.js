@@ -9,8 +9,8 @@ const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
   const dispatch = useDispatch();
 
   return (
-    <Stack direction="row" alignItems="center" sx={{ mt: 2 }}>
-      <CustomButton
+    <Stack direction="row" alignItems="center" sx={{ mt: 2, width: "100%" }}>
+      <Button
         sx={{ p: 0, minWidth: "35px" }}
         onClick={() =>
           dispatch(removeRecipeFromMeal({ dayIndex, mealIndex, recipeIndex }))
@@ -22,7 +22,7 @@ const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
             fontSize: "17px",
           }}
         />
-      </CustomButton>
+      </Button>
       <Stack
         sx={{ width: "calc(100% - 20px)" }}
         direction="row"

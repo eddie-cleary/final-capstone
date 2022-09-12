@@ -3,7 +3,6 @@ import Layout from "../../Layout/Layout";
 import {
   TextField,
   Modal,
-  Button,
   Stack,
   Snackbar,
   Alert,
@@ -17,6 +16,8 @@ import {
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
 import { CustomButton } from "../../..";
+import { baseUrl } from "../../../shared/baseUrl";
+import axios from "axios";
 
 const modalStyles = {
   position: "absolute",
@@ -40,6 +41,7 @@ const styledInput = {
 
 const MealPlanForm = ({ isEdit }) => {
   const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const title = useSelector((state) => state.mealPlanData.title);
   const isModalShowing = useSelector(
     (state) => state.mealPlanData.recipesModal.isShowing
@@ -65,7 +67,7 @@ const MealPlanForm = ({ isEdit }) => {
 
     if (
       !postObject.days.every((day) => {
-        if (day.length > 0) {
+        if (day.meals.length > 0) {
           return true;
         }
         return false;
@@ -76,7 +78,7 @@ const MealPlanForm = ({ isEdit }) => {
 
     postObject.days.forEach((day) => {
       if (
-        !day.every((meal) => {
+        !day.meals?.every((meal) => {
           if (meal.title.length > 0) {
             return true;
           }
@@ -88,7 +90,7 @@ const MealPlanForm = ({ isEdit }) => {
     });
 
     postObject.days.forEach((day) => {
-      day.forEach((meal) => {
+      day.meals?.forEach((meal) => {
         if (meal.recipes.length === 0) {
           newErrorList.push("Each meal must have at least 1 recipe.");
         }
@@ -119,12 +121,22 @@ const MealPlanForm = ({ isEdit }) => {
   };
 
   const postMealPlan = () => {
-    console.log("Meal plan posted ", postObject);
-    setSuccessMsg("Meal plan saved!");
-    setShowSuccess(true);
+    axios
+      .post(baseUrl + `/mealplans`, postObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSuccessMsg("Meal plan saved!");
+        setShowSuccess(true);
+      })
+      .catch((err) => {
+        setErrMsg(err.response);
+        setShowError(true);
+      });
   };
 
-  //Todo: move stack to the left x amount when sidebar is opened to keep centered
   return (
     <Layout>
       <Stack direction="row" justifyContent="center">

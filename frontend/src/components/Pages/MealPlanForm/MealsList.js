@@ -7,9 +7,11 @@ import { addMeal } from "../../../redux/features/forms/mealplan/mealPlanDataSlic
 
 const MealsList = ({ dayIndex }) => {
   const dispatch = useDispatch();
-  const meals = useSelector((state) => state.mealPlanData.days[dayIndex]);
+  const meals = useSelector(
+    (state) => state.mealPlanData.days[dayIndex]?.meals
+  );
 
-  const mealComponents = meals.map((meal, mealIndex) => (
+  const mealComponents = meals?.map((meal, mealIndex) => (
     <Meal dayIndex={dayIndex} mealIndex={mealIndex} key={mealIndex} />
   ));
 

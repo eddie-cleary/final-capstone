@@ -19,7 +19,7 @@ const mealStyles = {
 const Meal = ({ mealIndex, dayIndex }) => {
   const dispatch = useDispatch();
   const mealTitle = useSelector(
-    (state) => state.mealPlanData.days[dayIndex][mealIndex].title
+    (state) => state.mealPlanData.days[dayIndex].meals[mealIndex].title
   );
 
   return (

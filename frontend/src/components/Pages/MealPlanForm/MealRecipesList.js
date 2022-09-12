@@ -9,7 +9,7 @@ const MealRecipesList = ({ dayIndex, mealIndex }) => {
   const dispatch = useDispatch();
 
   const mealRecipes = useSelector(
-    (state) => state.mealPlanData.days[dayIndex][mealIndex].recipes
+    (state) => state.mealPlanData.days[dayIndex].meals[mealIndex].recipes
   );
 
   const mealRecipeComponents = mealRecipes.map((mealRecipe, idx) => (

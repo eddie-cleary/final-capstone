@@ -1,10 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const mealObj = { title: "", recipes: [] };
-const dayObj = [mealObj];
+const mealObj = {
+  id: null,
+  title: "",
+  recipes: [],
+};
+const dayObj = { id: null, meals: [mealObj] };
 
 const initialState = {
-  id: "",
+  id: null,
   title: "",
   days: [dayObj],
   recipesModal: { isShowing: false, dayIndex: 0, mealIndex: 0 },
@@ -22,31 +26,30 @@ export const mealPlanDataSlice = createSlice({
     },
     removeDay(state, action) {
       const dayIndex = action.payload;
-      state.days = state.days.filter((i, idx) => idx !== dayIndex);
+      state.days.splice(dayIndex, 1);
     },
     addMeal(state, action) {
       const dayIndex = action.payload;
-      state.days[dayIndex].push(mealObj);
+      console.log(dayIndex);
+      state.days[dayIndex].meals.push(mealObj);
     },
     removeMeal(state, action) {
       const { dayIndex, mealIndex } = action.payload;
-      state.days[dayIndex] = state.days[dayIndex].filter(
-        (i, idx) => idx !== mealIndex
-      );
+      state.days[dayIndex].meals.splice(mealIndex, 1);
     },
     setMealTitle(state, action) {
       const { title, dayIndex, mealIndex } = action.payload;
-      state.days[dayIndex][mealIndex].title = title;
+      state.days[dayIndex].meals[mealIndex].title = title;
     },
     addRecipeToMeal(state, action) {
       const { dayIndex, mealIndex } = state.recipesModal;
       const recipe = action.payload;
-      state.days[dayIndex][mealIndex].recipes.push(recipe);
+      state.days[dayIndex].meals[mealIndex].recipes.push(recipe);
       state.recipesModal.isShowing = false;
     },
     removeRecipeFromMeal(state, action) {
       const { dayIndex, mealIndex, recipeIndex } = action.payload;
-      state.days[dayIndex][mealIndex].recipes.splice(recipeIndex, 1);
+      state.days[dayIndex].meals[mealIndex].recipes.splice(recipeIndex, 1);
     },
     showRecipesModal(state, action) {
       const { dayIndex, mealIndex } = action.payload;

@@ -14,6 +14,7 @@ import AddIngredient from "./components/Pages/AddIngredient/AddIngredient";
 import getAppUserFromToken from "./shared/getAppUserFromToken";
 import { addUser } from "./redux/features/auth/authSlice";
 import AddMealPlan from "./components/Pages/AddMealPlan/AddMealPlan";
+import MyMealPlans from "./components/Pages/MyMealPlans/MyMealPlans";
 
 function App() {
   const dispatch = useDispatch();
@@ -44,6 +45,7 @@ function App() {
         <Route exact path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/recipes" element={<AllRecipes />} />
+        <Route path="/mealplans" element={<MyMealPlans />} />
         <Route path="/mealplans/add" element={<AddMealPlan />} />
         <Route path="/ingredient/add" element={<AddIngredient />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
