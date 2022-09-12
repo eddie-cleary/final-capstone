@@ -6,11 +6,6 @@ import axios from "axios";
 import RecipeCard from "../../shared/RecipeCard";
 import { Typography, Stack, List } from "@mui/material";
 
-const imageGroup = {
-  flexDirection: "row",
-  flexWrap: "wrap",
-};
-
 const AllRecipes = () => {
   const [recipesData, setRecipesData] = useState([]);
   const token = useSelector((state) => state.auth.token);
@@ -31,14 +26,16 @@ const AllRecipes = () => {
   }, []);
 
   const recipes = recipesData?.map((recipe) => {
-    return <RecipeCard key={recipe.id} recipe={recipe} />;
+    return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
   });
 
   return (
     <Layout>
       <Typography variant="h3">All Recipes</Typography>
       <List>
-        <Stack sx={imageGroup}>{recipes}</Stack>
+        <Stack direction="row" flexWrap="wrap">
+          {recipes}
+        </Stack>
       </List>
     </Layout>
   );
