@@ -4,7 +4,9 @@ import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
 import { Link as ReactLink } from "react-router-dom";
-import { Link, Typography, List, ListItem } from "@mui/material";
+import { Link, Typography, List, ListItem, Grid } from "@mui/material";
+import MyMealPlanCard from "../../shared/MyMealPlanCard";
+import thumbnail from "./Thumbnail/white-thumbnail.png"
 
 const MyMealPlans = () => {
   const token = useSelector((state) => state.auth.token);
@@ -25,23 +27,26 @@ const MyMealPlans = () => {
       .catch((err) => console.log(err.response));
   }, []);
 
-  const MealPlanLink = ({ mealplan }) => {
-    return (
-      <ListItem>
-        <Link component={ReactLink} to={`/mealplans/${mealplan.id}`}>
-          <Typography>{mealplan.title}</Typography>
-        </Link>
-      </ListItem>
-    );
-  };
 
-  const mealPlanComponents = mealPlans.map((mealplan) => (
-    <MealPlanLink key={mealplan.id} mealplan={mealplan} />
-  ));
+  const myMealPlans = mealPlans.map((mealPlan) => {
+    return (
+      <Link component={ReactLink} to={`/mealplans/${mealPlan.id}`}>
+        <MyMealPlanCard title={mealPlan.title} id={mealPlan.id} bgImg={`${thumbnail}`} />
+      </Link>
+    );
+  });
 
   return (
     <Layout>
-      <List>{mealPlanComponents}</List>
+      <Grid container
+      sx={{ mt: 2, mb: 10}}
+      spacing={8}
+      justifyContent="center"
+      alignItems="space-evenly"
+      flexWrap="wrap"
+      flexGrow="1"> 
+      {myMealPlans}
+      </Grid>
     </Layout>
   );
 };
