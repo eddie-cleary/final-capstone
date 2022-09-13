@@ -17,32 +17,62 @@ const Sidebar = () => {
     <>
       <Stack sx={sidebar}>
         <Button variant="text">
-          <Link to="/recipes" component={ReactLink} underline="none">
+          <Link
+            to="/recipes"
+            sx={{ width: "100%" }}
+            component={ReactLink}
+            underline="none"
+          >
             View Recipes
           </Link>
         </Button>
         <Button variant="text">
-          <Link to="/myrecipes" component={ReactLink} underline="none">
+          <Link
+            sx={{ width: "100%" }}
+            to="/myrecipes"
+            component={ReactLink}
+            underline="none"
+          >
             My Recipes
           </Link>
         </Button>
         <Button variant="text">
-          <Link to="/mealplans" component={ReactLink} underline="none">
+          <Link
+            sx={{ width: "100%" }}
+            to="/mealplans"
+            component={ReactLink}
+            underline="none"
+          >
             My Meal Plans
           </Link>
         </Button>
         <Button variant="text">
-          <Link to="/recipes/add" component={ReactLink} underline="none">
+          <Link
+            sx={{ width: "100%" }}
+            to="/recipes/add"
+            component={ReactLink}
+            underline="none"
+          >
             Add Recipe
           </Link>
         </Button>
         <Button variant="text">
-          <Link to="/ingredient/add" component={ReactLink} underline="none">
+          <Link
+            sx={{ width: "100%" }}
+            to="/ingredient/add"
+            component={ReactLink}
+            underline="none"
+          >
             Add Ingredient
           </Link>
         </Button>
         <Button variant="text">
-          <Link to="/mealplans/add" component={ReactLink} underline="none">
+          <Link
+            sx={{ width: "100%" }}
+            to="/mealplans/add"
+            component={ReactLink}
+            underline="none"
+          >
             Add Meal Plan
           </Link>
         </Button>

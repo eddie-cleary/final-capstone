@@ -1,38 +1,11 @@
-import {
-  Card,
-  CardHeader,
-  CardMedia,
-  CardActions,
-  IconButton,
-  Link,
-  Checkbox,
-  Button,
-  Modal,
-  Box,
-  Typography,
-  Stack,
-} from "@mui/material";
-import {
-  FavoriteSharp,
-  FavoriteBorder,
-  Favorite,
-  Delete,
-} from "@mui/icons-material";
-import { useState } from "react";
+import { Card, CardHeader, CardMedia, CardActions, Link } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 
 export default function RecipeCard({ recipe }) {
   return (
     <Link component={ReactLink} to={`/recipes/${recipe.id}`}>
       <Card elevation={5} sx={{ m: 2, height: 340, width: 330 }}>
-        <CardHeader
-          // action={
-          //   <IconButton>
-          //     <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
-          //   </IconButton>
-          // }
-          title={recipe.title}
-        />
+        <CardHeader title={recipe.title} />
         <CardMedia
           component="img"
           height="194"
@@ -42,14 +15,9 @@ export default function RecipeCard({ recipe }) {
           }
           alt={recipe.title}
         />
-        <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-          {/* <Checkbox
-            checked={liked}
-            icon={<FavoriteBorder color="warning" />}
-            checkedIcon={<Favorite color="warning" />}
-            onChange={(e) => setLiked(e.target.checked)}
-          /> */}
-        </CardActions>
+        <CardActions
+          sx={{ display: "flex", justifyContent: "flex-end" }}
+        ></CardActions>
       </Card>
     </Link>
   );
