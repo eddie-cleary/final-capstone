@@ -207,7 +207,6 @@ const RecipeForm = ({ isEdit }) => {
 
   useEffect(() => {
     if (!isEdit) {
-      console.log("resetting form state");
       dispatch(resetState());
     }
   }, []);

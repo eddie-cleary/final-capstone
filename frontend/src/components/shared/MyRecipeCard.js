@@ -3,6 +3,7 @@ import {
   CardHeader,
   CardMedia,
   CardActions,
+  CardContent,
   IconButton,
   Link,
   Checkbox,
@@ -111,36 +112,34 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
   return (
     <>
       <Link component={ReactLink} to={`/recipes/${recipe.id}`}>
-        <Card elevation={5} sx={{ height: 340, width: 330 }}>
-          <CardHeader
-            // action={
-            //   <IconButton>
-            //     <FavoriteSharp color="warning" sx={{ marginRight: 1 }} />
-            //   </IconButton>
-            // }
-            title={recipe.title}
-          />
+        <Card elevation={5} sx={{ m: 2, height: 340, width: 330 }}>
           <CardMedia
             component="img"
-            height="194"
+            height="220"
             image={
               recipe.imgId &&
               `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
             }
             alt={recipe.title}
           />
-          <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
-            {/* <Checkbox
-            checked={liked}
-            icon={<FavoriteBorder color="warning" />}
-            checkedIcon={<Favorite color="warning" />}
-            onChange={(e) => setLiked(e.target.checked)}
-          /> */}
-            <Button onClick={handleDelete}>
-              <Delete />
-            </Button>
+          <CardContent>
+            <Typography gutterBottom variant="h5">
+              {recipe.title}
+            </Typography>
+          </CardContent>
+          <CardActions
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              mt: -1.5,
+              ml: -1,
+            }}
+          >
             <Button onClick={handleEdit}>
               <Edit />
+            </Button>
+            <Button onClick={handleDelete}>
+              <Delete color="warning" />
             </Button>
           </CardActions>
         </Card>

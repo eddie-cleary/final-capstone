@@ -11,7 +11,7 @@ public interface MealRecipeService {
 
     MealRecipe getMealRecipeById(String username, Long mealRecipeId);
 
-    MealRecipe createMealRecipe(String username, MealRecipeDTO mealRecipeDTO);
+//    MealRecipe createMealRecipe(String username, MealRecipeDTO mealRecipeDTO);
 
     Boolean updateServingsById(String username, Long mealRecipeId, MealRecipeDTO mealRecipeDTO);
 

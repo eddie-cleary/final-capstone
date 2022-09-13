@@ -23,10 +23,10 @@ public class MealRecipeController {
        return mealRecipeService.getMealRecipeById(principal.getName(), mealRecipeId);
     }
 
-    @GetMapping("/create")
-    public MealRecipe createMealRecipe(Principal principal, @RequestBody MealRecipeDTO mealRecipeDTO) {
-        return mealRecipeService.createMealRecipe(principal.getName(), mealRecipeDTO);
-    }
+//    @GetMapping("/create")
+//    public MealRecipe createMealRecipe(Principal principal, @RequestBody MealRecipeDTO mealRecipeDTO) {
+//        return mealRecipeService.createMealRecipe(principal.getName(), mealRecipeDTO);
+//    }
 
     @PutMapping("/{id}") //update
     public Boolean updateServings(Principal principal, @RequestBody MealRecipeDTO mealRecipeDTO, @PathVariable Long mealRecipeId) {

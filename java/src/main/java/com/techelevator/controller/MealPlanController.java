@@ -45,5 +45,4 @@ public class MealPlanController {
     public Boolean deleteMealPlan(Principal principal, @PathVariable Long id) {
         return mealPlanService.deleteMealPlan(principal.getName(), id);
     }
-
 }

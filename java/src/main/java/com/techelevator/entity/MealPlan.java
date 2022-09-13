@@ -19,7 +19,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class MealPlan {
 
     @Id
@@ -32,7 +32,6 @@ public class MealPlan {
 
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
-    @JsonIgnore
     private AppUser appUser;
 
     @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)

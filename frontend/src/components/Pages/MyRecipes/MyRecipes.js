@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../Layout/Layout";
-import RecipeCard from "../../shared/MyRecipeCard";
-import { Grid, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
@@ -42,20 +41,8 @@ const MyRecipes = () => {
 
   return (
     <Layout>
-      <Grid container justifyContent="flex-start" alignItems="center">
-        <Typography variant="h3">My Recipes</Typography>
-        <Grid
-          container
-          sx={{ mt: 2, mb: 10 }}
-          spacing={5}
-          justifyContent="center"
-          alignItems="space-evenly"
-          flexWrap="wrap"
-          flexGrow="1"
-        >
-          {recipesList}
-        </Grid>
-      </Grid>
+      <Typography variant="h3">My Recipes</Typography>
+      <Stack direction="row">{recipesList}</Stack>
     </Layout>
   );
 };

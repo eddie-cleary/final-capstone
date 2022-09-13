@@ -4,24 +4,41 @@ import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
 import Layout from "../../Layout/Layout";
+import { Link as ReactLink } from "react-router-dom";
 import {
   Typography,
   ListItem,
   Button,
+  Link,
   List,
   Stack,
   Modal,
+  Box,
 } from "@mui/material";
+import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
+
+const modalStyles = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  minWidth: "300px",
+  maxWidth: "1200px",
+  maxHeight: "90vh",
+  width: "85vw",
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 4,
+  overflow: "scroll",
+};
 
 const ViewMealPlan = () => {
   const { id } = useParams();
   const token = useSelector((state) => state.auth.token);
   const [mealPlan, setMealPlan] = useState(null);
   const [showRecipeModal, setShowRecipeModal] = useState(false);
-
-  useEffect(() => {
-    console.log("the meal plan is ", mealPlan);
-  }, [mealPlan]);
+  const [currentRecipe, setCurrentRecipe] = useState(null);
 
   useEffect(() => {
     axios
@@ -34,15 +51,29 @@ const ViewMealPlan = () => {
       .catch((err) => console.log(err.response));
   }, []);
 
-  const handleRecipeModal = () => {
-    console.log("modal");
+  useEffect(() => {
+    if (currentRecipe) {
+      setShowRecipeModal(true);
+    }
+  }, [currentRecipe]);
+
+  const handleCloseModal = () => {
+    setShowRecipeModal(false);
+    setCurrentRecipe(null);
   };
+
+  useEffect(() => {
+    console.log("recipe modal is showing ", showRecipeModal);
+    console.log("current recipe is ", currentRecipe);
+  }, [showRecipeModal]);
 
   const MealRecipe = ({ mealRecipe }) => {
     return (
       <ListItem>
-        <Button onClick={handleRecipeModal}>
-          <Typography>{mealRecipe.recipe.title}</Typography>
+        <Button onClick={() => setCurrentRecipe(mealRecipe.recipe)}>
+          <Typography sx={{ textTransform: "capitalize" }}>
+            {mealRecipe.recipe.title}
+          </Typography>
         </Button>
       </ListItem>
     );
@@ -85,7 +116,18 @@ const ViewMealPlan = () => {
   return (
     <Layout>
       <Stack>{dayComponents}</Stack>
-      {/* <Modal open={showRecipeModal} onClose={setShowRecipeModal(false)}></Modal> */}
+      <Box>
+        <Link to={`/mealplans/edit/${mealPlan?.id}`} component={ReactLink}>
+          <Button variant="contained" sx={{ width: "auto" }}>
+            Edit Meal Plan
+          </Button>
+        </Link>
+      </Box>
+      <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
+        <Stack sx={modalStyles}>
+          <SingleRecipe recipe={currentRecipe} />
+        </Stack>
+      </Modal>
     </Layout>
   );
 };

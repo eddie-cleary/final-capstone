@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const mealObj = {
   id: null,
   title: "",
-  recipes: [],
+  mealRecipes: [],
 };
 const dayObj = { id: null, meals: [mealObj] };
 
@@ -44,12 +44,12 @@ export const mealPlanDataSlice = createSlice({
     addRecipeToMeal(state, action) {
       const { dayIndex, mealIndex } = state.recipesModal;
       const recipe = action.payload;
-      state.days[dayIndex].meals[mealIndex].recipes.push(recipe);
+      state.days[dayIndex].meals[mealIndex].mealRecipes.push(recipe);
       state.recipesModal.isShowing = false;
     },
     removeRecipeFromMeal(state, action) {
       const { dayIndex, mealIndex, recipeIndex } = action.payload;
-      state.days[dayIndex].meals[mealIndex].recipes.splice(recipeIndex, 1);
+      state.days[dayIndex].meals[mealIndex].mealRecipes.splice(recipeIndex, 1);
     },
     showRecipesModal(state, action) {
       const { dayIndex, mealIndex } = action.payload;
@@ -61,6 +61,12 @@ export const mealPlanDataSlice = createSlice({
     },
     closeRecipesModal(state) {
       state.recipesModal.isShowing = false;
+    },
+    setMealPlanFormData(state, action) {
+      return {
+        ...action.payload,
+        recipesModal: initialState.recipesModal,
+      };
     },
     resetState: () => {
       return {
@@ -82,6 +88,8 @@ export const {
   closeRecipesModal,
   addRecipeToMeal,
   removeRecipeFromMeal,
+  setMealPlanFormData,
+  resetState,
 } = mealPlanDataSlice.actions;
 
 export default mealPlanDataSlice.reducer;

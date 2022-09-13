@@ -9,12 +9,12 @@ const MealRecipesList = ({ dayIndex, mealIndex }) => {
   const dispatch = useDispatch();
 
   const mealRecipes = useSelector(
-    (state) => state.mealPlanData.days[dayIndex].meals[mealIndex].recipes
+    (state) => state.mealPlanData.days[dayIndex].meals[mealIndex].mealRecipes
   );
 
-  const mealRecipeComponents = mealRecipes.map((mealRecipe, idx) => (
+  const mealRecipeComponents = mealRecipes?.map((mealRecipe, idx) => (
     <MealRecipe
-      recipe={mealRecipe}
+      recipe={mealRecipe.recipe}
       dayIndex={dayIndex}
       mealIndex={mealIndex}
       key={idx}

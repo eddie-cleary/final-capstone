@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class MealRecipeDTO {
 
     private Long id;
-    private Long recipe_id;
-    private Long meal_id;
     private int servings;
+    private Long meal_id;
+    private RecipeDTO recipe;
 }

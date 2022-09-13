@@ -88,10 +88,10 @@ public class MealPlanServiceImpl implements MealPlanService {
 
                     Set<MealRecipe> newMealRecipes = new HashSet<>();
                     // Set meal recipes
-                    for (MealRecipeDTO mealRecipeDTO : mealDTO.getRecipes()) {
+                    for (MealRecipeDTO mealRecipeDTO : mealDTO.getMealRecipes()) {
                         MealRecipe newMealRecipe = new MealRecipe();
                         newMealRecipe.setServings(mealRecipeDTO.getServings());
-                        newMealRecipe.setRecipe(recipeRepo.findById(mealRecipeDTO.getRecipe_id()).get());
+                        newMealRecipe.setRecipe(recipeRepo.findById(mealRecipeDTO.getRecipe().getId()).get());
                         newMealRecipe.setMeal(newMeal);
                         mealRecipeRepo.save(newMealRecipe);
                         newMealRecipes.add(newMealRecipe);
@@ -104,7 +104,7 @@ public class MealPlanServiceImpl implements MealPlanService {
             }
             newMealPlan.setDays(newDays);
 
-            return newMealPlan;
+            return mealPlanRepo.save(newMealPlan);
         } catch (Exception e) {
             log.warn("Exception occurred trying to create a meal plan for \"{}\": " + e.getMessage(), username);
             throw new RuntimeException("Could not create a new meal plan.");
@@ -116,11 +116,52 @@ public class MealPlanServiceImpl implements MealPlanService {
         log.info("User \"{}\" is updating meal id {}", username, id);
         try {
             AppUser appUser = appUserService.getUser(username);
-            MealPlan mealPlan = mealPlanRepo.findById(id).get();
+            MealPlan oldMealPlan = mealPlanRepo.findById(id).get();
 
-            if (appUser.getId() == mealPlan.getAppUser().getId()) {
-                mealPlan.setTitle(mealPlanDTO.getTitle());
-                return mealPlanRepo.save(mealPlan);
+            if (id == mealPlanDTO.getId() && appUser.getId() == mealPlanRepo.findById(id).get().getAppUser().getId()) {
+
+                mealPlanRepo.deleteById(oldMealPlan.getId());
+
+                MealPlan newMealPlan = new MealPlan();
+                newMealPlan.setTitle(mealPlanDTO.getTitle());
+                newMealPlan.setAppUser(appUser);
+                mealPlanRepo.save(newMealPlan);
+
+                // Set days
+                Set<Day> newDays = new HashSet<>();
+                for (DayDTO dayDTO : mealPlanDTO.getDays()) {
+                    Day newDay = new Day();
+                    newDay.setMealPlan(newMealPlan);
+                    dayRepo.save(newDay);
+
+                    Set<Meal> newMeals = new HashSet<>();
+                    // Set meals
+                    for (MealDTO mealDTO : dayDTO.getMeals()) {
+                        Meal newMeal = new Meal();
+                        newMeal.setTitle(mealDTO.getTitle());
+                        newMeal.setDay(newDay);
+                        mealRepo.save(newMeal);
+
+                        Set<MealRecipe> newMealRecipes = new HashSet<>();
+                        // Set meal recipes
+                        for (MealRecipeDTO mealRecipeDTO : mealDTO.getMealRecipes()) {
+                            MealRecipe newMealRecipe = new MealRecipe();
+                            newMealRecipe.setServings(mealRecipeDTO.getServings());
+                            newMealRecipe.setRecipe(recipeRepo.findById(mealRecipeDTO.getRecipe().getId()).get());
+                            newMealRecipe.setMeal(newMeal);
+                            mealRecipeRepo.save(newMealRecipe);
+                            newMealRecipes.add(newMealRecipe);
+                        }
+                        newMeal.setMealRecipes(newMealRecipes);
+                        newMeals.add(newMeal);
+                    }
+                    newDay.setMeals(newMeals);
+                    newDays.add(newDay);
+                }
+                newMealPlan.setDays(newDays);
+
+                return mealPlanRepo.save(newMealPlan);
+
             } else {
                 throw new IllegalAccessException("You are not authorized to update this meal plan.");
             }

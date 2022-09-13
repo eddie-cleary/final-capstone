@@ -44,21 +44,21 @@ public class MealRecipeServiceImpl implements MealRecipeService {
         }
     }
 
-    @Override
-    public MealRecipe createMealRecipe(String username, MealRecipeDTO mealRecipeDTO) {
-        try {
-            log.info("Creating meal recipe for \"{}\"", username);
-            MealRecipe newMealRecipe = new MealRecipe();
-            newMealRecipe.setServings(mealRecipeDTO.getServings());
-            mealService.getMealById(username, mealRecipeDTO.getMeal_id());
-            newMealRecipe.setMeal(mealService.getMealById(username, mealRecipeDTO.getMeal_id()));
-            newMealRecipe.setRecipe(recipeService.getRecipeById(username, mealRecipeDTO.getRecipe_id()));
-            return mealRecipeRepo.save(newMealRecipe);
-        } catch (Exception e) {
-            log.warn("Exception occurred trying to create a meal recipe for \"{}\": " + e.getMessage(), username);
-            throw new RuntimeException("Could not create a new meal Recipe.");
-        }
-    }
+//    @Override
+//    public MealRecipe createMealRecipe(String username, MealRecipeDTO mealRecipeDTO) {
+//        try {
+//            log.info("Creating meal recipe for \"{}\"", username);
+//            MealRecipe newMealRecipe = new MealRecipe();
+//            newMealRecipe.setServings(mealRecipeDTO.getServings());
+//            mealService.getMealById(username, mealRecipeDTO.getMeal_id());
+//            newMealRecipe.setMeal(mealService.getMealById(username, mealRecipeDTO.getMeal_id()));
+//            newMealRecipe.setRecipe(recipeService.getRecipeById(username, mealRecipeDTO.getRecipe_id()));
+//            return mealRecipeRepo.save(newMealRecipe);
+//        } catch (Exception e) {
+//            log.warn("Exception occurred trying to create a meal recipe for \"{}\": " + e.getMessage(), username);
+//            throw new RuntimeException("Could not create a new meal Recipe.");
+//        }
+//    }
 
     @Override
     public Boolean updateServingsById(String username, Long mealRecipeId, MealRecipeDTO mealRecipeDTO) {
