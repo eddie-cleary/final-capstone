@@ -41,6 +41,7 @@ import {
   setIsFormValid,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 import { CustomButton } from "../../..";
+import CategorySelect from "./CategorySelect";
 
 const RecipeForm = ({ isEdit }) => {
   const token = useSelector((state) => state.auth.token);
@@ -215,6 +216,7 @@ const RecipeForm = ({ isEdit }) => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
+      postObject.categories.length > 0 &&
       isStepsValid &&
       isRecipeIngredientsValid &&
       postObject.prepTime.length > 0 &&
@@ -253,8 +255,9 @@ const RecipeForm = ({ isEdit }) => {
               onChange={(e) => dispatch(setDescription(e.target.value))}
             />
           </Stack>
+          <CategorySelect />
           <Box sx={{ mt: 3 }}>
-            <Typography>Ingredients</Typography>
+            <Typography sx={{ mb: -3 }}>Ingredients</Typography>
             <ChosenIngredientsList />
             <Stack
               direction="row"

@@ -4,6 +4,7 @@ const initialState = {
   id: "",
   title: "",
   description: "",
+  categories: [],
   servings: 1,
   prepTime: "",
   cookTime: "",
@@ -28,6 +29,12 @@ export const addRecipeDataSlice = createSlice({
       return {
         ...state,
         description: action.payload,
+      };
+    },
+    setCategories: (state, action) => {
+      return {
+        ...state,
+        categories: action.payload,
       };
     },
     setServings: (state, action) => {
@@ -135,6 +142,7 @@ export const addRecipeDataSlice = createSlice({
 export const {
   setTitle,
   setDescription,
+  setCategories,
   setServings,
   setPrepTime,
   setCookTime,

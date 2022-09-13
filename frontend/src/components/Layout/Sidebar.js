@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { Button, Typography, Stack, Link } from "@mui/material";
 import { deleteUser, addToken } from "../../redux/features/auth/authSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const sidebar = {
   width: "200px",
@@ -12,6 +12,10 @@ const sidebar = {
 const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const roles = useSelector((state) => state.auth.user.roles);
+  const isAdmin = roles.some(
+    (role) => role.name === "ROLE_ADMIN" || role.name === "ROLE_SUPER_ADMIN"
+  );
 
   return (
     <>
@@ -66,6 +70,18 @@ const Sidebar = () => {
             Add Ingredient
           </Link>
         </Button>
+        {isAdmin && (
+          <Button variant="text">
+            <Link
+              sx={{ width: "100%" }}
+              to="/category/add"
+              component={ReactLink}
+              underline="none"
+            >
+              Add Category
+            </Link>
+          </Button>
+        )}
         <Button variant="text">
           <Link
             sx={{ width: "100%" }}

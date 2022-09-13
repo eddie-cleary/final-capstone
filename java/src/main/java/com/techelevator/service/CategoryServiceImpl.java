@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -16,5 +18,10 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public Category addCategory(Category category) {
         return categoryRepo.save(category);
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return categoryRepo.findAll();
     }
 }

@@ -16,12 +16,13 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
+      console.log("adding user ", action.payload);
       return {
         ...state,
         user: {
           id: action.payload.id,
           username: action.payload.username,
-          authorities: action.payload.authorities,
+          roles: action.payload.roles,
         },
       };
     },

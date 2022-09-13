@@ -17,6 +17,7 @@ import AddMealPlan from "./components/Pages/AddMealPlan/AddMealPlan";
 import MyMealPlans from "./components/Pages/MyMealPlans/MyMealPlans";
 import ViewMealPlan from "./components/Pages/ViewMealPlan/ViewMealPlan";
 import EditMealPlan from "./components/Pages/EditMealPlan/EditMealPlan";
+import AddCategory from "./components/Pages/AddCategory/AddCategory";
 
 function App() {
   const dispatch = useDispatch();
@@ -52,6 +53,7 @@ function App() {
         <Route path="/mealplans/:id" element={<ViewMealPlan />} />
         <Route path="/mealplans/edit/:id" element={<EditMealPlan />} />
         <Route path="/ingredient/add" element={<AddIngredient />} />
+        <Route path="/category/add" element={<AddCategory />} />
         <Route path="/recipes/add" element={<AddRecipe />} />
         <Route path="/recipes/:id" element={<ViewRecipe />} />
         <Route path="/recipes/edit/:id" element={<EditRecipe />} />
