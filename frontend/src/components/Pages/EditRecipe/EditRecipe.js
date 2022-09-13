@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { CircularProgress } from "@mui/material";
@@ -12,7 +12,6 @@ import {
 } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
 const EditRecipe = () => {
-  const navigate = useNavigate();
   const currUserId = useSelector((state) => state.auth.user.id);
   const token = useSelector((state) => state.auth.token);
   const { id } = useParams();

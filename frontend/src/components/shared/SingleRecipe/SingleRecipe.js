@@ -93,7 +93,11 @@ const SingleRecipe = ({ recipe }) => {
       <Stack direction={matches ? "column" : "row-reverse"} alignItems="center">
         <Box
           component="img"
-          src={`https://res.cloudinary.com/djoe/image/upload/c_fill/${recipe?.imgId}.jpg`}
+          src={
+            recipe?.imgId
+              ? `https://res.cloudinary.com/djoe/image/upload/c_fill/${recipe?.imgId}.jpg`
+              : ""
+          }
           sx={{
             aspectRatio: "1/1",
             width: "100%",

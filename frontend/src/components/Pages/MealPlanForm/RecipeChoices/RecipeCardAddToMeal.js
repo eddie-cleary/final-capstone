@@ -21,8 +21,10 @@ const RecipeCardAddToMeal = ({ recipe }) => {
   const addRecipeObj = {
     id: null,
     meal_id: null,
-    recipe_id: recipe.id,
-    title: recipe.title,
+    recipe: {
+      id: recipe.id,
+      title: recipe.title,
+    },
     servings,
   };
 

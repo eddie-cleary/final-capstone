@@ -4,13 +4,16 @@ import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector } from "react-redux";
 import Layout from "../../Layout/Layout";
+import { Link as ReactLink } from "react-router-dom";
 import {
   Typography,
   ListItem,
   Button,
+  Link,
   List,
   Stack,
   Modal,
+  Box,
 } from "@mui/material";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
 
@@ -113,6 +116,13 @@ const ViewMealPlan = () => {
   return (
     <Layout>
       <Stack>{dayComponents}</Stack>
+      <Box>
+        <Link to={`/mealplans/edit/${mealPlan?.id}`} component={ReactLink}>
+          <Button variant="contained" sx={{ width: "auto" }}>
+            Edit Meal Plan
+          </Button>
+        </Link>
+      </Box>
       <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
         <Stack sx={modalStyles}>
           <SingleRecipe recipe={currentRecipe} />

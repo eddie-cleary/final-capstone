@@ -13,7 +13,7 @@ import java.util.Set;
 @Builder
 @Data
 public class MealDTO {
-    private Long user_id;
+    private Long id;
     private String title;
-    private Set<MealRecipeDTO> recipes;
+    private Set<MealRecipeDTO> mealRecipes;
 }

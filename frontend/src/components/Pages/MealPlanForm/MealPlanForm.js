@@ -7,11 +7,13 @@ import {
   Snackbar,
   Alert,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setTitle,
   closeRecipesModal,
+  resetState,
 } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
@@ -53,6 +55,7 @@ const MealPlanForm = ({ isEdit }) => {
   const [errMsg, setErrMsg] = useState();
   const [showError, setShowError] = useState();
   const [validForm, setValidForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const newErrorList = [];
@@ -91,7 +94,8 @@ const MealPlanForm = ({ isEdit }) => {
 
     postObject.days.forEach((day) => {
       day.meals?.forEach((meal) => {
-        if (meal.recipes.length === 0) {
+        console.log("the meal ", meal);
+        if (meal.recipes?.length === 0) {
           newErrorList.push("Each meal must have at least 1 recipe.");
         }
       });
@@ -112,11 +116,14 @@ const MealPlanForm = ({ isEdit }) => {
     ));
 
   const handleSubmit = () => {
+    setIsLoading(true);
     if (!validForm) {
       setErrMsg(formatErrors());
       setShowError(true);
     } else if (!isEdit) {
       postMealPlan();
+    } else {
+      putMealPlan();
     }
   };
 
@@ -134,11 +141,40 @@ const MealPlanForm = ({ isEdit }) => {
       .catch((err) => {
         setErrMsg(err.response);
         setShowError(true);
+      })
+      .then(() => {
+        setIsLoading(false);
       });
   };
 
+  const putMealPlan = () => {
+    axios
+      .put(baseUrl + `/mealplans/${postObject.id}`, postObject, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setSuccessMsg("Meal plan updated!");
+        setShowSuccess(true);
+      })
+      .catch((err) => {
+        setErrMsg(err.response);
+        setShowError(true);
+      })
+      .then(() => {
+        setIsLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    if (!isEdit) {
+      dispatch(resetState());
+    }
+  }, []);
+
   return (
-    <Layout>
+    <>
       <Stack direction="row" justifyContent="center">
         <Stack direction="column" sx={{ width: "100%" }}>
           <Stack
@@ -159,7 +195,13 @@ const MealPlanForm = ({ isEdit }) => {
                 sx={{ ml: 4 }}
                 variant="contained"
               >
-                Save Meal Plan
+                {isLoading ? (
+                  <CircularProgress />
+                ) : isEdit ? (
+                  "Save Edits"
+                ) : (
+                  "Create Meal Plan"
+                )}
               </CustomButton>
             </Stack>
           </Stack>
@@ -209,7 +251,7 @@ const MealPlanForm = ({ isEdit }) => {
           <RecipesList />
         </Stack>
       </Modal>
-    </Layout>
+    </>
   );
 };
 
