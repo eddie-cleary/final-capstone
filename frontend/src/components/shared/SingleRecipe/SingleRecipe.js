@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Stack,
   Box,
@@ -10,6 +10,7 @@ import {
   ListItemText,
   useTheme,
   useMediaQuery,
+  Button,
 } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
@@ -17,8 +18,10 @@ import servingsIcon from "./icons/servings.png";
 import prepIcon from "./icons/prepare.png";
 import cookIcon from "./icons/cooking.png";
 import { convertToMeasurement } from "../../../shared/conversions";
+import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
+import { current } from "@reduxjs/toolkit";
 
-let RenderIngredients = ({ ingredients }) => {
+let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = [];
   ingredients?.map((ingredient) => {
     const {
@@ -27,7 +30,10 @@ let RenderIngredients = ({ ingredients }) => {
       ingredient: ingredients,
     } = ingredient;
     let liquid = ingredients.liquid;
-    let convertedMeasurement = convertToMeasurement(quantityTsp, liquid);
+    let convertedMeasurement = convertToMeasurement(
+      quantityTsp * currentServings,
+      liquid
+    );
     renderedIngredients.push(convertedMeasurement + " of " + ingredients.name);
   });
   return renderedIngredients.map((ingredient, index) => (
@@ -84,6 +90,7 @@ const BoldUnderline = ({ text }) => {
 const SingleRecipe = ({ recipe }) => {
   const recipePrepTime = recipe?.prepTime;
   const recipeCookTime = recipe?.cookTime;
+  const [currentServings, setCurrentServings] = useState(recipe?.servings);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("lg"));
@@ -130,9 +137,31 @@ const SingleRecipe = ({ recipe }) => {
             />
             <InfoCard
               name="Servings"
-              text={`${recipe?.servings}`}
+              text={currentServings}
               img={servingsIcon}
             />
+            <Stack sx={{ ml: -4 }} justifyContent="flex-end">
+              <Button
+                onClick={() =>
+                  setCurrentServings(
+                    currentServings < 10 ? currentServings + 1 : currentServings
+                  )
+                }
+                sx={{ p: 0 }}
+              >
+                <AddBox fontSize="large" />
+              </Button>
+              <Button
+                onClick={() =>
+                  setCurrentServings(
+                    currentServings > 1 ? currentServings - 1 : currentServings
+                  )
+                }
+                sx={{ p: 0 }}
+              >
+                <IndeterminateCheckBox fontSize="large" />
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>
@@ -140,7 +169,10 @@ const SingleRecipe = ({ recipe }) => {
         <Stack direction="column">
           <Box>
             <Typography variant="h5">Ingredients</Typography>
-            <RenderIngredients ingredients={recipe?.recipeIngredients} />
+            <RenderIngredients
+              ingredients={recipe?.recipeIngredients}
+              currentServings={currentServings}
+            />
           </Box>
         </Stack>
         <Stack sx={{ mt: 5 }} direction="column">

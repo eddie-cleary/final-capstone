@@ -26,7 +26,16 @@ const RecipesList = () => {
 
   return (
     <Stack>
-      <List>{recipeComponents}</List>
+      <List
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          flexWrap: "wrap",
+          gap: "20px",
+        }}
+      >
+        {recipeComponents}
+      </List>
     </Stack>
   );
 };

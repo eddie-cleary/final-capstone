@@ -1,11 +1,8 @@
 package com.techelevator.controller;
 
 import com.techelevator.entity.MealPlan;
-import com.techelevator.model.MealDTO;
 import com.techelevator.model.MealPlanDTO;
-import com.techelevator.service.AppUserService;
 import com.techelevator.service.MealPlanService;
-//import com.techelevator.service.MealService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -27,10 +27,13 @@ const modalStyles = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   minWidth: "300px",
-  maxWidth: "800px",
+  width: "100%",
+  maxWidth: "90vw",
+  maxHeight: "90vh",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
+  overflow: "scroll",
   p: 4,
 };
 

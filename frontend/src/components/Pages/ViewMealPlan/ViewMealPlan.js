@@ -86,11 +86,6 @@ const ViewMealPlan = () => {
     setCurrentRecipe(null);
   };
 
-  useEffect(() => {
-    console.log("recipe modal is showing ", showRecipeModal);
-    console.log("current recipe is ", currentRecipe);
-  }, [showRecipeModal]);
-
   const handleDelete = (e) => {
     e.preventDefault();
     setShowDeleteModal(true);
