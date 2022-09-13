@@ -1,5 +1,6 @@
 package com.techelevator.model;
 
+import com.techelevator.entity.Category;
 import com.techelevator.entity.Ingredient;
 import com.techelevator.entity.Step;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class RecipeDTO {
     private int prepTime;
     private int cookTime;
     private String imgId;
+    private List<String> categories;
     private List<RecipeIngredientDTO> recipeIngredients;
     private List<Step> steps;
     private boolean liked;

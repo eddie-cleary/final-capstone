@@ -27,6 +27,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final AppUserServiceImpl appUserService;
 
+    private final CategoryRepo categoryRepo;
+
     @Override
     public Recipe addRecipe(String username, RecipeDTO recipeDTO) {
         AppUser recipeCreator = appUserRepo.findByUsername(username);
@@ -61,6 +63,15 @@ public class RecipeServiceImpl implements RecipeService {
             newRecipeIngredients.add(savedRecipeIngredient);
         }
         newRecipe.setRecipeIngredients(newRecipeIngredients);
+
+        // Set categories on recipe
+        Set<Category> newRecipeCategories = new HashSet<>();
+        for (String categoryName : recipeDTO.getCategories()) {
+            Category category = categoryRepo.findByName(categoryName);
+            category.addRecipe(newRecipe);
+            newRecipeCategories.add(category);
+        }
+        newRecipe.setRecipeCategory(newRecipeCategories);
 
         if (recipeDTO.isLiked()) {
             newRecipe.addUserToLiked(recipeCreator);

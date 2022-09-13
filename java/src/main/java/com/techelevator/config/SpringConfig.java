@@ -38,12 +38,13 @@ public class SpringConfig {
             roleService.addRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
             Role userRole = roleRepo.findByName("ROLE_USER");
+            Role adminRole = roleRepo.findByName("ROLE_ADMIN");
 
             AppUser brandon = AppUser.builder()
                     .username("brandon")
                     .password(passwordEncoder().encode("brandon123"))
                     .activated(true)
-                    .roles(Set.of(userRole))
+                    .roles(Set.of(userRole, adminRole))
                     .build();
 
             appUserService.addUser(brandon);
