@@ -19,6 +19,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
+import ShoppingList from "../ShoppingList/ShoppingList";
 
 const modalStyles = {
   position: "absolute",
@@ -28,8 +29,9 @@ const modalStyles = {
   minWidth: "300px",
   maxWidth: "1200px",
   maxHeight: "90vh",
+  height: "100%",
   width: "85vw",
-  bgcolor: "background.paper",
+  backgroundColor: "white",
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
@@ -62,6 +64,7 @@ const ViewMealPlan = () => {
   const [errMsg, setErrMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [showShoppingList, setShowShoppingList] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -163,7 +166,7 @@ const ViewMealPlan = () => {
       <Box>
         <Link to={`/mealplans/edit/${mealPlan?.id}`} component={ReactLink}>
           <Button variant="contained" sx={{ width: "auto" }}>
-            Edit Meal Plan
+            Edit
           </Button>
         </Link>
         <Button
@@ -172,7 +175,14 @@ const ViewMealPlan = () => {
           variant="contained"
           sx={{ width: "auto", ml: 2 }}
         >
-          {isLoading ? <CircularProgress /> : "Delete Meal Plan"}
+          {isLoading ? <CircularProgress /> : "Delete"}
+        </Button>
+        <Button
+          onClick={() => setShowShoppingList(true)}
+          sx={{ ml: 2 }}
+          variant="contained"
+        >
+          Generate Shopping List
         </Button>
       </Box>
       <Stack sx={{ mt: 4 }}>{dayComponents}</Stack>
@@ -214,6 +224,18 @@ const ViewMealPlan = () => {
             </Stack>
           </form>
         </Box>
+      </Modal>
+
+      <Modal
+        open={showShoppingList}
+        keepMounted
+        onClose={() => setShowShoppingList(false)}
+        aria-labelledby="modal-shoppinglist"
+        aria-describedby="modal-shoppinglist"
+      >
+        <Stack style={modalStyles}>
+          <ShoppingList mealplan={mealPlan} />
+        </Stack>
       </Modal>
 
       <Snackbar
