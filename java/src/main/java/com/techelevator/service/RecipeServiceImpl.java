@@ -65,7 +65,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         // Set categories on recipe
         Set<Category> newRecipeCategories = new HashSet<>();
-        for (String categoryName : recipePayload.getRecipeCategory()) {
+        for (String categoryName : recipePayload.getRecipeCategories()) {
             Category category = categoryRepo.findByName(categoryName);
             category.addRecipe(newRecipe);
             newRecipeCategories.add(category);

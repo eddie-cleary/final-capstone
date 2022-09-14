@@ -1,66 +1,78 @@
 const Fraction = require("fractional").Fraction;
 
-export const convertToMeasurement = (quantity, liquid) => {
-  const values = getValues(liquid);
+export const convertToMeasurement = (rq, liquid) => {
+  // turns quantity of 1/8 teaspoons into a string.
+  // string can contain multiple measurements like "1 cup 2 teaspoons"
+  const mq = getMeasurementQuantities(liquid);
 
   let counts = {};
+  // handle everything from teaspoon and up (see line 62)
 
-  for (let key in values) {
-    // handle everything from teaspoon and up
+  // m = measurement
+  // mq = measurementQuantity (in 1/8 teaspoons)
+  // rq = remaining quantity
+
+  for (let m in mq) {
     while (
-      quantity >= values[key] ||
-      (quantity / values[key]).toFixed(2) == 0.75 ||
-      (quantity / values[key]).toFixed(2) == 0.67 ||
-      (quantity / values[key]).toFixed(2) == 0.5 ||
-      (quantity / values[key]).toFixed(2) == 0.33 ||
-      (quantity / values[key]).toFixed(2) == 0.25
+      rq >= mq[m] ||
+      ((rq / mq[m]).toFixed(2) == 0.75 && rq > 24) ||
+      ((rq / mq[m]).toFixed(2) == 0.67 && rq > 24) ||
+      ((rq / mq[m]).toFixed(2) == 0.5 && rq > 24) ||
+      ((rq / mq[m]).toFixed(2) == 0.33 && rq > 24) ||
+      ((rq / mq[m]).toFixed(2) == 0.25 && rq > 24)
     ) {
-      if (!counts[key]) {
-        counts[key] = "";
+      if (!counts[m]) {
+        counts[m] = "";
       }
-      if ((quantity / values[key]).toFixed(2) == 0.75) {
-        counts[key] = `${counts[key]} 3/4`;
-        quantity /= values[key];
-        quantity = Math.trunc(quantity);
-        continue;
-      } else if ((quantity / values[key]).toFixed(2) == 0.67) {
-        counts[key] = `${counts[key]} 2/3`;
-        quantity /= values[key];
-        quantity = Math.trunc(quantity);
-        continue;
-      } else if ((quantity / values[key]).toFixed(2) == 0.5) {
-        counts[key] = `${counts[key]} 1/2`;
-        quantity /= values[key];
-        quantity = Math.trunc(quantity);
-        continue;
-      } else if ((quantity / values[key]).toFixed(2) == 0.33) {
-        counts[key] = `${counts[key]} 1/3`;
-        quantity /= values[key];
-        quantity = Math.trunc(quantity);
-        continue;
-      } else if ((quantity / values[key]).toFixed(2) == 0.25) {
-        counts[key] = `${counts[key]} 1/4`;
-        quantity /= values[key];
-        quantity = Math.trunc(quantity);
-        continue;
-      } else if (quantity >= values[key]) {
-        // if the key exists, increase value
-        counts[key]++;
-        quantity = quantity - values[key];
+
+      if (rq > 24) {
+        if ((rq / mq[m]).toFixed(2) == 0.75) {
+          counts[m] = `${counts[m]} 3/4`;
+          rq /= mq[m];
+          rq = Math.trunc(rq);
+          continue;
+        } else if ((rq / mq[m]).toFixed(2) == 0.67) {
+          counts[m] = `${counts[m]} 2/3`;
+          rq /= mq[m];
+          rq = Math.trunc(rq);
+          continue;
+        } else if ((rq / mq[m]).toFixed(2) == 0.5) {
+          counts[m] = `${counts[m]} 1/2`;
+          rq /= mq[m];
+          rq = Math.trunc(rq);
+          continue;
+        } else if ((rq / mq[m]).toFixed(2) == 0.33) {
+          counts[m] = `${counts[m]} 1/3`;
+          rq /= mq[m];
+          rq = Math.trunc(rq);
+          continue;
+        } else if ((rq / mq[m]).toFixed(2) == 0.25) {
+          counts[m] = `${counts[m]} 1/4`;
+          rq /= mq[m];
+          rq = Math.trunc(rq);
+          continue;
+        }
       }
-      // subtract solid value each time through loop
+
+      if (rq >= mq[m]) {
+        // if the m exists, increase value
+        counts[m]++;
+        // subtract value each time through loop
+        rq = rq - mq[m];
+      }
     }
   }
-  // remaining values are less than a teaspoon
-  // convert to a fraction
 
-  if (quantity === 0) {
+  // remaining measurement quantities are less than a teaspoon
+  // convert those to a fraction
+
+  if (rq === 0) {
     return formatCountsString(counts);
   }
 
-  const divisor = 1 / Object.entries(values)[2][1];
+  const divisor = 1 / Object.entries(mq)[2][1];
 
-  let fraction = (quantity * divisor).toString();
+  let fraction = (rq * divisor).toString();
 
   if (fraction == 0) {
     return formatCountsString(counts);
@@ -79,14 +91,14 @@ export const convertToMeasurement = (quantity, liquid) => {
         counts.teaspoon =
           counts.teaspoon + ` ${fraction === 0 ? "" : fraction}`;
       } else {
-        // teaspoons don't exist, create teaspoon key and add remaining fraction
+        // teaspoons don't exist in counts object, create teaspoon key and add remaining fraction
         counts.teaspoon = fraction === 0 ? "" : fraction;
       }
     } else {
       if (counts.ounce) {
         counts.ounce = counts.ounce + ` ${fraction === 0 ? "" : fraction}`;
       } else {
-        // teaspoons don't exist, create teaspoon key and add remaining fraction
+        // ounces don't exist in counts object, create ounces key and add remaining fraction
         counts.ounce = fraction === 0 ? "" : fraction;
       }
     }
@@ -122,21 +134,21 @@ const formatCountsString = (countsObj) => {
   return newString.replace(/\s+/g, " ").trim();
 };
 
-const getValues = (liquid) => {
-  const solidValues = {
+const getMeasurementQuantities = (liquid) => {
+  const solidQuantities = {
     cup: 384,
     tablespoon: 24,
     teaspoon: 8,
   };
-  const liquidValues = {
+  const liquidQuantities = {
     quart: 1536,
     pint: 768,
     ounce: 48,
   };
 
   if (liquid) {
-    return liquidValues;
+    return liquidQuantities;
   } else {
-    return solidValues;
+    return solidQuantities;
   }
 };

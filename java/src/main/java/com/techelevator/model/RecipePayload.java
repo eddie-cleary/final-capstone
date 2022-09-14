@@ -27,7 +27,7 @@ public class RecipePayload {
     private int cookTime;
     private String imgId;
     @NotNull
-    private List<String> recipeCategory;
+    private List<String> recipeCategories;
     @NotNull
     private List<RecipeIngredientDTO> recipeIngredients;
     @NotNull

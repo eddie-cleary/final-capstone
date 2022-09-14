@@ -73,10 +73,14 @@ const IngredientSelect = () => {
 
   useEffect(() => {
     if (isIngredientValid && (number > 0 || fraction > 0) && measurement) {
+      console.log(isIngredientValid);
+      console.log(number > 0);
+      console.log(fraction > 0);
+      console.log(measurement);
       dispatch(setIsFormValid(true));
       return;
     }
-    setIsFormValid(false);
+    dispatch(setIsFormValid(false));
   }, [isIngredientValid, measurement, number, fraction]);
 
   const handleAddIngredient = () => {
@@ -102,7 +106,7 @@ const IngredientSelect = () => {
         sx={{ flexGrow: 1 }}
         loading={isIngredientsLoading}
         options={allIngredients}
-        noOptionsText="Failed to load."
+        noOptionsText="No ingredients"
         getOptionLabel={(option) => option.name}
         isOptionEqualToValue={(option, value) => option.name === value.name}
         onChange={(e) => {

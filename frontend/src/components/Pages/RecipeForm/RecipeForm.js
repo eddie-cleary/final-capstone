@@ -218,11 +218,11 @@ const RecipeForm = ({ isEdit }) => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
-      postObject.recipeCategory?.length > 0 &&
+      postObject.recipeCategories?.length > 0 &&
       isStepsValid &&
       isRecipeIngredientsValid &&
-      postObject.prepTime.length > 0 &&
-      postObject.cookTime.length > 0
+      postObject.prepTime > 0 &&
+      postObject.cookTime > 0
     ) {
       dispatch(setIsFormValid(true));
     } else {
