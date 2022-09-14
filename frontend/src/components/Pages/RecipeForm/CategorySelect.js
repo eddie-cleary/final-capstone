@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
-import { setRecipeCategory } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import { setRecipeCategories } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,7 +39,7 @@ const CategorySelect = () => {
   const token = useSelector((state) => state.auth.token);
   const [allCategories, setAllCategories] = useState([]);
   const chosenCategories = useSelector(
-    (state) => state.addRecipeData.recipeCategory
+    (state) => state.addRecipeData.recipeCategories
   );
   const dispatch = useDispatch();
 
@@ -58,8 +58,7 @@ const CategorySelect = () => {
 
   const handleChange = (event) => {
     const value = event.target.value;
-
-    dispatch(setRecipeCategory(value));
+    dispatch(setRecipeCategories(value));
   };
 
   return (

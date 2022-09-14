@@ -61,7 +61,6 @@ export const mealPlanDataSlice = createSlice({
       state.recipesModal.isShowing = false;
     },
     setMealPlanFormData(state, action) {
-      console.log("setting meal plan to ", action.payload);
       return {
         ...action.payload,
         recipesModal: initialState.recipesModal,

@@ -6,10 +6,7 @@ import { baseUrl } from "../../../shared/baseUrl";
 import { CircularProgress } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import RecipeForm from "../RecipeForm/RecipeForm";
-import {
-  setRecipeFormData,
-  setLiked,
-} from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import { setRecipeFormData } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
 const EditRecipe = () => {
   const currUserId = useSelector((state) => state.auth.user.id);
@@ -38,16 +35,13 @@ const EditRecipe = () => {
 
   useEffect(() => {
     if (isRecipeLoaded && isAuthorized) {
-      if (recipe.recipesLiked.includes(currUserId)) {
-        dispatch(setLiked(true));
-      }
       dispatch(setRecipeFormData(recipe));
     }
   }, [isRecipeLoaded, isAuthorized]);
 
   useEffect(() => {
     if (isRecipeLoaded) {
-      if (recipe?.appUser?.id === currUserId) {
+      if (recipe.creatorId === currUserId) {
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);

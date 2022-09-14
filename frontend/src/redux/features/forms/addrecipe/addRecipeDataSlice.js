@@ -4,7 +4,7 @@ const initialState = {
   id: "",
   title: "",
   description: "",
-  recipeCategory: [],
+  recipeCategories: [],
   servings: 1,
   prepTime: "",
   cookTime: "",
@@ -31,10 +31,10 @@ export const addRecipeDataSlice = createSlice({
         description: action.payload,
       };
     },
-    setRecipeCategory: (state, action) => {
+    setRecipeCategories: (state, action) => {
       return {
         ...state,
-        recipeCategory: action.payload,
+        recipeCategories: action.payload,
       };
     },
     setServings: (state, action) => {
@@ -112,20 +112,9 @@ export const addRecipeDataSlice = createSlice({
       };
     },
     setRecipeFormData: (state, action) => {
+      console.log("setting recipe to ", action.payload);
       return {
         ...action.payload,
-        recipeIngredients: action.payload.recipeIngredients.map(
-          (ingredient) => {
-            return {
-              name: ingredient.ingredient.name,
-              quantity: ingredient.quantity,
-            };
-          }
-        ),
-        liked: false,
-        recipeCategory: action.payload.recipeCategory.map(
-          (category) => category.name
-        ),
       };
     },
     resetState: () => {
@@ -139,7 +128,7 @@ export const addRecipeDataSlice = createSlice({
 export const {
   setTitle,
   setDescription,
-  setRecipeCategory,
+  setRecipeCategories,
   setServings,
   setPrepTime,
   setCookTime,
