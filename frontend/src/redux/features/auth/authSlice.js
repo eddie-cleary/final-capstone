@@ -16,7 +16,6 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     addUser: (state, action) => {
-      console.log("adding user ", action.payload);
       return {
         ...state,
         user: {

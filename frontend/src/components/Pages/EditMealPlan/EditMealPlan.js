@@ -18,10 +18,6 @@ const EditMealPlan = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("the meal plan is ", mealPlan);
-  }, [mealPlan]);
-
-  useEffect(() => {
     loadMealPlan();
   }, []);
 

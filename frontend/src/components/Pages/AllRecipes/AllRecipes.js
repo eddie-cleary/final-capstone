@@ -3,12 +3,13 @@ import Layout from "../../Layout/Layout";
 import { useSelector } from "react-redux";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
-import RecipeCard from "../../shared/RecipeCard";
-import { Typography, Stack, List } from "@mui/material";
+import { Typography, Stack, List, Box } from "@mui/material";
+import CategoryTabSelect from "./CategoryTabSelect";
 
 const AllRecipes = () => {
-  const [recipesData, setRecipesData] = useState([]);
+  const [allRecipes, setAllRecipes] = useState([]);
   const token = useSelector((state) => state.auth.token);
+  const [recipesToDisplay, setRecipesToDisplay] = useState([]);
 
   useEffect(() => {
     axios
@@ -18,23 +19,25 @@ const AllRecipes = () => {
         },
       })
       .then((res) => {
-        setRecipesData(res.data);
+        setAllRecipes(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
 
-  const recipes = recipesData?.map((recipe) => {
-    return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
-  });
-
   return (
     <Layout>
       <Typography variant="h3">All Recipes</Typography>
+      <Box sx={{ mt: 3, width: "100%", bgcolor: "background.paper" }}>
+        <CategoryTabSelect
+          setRecipesToDisplay={setRecipesToDisplay}
+          allRecipes={allRecipes}
+        />
+      </Box>
       <List>
         <Stack direction="row" flexWrap="wrap">
-          {recipes}
+          {recipesToDisplay}
         </Stack>
       </List>
     </Layout>

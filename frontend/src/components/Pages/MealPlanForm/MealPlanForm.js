@@ -97,7 +97,6 @@ const MealPlanForm = ({ isEdit }) => {
 
     postObject.days.forEach((day) => {
       day.meals?.forEach((meal) => {
-        console.log("the meal ", meal);
         if (meal.recipes?.length === 0) {
           newErrorList.push("Each meal must have at least 1 recipe.");
         }
