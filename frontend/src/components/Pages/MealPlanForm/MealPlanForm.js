@@ -130,6 +130,7 @@ const MealPlanForm = ({ isEdit }) => {
   };
 
   const postMealPlan = () => {
+    console.log("the post object is ", postObject);
     axios
       .post(baseUrl + `/mealplans`, postObject, {
         headers: {
@@ -150,6 +151,7 @@ const MealPlanForm = ({ isEdit }) => {
   };
 
   const putMealPlan = () => {
+    console.log("the put object is ", postObject);
     axios
       .put(baseUrl + `/mealplans/${postObject.id}`, postObject, {
         headers: {
@@ -161,7 +163,7 @@ const MealPlanForm = ({ isEdit }) => {
         setShowSuccess(true);
       })
       .catch((err) => {
-        setErrMsg(err.response);
+        setErrMsg(err.message);
         setShowError(true);
       })
       .then(() => {
@@ -191,7 +193,6 @@ const MealPlanForm = ({ isEdit }) => {
               placeholder="Meal plan title"
             ></TextField>
             <Stack sx={{ mt: 3, ml: 2 }} direction="row" alignSelf="flex-start">
-              <CustomButton variant="contained">Edit</CustomButton>
               <CustomButton
                 onClick={handleSubmit}
                 sx={{ ml: 4 }}

@@ -20,7 +20,6 @@ const ViewRecipe = () => {
       })
       .then((res) => {
         setRecipe(res.data);
-        console.log("the recipe is ", res.data);
       })
       .catch((err) => {
         console.log(err);

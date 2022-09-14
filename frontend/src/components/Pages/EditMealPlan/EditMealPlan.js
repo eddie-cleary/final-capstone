@@ -35,7 +35,6 @@ const EditMealPlan = () => {
 
   useEffect(() => {
     if (isMealPlanLoaded && isAuthorized) {
-      console.log("setting form data");
       dispatch(setMealPlanFormData(mealPlan));
     }
   }, [isMealPlanLoaded, isAuthorized]);
@@ -43,7 +42,6 @@ const EditMealPlan = () => {
   useEffect(() => {
     if (isMealPlanLoaded) {
       if (mealPlan?.appUser?.id === currUserId) {
-        console.log("authorized");
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);

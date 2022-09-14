@@ -83,7 +83,6 @@ const IngredientSelect = () => {
     const currQuantity = calculateQuantity(number, fraction, measurement);
     const newList = [...recipeIngredients];
     let newIngredient = newList[newList.length];
-    console.log("current ingredient is ", ingredient);
     newIngredient = {
       name: ingredient.name,
       quantity: currQuantity,

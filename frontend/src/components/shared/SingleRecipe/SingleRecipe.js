@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Stack,
   Box,
@@ -90,7 +90,11 @@ const BoldUnderline = ({ text }) => {
 const SingleRecipe = ({ recipe }) => {
   const recipePrepTime = recipe?.prepTime;
   const recipeCookTime = recipe?.cookTime;
-  const [currentServings, setCurrentServings] = useState(recipe?.servings);
+  const [currentServings, setCurrentServings] = useState(1);
+
+  useEffect(() => {
+    setCurrentServings(recipe?.servings);
+  }, [recipe]);
 
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("lg"));

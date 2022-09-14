@@ -23,7 +23,7 @@ public class RecipeDTO {
     private int prepTime;
     private int cookTime;
     private String imgId;
-    private List<String> categories;
+    private List<CategoryDTO> recipeCategory;
     private List<RecipeIngredientDTO> recipeIngredients;
     private List<Step> steps;
     private boolean liked;

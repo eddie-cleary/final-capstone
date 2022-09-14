@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,12 +26,7 @@ public class Category {
     @NotNull
     private String name;
 
-    @ManyToMany
-    @JoinTable(
-            name="recipe_category",
-            joinColumns = @JoinColumn(name = "category_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-    )
+    @ManyToMany(mappedBy = "recipeCategory")
     @JsonIgnore
     Set<Recipe> recipeCategory = new HashSet<>();
 

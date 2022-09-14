@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
-import { setCategories } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import { setRecipeCategory } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -39,7 +39,7 @@ const CategorySelect = () => {
   const token = useSelector((state) => state.auth.token);
   const [allCategories, setAllCategories] = useState([]);
   const chosenCategories = useSelector(
-    (state) => state.addRecipeData.categories
+    (state) => state.addRecipeData.recipeCategory
   );
   const dispatch = useDispatch();
 
@@ -50,18 +50,16 @@ const CategorySelect = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => setAllCategories(res.data))
+      .then((res) => {
+        setAllCategories(res.data.map((category) => category.name));
+      })
       .catch((err) => console.log(err.response));
   }, []);
 
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+    const value = event.target.value;
 
-    dispatch(
-      setCategories(typeof value === "string" ? value.split(",") : value)
-    );
+    dispatch(setRecipeCategory(value));
   };
 
   return (
@@ -77,8 +75,8 @@ const CategorySelect = () => {
           input={<OutlinedInput id="select-multiple-chip" label="Category" />}
           renderValue={(selected) => (
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-              {selected.map((value) => (
-                <Chip key={value} label={value} />
+              {selected.map((value, index) => (
+                <Chip key={index} label={value} />
               ))}
             </Box>
           )}
@@ -86,11 +84,11 @@ const CategorySelect = () => {
         >
           {allCategories.map((category) => (
             <MenuItem
-              key={category.name}
-              value={category.name}
-              style={getStyles(category.name, allCategories, theme)}
+              key={category}
+              value={category}
+              style={getStyles(category, allCategories, theme)}
             >
-              {category.name}
+              {category}
             </MenuItem>
           ))}
         </Select>

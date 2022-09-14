@@ -1,6 +1,7 @@
 package com.techelevator.service;
 
 import com.techelevator.entity.*;
+import com.techelevator.model.CategoryDTO;
 import com.techelevator.model.RecipeDTO;
 import com.techelevator.model.RecipeIngredientDTO;
 import com.techelevator.repo.*;
@@ -66,8 +67,8 @@ public class RecipeServiceImpl implements RecipeService {
 
         // Set categories on recipe
         Set<Category> newRecipeCategories = new HashSet<>();
-        for (String categoryName : recipeDTO.getCategories()) {
-            Category category = categoryRepo.findByName(categoryName);
+        for (CategoryDTO categoryName : recipeDTO.getRecipeCategory()) {
+            Category category = categoryRepo.findByName(categoryName.getName());
             category.addRecipe(newRecipe);
             newRecipeCategories.add(category);
         }

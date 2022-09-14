@@ -29,7 +29,8 @@ const AddIngredient = () => {
 
   const token = useSelector((state) => state.auth.token);
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const postData = { name };
     setIsLoading(true);
     axios

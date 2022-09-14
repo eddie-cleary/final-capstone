@@ -40,7 +40,6 @@ public class Recipe {
     // add not null
     @ManyToOne
     @JoinColumn(name = "appuser_id", referencedColumnName = "appuser_id")
-    @JsonIgnore
     private AppUser appUser;
 
     // add not null
@@ -53,7 +52,12 @@ public class Recipe {
 //    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
 //    private List<MealRecipe> mealRecipes = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "recipeCategory")
+    @ManyToMany
+    @JoinTable(
+            name="recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
     private Set<Category> recipeCategory = new HashSet<>();
 
     @ManyToMany
@@ -62,7 +66,6 @@ public class Recipe {
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "appuser_id")
     )
-    @JsonIgnore
     Set<AppUser> recipesLiked = new HashSet<>();
 
     public void addUserToLiked(AppUser appUser) {

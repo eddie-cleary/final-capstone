@@ -61,9 +61,7 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    if (recipe.appUser.id === currUserId) {
-      navigate(`/recipes/edit/${recipe.id}`);
-    }
+    navigate(`/recipes/edit/${recipe.id}`);
   };
 
   const openSuccess = () => {

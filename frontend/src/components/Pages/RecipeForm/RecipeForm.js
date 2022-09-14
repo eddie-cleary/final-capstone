@@ -85,7 +85,7 @@ const RecipeForm = ({ isEdit }) => {
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        // dispatch(setErrMsg(err.message));
+        dispatch(setErrMsg(err.response));
         dispatch(setShowError(true));
       })
       .then(() => {
@@ -216,7 +216,7 @@ const RecipeForm = ({ isEdit }) => {
     if (
       postObject.title.length > 2 &&
       postObject.description.length > 2 &&
-      postObject.categories.length > 0 &&
+      postObject.recipeCategory?.length > 0 &&
       isStepsValid &&
       isRecipeIngredientsValid &&
       postObject.prepTime.length > 0 &&
