@@ -13,12 +13,12 @@ const ShoppingList = ({ mealplan }) => {
         for (let mealrecipe of meal.mealRecipes) {
           let servings = mealrecipe.servings;
           for (let recipeIngredient of mealrecipe.recipe.recipeIngredients) {
-            const ingredient = recipeIngredient.ingredient;
-            if (shoppingListObj.hasOwnProperty(ingredient.name)) {
-              shoppingListObj[ingredient.name] +=
+            const ingredient = recipeIngredient.name;
+            if (shoppingListObj.hasOwnProperty(ingredient)) {
+              shoppingListObj[ingredient] +=
                 recipeIngredient.quantity * servings;
             } else {
-              shoppingListObj[ingredient.name] =
+              shoppingListObj[ingredient] =
                 recipeIngredient.quantity * servings;
             }
           }

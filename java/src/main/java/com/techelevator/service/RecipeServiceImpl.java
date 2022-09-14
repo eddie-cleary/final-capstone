@@ -1,9 +1,7 @@
 package com.techelevator.service;
 
 import com.techelevator.entity.*;
-import com.techelevator.model.CategoryDTO;
-import com.techelevator.model.RecipeDTO;
-import com.techelevator.model.RecipeIngredientDTO;
+import com.techelevator.model.*;
 import com.techelevator.repo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,19 +29,19 @@ public class RecipeServiceImpl implements RecipeService {
     private final CategoryRepo categoryRepo;
 
     @Override
-    public Recipe addRecipe(String username, RecipeDTO recipeDTO) {
+    public RecipeResponse addRecipe(String username, RecipePayload recipePayload) {
         AppUser recipeCreator = appUserRepo.findByUsername(username);
 
         // New recipe obj + direct fields
         Recipe newRecipe = new Recipe();
-        newRecipe.addRecipeDTO(recipeDTO);
+        newRecipe.addRecipePayload(recipePayload);
         newRecipe.setAppUser(recipeCreator);
 
         // Set steps on recipe
         List<Step> newSteps = new ArrayList<>();
-        for (Step step : recipeDTO.getSteps()) {
+        for (String step : recipePayload.getSteps()) {
             Step newStep = Step.builder()
-                    .info(step.getInfo())
+                    .info(step)
                     .recipe(newRecipe)
                     .build();
             Step savedStep = stepRepo.save(newStep);
@@ -53,7 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
 
         // Set ingredients on recipe
         List<RecipeIngredient> newRecipeIngredients = new ArrayList<>();
-        for (RecipeIngredientDTO recipeIngredientDTO : recipeDTO.getRecipeIngredients()) {
+        for (RecipeIngredientDTO recipeIngredientDTO : recipePayload.getRecipeIngredients()) {
             Ingredient foundIngredient = ingredientRepo.findByName(recipeIngredientDTO.getName());
             RecipeIngredient newRecipeIngredient = RecipeIngredient.builder()
                     .ingredient(foundIngredient)
@@ -67,18 +65,19 @@ public class RecipeServiceImpl implements RecipeService {
 
         // Set categories on recipe
         Set<Category> newRecipeCategories = new HashSet<>();
-        for (CategoryDTO categoryName : recipeDTO.getRecipeCategory()) {
-            Category category = categoryRepo.findByName(categoryName.getName());
+        for (String categoryName : recipePayload.getRecipeCategory()) {
+            Category category = categoryRepo.findByName(categoryName);
             category.addRecipe(newRecipe);
             newRecipeCategories.add(category);
         }
         newRecipe.setRecipeCategory(newRecipeCategories);
 
-        if (recipeDTO.isLiked()) {
+        if (recipePayload.isLiked()) {
             newRecipe.addUserToLiked(recipeCreator);
         }
 
-        return recipeRepo.save(newRecipe);
+        recipeRepo.save(newRecipe);
+        return this.getRecipeById(username, newRecipe.getId());
     }
 
     @Override
@@ -91,11 +90,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe getRecipeById(String username, Long id) {
+    public RecipeResponse getRecipeById(String username, Long id) {
         Optional<Recipe> recipe = recipeRepo.findById(id);
         if (isRecipeCreator(username, id, "get")) {
             if (recipe.isPresent()) {
-                return recipe.get();
+                Long currUserId = appUserService.getId(username).getId();
+                RecipeResponse recipeResponse = new RecipeResponse(recipe.get(), currUserId);
+                return recipeResponse;
             }
         }
         throw new RuntimeException("Recipe not found");
@@ -119,23 +120,23 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Recipe updateRecipe (String username, Long id, RecipeDTO recipeDTO) {
+    public Recipe updateRecipe (String username, Long id, RecipePayload recipePayload) {
         log.info("Updating Recipe for id {}", id);
 
         try {
             AppUser appUser = appUserService.getUser(username);
-            if (id == recipeDTO.getId() && appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
+            if (id == recipePayload.getId() && appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
 
                 Recipe oldRecipe = recipeRepo.findById(id).get();
-                oldRecipe.addRecipeDTO(recipeDTO);
+                oldRecipe.addRecipePayload(recipePayload);
 
                 oldRecipe.getSteps().removeAll(oldRecipe.getSteps());
 
                 // Set steps on recipe
                 List<Step> newSteps = new ArrayList<>();
-                for (Step step : recipeDTO.getSteps()) {
+                for (String step : recipePayload.getSteps()) {
                     Step newStep = Step.builder()
-                            .info(step.getInfo())
+                            .info(step)
                             .recipe(oldRecipe)
                             .build();
                     Step savedStep = stepRepo.save(newStep);
@@ -147,7 +148,7 @@ public class RecipeServiceImpl implements RecipeService {
 
                 // Set ingredients on recipe
                 List<RecipeIngredient> newRecipeIngredients = new ArrayList<>();
-                for (RecipeIngredientDTO recipeIngredientDTO : recipeDTO.getRecipeIngredients()) {
+                for (RecipeIngredientDTO recipeIngredientDTO : recipePayload.getRecipeIngredients()) {
                     Ingredient foundIngredient = ingredientRepo.findByName(recipeIngredientDTO.getName());
                     RecipeIngredient newRecipeIngredient = RecipeIngredient.builder()
                             .ingredient(foundIngredient)
@@ -162,7 +163,7 @@ public class RecipeServiceImpl implements RecipeService {
                 return recipeRepo.save(oldRecipe);
             }
         } catch (Exception e){
-            log.warn("Fetching failed for updating recipe {} by user {} reason: {} || message: {} ", recipeDTO, username, e.getCause(), e.getMessage());
+            log.warn("Fetching failed for updating recipe {} by user {} reason: {} || message: {} ", recipePayload, username, e.getCause(), e.getMessage());
             throw new RuntimeException("Recipe update failed", e.getCause());
         }
         return null;
@@ -172,7 +173,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Boolean deleteRecipe(String username, Long recipeId) {
         //Validate user is deleting their own recipe
         log.info("Attemping to delete recipe id: {}. Requested by {}", recipeId, username);
-        Recipe recipe = getRecipeById(username, recipeId);
+        Recipe recipe = recipeRepo.findById(recipeId).get();
         AppUser currentUser = appUserService.getId(username);
         if (currentUser.getId().equals(recipe.getAppUser().getId())) {
             recipeRepo.deleteById(recipeId);

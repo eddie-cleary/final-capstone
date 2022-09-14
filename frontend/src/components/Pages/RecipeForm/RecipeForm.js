@@ -74,6 +74,8 @@ const RecipeForm = ({ isEdit }) => {
   const dispatch = useDispatch();
 
   const postToServer = () => {
+    console.log("the post object", postObject);
+
     axios
       .post(baseUrl + `/recipes/add`, postObject, {
         headers: {
@@ -184,7 +186,7 @@ const RecipeForm = ({ isEdit }) => {
 
   useEffect(() => {
     const result = postObject.steps.every((step) => {
-      if (step.info.length > 2) {
+      if (step.length > 2) {
         return true;
       }
       return false;

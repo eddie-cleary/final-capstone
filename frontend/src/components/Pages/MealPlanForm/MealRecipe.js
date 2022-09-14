@@ -30,7 +30,7 @@ const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
       >
         <Typography sx={{ mr: 1 }}>{recipe.servings}</Typography>
         <Typography sx={{ width: "calc(100% - 35px)", overflow: "hidden" }}>
-          {recipe.title}
+          {recipe.name}
         </Typography>
       </Stack>
     </Stack>

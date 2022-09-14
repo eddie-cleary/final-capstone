@@ -3,6 +3,8 @@ package com.techelevator.controller;
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
 import com.techelevator.model.RecipeDTO;
+import com.techelevator.model.RecipePayload;
+import com.techelevator.model.RecipeResponse;
 import com.techelevator.service.RecipeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +22,13 @@ public class RecipeController {
     private final RecipeService recipeService;
 
     @GetMapping("/{id}")
-    public Recipe getRecipeById(Principal principal, @PathVariable Long id) {
+    public RecipeResponse getRecipeById(Principal principal, @PathVariable Long id) {
         return recipeService.getRecipeById(principal.getName(), id);
     }
 
     @PostMapping("/add")
-    public Recipe addRecipe(@RequestBody RecipeDTO recipeDTO, Principal principal) {
-        return recipeService.addRecipe(principal.getName(), recipeDTO);
+    public RecipeResponse addRecipe(@RequestBody RecipePayload recipePayload, Principal principal) {
+        return recipeService.addRecipe(principal.getName(), recipePayload);
     }
 
     @GetMapping("/all")
@@ -40,8 +42,8 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipeDTO recipeDTO) {
-        return recipeService.updateRecipe(principal.getName(), id, recipeDTO);
+    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipePayload recipePayload) {
+        return recipeService.updateRecipe(principal.getName(), id, recipePayload);
     }
 
     @GetMapping("/myRecipes")

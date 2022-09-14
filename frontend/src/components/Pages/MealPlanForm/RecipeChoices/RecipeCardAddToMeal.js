@@ -19,8 +19,6 @@ const RecipeCardAddToMeal = ({ recipe }) => {
   const [validForm, setValidForm] = useState(false);
 
   const addRecipeObj = {
-    id: null,
-    meal_id: null,
     recipe: {
       id: recipe.id,
       title: recipe.title,

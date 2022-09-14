@@ -30,15 +30,15 @@ const StepsList = () => {
               {index + 1}
             </InputLabel>
             <TextField
-              value={steps[index].info}
+              value={steps[index]}
               onChange={(e) => {
                 const newList = [...steps];
-                newList[index] = { info: e.target.value };
+                newList[index] = e.target.value;
                 dispatch(setSteps(newList));
               }}
               sx={{ flexGrow: 1 }}
             >
-              {steps.index}
+              {steps[index]}
             </TextField>
             <Button
               onClick={() => dispatch(deleteStep())}

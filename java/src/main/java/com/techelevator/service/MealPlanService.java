@@ -2,6 +2,8 @@ package com.techelevator.service;
 
 import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealPlanDTO;
+import com.techelevator.model.MealPlanPayload;
+import com.techelevator.model.MealPlanResponse;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -11,10 +13,10 @@ import java.util.List;
 
 public interface MealPlanService {
 
-    MealPlan getMealPlanById(String username, Long mealPlanId) throws IllegalAccessException;
+    MealPlanResponse getMealPlanById(String username, Long mealPlanId) throws IllegalAccessException;
     public List<MealPlan> getMealPlans(String username);
 
-    MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO);
+    MealPlanResponse addMealPlan(String username, MealPlanPayload mealPlanPayload);
 
     MealPlan updateMealPlan(String username, Long mealPlanId, MealPlanDTO mealPlanDTO);
 

@@ -24,17 +24,12 @@ import { current } from "@reduxjs/toolkit";
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = [];
   ingredients?.map((ingredient) => {
-    const {
-      id: recipeId,
-      quantity: quantityTsp,
-      ingredient: ingredients,
-    } = ingredient;
-    let liquid = ingredients.liquid;
+    const { id: recipeId, quantity: quantityTsp, name, liquid } = ingredient;
     let convertedMeasurement = convertToMeasurement(
       quantityTsp * currentServings,
       liquid
     );
-    renderedIngredients.push(convertedMeasurement + " of " + ingredients.name);
+    renderedIngredients.push(convertedMeasurement + " of " + ingredient.name);
   });
   return renderedIngredients.map((ingredient, index) => (
     <List key={index}>
@@ -52,8 +47,7 @@ const RenderSteps = ({ steps }) => {
   let renderedSteps = [];
 
   steps?.map((step, index) => {
-    const { info: currentStep } = step;
-    renderedSteps.push(index + 1 + ". " + currentStep);
+    renderedSteps.push(index + 1 + ". " + step);
   });
   return renderedSteps.map((step) => (
     <List key={step}>

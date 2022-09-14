@@ -10,7 +10,7 @@ const initialState = {
   cookTime: "",
   imgId: "",
   ingredient: "",
-  steps: [{ info: "" }],
+  steps: [""],
   recipeIngredients: [],
   liked: false,
 };
@@ -64,7 +64,7 @@ export const addRecipeDataSlice = createSlice({
     addStep: (state) => {
       return {
         ...state,
-        steps: [...state.steps, { info: "" }],
+        steps: [...state.steps, ""],
       };
     },
     deleteStep: (state) => {
@@ -122,12 +122,6 @@ export const addRecipeDataSlice = createSlice({
             };
           }
         ),
-        steps: action.payload.steps.map((step, index) => {
-          return {
-            index: index,
-            info: step.info,
-          };
-        }),
         liked: false,
         recipeCategory: action.payload.recipeCategory.map(
           (category) => category.name

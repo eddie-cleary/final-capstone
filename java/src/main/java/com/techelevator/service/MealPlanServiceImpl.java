@@ -2,11 +2,8 @@ package com.techelevator.service;
 
 
 import com.techelevator.entity.*;
-import com.techelevator.model.DayDTO;
-import com.techelevator.model.MealDTO;
-import com.techelevator.model.MealPlanDTO;
+import com.techelevator.model.*;
 
-import com.techelevator.model.MealRecipeDTO;
 import com.techelevator.repo.*;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,17 +33,18 @@ public class MealPlanServiceImpl implements MealPlanService {
     MealRecipeRepo mealRecipeRepo;
 
     @Override
-    public MealPlan getMealPlanById(String username, Long mealPlanId) {
+    public MealPlanResponse getMealPlanById(String username, Long mealPlanId) {
         try {
             AppUser appUser = appUserService.getUser(username);
             MealPlan mealPlan = mealPlanRepo.findById(mealPlanId).get();
             if (appUser.getId() == mealPlan.getAppUser().getId()) {
-                return mealPlan;
+                MealPlanResponse mealPlanResponse = new MealPlanResponse(mealPlan);
+                return mealPlanResponse;
             } else {
                 throw new IllegalAccessException("You are not authorized to view this meal plan.");
             }
         } catch (Exception e) {
-            log.warn("Unable to get meal plan id {} for \"{}\"", mealPlanId, username);
+            log.warn("Unable to get meal plan id {} for \"{}\" {}", mealPlanId, username, e.getMessage());
             throw new ResourceAccessException("Unabled to retrieve meal plan.");
         }
     }
@@ -63,17 +61,17 @@ public class MealPlanServiceImpl implements MealPlanService {
     }
 
     @Override
-    public MealPlan createMealPlan(String username, MealPlanDTO mealPlanDTO) {
+    public MealPlanResponse addMealPlan(String username, MealPlanPayload mealPlanPayload) {
         try {
             log.info("Creating meal plan for \"{}\"", username);
             MealPlan newMealPlan = new MealPlan();
-            newMealPlan.setTitle(mealPlanDTO.getTitle());
+            newMealPlan.setTitle(mealPlanPayload.getTitle());
             newMealPlan.setAppUser(appUserService.getUser(username));
             mealPlanRepo.save(newMealPlan);
 
             // Set days
             Set<Day> newDays = new HashSet<>();
-            for (DayDTO dayDTO : mealPlanDTO.getDays()) {
+            for (DayDTO dayDTO : mealPlanPayload.getDays()) {
                 Day newDay = new Day();
                 newDay.setMealPlan(newMealPlan);
                 dayRepo.save(newDay);
@@ -104,7 +102,10 @@ public class MealPlanServiceImpl implements MealPlanService {
             }
             newMealPlan.setDays(newDays);
 
-            return mealPlanRepo.save(newMealPlan);
+            mealPlanRepo.save(newMealPlan);
+
+            return this.getMealPlanById(username, newMealPlan.getId());
+
         } catch (Exception e) {
             log.warn("Exception occurred trying to create a meal plan for \"{}\": " + e.getMessage(), username);
             throw new RuntimeException("Could not create a new meal plan.");

@@ -4,6 +4,7 @@ import antlr.CommonAST;
 import antlr.build.ANTLR;
 import com.fasterxml.jackson.annotation.*;
 import com.techelevator.model.RecipeDTO;
+import com.techelevator.model.RecipePayload;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -72,13 +73,13 @@ public class Recipe {
         recipesLiked.add(appUser);
     }
 
-    public void addRecipeDTO(RecipeDTO recipeDTO) {
-        this.title = recipeDTO.getTitle();
-        this.description = recipeDTO.getDescription();
-        this.cookTime = recipeDTO.getCookTime();
-        this.prepTime = recipeDTO.getPrepTime();
-        this.servings = recipeDTO.getServings();
-        this.imgId = recipeDTO.getImgId();
+    public void addRecipePayload(RecipePayload recipePayload) {
+        this.title = recipePayload.getTitle();
+        this.description = recipePayload.getDescription();
+        this.cookTime = recipePayload.getCookTime();
+        this.prepTime = recipePayload.getPrepTime();
+        this.servings = recipePayload.getServings();
+        this.imgId = recipePayload.getImgId();
     }
 
     @Override

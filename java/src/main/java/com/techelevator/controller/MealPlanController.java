@@ -2,6 +2,8 @@ package com.techelevator.controller;
 
 import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealPlanDTO;
+import com.techelevator.model.MealPlanPayload;
+import com.techelevator.model.MealPlanResponse;
 import com.techelevator.service.MealPlanService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +26,13 @@ public class MealPlanController {
     }
 
     @GetMapping("/{id}")
-    public MealPlan getMealPlanById(Principal principal, @PathVariable Long id) throws IllegalAccessException {
+    public MealPlanResponse getMealPlanById(Principal principal, @PathVariable Long id) throws IllegalAccessException {
         return mealPlanService.getMealPlanById(principal.getName(), id);
     }
 
     @PostMapping
-    public MealPlan createMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO) {
-        return mealPlanService.createMealPlan(principal.getName(), mealPlanDTO);
+    public MealPlanResponse addMealPlan(Principal principal, @RequestBody MealPlanPayload mealPlanPayload) {
+        return mealPlanService.addMealPlan(principal.getName(), mealPlanPayload);
     }
 
     @PutMapping("/{id}")

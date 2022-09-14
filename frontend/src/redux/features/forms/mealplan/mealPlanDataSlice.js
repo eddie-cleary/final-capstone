@@ -1,11 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const mealObj = {
-  id: null,
   title: "",
   mealRecipes: [],
 };
-const dayObj = { id: null, meals: [mealObj] };
+const dayObj = { meals: [mealObj] };
 
 const initialState = {
   id: null,
@@ -30,7 +29,6 @@ export const mealPlanDataSlice = createSlice({
     },
     addMeal(state, action) {
       const dayIndex = action.payload;
-      console.log(dayIndex);
       state.days[dayIndex].meals.push(mealObj);
     },
     removeMeal(state, action) {
@@ -63,6 +61,7 @@ export const mealPlanDataSlice = createSlice({
       state.recipesModal.isShowing = false;
     },
     setMealPlanFormData(state, action) {
+      console.log("setting meal plan to ", action.payload);
       return {
         ...action.payload,
         recipesModal: initialState.recipesModal,

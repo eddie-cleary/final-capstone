@@ -41,7 +41,7 @@ const EditMealPlan = () => {
 
   useEffect(() => {
     if (isMealPlanLoaded) {
-      if (mealPlan?.appUser?.id === currUserId) {
+      if (mealPlan.creatorId === currUserId) {
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);
