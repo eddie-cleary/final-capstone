@@ -51,7 +51,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay, allRecipes }) => {
     });
 
     setRecipesToDisplay(recipesToDisplay);
-  }, [categoryFilter]);
+  }, [categoryFilter, allCategories]);
 
   const handleChange = (e, newValue) => {
     setTabValue(newValue);
