@@ -1,11 +1,15 @@
 package com.techelevator.model;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * DTO for storing a user's credentials.
  */
 public class LoginDTO {
 
+   @NotNull
    private String username;
+   @NotNull
    private String password;
 
    public String getUsername() {

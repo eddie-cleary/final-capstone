@@ -1,5 +1,8 @@
 package com.techelevator.exception;
 
+import com.cloudinary.api.exceptions.BadRequest;
+import org.apache.coyote.Response;
+import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -28,9 +31,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler
     public ResponseEntity<ErrorMessage> runtimeException(RuntimeException exception, WebRequest request) {
-        ErrorMessage message = new ErrorMessage(HttpStatus.SERVICE_UNAVAILABLE, exception.getMessage());
+        ErrorMessage message = new ErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
 
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(message);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(message);
     }
 
     @ExceptionHandler
@@ -38,5 +41,19 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> resourceNotFoundException(ResourceNotFoundException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.NOT_FOUND, exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> apiException(ApiException exception, WebRequest request) {
+        ErrorMessage message = new ErrorMessage(HttpStatus.BAD_REQUEST, exception.getMessage());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 }

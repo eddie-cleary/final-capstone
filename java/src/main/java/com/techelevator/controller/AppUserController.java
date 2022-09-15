@@ -19,7 +19,6 @@ import java.util.Map;
 @Slf4j
 @CrossOrigin
 public class AppUserController {
-
     @Autowired
     private final AppUserService appUserService;
 
@@ -38,11 +37,6 @@ public class AppUserController {
     @RequestMapping("/users")
     public List<AppUser> getUsers() {
         return appUserService.getUsers();
-    }
-
-    @GetMapping("/getme")
-    public String getLoggedInUser(Principal principal) {
-        return appUserService.getUser(principal.getName()).getUsername();
     }
 
     @GetMapping("/verifyUser")

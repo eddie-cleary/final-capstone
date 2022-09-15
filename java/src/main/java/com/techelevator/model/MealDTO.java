@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,8 @@ public class MealDTO {
         }
     }
 
+    @NotNull
     private String title;
+    @NotNull
     private Set<MealRecipeDTO> mealRecipes = new HashSet<>();
 }

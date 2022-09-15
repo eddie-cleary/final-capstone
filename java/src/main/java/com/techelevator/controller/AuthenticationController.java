@@ -2,11 +2,10 @@ package com.techelevator.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.entity.AppUser;
-import com.techelevator.entity.Role;
 import com.techelevator.exception.ValidationException;
 import com.techelevator.model.LoginDTO;
 import com.techelevator.model.RegisterUserDTO;
-import com.techelevator.model.UserAlreadyExistsException;
+import com.techelevator.exception.UserAlreadyExistsException;
 import com.techelevator.repo.RoleRepo;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
@@ -20,12 +19,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Objects;
 
 @RestController
 @CrossOrigin

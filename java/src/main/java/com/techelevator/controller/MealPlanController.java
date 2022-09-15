@@ -21,7 +21,7 @@ public class MealPlanController {
     private final MealPlanService mealPlanService;
 
     @GetMapping
-    public List<MealPlan> getMealPlans(Principal principal) {
+    public List<MealPlanResponse> getMealPlans(Principal principal) throws IllegalAccessException {
         return mealPlanService.getMealPlans(principal.getName());
     }
 
@@ -31,17 +31,17 @@ public class MealPlanController {
     }
 
     @PostMapping
-    public MealPlanResponse addMealPlan(Principal principal, @RequestBody MealPlanPayload mealPlanPayload) {
+    public MealPlanResponse addMealPlan(Principal principal, @RequestBody MealPlanPayload mealPlanPayload) throws IllegalAccessException {
         return mealPlanService.addMealPlan(principal.getName(), mealPlanPayload);
     }
 
     @PutMapping("/{id}")
-    public MealPlan updateMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO, @PathVariable Long id) {
+    public MealPlanResponse updateMealPlan(Principal principal, @RequestBody MealPlanDTO mealPlanDTO, @PathVariable Long id) throws IllegalAccessException {
         return mealPlanService.updateMealPlan(principal.getName(), id, mealPlanDTO);
     }
 
     @DeleteMapping("/{id}")
-    public Boolean deleteMealPlan(Principal principal, @PathVariable Long id) {
+    public Boolean deleteMealPlan(Principal principal, @PathVariable Long id) throws IllegalAccessException {
         return mealPlanService.deleteMealPlan(principal.getName(), id);
     }
 }

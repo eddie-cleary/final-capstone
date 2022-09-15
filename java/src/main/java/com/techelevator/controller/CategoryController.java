@@ -1,6 +1,8 @@
 package com.techelevator.controller;
 
+import com.cloudinary.api.exceptions.BadRequest;
 import com.techelevator.entity.Category;
+import com.techelevator.exception.ApiException;
 import com.techelevator.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public Category addCategory(@RequestBody Category newCategory) {
+    public Category addCategory(@RequestBody Category newCategory) throws ApiException {
         return categoryService.addCategory(newCategory);
     }
 }

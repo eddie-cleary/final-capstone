@@ -28,7 +28,6 @@ public class MealPlanResponse {
     }
 
     private Long id;
-
     private Long creatorId;
     private String title;
     private List<DayDTO> days = new ArrayList<>();

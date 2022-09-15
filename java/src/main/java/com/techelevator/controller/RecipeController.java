@@ -1,8 +1,6 @@
 package com.techelevator.controller;
 
-import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Recipe;
-import com.techelevator.model.RecipeDTO;
 import com.techelevator.model.RecipePayload;
 import com.techelevator.model.RecipeResponse;
 import com.techelevator.service.RecipeService;
@@ -11,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -32,8 +29,8 @@ public class RecipeController {
     }
 
     @GetMapping("/all")
-    public List<Recipe> getAllRecipes() {
-        return recipeService.getAllRecipes();
+    public List<RecipeResponse> getAllRecipes(Principal principal) {
+        return recipeService.getAllRecipes(principal.getName());
     }
 
     @PutMapping("/{recipeId}/like")
@@ -42,17 +39,17 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    public Recipe updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipePayload recipePayload) {
+    public RecipeResponse updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipePayload recipePayload) throws IllegalAccessException {
         return recipeService.updateRecipe(principal.getName(), id, recipePayload);
     }
 
     @GetMapping("/myRecipes")
-    public List<Recipe> getMyRecipes(Principal principal) {
+    public List<RecipeResponse> getMyRecipes(Principal principal) {
         return recipeService.getMyRecipes(principal.getName());
     }
 
     @DeleteMapping("/{recipeId}")
-    public Boolean deleteRecipe(Principal principal, @PathVariable Long recipeId) {
+    public Boolean deleteRecipe(Principal principal, @PathVariable Long recipeId) throws IllegalAccessException {
         return recipeService.deleteRecipe(principal.getName(), recipeId);
     }
 }
