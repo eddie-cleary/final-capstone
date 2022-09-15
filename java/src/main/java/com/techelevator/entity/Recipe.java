@@ -22,7 +22,7 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
-    private String title;
+    private String name;
     @NotNull
     private String description;
     @NotNull
@@ -45,8 +45,8 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
-//    private List<MealRecipe> mealRecipes = new ArrayList<>();
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    private List<MealRecipe> mealRecipes = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -69,7 +69,7 @@ public class Recipe {
     }
 
     public void addRecipePayload(RecipePayload recipePayload) {
-        this.title = recipePayload.getTitle();
+        this.name = recipePayload.getName();
         this.description = recipePayload.getDescription();
         this.cookTime = recipePayload.getCookTime();
         this.prepTime = recipePayload.getPrepTime();
@@ -81,7 +81,7 @@ public class Recipe {
     public String toString() {
         return "Recipe{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", servings=" + servings +
                 ", prepTime=" + prepTime +
@@ -95,11 +95,11 @@ public class Recipe {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Recipe recipe = (Recipe) o;
-        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(title, recipe.title) && Objects.equals(description, recipe.description) && Objects.equals(imgId, recipe.imgId);
+        return servings == recipe.servings && prepTime == recipe.prepTime && cookTime == recipe.cookTime && Objects.equals(id, recipe.id) && Objects.equals(name, recipe.name) && Objects.equals(description, recipe.description) && Objects.equals(imgId, recipe.imgId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, description, servings, prepTime, cookTime, imgId);
+        return Objects.hash(id, name, description, servings, prepTime, cookTime, imgId);
     }
 }

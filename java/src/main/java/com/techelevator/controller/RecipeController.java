@@ -32,9 +32,9 @@ public class RecipeController {
         return recipeService.getAllRecipes(principal.getName());
     }
 
-    @PutMapping("/{recipeId}/like")
-    public boolean likeRecipeForCurrentUser(Principal principal, @PathVariable Long recipeId) {
-        return recipeService.likeRecipeForUser(principal.getName(), recipeId);
+    @PutMapping("/like/{recipeId}/{isLiked}")
+    public boolean likeRecipeForUser(Principal principal, @PathVariable Long recipeId, @PathVariable Boolean isLiked) {
+        return recipeService.likeRecipeForUser(principal.getName(), recipeId, isLiked);
     }
 
     @PutMapping("/{id}")

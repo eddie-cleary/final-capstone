@@ -9,7 +9,7 @@ public interface RecipeService {
     RecipeResponse addRecipe(String username, RecipePayload recipePayload);
     RecipeResponse getRecipeById(String username, Long id);
     List<RecipeResponse> getAllRecipes(String username);
-    boolean likeRecipeForUser(String username, Long recipeId);
+    boolean likeRecipeForUser(String username, Long recipeId, Boolean isLiked);
     List<RecipeResponse> getMyRecipes(String username);
     RecipeResponse updateRecipe (String username, Long id, RecipePayload recipePayload) throws IllegalAccessException;
     Boolean deleteRecipe (String username, Long recipeId) throws IllegalAccessException;

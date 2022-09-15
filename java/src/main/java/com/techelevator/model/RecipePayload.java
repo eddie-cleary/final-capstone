@@ -15,7 +15,7 @@ import java.util.List;
 public class RecipePayload {
     private Long id;
     @NotNull
-    private String title;
+    private String name;
     @NotNull
     private String description;
     @NotNull

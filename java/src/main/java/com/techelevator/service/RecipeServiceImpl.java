@@ -82,13 +82,19 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public boolean likeRecipeForUser(String username, Long recipeId) {
+    public boolean likeRecipeForUser(String username, Long recipeId, Boolean isLiked) {
+        System.out.println("is liked " + isLiked);
         AppUser appUser = appUserRepo.findByUsername(username);
         Optional<Recipe> recipe = recipeRepo.findById(recipeId);
         if (!recipe.isPresent()) {
             throw new ResourceNotFoundException("Recipe with id " + recipeId + " was not found.");
         }
-        recipe.get().addUserToLiked(appUser);
+        if (isLiked) {
+            System.out.println("turning to off");
+            recipe.get().addUserToLiked(appUser);
+        } else {
+            recipe.get().getRecipesLiked().remove(appUser);
+        }
         recipeRepo.save(recipe.get());
         return true;
     }

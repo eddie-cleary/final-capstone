@@ -19,7 +19,7 @@ public class MealPlanRecipeDTO {
 
     public MealPlanRecipeDTO(MealRecipe mealRecipe) {
         this.id = mealRecipe.getId();
-        this.name = mealRecipe.getRecipe().getTitle();
+        this.name = mealRecipe.getRecipe().getName();
 
         for (RecipeIngredient recipeIngredient : mealRecipe.getRecipe().getRecipeIngredients()) {
             RecipeIngredientDTO recipeIngredientDTO = new RecipeIngredientDTO(recipeIngredient);

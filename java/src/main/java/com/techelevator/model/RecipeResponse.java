@@ -18,7 +18,7 @@ public class RecipeResponse {
 
     public RecipeResponse(Recipe recipe, Long userId) {
         this.id = recipe.getId();
-        this.title = recipe.getTitle();
+        this.name = recipe.getName();
         this.description = recipe.getDescription();
         this.servings = recipe.getServings();
         this.prepTime = recipe.getPrepTime();
@@ -52,7 +52,7 @@ public class RecipeResponse {
     }
 
     private Long id;
-    private String title;
+    private String name;
     private String description;
     private int servings;
     private int prepTime;
