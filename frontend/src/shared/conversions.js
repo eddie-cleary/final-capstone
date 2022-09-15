@@ -15,38 +15,38 @@ export const convertToMeasurement = (rq, liquid) => {
   for (let m in mq) {
     while (
       rq >= mq[m] ||
-      ((rq / mq[m]).toFixed(2) == 0.75 && rq > 24) ||
-      ((rq / mq[m]).toFixed(2) == 0.67 && rq > 24) ||
-      ((rq / mq[m]).toFixed(2) == 0.5 && rq > 24) ||
-      ((rq / mq[m]).toFixed(2) == 0.33 && rq > 24) ||
-      ((rq / mq[m]).toFixed(2) == 0.25 && rq > 24)
+      (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.75 && rq > 24) ||
+      (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.67 && rq > 24) ||
+      (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.5 && rq > 24) ||
+      (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.33 && rq > 24) ||
+      (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.25 && rq > 24)
     ) {
       if (!counts[m]) {
         counts[m] = "";
       }
 
       if (rq > 24) {
-        if ((rq / mq[m]).toFixed(2) == 0.75) {
+        if (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.75) {
           counts[m] = `${counts[m]} 3/4`;
           rq /= mq[m];
           rq = Math.trunc(rq);
           continue;
-        } else if ((rq / mq[m]).toFixed(2) == 0.67) {
+        } else if (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.67) {
           counts[m] = `${counts[m]} 2/3`;
           rq /= mq[m];
           rq = Math.trunc(rq);
           continue;
-        } else if ((rq / mq[m]).toFixed(2) == 0.5) {
+        } else if (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.5) {
           counts[m] = `${counts[m]} 1/2`;
           rq /= mq[m];
           rq = Math.trunc(rq);
           continue;
-        } else if ((rq / mq[m]).toFixed(2) == 0.33) {
+        } else if (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.33) {
           counts[m] = `${counts[m]} 1/3`;
           rq /= mq[m];
           rq = Math.trunc(rq);
           continue;
-        } else if ((rq / mq[m]).toFixed(2) == 0.25) {
+        } else if (Number.parseFloat((rq / mq[m]).toFixed(2)) === 0.25) {
           counts[m] = `${counts[m]} 1/4`;
           rq /= mq[m];
           rq = Math.trunc(rq);
@@ -74,7 +74,7 @@ export const convertToMeasurement = (rq, liquid) => {
 
   let fraction = (rq * divisor).toString();
 
-  if (fraction == 0) {
+  if (Number.parseFloat(fraction === 0.0)) {
     return formatCountsString(counts);
   } else {
     if (fraction.startsWith(0.66)) {

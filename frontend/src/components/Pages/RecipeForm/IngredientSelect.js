@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Button } from "@mui/material";
+import { Autocomplete, TextField } from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
@@ -20,7 +20,6 @@ import { setRecipeIngredients } from "../../../redux/features/forms/addrecipe/ad
 import {
   setErrMsg,
   setShowError,
-  showErrorMessage,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 import { CustomButton } from "../../..";
 
@@ -69,19 +68,15 @@ const IngredientSelect = () => {
       .then(() => {
         dispatch(setIsIngredientsLoading(false));
       });
-  }, []);
+  }, [dispatch, token]);
 
   useEffect(() => {
     if (isIngredientValid && (number > 0 || fraction > 0) && measurement) {
-      console.log(isIngredientValid);
-      console.log(number > 0);
-      console.log(fraction > 0);
-      console.log(measurement);
       dispatch(setIsFormValid(true));
       return;
     }
     dispatch(setIsFormValid(false));
-  }, [isIngredientValid, measurement, number, fraction]);
+  }, [isIngredientValid, measurement, number, fraction, dispatch]);
 
   const handleAddIngredient = () => {
     const currQuantity = calculateQuantity(number, fraction, measurement);
