@@ -15,6 +15,7 @@ import {
   setNumber,
   setIsIngredientValid,
   setAllIngredients,
+  setIngredientToCreate,
 } from "../../../redux/features/forms/addrecipe/addRecipeIngredientSlice.js";
 import { setRecipeIngredients } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 import { CustomButton } from "../../..";
@@ -22,6 +23,7 @@ import {
   setShowError,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import AddIngredientOption from "./AddIngredientOption";
 
 const IngredientSelect = () => {
   const token = useSelector((state) => state.auth.token);
@@ -100,12 +102,16 @@ const IngredientSelect = () => {
         id="ingredient-select"
         sx={{ flexGrow: 1 }}
         loading={isIngredientsLoading}
+        includeInputInList={true}
         options={allIngredients}
-        noOptionsText="No ingredients"
+        noOptionsText={<AddIngredientOption />}
         getOptionLabel={(option) => option.name}
         isOptionEqualToValue={(option, value) => option.name === value.name}
+        onInputChange={(e, v) => dispatch(setIngredientToCreate(v))}
         onChange={(e) => {
+          console.log(e);
           const choice = e.target.textContent;
+          console.log("choice is ", choice);
           allIngredients.every((validIngredient) => {
             if (choice === validIngredient.name) {
               dispatch(setMeasurement(""));
@@ -115,6 +121,8 @@ const IngredientSelect = () => {
             }
             dispatch(setMeasurement(""));
             dispatch(setIngredient(""));
+            console.log("choice is ", choice);
+
             dispatch(setIsIngredientValid(false));
             return true;
           });

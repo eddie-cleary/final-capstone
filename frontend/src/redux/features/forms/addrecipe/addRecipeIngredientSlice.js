@@ -9,6 +9,7 @@ const initialState = {
   isFormValid: false,
   allIngredients: [],
   isIngredientsLoading: true,
+  ingredientToCreate: "",
 };
 
 export const addRecipeIngredientSlice = createSlice({
@@ -77,6 +78,13 @@ export const addRecipeIngredientSlice = createSlice({
         isIngredientsLoading: action.payload,
       };
     },
+    setIngredientToCreate: (state, action) => {
+      console.log("setting ingredient to ", action.payload);
+      return {
+        ...state,
+        ingredientToCreate: action.payload,
+      };
+    },
     resetState: () => {
       return {
         ...initialState,
@@ -93,6 +101,7 @@ export const {
   setIsIngredientValid,
   setIsFormValid,
   setAllIngredients,
+  setIngredientToCreate,
   addIngredient,
   deleteIngredient,
   setIsIngredientsLoading,
