@@ -29,7 +29,7 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
     );
     return convertedMeasurement + " of " + ingredient.name;
   });
-  return renderedIngredients.map((ingredient, index) => (
+  return renderedIngredients?.map((ingredient, index) => (
     <List key={index}>
       <ListItem>
         <ListItemIcon>
@@ -44,7 +44,7 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
 const RenderSteps = ({ steps }) => {
   let renderedSteps = steps?.map((step, index) => index + 1 + ". " + step);
 
-  return renderedSteps.map((step) => (
+  return renderedSteps?.map((step) => (
     <List key={step}>
       <ListItem>
         <ListItemIcon>

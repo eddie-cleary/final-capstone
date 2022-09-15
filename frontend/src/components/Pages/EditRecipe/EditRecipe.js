@@ -50,7 +50,7 @@ const EditRecipe = () => {
         setIsAuthorized(false);
       }
     }
-  }, [isRecipeLoaded, currUserId, recipe.creatorId]);
+  }, [isRecipeLoaded, currUserId, recipe?.creatorId]);
 
   return (
     <Layout>

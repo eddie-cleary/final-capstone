@@ -24,13 +24,14 @@ const ViewRecipe = () => {
         },
       })
       .then((res) => {
+        console.log("setting recipe to ", res.data);
         setRecipe(res.data);
       })
       .catch((err) => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       });
-  }, []);
+  }, [dispatch, id, token]);
 
   return (
     <Layout>
