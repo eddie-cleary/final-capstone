@@ -1,6 +1,5 @@
 package com.techelevator.service;
 
-import com.techelevator.entity.Recipe;
 import com.techelevator.model.RecipePayload;
 import com.techelevator.model.RecipeResponse;
 

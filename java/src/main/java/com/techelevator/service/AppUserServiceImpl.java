@@ -1,24 +1,21 @@
 package com.techelevator.service;
 
-import com.cloudinary.api.exceptions.BadRequest;
 import com.techelevator.entity.AppUser;
-import com.techelevator.entity.Recipe;
 import com.techelevator.entity.Role;
 import com.techelevator.exception.ApiException;
 import com.techelevator.exception.UserAlreadyExistsException;
-import com.techelevator.exception.ValidationException;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.repo.AppUserRepo;
 import com.techelevator.repo.RoleRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

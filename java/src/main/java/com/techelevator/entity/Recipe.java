@@ -14,7 +14,6 @@ import java.util.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Long.class)
 @Builder
 public class Recipe {
 

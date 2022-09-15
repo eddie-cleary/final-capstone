@@ -1,6 +1,5 @@
 package com.techelevator.service;
 
-import com.cloudinary.api.exceptions.BadRequest;
 import com.techelevator.entity.Category;
 import com.techelevator.exception.ApiException;
 import com.techelevator.repo.CategoryRepo;

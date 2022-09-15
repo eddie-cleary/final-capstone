@@ -1,6 +1,5 @@
 package com.techelevator.controller;
 
-import com.techelevator.entity.MealPlan;
 import com.techelevator.model.MealPlanDTO;
 import com.techelevator.model.MealPlanPayload;
 import com.techelevator.model.MealPlanResponse;

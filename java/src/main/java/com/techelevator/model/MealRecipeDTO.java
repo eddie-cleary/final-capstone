@@ -1,16 +1,12 @@
 package com.techelevator.model;
 
 import com.techelevator.entity.MealRecipe;
-import com.techelevator.entity.Recipe;
-import com.techelevator.entity.RecipeIngredient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor

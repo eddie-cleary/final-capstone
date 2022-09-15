@@ -4,12 +4,10 @@ import com.techelevator.entity.Ingredient;
 import com.techelevator.exception.ApiException;
 import com.techelevator.repo.IngredientRepo;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.Objects;

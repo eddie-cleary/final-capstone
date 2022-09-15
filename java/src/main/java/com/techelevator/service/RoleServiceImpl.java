@@ -1,6 +1,5 @@
 package com.techelevator.service;
 
-import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Role;
 import com.techelevator.repo.RoleRepo;
 import lombok.extern.slf4j.Slf4j;

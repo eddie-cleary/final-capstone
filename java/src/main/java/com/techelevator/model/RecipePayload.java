@@ -1,6 +1,5 @@
 package com.techelevator.model;
 
-import com.techelevator.entity.Step;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

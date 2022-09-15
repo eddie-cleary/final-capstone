@@ -1,13 +1,11 @@
 package com.techelevator.controller;
 
-import com.cloudinary.api.exceptions.BadRequest;
 import com.techelevator.entity.Category;
 import com.techelevator.exception.ApiException;
 import com.techelevator.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @RestController

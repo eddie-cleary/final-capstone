@@ -1,7 +1,6 @@
 package com.techelevator.model;
 
 import com.techelevator.entity.MealRecipe;
-import com.techelevator.entity.Recipe;
 import com.techelevator.entity.RecipeIngredient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
