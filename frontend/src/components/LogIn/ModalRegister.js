@@ -6,7 +6,6 @@ import {
   Stack,
   Typography,
   TextField,
-  Button,
   Modal,
   FormControl,
 } from "@mui/material";
@@ -88,7 +87,14 @@ const ModalRegister = () => {
     } else {
       setValidForm(false);
     }
-  }, [username, password, confirmPassword]);
+  }, [
+    username,
+    password,
+    confirmPassword,
+    confirmPasswordValid,
+    passwordValid,
+    usernameValid,
+  ]);
 
   useEffect(() => {
     if (usernameValid) {
@@ -152,28 +158,30 @@ const ModalRegister = () => {
       return;
     }
     if (password === confirmPassword) {
-      try {
-        const response = await axios.post(baseUrl + "/register", data);
-        setSuccessMsg("Success!");
-        setUsername("");
-        setPassword("");
-        setConfirmPassword("");
-        setTimeout(() => {
-          dispatch(showModalRegister(false));
-          dispatch(showModalLogin(true));
-          setSuccessMsg("");
-        }, 1000);
-      } catch (err) {
-        if (!err?.response) {
-          setErrMsg("No server response");
-        } else if (err.response.data.message === "User Already Exists.") {
-          setErrMsg("Username taken");
-        } else {
-          console.log(err.response.data);
-          setErrMsg("Registration Failed");
-        }
-        errRef.current.focus();
-      }
+      await axios
+        .post(baseUrl + "/register", data)
+        .then((res) => {
+          setSuccessMsg("Success!");
+          setUsername("");
+          setPassword("");
+          setConfirmPassword("");
+          setTimeout(() => {
+            dispatch(showModalRegister(false));
+            dispatch(showModalLogin(true));
+            setSuccessMsg("");
+          }, 1000);
+        })
+        .catch((err) => {
+          if (!err?.response) {
+            setErrMsg("No server response");
+          } else if (err.response.data.message === "User Already Exists.") {
+            setErrMsg("Username taken");
+          } else {
+            console.log(err.response.data);
+            setErrMsg("Registration Failed");
+          }
+          errRef.current.focus();
+        });
     } else {
       setErrMsg("Password and Confirm password must match");
     }

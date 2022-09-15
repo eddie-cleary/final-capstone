@@ -19,17 +19,15 @@ import prepIcon from "./icons/prepare.png";
 import cookIcon from "./icons/cooking.png";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
-import { current } from "@reduxjs/toolkit";
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
-  let renderedIngredients = [];
-  ingredients?.map((ingredient) => {
-    const { id: recipeId, quantity: quantityTsp, name, liquid } = ingredient;
+  let renderedIngredients = ingredients?.map((ingredient) => {
+    const { quantity: quantityTsp, liquid } = ingredient;
     let convertedMeasurement = convertToMeasurement(
       quantityTsp * currentServings,
       liquid
     );
-    renderedIngredients.push(convertedMeasurement + " of " + ingredient.name);
+    return convertedMeasurement + " of " + ingredient.name;
   });
   return renderedIngredients.map((ingredient, index) => (
     <List key={index}>
@@ -44,11 +42,8 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
 };
 
 const RenderSteps = ({ steps }) => {
-  let renderedSteps = [];
+  let renderedSteps = steps?.map((step, index) => index + 1 + ". " + step);
 
-  steps?.map((step, index) => {
-    renderedSteps.push(index + 1 + ". " + step);
-  });
   return renderedSteps.map((step) => (
     <List key={step}>
       <ListItem>
@@ -113,7 +108,7 @@ const SingleRecipe = ({ recipe }) => {
         ></Box>
         <Stack sx={{ width: "100%", maxWidth: "800px", mt: matches ? 5 : 0 }}>
           <Typography variant="h2" component="h1">
-            {recipe?.title}
+            {recipe?.name}
           </Typography>
           <Typography sx={{ fontSize: "20px", mt: 3 }}>
             {recipe?.description}
@@ -122,14 +117,18 @@ const SingleRecipe = ({ recipe }) => {
             <InfoCard
               name="Prep time"
               text={
-                recipePrepTime == 1 ? "1 minute" : `${recipePrepTime} minutes`
+                Number.parseInt(recipePrepTime) === 1
+                  ? "1 minute"
+                  : `${recipePrepTime} minutes`
               }
               img={prepIcon}
             />
             <InfoCard
               name="Cook time"
               text={
-                recipeCookTime == 1 ? "1 minute" : `${recipeCookTime} minutes`
+                Number.parseInt(recipeCookTime) === 1
+                  ? "1 minute"
+                  : `${recipeCookTime} minutes`
               }
               img={cookIcon}
             />

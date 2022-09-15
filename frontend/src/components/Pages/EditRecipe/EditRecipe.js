@@ -7,6 +7,10 @@ import { CircularProgress } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import RecipeForm from "../RecipeForm/RecipeForm";
 import { setRecipeFormData } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import {
+  setErrorMsg,
+  setShowError,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const EditRecipe = () => {
   const currUserId = useSelector((state) => state.auth.user.id);
@@ -18,26 +22,25 @@ const EditRecipe = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    loadRecipe();
-  }, []);
-
-  const loadRecipe = async () => {
-    await axios
+    axios
       .get(baseUrl + `/recipes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setRecipe(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      })
       .then(() => setisRecipeLoaded(true));
-  };
+  }, [dispatch, id, token]);
 
   useEffect(() => {
     if (isRecipeLoaded && isAuthorized) {
       dispatch(setRecipeFormData(recipe));
     }
-  }, [isRecipeLoaded, isAuthorized]);
+  }, [isRecipeLoaded, isAuthorized, dispatch, recipe]);
 
   useEffect(() => {
     if (isRecipeLoaded) {
@@ -47,7 +50,7 @@ const EditRecipe = () => {
         setIsAuthorized(false);
       }
     }
-  }, [isRecipeLoaded]);
+  }, [isRecipeLoaded, currUserId, recipe.creatorId]);
 
   return (
     <Layout>

@@ -1,12 +1,13 @@
 import React from "react";
-import { Stack, Button, Typography, Box } from "@mui/material";
+import { Stack, Button, Typography } from "@mui/material";
 import { RemoveCircle } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { removeRecipeFromMeal } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
-import { CustomButton } from "../../..";
 
 const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
   const dispatch = useDispatch();
+
+  console.log("recipe is ", recipe);
 
   return (
     <Stack direction="row" alignItems="center" sx={{ mt: 2, width: "100%" }}>

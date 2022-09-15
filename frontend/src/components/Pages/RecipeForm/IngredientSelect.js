@@ -1,4 +1,4 @@
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Tooltip } from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
@@ -17,11 +17,11 @@ import {
   setAllIngredients,
 } from "../../../redux/features/forms/addrecipe/addRecipeIngredientSlice.js";
 import { setRecipeIngredients } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
-import {
-  setErrMsg,
-  setShowError,
-} from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 import { CustomButton } from "../../..";
+import {
+  setShowError,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const IngredientSelect = () => {
   const token = useSelector((state) => state.auth.token);
@@ -62,7 +62,7 @@ const IngredientSelect = () => {
         dispatch(setAllIngredients(res.data));
       })
       .catch((err) => {
-        dispatch(setErrMsg("Error retrieving ingredients. "));
+        dispatch(setErrorMsg("Error retrieving ingredients. "));
         dispatch(setShowError(true));
       })
       .then(() => {
@@ -124,14 +124,18 @@ const IngredientSelect = () => {
         )}
       />
       <MeasurementSelect />
-      <CustomButton
-        onClick={handleAddIngredient}
-        sx={{ height: "58px" }}
-        variant="contained"
-        disabled={isFormValid ? false : true}
-      >
-        <Add fontSize="small" />
-      </CustomButton>
+      <Tooltip title="Add Ingredient">
+        <span>
+          <CustomButton
+            onClick={handleAddIngredient}
+            sx={{ height: "58px" }}
+            variant="contained"
+            disabled={isFormValid ? false : true}
+          >
+            <Add fontSize="small" />
+          </CustomButton>
+        </span>
+      </Tooltip>
     </>
   );
 };

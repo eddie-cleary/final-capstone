@@ -2,12 +2,17 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Stack, List } from "@mui/material";
 import { baseUrl } from "../../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import RecipeCardAddToMeal from "./RecipeCardAddToMeal";
+import {
+  setErrorMsg,
+  setShowError,
+} from "../../../../redux/features/forms/errors/errorsSlice";
 
 const RecipesList = () => {
   const token = useSelector((state) => state.auth.token);
   const [recipes, setRecipes] = useState();
+  const dispatch = useDispatch();
 
   const recipeComponents = recipes?.map((recipe, idx) => (
     <RecipeCardAddToMeal key={idx} recipe={recipe} />
@@ -21,7 +26,10 @@ const RecipesList = () => {
         },
       })
       .then((res) => setRecipes(res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      });
   }, []);
 
   return (

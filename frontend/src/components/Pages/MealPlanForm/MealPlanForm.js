@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Layout from "../../Layout/Layout";
 import {
   TextField,
   Modal,
   Stack,
-  Snackbar,
-  Alert,
   Typography,
   CircularProgress,
 } from "@mui/material";
@@ -20,6 +17,12 @@ import RecipesList from "./RecipeChoices/RecipesList";
 import { CustomButton } from "../../..";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
+import {
+  setErrorMsg,
+  setShowError,
+  setSuccessMsg,
+  setShowSuccess,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const modalStyles = {
   position: "absolute",
@@ -53,10 +56,6 @@ const MealPlanForm = ({ isEdit }) => {
   );
   const postObject = useSelector((state) => state.mealPlanData);
   const [currentErrors, setCurrentErrors] = useState();
-  const [successMsg, setSuccessMsg] = useState();
-  const [showSuccess, setShowSuccess] = useState();
-  const [errMsg, setErrMsg] = useState();
-  const [showError, setShowError] = useState();
   const [validForm, setValidForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -120,8 +119,8 @@ const MealPlanForm = ({ isEdit }) => {
   const handleSubmit = () => {
     setIsLoading(true);
     if (!validForm) {
-      setErrMsg(formatErrors());
-      setShowError(true);
+      dispatch(setErrorMsg(formatErrors()));
+      dispatch(setShowError(true));
     } else if (!isEdit) {
       postMealPlan();
     } else {
@@ -138,12 +137,12 @@ const MealPlanForm = ({ isEdit }) => {
         },
       })
       .then((res) => {
-        setSuccessMsg("Meal plan saved!");
-        setShowSuccess(true);
+        dispatch(setSuccessMsg("Meal plan saved!"));
+        dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        setErrMsg(err.response);
-        setShowError(true);
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
       })
       .then(() => {
         setIsLoading(false);
@@ -163,8 +162,8 @@ const MealPlanForm = ({ isEdit }) => {
         setShowSuccess(true);
       })
       .catch((err) => {
-        setErrMsg(err.message);
-        setShowError(true);
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
       })
       .then(() => {
         setIsLoading(false);
@@ -175,7 +174,7 @@ const MealPlanForm = ({ isEdit }) => {
     if (!isEdit) {
       dispatch(resetState());
     }
-  }, []);
+  }, [dispatch, isEdit]);
 
   return (
     <>
@@ -213,36 +212,6 @@ const MealPlanForm = ({ isEdit }) => {
           </Stack>
         </Stack>
       </Stack>
-
-      <Snackbar
-        open={showSuccess}
-        autoHideDuration={5000}
-        onClose={() => setShowSuccess(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={() => setShowSuccess(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={showError}
-        autoHideDuration={5000}
-        onClose={() => setShowError(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={() => setShowError(false)}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {errMsg}
-        </Alert>
-      </Snackbar>
-
       <Modal
         open={isModalShowing}
         onClose={() => dispatch(closeRecipesModal())}

@@ -1,31 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Stack,
   InputLabel,
   TextField,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   Typography,
-  Alert,
-  Snackbar,
-  Button,
   CircularProgress,
 } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { CustomButton } from "../../..";
+import ErrorDisplay from "../../shared/ErrorDisplay";
+import {
+  setShowError,
+  setShowSuccess,
+  setSuccessMsg,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const AddIngredient = () => {
   const [name, setName] = useState("");
-  const [successMsg, setSuccessMsg] = useState();
-  const [showSuccess, setShowSuccess] = useState();
-  const [errMsg, setErrMsg] = useState();
-  const [showError, setShowError] = useState();
   const [isLoading, setIsLoading] = useState();
+  const dispatch = useDispatch();
 
   const token = useSelector((state) => state.auth.token);
 
@@ -40,12 +37,12 @@ const AddIngredient = () => {
         },
       })
       .then((res) => {
-        setSuccessMsg("Category Added!");
-        openSuccess();
+        dispatch(setSuccessMsg("Category Added!"));
+        dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        setErrMsg(err);
-        openError();
+        dispatch(setErrorMsg(err));
+        dispatch(setShowError(true));
       })
       .then(() => {
         setIsLoading(false);
@@ -55,28 +52,6 @@ const AddIngredient = () => {
 
   const clearFormState = () => {
     setName("");
-  };
-
-  const openSuccess = () => {
-    setShowSuccess(true);
-  };
-
-  const closeSuccess = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowSuccess(false);
-  };
-
-  const openError = () => {
-    setShowError(true);
-  };
-
-  const closeError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowError(false);
   };
 
   return (
@@ -92,7 +67,13 @@ const AddIngredient = () => {
                 <InputLabel>Name</InputLabel>
                 <TextField
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    const { value } = e.target;
+                    const re = /^[A-Za-z]+$/;
+                    if (value === "" || re.test(value)) {
+                      setName(value);
+                    }
+                  }}
                   sx={{ mt: 1 }}
                   placeholder="Category name"
                 ></TextField>
@@ -108,26 +89,7 @@ const AddIngredient = () => {
           </Stack>
         </Stack>
       </section>
-      <Snackbar
-        open={showSuccess}
-        autoHideDuration={5000}
-        onClose={closeSuccess}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert onClose={closeSuccess} severity="success" sx={{ width: "100%" }}>
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={showError}
-        autoHideDuration={5000}
-        onClose={closeError}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert onClose={closeError} severity="error" sx={{ width: "100%" }}>
-          {errMsg}
-        </Alert>
-      </Snackbar>
+      <ErrorDisplay />
     </Layout>
   );
 };

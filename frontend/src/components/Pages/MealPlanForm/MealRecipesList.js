@@ -1,7 +1,7 @@
 import React from "react";
 import MealRecipe from "./MealRecipe";
 import { useSelector, useDispatch } from "react-redux";
-import { Stack, Button } from "@mui/material";
+import { Stack } from "@mui/material";
 import { showRecipesModal } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import { CustomButton } from "../../..";
 

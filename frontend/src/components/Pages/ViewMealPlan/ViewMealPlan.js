@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Layout/Layout";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
@@ -14,12 +14,16 @@ import {
   Stack,
   Modal,
   Box,
-  Snackbar,
-  Alert,
   CircularProgress,
 } from "@mui/material";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
 import ShoppingList from "../ShoppingList/ShoppingList";
+import {
+  setShowError,
+  setShowSuccess,
+  setSuccessMsg,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const modalStyles = {
   position: "absolute",
@@ -58,14 +62,11 @@ const ViewMealPlan = () => {
   const [mealPlan, setMealPlan] = useState(null);
   const [showRecipeModal, setShowRecipeModal] = useState(false);
   const [currentRecipe, setCurrentRecipe] = useState(null);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-  const [showError, setShowError] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShoppingList, setShowShoppingList] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -75,8 +76,11 @@ const ViewMealPlan = () => {
         },
       })
       .then((res) => setMealPlan(res.data))
-      .catch((err) => console.log(err.response));
-  }, []);
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      });
+  }, [dispatch, id, token]);
 
   useEffect(() => {
     if (currentRecipe) {
@@ -104,13 +108,13 @@ const ViewMealPlan = () => {
         },
       })
       .then((res) => {
-        setSuccessMsg("Meal plan deleted!");
-        setShowSuccess(true);
+        dispatch(setSuccessMsg("Meal plan deleted!"));
+        dispatch(setShowSuccess(true));
         navigate("/mealplans");
       })
       .catch((err) => {
-        setErrMsg(`${err.response}`);
-        setShowError(true);
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
       })
       .then(() => setIsLoading(false));
   };
@@ -120,7 +124,7 @@ const ViewMealPlan = () => {
       <ListItem>
         <Button onClick={() => setCurrentRecipe(mealRecipe.recipe)}>
           <Typography sx={{ textTransform: "capitalize" }}>
-            {mealRecipe.recipe.title}
+            {mealRecipe.recipe.name}
           </Typography>
         </Button>
       </ListItem>
@@ -237,35 +241,6 @@ const ViewMealPlan = () => {
           <ShoppingList mealplan={mealPlan} />
         </Stack>
       </Modal>
-
-      <Snackbar
-        open={showSuccess}
-        autoHideDuration={5000}
-        onClose={() => setShowSuccess(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={() => setShowSuccess(false)}
-          severity="success"
-          sx={{ width: "100%" }}
-        >
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={showError}
-        autoHideDuration={5000}
-        onClose={() => setShowError(false)}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
-      >
-        <Alert
-          onClose={() => setShowError(false)}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {errMsg}
-        </Alert>
-      </Snackbar>
     </Layout>
   );
 };

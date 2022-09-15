@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useParams } from "react-router-dom";
 import Layout from "../../Layout/Layout";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
+import {
+  setShowError,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const ViewRecipe = () => {
   const token = useSelector((state) => state.auth.token);
   const { id } = useParams();
   const [recipe, setRecipe] = useState();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -22,7 +27,8 @@ const ViewRecipe = () => {
         setRecipe(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
       });
   }, []);
 

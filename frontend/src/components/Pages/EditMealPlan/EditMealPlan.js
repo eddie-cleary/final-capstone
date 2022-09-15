@@ -7,6 +7,10 @@ import Layout from "../../Layout/Layout";
 import MealPlanForm from "../MealPlanForm/MealPlanForm";
 import { CircularProgress } from "@mui/material";
 import { setMealPlanFormData } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
+import {
+  setErrorMsg,
+  setShowError,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const EditMealPlan = () => {
   const currUserId = useSelector((state) => state.auth.user.id);
@@ -18,26 +22,25 @@ const EditMealPlan = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    loadMealPlan();
-  }, []);
-
-  const loadMealPlan = async () => {
-    await axios
+    axios
       .get(baseUrl + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((res) => setMealPlan(res.data))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      })
       .then(() => setIsMealPlanLoaded(true));
-  };
+  }, [dispatch, id, token]);
 
   useEffect(() => {
     if (isMealPlanLoaded && isAuthorized) {
       dispatch(setMealPlanFormData(mealPlan));
     }
-  }, [isMealPlanLoaded, isAuthorized]);
+  }, [isMealPlanLoaded, isAuthorized, dispatch, mealPlan]);
 
   useEffect(() => {
     if (isMealPlanLoaded) {
@@ -47,7 +50,7 @@ const EditMealPlan = () => {
         setIsAuthorized(false);
       }
     }
-  }, [isMealPlanLoaded]);
+  }, [isMealPlanLoaded, currUserId, mealPlan.creatorId]);
 
   return (
     <Layout>

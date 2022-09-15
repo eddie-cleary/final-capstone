@@ -13,6 +13,10 @@ import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import { setRecipeCategories } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
+import {
+  setShowError,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -53,8 +57,11 @@ const CategorySelect = () => {
       .then((res) => {
         setAllCategories(res.data.map((category) => category.name));
       })
-      .catch((err) => console.log(err.response));
-  }, []);
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      });
+  }, [dispatch, token]);
 
   const handleChange = (event) => {
     const value = event.target.value;

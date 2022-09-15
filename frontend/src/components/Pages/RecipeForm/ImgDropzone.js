@@ -2,12 +2,8 @@ import React, { useCallback, useState, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { Typography, Box, Stack } from "@mui/material";
 import { Image, Close } from "@mui/icons-material";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setImgId } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
-import {
-  setFileInput,
-  setImgPreview,
-} from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 
 const ImgDropzone = ({ fileInput, setFileInput, isEdit }) => {
   const [imgPreview, setImgPreview] = useState("");
@@ -27,16 +23,19 @@ const ImgDropzone = ({ fileInput, setFileInput, isEdit }) => {
     }
   }, [fileInput]);
 
-  const onDrop = useCallback((acceptedFiles) => {
-    const reader = new FileReader();
-    const file = acceptedFiles[0];
-    reader.readAsDataURL(file);
-    reader.onloadend = () => {
-      // Do whatever you want with the file contents
-      setImgPreview(reader.result);
-    };
-    setFileInput(file);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const reader = new FileReader();
+      const file = acceptedFiles[0];
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        // Do whatever you want with the file contents
+        setImgPreview(reader.result);
+      };
+      setFileInput(file);
+    },
+    [setFileInput]
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   return (

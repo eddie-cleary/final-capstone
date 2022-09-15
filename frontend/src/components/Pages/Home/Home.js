@@ -1,20 +1,8 @@
-import { addToken, deleteUser } from "../../../redux/features/auth/authSlice";
-import { useSelector, useDispatch } from "react-redux";
-import Layout from "../../Layout/Layout";
-import { Stack, Paper, Link, Button, Typography, Box } from "@mui/material";
-import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { Stack, Link, Button, Typography, Box } from "@mui/material";
+import { Link as ReactLink } from "react-router-dom";
 import Header from "../../Layout/Header";
 
 const Home = () => {
-  const user = useSelector((state) => state.auth.user);
-  const token = useSelector((state) => state.auth.token);
-  const dispatch = useDispatch();
-
-  const handleLogout = async () => {
-    await dispatch(addToken(""));
-    await dispatch(deleteUser());
-  };
-
   const btn = {
     width: "300px",
     height: "50px",

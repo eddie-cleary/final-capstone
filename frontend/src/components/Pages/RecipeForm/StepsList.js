@@ -6,6 +6,7 @@ import {
   TextField,
   Button,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { Add, Remove } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
@@ -40,15 +41,19 @@ const StepsList = () => {
             >
               {steps[index]}
             </TextField>
-            <Button
-              onClick={() => dispatch(deleteStep())}
-              disabled={index === 0 ? true : false}
-              sx={{ ml: 2 }}
-              variant="outlined"
-              color="warning"
-            >
-              <Remove fontSize="small" />
-            </Button>
+            <Tooltip title="Remove step">
+              <span>
+                <Button
+                  onClick={() => dispatch(deleteStep())}
+                  disabled={index === 0 ? true : false}
+                  sx={{ ml: 2, height: "100%" }}
+                  variant="outlined"
+                  color="warning"
+                >
+                  <Remove fontSize="small" />
+                </Button>
+              </span>
+            </Tooltip>
           </Stack>
         </Box>
       );
@@ -60,9 +65,16 @@ const StepsList = () => {
       <Typography sx={{ mt: 2 }}>Steps</Typography>
       <Stack>{displaySteps}</Stack>
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
-        <CustomButton onClick={() => dispatch(addStep())} variant="contained">
-          <Add fontSize="small" />
-        </CustomButton>
+        <Tooltip title="Add step">
+          <span>
+            <CustomButton
+              onClick={() => dispatch(addStep())}
+              variant="contained"
+            >
+              <Add fontSize="small" />
+            </CustomButton>
+          </span>
+        </Tooltip>
       </Stack>
     </>
   );

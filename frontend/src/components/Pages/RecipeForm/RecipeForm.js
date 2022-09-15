@@ -4,15 +4,11 @@ import {
   Stack,
   TextField,
   Typography,
-  Button,
   FormControlLabel,
   Checkbox,
   CircularProgress,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import { Box } from "@mui/system";
-import Layout from "../../Layout/Layout";
 import IngredientSelect from "./IngredientSelect";
 import StepsList from "./StepsList";
 import ChosenIngredientsList from "./ChosenIngredientsList";
@@ -25,15 +21,11 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import {
   resetState,
   setImgId,
-  setTitle,
+  setName,
   setDescription,
   setLiked,
 } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 import {
-  setShowSuccess,
-  setShowError,
-  setSuccessMsg,
-  setErrMsg,
   setIsLoading,
   setIsImageUploading,
   setIsStepsValid,
@@ -42,12 +34,19 @@ import {
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
 import { CustomButton } from "../../..";
 import CategorySelect from "./CategorySelect";
+import {
+  setShowError,
+  setShowSuccess,
+  setSuccessMsg,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const RecipeForm = ({ isEdit }) => {
   const token = useSelector((state) => state.auth.token);
   const user = useSelector((state) => state.auth.user);
+
   const recipeId = useSelector((state) => state.addRecipeData.id);
-  const title = useSelector((state) => state.addRecipeData.title);
+  const name = useSelector((state) => state.addRecipeData.name);
   const description = useSelector((state) => state.addRecipeData.description);
 
   const steps = useSelector((state) => state.addRecipeData.steps);
@@ -66,10 +65,6 @@ const RecipeForm = ({ isEdit }) => {
     (state) => state.addRecipeForm.isRecipeIngredientsValid
   );
   const isStepsValid = useSelector((state) => state.addRecipeForm.isStepsValid);
-  const errMsg = useSelector((state) => state.addRecipeForm.errMsg);
-  const successMsg = useSelector((state) => state.addRecipeForm.successMsg);
-  const showSuccess = useSelector((state) => state.addRecipeForm.showSuccess);
-  const showError = useSelector((state) => state.addRecipeForm.showError);
   const postObject = useSelector((state) => state.addRecipeData);
   const dispatch = useDispatch();
 
@@ -87,7 +82,7 @@ const RecipeForm = ({ isEdit }) => {
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        dispatch(setErrMsg(err.response));
+        dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       })
       .then(() => {
@@ -108,7 +103,7 @@ const RecipeForm = ({ isEdit }) => {
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        // dispatch(setErrMsg(err.message));
+        dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       })
       .then(() => {
@@ -216,7 +211,7 @@ const RecipeForm = ({ isEdit }) => {
 
   useEffect(() => {
     if (
-      postObject.title.length > 2 &&
+      postObject.name.length > 2 &&
       postObject.description.length > 2 &&
       postObject.recipeCategories?.length > 0 &&
       isStepsValid &&
@@ -238,12 +233,12 @@ const RecipeForm = ({ isEdit }) => {
             {isEdit ? "Edit Recipe" : "Add Recipe"}
           </Typography>
           <Stack sx={{ mt: 3 }}>
-            <InputLabel>Title</InputLabel>
+            <InputLabel>Name</InputLabel>
             <TextField
-              value={title}
-              onChange={(e) => dispatch(setTitle(e.target.value))}
+              value={name}
+              onChange={(e) => dispatch(setName(e.target.value))}
               sx={{ mt: 1 }}
-              placeholder="Recipe title"
+              placeholder="Recipe Name"
             ></TextField>
           </Stack>
           <Stack sx={{ mt: 2 }}>
@@ -310,34 +305,6 @@ const RecipeForm = ({ isEdit }) => {
               "Add Recipe"
             )}
           </CustomButton>
-          <Snackbar
-            open={showSuccess}
-            autoHideDuration={5000}
-            onClose={() => dispatch(setShowSuccess(false))}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-            <Alert
-              onClose={() => dispatch(setShowSuccess(false))}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              {successMsg}
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={showError}
-            autoHideDuration={5000}
-            onClose={() => dispatch(setShowError(false))}
-            anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          >
-            <Alert
-              onClose={() => dispatch(setShowError(false))}
-              severity="error"
-              sx={{ width: "100%" }}
-            >
-              {errMsg}
-            </Alert>
-          </Snackbar>
         </Stack>
       </form>
     </section>

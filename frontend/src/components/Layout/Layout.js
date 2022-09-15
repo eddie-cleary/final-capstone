@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Drawer, useMediaQuery } from "@mui/material";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
 import Footer from "./Footer";
+import ErrorDisplay from "../shared/ErrorDisplay";
+import { useDispatch } from "react-redux";
+import {
+  setShowError,
+  setShowSuccess,
+} from "../../redux/features/forms/errors/errorsSlice";
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
   const matches = useMediaQuery("(min-width: 600px)");
-
-  const toggleMenu = () => {
-    setOpen(!open);
-  };
+  const dispatch = useDispatch();
 
   const gridStyles = (theme) => ({
     display: "grid",
@@ -45,6 +48,11 @@ const Layout = ({ children }) => {
     gridArea: "footer",
   };
 
+  useEffect(() => {
+    dispatch(setShowError(false));
+    dispatch(setShowSuccess(false));
+  }, [dispatch]);
+
   return (
     <>
       <Box sx={gridStyles}>
@@ -62,6 +70,7 @@ const Layout = ({ children }) => {
       <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
         <Sidebar />
       </Drawer>
+      <ErrorDisplay />
     </>
   );
 };

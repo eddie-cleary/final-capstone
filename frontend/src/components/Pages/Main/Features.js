@@ -10,13 +10,12 @@ const features = {
   margin: ".5em",
   width: "30%",
   height: "30%",
-  // maxWidth: "250px",
 };
 
 export default function Features() {
   return (
     <Stack direction="row" justifyContent="space-around">
-      <Card sx={ features }>
+      <Card sx={features}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -35,7 +34,7 @@ export default function Features() {
         </CardActionArea>
       </Card>
 
-      <Card sx={ features }>
+      <Card sx={features}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -53,7 +52,7 @@ export default function Features() {
           </CardContent>
         </CardActionArea>
       </Card>
-      <Card sx={ features }>
+      <Card sx={features}>
         <CardActionArea>
           <CardMedia
             component="img"

@@ -7,13 +7,12 @@ import {
   TextField,
   Modal,
   Stack,
-  Button,
   Typography,
   FormControl,
 } from "@mui/material";
 import { useSelector } from "react-redux";
 import { showModalLogin } from "../../redux/features/auth/authSlice";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { CustomButton } from "../..";
 
 const style = {

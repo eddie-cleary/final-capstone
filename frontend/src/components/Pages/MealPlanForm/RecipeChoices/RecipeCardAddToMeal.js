@@ -21,7 +21,7 @@ const RecipeCardAddToMeal = ({ recipe }) => {
   const addRecipeObj = {
     recipe: {
       id: recipe.id,
-      title: recipe.title,
+      name: recipe.name,
     },
     servings,
   };
@@ -43,7 +43,7 @@ const RecipeCardAddToMeal = ({ recipe }) => {
 
   return (
     <Card elevation={5} sx={{ height: 340, width: 330, mt: 3 }}>
-      <CardHeader title={recipe.title} />
+      <CardHeader title={recipe.name} />
       <CardMedia
         component="img"
         height="194"
@@ -51,7 +51,7 @@ const RecipeCardAddToMeal = ({ recipe }) => {
           recipe.imgId &&
           `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
         }
-        alt={recipe.title}
+        alt={recipe.name}
       />
       <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
         <FormControl sx={{ minWidth: "120px" }}>

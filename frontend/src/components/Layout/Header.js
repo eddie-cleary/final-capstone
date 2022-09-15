@@ -1,10 +1,8 @@
 import React from "react";
 import { Stack, Typography, Button, Link } from "@mui/material";
-import { useDispatch } from "react-redux";
 import { Menu } from "@mui/icons-material";
 import useAuth from "../../shared/useAuth";
-import Home from "../Pages/Home/Home";
-import { Link as ReactLink, useNavigate } from "react-router-dom";
+import { Link as ReactLink } from "react-router-dom";
 
 const header = (theme) => ({
   height: "100%",
@@ -19,8 +17,6 @@ const title = (theme) => ({
 
 const Header = ({ setOpen, open, matches }) => {
   const isAuth = useAuth();
-
-  const dispatch = useDispatch();
   return (
     <Stack
       direction="row"

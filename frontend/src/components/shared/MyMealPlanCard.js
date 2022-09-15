@@ -12,7 +12,7 @@ export default function MyMealPlanCard({ title, bgImg, id }) {
       >
         <Stack display="flex" justifyContent="center" alignItems="center">
           <Stack>
-            <img src={bgImg} width="310px" />
+            <img alt="meal plan art" src={bgImg} width="310px" />
           </Stack>
           <Typography
             sx={{

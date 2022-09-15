@@ -5,10 +5,6 @@ const initialState = {
   imgPreview: "",
   isLoading: false,
   isImageUploading: false,
-  successMsg: "",
-  showSuccess: false,
-  errMsg: "",
-  showError: false,
   isFormValid: false,
   isStepsValid: false,
   isRecipeIngredientsValid: false,
@@ -42,30 +38,6 @@ export const addRecipeFormSlice = createSlice({
         isImageUploading: action.payload,
       };
     },
-    setSuccessMsg: (state, action) => {
-      return {
-        ...state,
-        successMsg: action.payload,
-      };
-    },
-    setShowSuccess: (state, action) => {
-      return {
-        ...state,
-        showSuccess: action.payload,
-      };
-    },
-    setErrMsg: (state, action) => {
-      return {
-        ...state,
-        errMsg: action.payload,
-      };
-    },
-    setShowError: (state, action) => {
-      return {
-        ...state,
-        showError: action.payload,
-      };
-    },
     setIsFormValid: (state, action) => {
       return {
         ...state,
@@ -92,10 +64,6 @@ export const {
   setImgPreview,
   setIsLoading,
   setIsImageUploading,
-  setSuccessMsg,
-  setShowSuccess,
-  setErrMsg,
-  setShowError,
   setIsFormValid,
   setIsStepsValid,
   setIsRecipeIngredientsValid,

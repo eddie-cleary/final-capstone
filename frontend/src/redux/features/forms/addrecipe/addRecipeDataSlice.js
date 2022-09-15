@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   id: "",
-  title: "",
+  name: "",
   description: "",
   recipeCategories: [],
   servings: 1,
@@ -19,10 +19,10 @@ export const addRecipeDataSlice = createSlice({
   name: "addRecipeData",
   initialState,
   reducers: {
-    setTitle: (state, action) => {
+    setName: (state, action) => {
       return {
         ...state,
-        title: action.payload,
+        name: action.payload,
       };
     },
     setDescription: (state, action) => {
@@ -126,7 +126,7 @@ export const addRecipeDataSlice = createSlice({
 });
 
 export const {
-  setTitle,
+  setName,
   setDescription,
   setRecipeCategories,
   setServings,

@@ -1,32 +1,29 @@
 import {
   Card,
-  CardHeader,
   CardMedia,
   CardActions,
   CardContent,
-  IconButton,
   Link,
-  Checkbox,
   Button,
   Modal,
   Box,
   Typography,
   Stack,
-  Snackbar,
-  Alert,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
-import {
-  FavoriteSharp,
-  FavoriteBorder,
-  Favorite,
-  Delete,
-  Edit,
-} from "@mui/icons-material";
+import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { baseUrl } from "../../shared/baseUrl";
+import {
+  setShowError,
+  setErrorMsg,
+  setShowSuccess,
+  setSuccessMsg,
+} from "../../redux/features/forms/errors/errorsSlice";
 
 const modalStyle = {
   position: "absolute",
@@ -41,16 +38,10 @@ const modalStyle = {
   backgroundColor: "#fff",
   padding: "15px",
 };
-
-export default function MyRecipeCard({ recipe, refreshOnDelete }) {
-  const currUserId = useSelector((state) => state.auth.user.id);
+export default function MyRecipeCard({ recipe, refreshParent }) {
   const token = useSelector((state) => state.auth.token);
-
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [successMsg, setSuccessMsg] = useState("");
-  const [showError, setShowError] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleDelete = (e) => {
@@ -64,28 +55,6 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
     navigate(`/recipes/edit/${recipe.id}`);
   };
 
-  const openSuccess = () => {
-    setShowSuccess(true);
-  };
-
-  const closeSuccess = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowSuccess(false);
-  };
-
-  const openError = () => {
-    setShowError(true);
-  };
-
-  const closeError = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setShowError(false);
-  };
-
   const handlePostDelete = () => {
     setShowDeleteModal(false);
     axios
@@ -97,13 +66,13 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
       .then((res) => {
         // if response 200
         // update local state
-        setSuccessMsg(`${recipe.title} deleted!`);
-        setShowSuccess(true);
-        refreshOnDelete();
+        dispatch(setSuccessMsg(`${recipe.name} deleted!`));
+        dispatch(setShowSuccess(true));
+        refreshParent();
       })
       .catch((err) => {
-        setErrMsg(`Error deleting recipe. ${err.message}`);
-        setShowError(true);
+        dispatch(setErrorMsg(`Error deleting recipe. ${err.message}`));
+        dispatch(setShowError(true));
       });
   };
 
@@ -118,11 +87,11 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
               recipe.imgId &&
               `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
             }
-            alt={recipe.title}
+            alt={recipe.name}
           />
           <CardContent>
             <Typography gutterBottom variant="h5">
-              {recipe.title}
+              {recipe.name}
             </Typography>
           </CardContent>
           <CardActions
@@ -133,12 +102,16 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
               ml: -1,
             }}
           >
-            <Button onClick={handleEdit}>
-              <Edit />
-            </Button>
-            <Button onClick={handleDelete}>
-              <Delete color="warning" />
-            </Button>
+            <Tooltip title="Edit">
+              <IconButton onClick={handleEdit}>
+                <Edit color="primary" />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete">
+              <IconButton onClick={handleDelete}>
+                <Delete color="warning" />
+              </IconButton>
+            </Tooltip>
           </CardActions>
         </Card>
       </Link>
@@ -154,7 +127,7 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
             <Stack alignItems="center">
               <Typography
                 sx={{ textAlign: "center" }}
-              >{`Are you sure you want to delete ${recipe.title}?`}</Typography>
+              >{`Are you sure you want to delete ${recipe.name}?`}</Typography>
               <Stack direction="row" sx={{ mt: 2 }}>
                 <Button
                   variant="contained"
@@ -175,26 +148,6 @@ export default function MyRecipeCard({ recipe, refreshOnDelete }) {
           </form>
         </Box>
       </Modal>
-      <Snackbar
-        open={showSuccess}
-        autoHideDuration={5000}
-        onClose={closeSuccess}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert onClose={closeSuccess} severity="success" sx={{ width: "100%" }}>
-          {successMsg}
-        </Alert>
-      </Snackbar>
-      <Snackbar
-        open={showError}
-        autoHideDuration={5000}
-        onClose={closeError}
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-      >
-        <Alert onClose={closeError} severity="error" sx={{ width: "100%" }}>
-          {errMsg}
-        </Alert>
-      </Snackbar>
     </>
   );
 }

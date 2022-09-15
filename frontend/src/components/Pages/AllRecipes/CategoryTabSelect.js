@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import { Tabs, Tab } from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import RecipeCard from "../../shared/RecipeCard";
+import {
+  setErrorMsg,
+  setShowError,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
-const CategoryTabSelect = ({ setRecipesToDisplay, allRecipes }) => {
+const CategoryTabSelect = ({ setRecipesToDisplay }) => {
   const token = useSelector((state) => state.auth.token);
+  const allRecipes = useSelector((state) => state.recipes.allRecipes);
   const [tabValue, setTabValue] = useState(0);
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [allCategories, setAllCategories] = useState(["All"]);
   const [categoryTabs, setCategoryTabs] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -20,11 +26,17 @@ const CategoryTabSelect = ({ setRecipesToDisplay, allRecipes }) => {
         },
       })
       .then((res) => setAllCategories(res.data))
-      .catch((err) => console.log(err));
-  }, []);
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      });
+  }, [dispatch, token]);
 
   useEffect(() => {
-    let availableTabs = [<Tab key="99" label="All" />];
+    let availableTabs = [
+      <Tab key="99" label="All" />,
+      <Tab key="98" label="Liked" />,
+    ];
 
     availableTabs.push(
       allCategories.map((category, index) => (
@@ -39,11 +51,16 @@ const CategoryTabSelect = ({ setRecipesToDisplay, allRecipes }) => {
     const filteredRecipes = allRecipes?.filter((recipe) => {
       if (categoryFilter === "All") {
         return true;
+      } else if (categoryFilter === "Liked") {
+        if (recipe.liked) {
+          return true;
+        }
       } else {
-        return recipe.recipeCategory.some(
-          (recipeCategory) => recipeCategory.name === categoryFilter
+        return recipe.recipeCategories.filter(
+          (recipeCategory) => recipeCategory === categoryFilter
         );
       }
+      return "";
     });
 
     const recipesToDisplay = filteredRecipes?.map((recipe) => {
@@ -51,7 +68,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay, allRecipes }) => {
     });
 
     setRecipesToDisplay(recipesToDisplay);
-  }, [categoryFilter, allCategories, allRecipes]);
+  }, [categoryFilter, allCategories, setRecipesToDisplay, allRecipes]);
 
   const handleChange = (e, newValue) => {
     setTabValue(newValue);

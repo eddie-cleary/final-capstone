@@ -2,14 +2,19 @@ import React, { useState, useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Stack } from "@mui/material";
 import MyMealPlanCard from "../../shared/MyMealPlanCard";
 import thumbnail from "./Thumbnail/white-thumbnail.png";
+import {
+  setShowError,
+  setErrorMsg,
+} from "../../../redux/features/forms/errors/errorsSlice";
 
 const MyMealPlans = () => {
   const token = useSelector((state) => state.auth.token);
   const [mealPlans, setMealPlans] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
@@ -19,7 +24,10 @@ const MyMealPlans = () => {
         },
       })
       .then((res) => setMealPlans(res.data))
-      .catch((err) => console.log(err.response));
+      .catch((err) => {
+        dispatch(setErrorMsg(err.message));
+        dispatch(setShowError(true));
+      });
   }, []);
 
   const myMealPlans = mealPlans.map((mealPlan, index) => {

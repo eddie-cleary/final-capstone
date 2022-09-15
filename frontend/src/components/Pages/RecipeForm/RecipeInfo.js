@@ -54,7 +54,7 @@ const RecipeInfo = () => {
                 dispatch(setPrepTime(e.target.value));
               }
             }}
-            endAdornment={<InputAdornment position="end">mins</InputAdornment>}
+            endAdornment={<InputAdornment position="end">min</InputAdornment>}
           />
         </Box>
         <Box>
@@ -68,7 +68,7 @@ const RecipeInfo = () => {
                 dispatch(setCookTime(e.target.value));
               }
             }}
-            endAdornment={<InputAdornment position="end">mins</InputAdornment>}
+            endAdornment={<InputAdornment position="end">min</InputAdornment>}
           />
         </Box>
       </Stack>
