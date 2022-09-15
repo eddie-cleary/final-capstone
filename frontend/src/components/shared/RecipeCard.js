@@ -1,4 +1,11 @@
-import { Card, CardHeader, CardMedia, CardActions, Link } from "@mui/material";
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardActions,
+  Link,
+  Typography,
+} from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import LikeRecipeButton from "../shared/LikeRecipeButton";
 
@@ -21,7 +28,10 @@ export default function RecipeCard({ recipe }) {
           alt={recipe.name}
         />
       </Link>
-      <CardActions sx={{ display: "flex", justifyContent: "flex-end" }}>
+      <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography sx={{ ml: 1 }}>
+          Shared by {recipe.creatorUsername}
+        </Typography>
         <LikeRecipeButton recipe={recipe} />
       </CardActions>
     </Card>

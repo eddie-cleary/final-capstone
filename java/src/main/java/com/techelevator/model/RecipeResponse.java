@@ -24,6 +24,7 @@ public class RecipeResponse {
         this.prepTime = recipe.getPrepTime();
         this.cookTime = recipe.getCookTime();
         this.creatorId = recipe.getAppUser().getId();
+        this.creatorUsername = recipe.getAppUser().getUsername();
 
         if(!Objects.isNull(recipe.getImgId())) {
             this.imgId = recipe.getImgId();
@@ -59,6 +60,8 @@ public class RecipeResponse {
     private int cookTime;
     private String imgId = "";
     private Long creatorId;
+
+    private String creatorUsername;
     private List<String> steps = new ArrayList<>();
     private List<RecipeIngredientDTO> recipeIngredients = new ArrayList<>();
     private List<String> recipeCategories = new ArrayList<>();
