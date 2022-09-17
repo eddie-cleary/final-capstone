@@ -7,6 +7,7 @@ import {
   FormControlLabel,
   Checkbox,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import IngredientSelect from "./IngredientSelect";
@@ -32,7 +33,6 @@ import {
   setIsRecipeIngredientsValid,
   setIsFormValid,
 } from "../../../redux/features/forms/addrecipe/addRecipeFormSlice";
-import { CustomButton } from "../../..";
 import CategorySelect from "./CategorySelect";
 import {
   setShowError,
@@ -291,7 +291,7 @@ const RecipeForm = ({ isEdit }) => {
               label="Mark as favorite?"
             />
           </Stack>
-          <CustomButton
+          <Button
             disabled={isFormValid ? false : true}
             onClick={handleSubmit}
             sx={{ mt: 3 }}
@@ -304,7 +304,7 @@ const RecipeForm = ({ isEdit }) => {
             ) : (
               "Add Recipe"
             )}
-          </CustomButton>
+          </Button>
         </Stack>
       </form>
     </section>

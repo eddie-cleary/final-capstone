@@ -1,6 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import ProtectedRoutes from "./components/Routes/ProtectedRoutes";
-import Main from "./components/Pages/Main/Main";
 import Home from "./components/Pages/Home/Home";
 import ViewRecipe from "./components/Pages/ViewRecipe/ViewRecipe";
 import { useEffect, useCallback } from "react";
@@ -61,10 +60,9 @@ function App() {
         <Route exact path="/addrecipe" element={<AddRecipe />} />
         <Route exact path="/recipes/:id" element={<ViewRecipe />} />
         <Route exact path="/recipes/edit/:id" element={<EditRecipe />} />
-        <Route exact path="/myrecipes" element={<MyRecipes />} />s
+        <Route exact path="/myrecipes" element={<MyRecipes />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
-      <Route path="*" element={<Main />} />
     </Routes>
   );
 }

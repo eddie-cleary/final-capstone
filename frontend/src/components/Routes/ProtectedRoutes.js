@@ -1,11 +1,11 @@
 import { useSelector } from "react-redux";
 import { Outlet } from "react-router";
-import Main from "../Pages/Main/Main";
 import useAuth from "../../shared/useAuth";
+import SignIn from "../Pages/SignIn/SignIn";
 
 const ProtectedRoutes = () => {
   const isAuth = useAuth();
-  return isAuth ? <Outlet /> : <Main />;
+  return isAuth ? <Outlet /> : <SignIn />;
 };
 
 export default ProtectedRoutes;

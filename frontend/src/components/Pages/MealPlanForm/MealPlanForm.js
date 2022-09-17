@@ -5,6 +5,7 @@ import {
   Stack,
   Typography,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -14,7 +15,6 @@ import {
 } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
-import { CustomButton } from "../../..";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
 import {
@@ -192,11 +192,7 @@ const MealPlanForm = ({ isEdit }) => {
               placeholder="Meal plan title"
             ></TextField>
             <Stack sx={{ mt: 3, ml: 2 }} direction="row" alignSelf="flex-start">
-              <CustomButton
-                onClick={handleSubmit}
-                sx={{ ml: 4 }}
-                variant="contained"
-              >
+              <Button onClick={handleSubmit} sx={{ ml: 4 }} variant="contained">
                 {isLoading ? (
                   <CircularProgress />
                 ) : isEdit ? (
@@ -204,7 +200,7 @@ const MealPlanForm = ({ isEdit }) => {
                 ) : (
                   "Create Meal Plan"
                 )}
-              </CustomButton>
+              </Button>
             </Stack>
           </Stack>
           <Stack sx={{ width: "100%", mt: 5 }}>

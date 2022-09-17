@@ -9,12 +9,12 @@ import {
   Radio,
   Typography,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
-import { CustomButton } from "../../..";
 import {
   setShowSuccess,
   setSuccessMsg,
@@ -109,13 +109,13 @@ const AddIngredient = () => {
                     />
                   </RadioGroup>
                 </FormControl>
-                <CustomButton
+                <Button
                   sx={{ mt: 3 }}
                   onClick={handleSubmit}
                   variant="contained"
                 >
                   {isLoading ? <CircularProgress /> : "Add Ingredient"}
-                </CustomButton>
+                </Button>
               </Stack>
             </form>
           </Stack>

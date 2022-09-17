@@ -15,7 +15,6 @@ import {
   addStep,
   deleteStep,
 } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
-import { CustomButton } from "../../..";
 
 const StepsList = () => {
   const steps = useSelector((state) => state.addRecipeData.steps);
@@ -67,12 +66,9 @@ const StepsList = () => {
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
         <Tooltip title="Add step">
           <span>
-            <CustomButton
-              onClick={() => dispatch(addStep())}
-              variant="contained"
-            >
+            <Button onClick={() => dispatch(addStep())} variant="contained">
               <Add fontSize="small" />
-            </CustomButton>
+            </Button>
           </span>
         </Tooltip>
       </Stack>

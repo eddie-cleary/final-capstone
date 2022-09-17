@@ -1,9 +1,8 @@
 import React from "react";
 import MealRecipe from "./MealRecipe";
 import { useSelector, useDispatch } from "react-redux";
-import { Stack } from "@mui/material";
+import { Stack, Button } from "@mui/material";
 import { showRecipesModal } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
-import { CustomButton } from "../../..";
 
 const MealRecipesList = ({ dayIndex, mealIndex }) => {
   const dispatch = useDispatch();
@@ -25,13 +24,13 @@ const MealRecipesList = ({ dayIndex, mealIndex }) => {
   return (
     <Stack alignItems="center" sx={{ width: "100%" }}>
       {mealRecipeComponents}
-      <CustomButton
+      <Button
         sx={{ mt: 2 }}
         onClick={() => dispatch(showRecipesModal({ dayIndex, mealIndex }))}
         variant="contained"
       >
         Add recipe
-      </CustomButton>
+      </Button>
     </Stack>
   );
 };

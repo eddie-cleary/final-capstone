@@ -5,12 +5,12 @@ import {
   TextField,
   Typography,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
-import { CustomButton } from "../../..";
 import ErrorDisplay from "../../shared/ErrorDisplay";
 import {
   setShowError,
@@ -77,13 +77,13 @@ const AddIngredient = () => {
                   sx={{ mt: 1 }}
                   placeholder="Category name"
                 ></TextField>
-                <CustomButton
+                <Button
                   sx={{ mt: 3 }}
                   onClick={handleSubmit}
                   variant="contained"
                 >
                   {isLoading ? <CircularProgress /> : "Add Category"}
-                </CustomButton>
+                </Button>
               </Stack>
             </form>
           </Stack>

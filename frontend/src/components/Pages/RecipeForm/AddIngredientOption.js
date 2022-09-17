@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { CustomButton } from "../../..";
 import { AddCircleOutline } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
-import { CircularProgress, Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack, Typography, Button } from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import {
@@ -94,8 +93,8 @@ const AddIngredientOption = () => {
       <Stack textAlign="center">
         <Typography fontWeight="bold">Is it a liquid?</Typography>
         <Stack sx={{ mt: 1 }} direction="row" justifyContent="space-around">
-          <CustomButton onClick={handleYesLiquid}>Yes</CustomButton>
-          <CustomButton onClick={handleNoLiquid}>No</CustomButton>
+          <Button onClick={handleYesLiquid}>Yes</Button>
+          <Button onClick={handleNoLiquid}>No</Button>
         </Stack>
       </Stack>
     );
@@ -110,12 +109,12 @@ const AddIngredientOption = () => {
           {isLoading ? (
             <CircularProgress />
           ) : (
-            <CustomButton
+            <Button
               disabled={isLoading ? true : false}
               onClick={handleAddIngredient}
             >
               Add Ingredient <AddCircleOutline sx={{ ml: 1 }} />
-            </CustomButton>
+            </Button>
           )}
         </Stack>
       )}

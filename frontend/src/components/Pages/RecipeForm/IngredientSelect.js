@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Tooltip } from "@mui/material";
+import { Autocomplete, TextField, Tooltip, Button } from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
@@ -18,7 +18,6 @@ import {
   setIngredientToCreate,
 } from "../../../redux/features/forms/addrecipe/addRecipeIngredientSlice.js";
 import { setRecipeIngredients } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
-import { CustomButton } from "../../..";
 import {
   setShowError,
   setErrorMsg,
@@ -134,14 +133,14 @@ const IngredientSelect = () => {
       <MeasurementSelect />
       <Tooltip title="Add Ingredient">
         <span>
-          <CustomButton
+          <Button
             onClick={handleAddIngredient}
             sx={{ height: "58px" }}
             variant="contained"
             disabled={isFormValid ? false : true}
           >
             <Add fontSize="small" />
-          </CustomButton>
+          </Button>
         </span>
       </Tooltip>
     </>
