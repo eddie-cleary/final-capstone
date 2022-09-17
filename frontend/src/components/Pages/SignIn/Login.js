@@ -119,6 +119,7 @@ const Login = ({ setShowCreateAccount }) => {
           <Button
             onClick={() => setShowCreateAccount(true)}
             variant="text-link"
+            sx={{ textTransform: "initial" }}
           >
             Create a new account?
           </Button>

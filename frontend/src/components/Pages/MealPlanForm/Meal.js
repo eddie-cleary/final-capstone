@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, TextField, Button } from "@mui/material";
+import { Stack, TextField, Button, useTheme } from "@mui/material";
 import { RemoveCircle } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,6 +18,7 @@ const mealStyles = {
 
 const Meal = ({ mealIndex, dayIndex }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const mealTitle = useSelector(
     (state) => state.mealPlanData.days[dayIndex].meals[mealIndex].title
   );
@@ -25,11 +26,15 @@ const Meal = ({ mealIndex, dayIndex }) => {
   return (
     <Stack
       sx={{
-        border: "1px solid black",
+        border: `1px solid ${theme.palette.text.main}`,
+        borderRadius: "10px",
         padding: "5px",
         minHeight: "140px",
         mb: 1,
         position: "relative",
+        "&:not(:first-of-type)": {
+          mt: 1,
+        },
       }}
     >
       <TextField

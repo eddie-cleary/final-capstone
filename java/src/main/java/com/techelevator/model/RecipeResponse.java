@@ -1,10 +1,12 @@
 package com.techelevator.model;
 
 import com.techelevator.entity.*;
+import com.techelevator.service.RecipeService;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,10 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 public class RecipeResponse {
+
+    @Autowired
+    RecipeService recipeService;
+
 
     public RecipeResponse(Recipe recipe, Long userId) {
         this.id = recipe.getId();

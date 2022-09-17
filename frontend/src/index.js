@@ -11,6 +11,8 @@ let mealPlannerTheme = createTheme({
   palette: {
     primary: {
       main: "#A3D572",
+      light: "#E8F4D7",
+      dark: "#69A230",
     },
     fadedText: {
       main: "rgba(92, 103, 85, 0.31)",
@@ -45,10 +47,12 @@ let mealPlannerTheme = createTheme({
     },
     h5: {
       fontFamily: ["Roboto", "sans-serif"].join(","),
+      fontWeight: "bold",
     },
     h6: {
       fontFamily: ["Roboto", "sans-serif"].join(","),
       fontWeight: "bold",
+      fontSize: 22,
     },
   },
 });
@@ -69,6 +73,24 @@ mealPlannerTheme = createTheme(mealPlannerTheme, {
             border: `1px solid ${mealPlannerTheme.palette.primary.main}`,
             boxShadow:
               "0px 1px 1px -2px rgb(0 0 0 / 20%), 0px 1px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)",
+            "&:disabled": {
+              backgroundColor: "#E6E9E2",
+              border: "1px solid #E6E9E2",
+            },
+          },
+        },
+        {
+          props: { variant: "btn-warning" },
+          style: {
+            color: "#5c6755",
+            backgroundColor: "#FCE2C7",
+            fontWeight: "600",
+            border: `1px solid #F8AF66`,
+            boxShadow:
+              "0px 1px 1px -2px rgb(0 0 0 / 20%), 0px 1px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)",
+            "&:hover": {
+              backgroundColor: "#F8AF66",
+            },
           },
         },
         {
@@ -77,6 +99,22 @@ mealPlannerTheme = createTheme(mealPlannerTheme, {
             color: mealPlannerTheme.palette.text.main,
             textTransform: "capitalize",
             fontWeight: "bold",
+            "&:hover": {
+              backgroundColor: "#E8F4D7",
+            },
+          },
+        },
+        {
+          props: { variant: "nav-link" },
+          style: {
+            color: mealPlannerTheme.palette.text.main,
+            textTransform: "capitalize",
+            fontWeight: "bold",
+            padding: "12px",
+            "&.active": {
+              fontWeight: "bold",
+              backgroundColor: mealPlannerTheme.palette.primary.main,
+            },
           },
         },
       ],

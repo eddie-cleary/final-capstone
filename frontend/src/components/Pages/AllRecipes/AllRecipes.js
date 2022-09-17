@@ -3,13 +3,15 @@ import Layout from "../../Layout/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
-import { Typography, Stack, List, Box } from "@mui/material";
+import { Stack, List, Box } from "@mui/material";
 import CategoryTabSelect from "./CategoryTabSelect";
 import {
   setErrorMsg,
   setShowError,
 } from "../../../redux/features/forms/errors/errorsSlice";
 import { setAllRecipes } from "../../../redux/features/recipes/recipesDataSlice";
+import PageTitle from "../../shared/PageTitle";
+import PageLayout from "../../shared/PageLayout";
 
 const AllRecipes = () => {
   const token = useSelector((state) => state.auth.token);
@@ -34,15 +36,19 @@ const AllRecipes = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">All Recipes</Typography>
-      <Box sx={{ mt: 3, width: "100%", bgcolor: "background.paper" }}>
-        <CategoryTabSelect setRecipesToDisplay={setRecipesToDisplay} />
-      </Box>
-      <List>
-        <Stack direction="row" flexWrap="wrap">
-          {recipesToDisplay}
+      <PageLayout>
+        <Stack>
+          <PageTitle title="All Recipes" />
+          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+            <CategoryTabSelect setRecipesToDisplay={setRecipesToDisplay} />
+          </Box>
+          <List>
+            <Stack sx={{ mt: 8 }} direction="row" flexWrap="wrap">
+              {recipesToDisplay}
+            </Stack>
+          </List>
         </Stack>
-      </List>
+      </PageLayout>
     </Layout>
   );
 };

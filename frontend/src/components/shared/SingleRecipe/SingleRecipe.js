@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Stack,
   Box,
-  Paper,
   Typography,
   List,
   ListItem,
-  ListItemIcon,
   ListItemText,
   useTheme,
   useMediaQuery,
   Button,
 } from "@mui/material";
-import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { useSelector } from "react-redux";
 import servingsIcon from "./icons/servings.png";
 import prepIcon from "./icons/prepare.png";
 import cookIcon from "./icons/cooking.png";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
+import PageTitle from "../PageTitle";
+import { axios } from "axios";
+import { baseUrl } from "../../../shared/baseUrl";
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -29,41 +29,102 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
     );
     return convertedMeasurement + " of " + ingredient.name;
   });
-  return renderedIngredients?.map((ingredient, index) => (
-    <List key={index}>
-      <ListItem>
-        <ListItemIcon>
-          <AddShoppingCartIcon />
-        </ListItemIcon>
+  return renderedIngredients?.map((ingredient, index) => {
+    const isOdd = index % 2 !== 0 ? true : false;
+
+    return (
+      <ListItem
+        sx={{
+          width: "fit-content",
+          minWidth: "50%",
+          textAlign: isOdd ? "right" : "left",
+        }}
+        key={index}
+      >
         <ListItemText primary={ingredient} />
       </ListItem>
-    </List>
-  ));
+    );
+  });
+};
+
+const StepNumber = ({ number }) => {
+  const theme = useTheme();
+
+  return (
+    <Stack direction="row">
+      <Stack
+        sx={{
+          backgroundColor: theme.palette.primary.light,
+          display: "flex",
+          width: "50px",
+          height: "50px",
+          borderRadius: "25px",
+          justifyContent: "center",
+          alignItems: "center",
+          direction: "row",
+          marginRight: "15px",
+        }}
+      >
+        {" "}
+        <Typography sx={{ fontWeight: "bold" }}>{number}</Typography>
+      </Stack>
+    </Stack>
+  );
 };
 
 const RenderSteps = ({ steps }) => {
-  let renderedSteps = steps?.map((step, index) => index + 1 + ". " + step);
+  let renderedSteps = steps?.map((step, index) => (
+    <Box sx={{ display: "flex", mt: 1, alignItems: "center" }}>
+      <StepNumber number={index + 1} />
+      {` ${step}`}
+    </Box>
+  ));
 
-  return renderedSteps?.map((step) => (
-    <List key={step}>
-      <ListItem>
-        <ListItemIcon>
-          <ChevronRightIcon />
-        </ListItemIcon>
-        <ListItemText primary={step} />
-      </ListItem>
-    </List>
+  return renderedSteps?.map((step, index) => (
+    <ListItem key={index}>
+      <ListItemText primary={step} />
+    </ListItem>
   ));
 };
 
-const InfoCard = (props) => {
+const InfoCard = (props, setCurrentServings, currentServings) => {
   return (
     <Stack direction="column" alignItems="center">
       <Box component="img" src={props.img} alt="prepare icon" width="50px" />
       <Typography variant="h6" component="div">
         <BoldUnderline text={props.name} />
       </Typography>
-      <Typography variant="h6">{props.text}</Typography>
+      {props.showServingsCounter ? (
+        <Stack direction="row" alignItems="center">
+          <Button
+            onClick={() =>
+              props.setCurrentServings(
+                props.currentServings < 10
+                  ? props.currentServings + 1
+                  : props.currentServings
+              )
+            }
+            sx={{ p: 0 }}
+          >
+            <AddBox fontSize="medium" />
+          </Button>
+          <Typography sx={{ mx: -1 }}>{props.text}</Typography>
+          <Button
+            onClick={() =>
+              props.setCurrentServings(
+                props.currentServings > 1
+                  ? props.currentServings - 1
+                  : props.currentServings
+              )
+            }
+            sx={{ p: 0 }}
+          >
+            <IndeterminateCheckBox fontSize="medium" />
+          </Button>
+        </Stack>
+      ) : (
+        <Typography>{props.text}</Typography>
+      )}
     </Stack>
   );
 };
@@ -81,6 +142,8 @@ const SingleRecipe = ({ recipe }) => {
   const recipeCookTime = recipe?.cookTime;
   const [currentServings, setCurrentServings] = useState(1);
 
+  const isMobile = useSelector((state) => state.layout.isMobile);
+
   useEffect(() => {
     setCurrentServings(recipe?.servings);
   }, [recipe]);
@@ -89,8 +152,13 @@ const SingleRecipe = ({ recipe }) => {
   const matches = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
-    <Paper elevation={5} sx={{ maxWidth: "1200px", p: 6 }}>
-      <Stack direction={matches ? "column" : "row-reverse"} alignItems="center">
+    <>
+      <Stack
+        direction="column"
+        sx={{ maxWidth: "800px", width: "100%" }}
+        alignItems="center"
+      >
+        <PageTitle title={recipe?.name} />
         <Box
           component="img"
           src={
@@ -101,85 +169,103 @@ const SingleRecipe = ({ recipe }) => {
           sx={{
             aspectRatio: "1/1",
             width: "100%",
-            maxWidth: "470px",
+            maxWidth: "550px",
             objectFit: "cover",
           }}
           alt={`Picture of ${recipe?.title}`}
         ></Box>
-        <Stack sx={{ width: "100%", maxWidth: "800px", mt: matches ? 5 : 0 }}>
-          <Typography variant="h2" component="h1">
-            {recipe?.name}
-          </Typography>
-          <Typography sx={{ fontSize: "20px", mt: 3 }}>
-            {recipe?.description}
-          </Typography>
-          <Stack sx={{ width: "100%", mt: 5, gap: "40px" }} direction="row">
-            <InfoCard
-              name="Prep time"
-              text={
-                Number.parseInt(recipePrepTime) === 1
-                  ? "1 minute"
-                  : `${recipePrepTime} minutes`
-              }
-              img={prepIcon}
-            />
-            <InfoCard
-              name="Cook time"
-              text={
-                Number.parseInt(recipeCookTime) === 1
-                  ? "1 minute"
-                  : `${recipeCookTime} minutes`
-              }
-              img={cookIcon}
-            />
-            <InfoCard
-              name="Servings"
-              text={currentServings}
-              img={servingsIcon}
-            />
-            <Stack sx={{ ml: -4 }} justifyContent="flex-end">
-              <Button
-                onClick={() =>
-                  setCurrentServings(
-                    currentServings < 10 ? currentServings + 1 : currentServings
-                  )
-                }
-                sx={{ p: 0 }}
-              >
-                <AddBox fontSize="large" />
-              </Button>
-              <Button
-                onClick={() =>
-                  setCurrentServings(
-                    currentServings > 1 ? currentServings - 1 : currentServings
-                  )
-                }
-                sx={{ p: 0 }}
-              >
-                <IndeterminateCheckBox fontSize="large" />
-              </Button>
-            </Stack>
-          </Stack>
+        <Typography sx={{ fontSize: "20px", mt: 5, textAlign: "center" }}>
+          {recipe?.description}
+        </Typography>
+        <Stack
+          sx={{
+            width: "100%",
+            mt: 8,
+            gap: "5vw",
+            flexWrap: "wrap",
+            justifyContent: isMobile ? "space-around" : "center",
+          }}
+          justifyContent="center"
+          direction="row"
+        >
+          <InfoCard
+            name="Prep time"
+            text={
+              Number.parseInt(recipePrepTime) === 1
+                ? "1 minute"
+                : `${recipePrepTime} minutes`
+            }
+            img={prepIcon}
+          />
+          <InfoCard
+            name="Cook time"
+            text={
+              Number.parseInt(recipeCookTime) === 1
+                ? "1 minute"
+                : `${recipeCookTime} minutes`
+            }
+            img={cookIcon}
+          />
+          <InfoCard
+            name="Servings"
+            text={currentServings}
+            img={servingsIcon}
+            setCurrentServings={setCurrentServings}
+            showServingsCounter="true"
+            currentServings={currentServings}
+          />
         </Stack>
       </Stack>
-      <Stack direction="column" sx={{ mt: matches ? 7 : 0 }}>
-        <Stack direction="column">
+      <Stack
+        direction="column"
+        sx={{ mt: matches ? 7 : 0, width: "100%", maxWidth: "1000px" }}
+      >
+        <Stack
+          direction="row"
+          sx={{
+            flexWrap: "wrap",
+            justifyContent: "space-between",
+            width: "100%",
+            mt: 8,
+          }}
+        >
           <Box>
-            <Typography variant="h5">Ingredients</Typography>
-            <RenderIngredients
-              ingredients={recipe?.recipeIngredients}
-              currentServings={currentServings}
-            />
+            <Typography
+              sx={{ textAlign: isMobile ? "center" : "left" }}
+              variant="h5"
+            >
+              Ingredients
+            </Typography>
+            <List
+              sx={{
+                mt: 4,
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-between",
+              }}
+            >
+              <RenderIngredients
+                ingredients={recipe?.recipeIngredients}
+                currentServings={currentServings}
+              />
+            </List>
           </Box>
         </Stack>
         <Stack sx={{ mt: 5 }} direction="column">
           <Box>
-            <Typography variant="h5">Steps</Typography>
-            <RenderSteps steps={recipe?.steps} />
+            <Typography
+              sx={{ textAlign: isMobile ? "center" : "left" }}
+              variant="h5"
+            >
+              Steps
+            </Typography>
+            <List sx={{ mt: 4, mb: 5 }}>
+              <RenderSteps steps={recipe?.steps} />
+            </List>
           </Box>
         </Stack>
       </Stack>
-    </Paper>
+    </>
   );
 };
 

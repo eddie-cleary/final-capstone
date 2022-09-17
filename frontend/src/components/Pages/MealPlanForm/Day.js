@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Typography, Button, Box } from "@mui/material";
+import { Stack, Typography, Button, Box, useTheme } from "@mui/material";
 import { RemoveCircle } from "@mui/icons-material";
 import { useDispatch } from "react-redux";
 import { removeDay } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
@@ -7,14 +7,16 @@ import MealsList from "./MealsList";
 
 const Day = ({ dayIndex }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   return (
     <Stack
       alignItems="center"
       sx={{
-        border: "1px solid black",
+        border: `1px solid ${theme.palette.text.main}`,
+        borderRadius: "10px",
         width: "100%",
-        maxWidth: "250px",
+        maxWidth: "280px",
         height: "600px",
         position: "relative",
         overflow: "scroll",
@@ -23,17 +25,18 @@ const Day = ({ dayIndex }) => {
         "&::-webkit-scrollbar": {
           display: "none",
         },
+        mb: 3,
       }}
     >
       <Box>
-        <Typography sx={{ mt: 1 }} variant="h5" element="h4">
+        <Typography sx={{ mt: 3 }} variant="h5" element="h4">
           {`Day ${dayIndex + 1}`}
         </Typography>
         <Button
           sx={{
             position: "absolute",
-            top: "3px",
-            left: "-15px",
+            top: "25px",
+            left: "-5px",
           }}
           onClick={() => dispatch(removeDay(dayIndex))}
         >

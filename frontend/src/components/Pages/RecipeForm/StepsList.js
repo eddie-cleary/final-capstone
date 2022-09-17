@@ -66,7 +66,7 @@ const StepsList = () => {
       <Stack direction="row" sx={{ mt: 2 }} justifyContent="center">
         <Tooltip title="Add step">
           <span>
-            <Button onClick={() => dispatch(addStep())} variant="contained">
+            <Button onClick={() => dispatch(addStep())} variant="btn">
               <Add fontSize="small" />
             </Button>
           </span>

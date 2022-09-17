@@ -108,9 +108,7 @@ const IngredientSelect = () => {
         isOptionEqualToValue={(option, value) => option.name === value.name}
         onInputChange={(e, v) => dispatch(setIngredientToCreate(v))}
         onChange={(e) => {
-          console.log(e);
           const choice = e.target.textContent;
-          console.log("choice is ", choice);
           allIngredients.every((validIngredient) => {
             if (choice === validIngredient.name) {
               dispatch(setMeasurement(""));
@@ -120,7 +118,6 @@ const IngredientSelect = () => {
             }
             dispatch(setMeasurement(""));
             dispatch(setIngredient(""));
-            console.log("choice is ", choice);
 
             dispatch(setIsIngredientValid(false));
             return true;
@@ -136,7 +133,7 @@ const IngredientSelect = () => {
           <Button
             onClick={handleAddIngredient}
             sx={{ height: "58px" }}
-            variant="contained"
+            variant="btn"
             disabled={isFormValid ? false : true}
           >
             <Add fontSize="small" />

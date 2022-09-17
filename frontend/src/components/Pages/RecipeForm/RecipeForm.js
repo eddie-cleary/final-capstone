@@ -40,6 +40,8 @@ import {
   setSuccessMsg,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageTitle from "../../shared/PageTitle";
+import PageLayout from "../../shared/PageLayout";
 
 const RecipeForm = ({ isEdit }) => {
   const token = useSelector((state) => state.auth.token);
@@ -67,6 +69,7 @@ const RecipeForm = ({ isEdit }) => {
   const isStepsValid = useSelector((state) => state.addRecipeForm.isStepsValid);
   const postObject = useSelector((state) => state.addRecipeData);
   const dispatch = useDispatch();
+  const isMobile = useSelector((state) => state.layout.isMobile);
 
   const postToServer = () => {
     console.log("the post object", postObject);
@@ -226,88 +229,88 @@ const RecipeForm = ({ isEdit }) => {
   }, [postObject, isStepsValid, isRecipeIngredientsValid]);
 
   return (
-    <section>
+    <PageLayout>
       <form>
-        <Stack sx={{ maxWidth: "550px" }}>
-          <Typography variant="h5">
-            {isEdit ? "Edit Recipe" : "Add Recipe"}
-          </Typography>
-          <Stack sx={{ mt: 3 }}>
-            <InputLabel>Name</InputLabel>
-            <TextField
-              value={name}
-              onChange={(e) => dispatch(setName(e.target.value))}
-              sx={{ mt: 1 }}
-              placeholder="Recipe Name"
-            ></TextField>
-          </Stack>
-          <Stack sx={{ mt: 2 }}>
-            <InputLabel>Description</InputLabel>
-            <TextField
-              sx={{ mt: 1 }}
-              rows={3}
-              multiline
-              placeholder="Description"
-              value={description}
-              onChange={(e) => dispatch(setDescription(e.target.value))}
-            />
-          </Stack>
-          <CategorySelect />
-          <Box sx={{ mt: 3 }}>
-            <Typography sx={{ mb: -3 }}>Ingredients</Typography>
-            <ChosenIngredientsList />
-            <Stack
-              direction="row"
-              alignItems="flex-end"
-              justifyContent="space-evenly"
-              sx={{ mt: 2, gap: "10px" }}
-            >
-              <IngredientSelect />
+        <Stack mb={5} alignItems="center">
+          <Stack sx={{ maxWidth: isMobile ? "95%" : "900px" }}>
+            <PageTitle title={isEdit ? "Edit Recipe" : "Add Recipe"} />
+            <Stack sx={{ mt: 3 }}>
+              <InputLabel>Name</InputLabel>
+              <TextField
+                value={name}
+                onChange={(e) => dispatch(setName(e.target.value))}
+                sx={{ mt: 1 }}
+                placeholder="Recipe Name"
+              ></TextField>
             </Stack>
-          </Box>
-          <Box sx={{ mt: 3 }}>
-            <StepsList />
-          </Box>
-          <RecipeInfo />
-          <Box sx={{ mt: 5 }}>
-            {" "}
-            <ImgDropzone
-              isEdit={isEdit}
-              fileInput={fileInput}
-              setFileInput={setFileInput}
-            />
-          </Box>
-          <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
-            <FormControlLabel
-              sx={{ textAlign: "center" }}
-              control={
-                <Checkbox
-                  checked={liked}
-                  icon={<FavoriteBorder color="warning" />}
-                  checkedIcon={<Favorite color="warning" />}
-                  onChange={(e) => dispatch(setLiked(e.target.checked))}
-                />
-              }
-              label="Mark as favorite?"
-            />
+            <Stack sx={{ mt: 2 }}>
+              <InputLabel>Description</InputLabel>
+              <TextField
+                sx={{ mt: 1 }}
+                rows={3}
+                multiline
+                placeholder="Description"
+                value={description}
+                onChange={(e) => dispatch(setDescription(e.target.value))}
+              />
+            </Stack>
+            <CategorySelect />
+            <Box sx={{ mt: 3 }}>
+              <Typography sx={{ mb: -3 }}>Ingredients</Typography>
+              <ChosenIngredientsList />
+              <Stack
+                direction="row"
+                alignItems="flex-end"
+                justifyContent="space-evenly"
+                sx={{ mt: 2, gap: "10px" }}
+              >
+                <IngredientSelect />
+              </Stack>
+            </Box>
+            <Box sx={{ mt: 3 }}>
+              <StepsList />
+            </Box>
+            <RecipeInfo />
+            <Box sx={{ mt: 5 }}>
+              {" "}
+              <ImgDropzone
+                isEdit={isEdit}
+                fileInput={fileInput}
+                setFileInput={setFileInput}
+              />
+            </Box>
+            <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
+              <FormControlLabel
+                sx={{ textAlign: "center" }}
+                control={
+                  <Checkbox
+                    checked={liked}
+                    icon={<FavoriteBorder color="warning" />}
+                    checkedIcon={<Favorite color="warning" />}
+                    onChange={(e) => dispatch(setLiked(e.target.checked))}
+                  />
+                }
+                label="Mark as favorite?"
+              />
+            </Stack>
+            <Button
+              disabled={isFormValid ? false : true}
+              onClick={handleSubmit}
+              sx={{ mt: 3 }}
+              variant="btn"
+            >
+              {isLoading ? (
+                <CircularProgress />
+              ) : isEdit ? (
+                "Edit Recipe"
+              ) : (
+                "Add Recipe"
+              )}
+            </Button>
           </Stack>
-          <Button
-            disabled={isFormValid ? false : true}
-            onClick={handleSubmit}
-            sx={{ mt: 3 }}
-            variant="contained"
-          >
-            {isLoading ? (
-              <CircularProgress />
-            ) : isEdit ? (
-              "Edit Recipe"
-            ) : (
-              "Add Recipe"
-            )}
-          </Button>
         </Stack>
       </form>
-    </section>
+    </PageLayout>
   );
 };
 

@@ -5,7 +5,8 @@ import { Typography } from "@mui/material";
 const footer = (theme) => ({
   backgroundColor: theme.palette.warning.main,
   width: "100%",
-  p: 4,
+  padding: "25px",
+  height: "100%",
 });
 
 const Footer = () => {
@@ -13,13 +14,19 @@ const Footer = () => {
 
   return (
     <Box sx={footer}>
-      <Typography
-        variant="h4"
-        textAlign="center"
-        sx={{ color: `${theme.palette.white.main}`, fontSize: "27px" }}
-      >
-        Created by Edward Cleary, Chantele Lohr, and Brandon Vo
-      </Typography>
+      <Box sx={{ maxWidth: "2560px" }}>
+        <Typography
+          variant="h4"
+          textAlign="center"
+          sx={{
+            color: `${theme.palette.white.main}`,
+            fontSize: "27px",
+            letterSpacing: "1px",
+          }}
+        >
+          Created by Edward Cleary, Chantele Lohr, and Brandon Vo
+        </Typography>
+      </Box>
     </Box>
   );
 };

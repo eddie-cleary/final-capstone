@@ -178,12 +178,13 @@ const MealPlanForm = ({ isEdit }) => {
 
   return (
     <>
-      <Stack direction="row" justifyContent="center">
-        <Stack direction="column" sx={{ width: "100%" }}>
-          <Stack
-            direction="row"
-            sx={{ width: "100%", maxWidth: "400px", flexWrap: "wrap" }}
-          >
+      <Stack
+        sx={{ width: "100%", maxWidth: "1200px" }}
+        direction="row"
+        justifyContent="center"
+      >
+        <Stack direction="column" alignItems="center" sx={{ width: "100%" }}>
+          <Stack direction="column" sx={{ width: "100%", maxWidth: "470px" }}>
             <TextField
               variant="standard"
               value={title}
@@ -191,8 +192,12 @@ const MealPlanForm = ({ isEdit }) => {
               sx={styledInput}
               placeholder="Meal plan title"
             ></TextField>
-            <Stack sx={{ mt: 3, ml: 2 }} direction="row" alignSelf="flex-start">
-              <Button onClick={handleSubmit} sx={{ ml: 4 }} variant="contained">
+            <Stack
+              sx={{ mt: 3, mx: "auto" }}
+              direction="row"
+              alignSelf="flex-start"
+            >
+              <Button variant="btn" onClick={handleSubmit}>
                 {isLoading ? (
                   <CircularProgress />
                 ) : isEdit ? (
@@ -203,7 +208,7 @@ const MealPlanForm = ({ isEdit }) => {
               </Button>
             </Stack>
           </Stack>
-          <Stack sx={{ width: "100%", mt: 5 }}>
+          <Stack sx={{ width: "100%", mt: 10 }}>
             <DaysList />
           </Stack>
         </Stack>

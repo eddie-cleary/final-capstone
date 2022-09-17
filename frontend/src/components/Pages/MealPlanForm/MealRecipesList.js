@@ -27,7 +27,7 @@ const MealRecipesList = ({ dayIndex, mealIndex }) => {
       <Button
         sx={{ mt: 2 }}
         onClick={() => dispatch(showRecipesModal({ dayIndex, mealIndex }))}
-        variant="contained"
+        variant="btn"
       >
         Add recipe
       </Button>

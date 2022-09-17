@@ -253,6 +253,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
           <Button
             onClick={() => setShowCreateAccount(false)}
             variant="text-link"
+            sx={{ textTransform: "initial" }}
           >
             Already have an account?
           </Button>

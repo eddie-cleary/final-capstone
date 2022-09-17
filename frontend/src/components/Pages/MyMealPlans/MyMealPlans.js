@@ -10,6 +10,8 @@ import {
   setShowError,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageLayout from "../../shared/PageLayout";
+import PageTitle from "../../shared/PageTitle";
 
 const MyMealPlans = () => {
   const token = useSelector((state) => state.auth.token);
@@ -43,9 +45,12 @@ const MyMealPlans = () => {
 
   return (
     <Layout>
-      <Stack direction="row" sx={{ flexWrap: "wrap", gap: "20px" }}>
-        {myMealPlans}
-      </Stack>
+      <PageLayout>
+        <PageTitle title="My Meal Plans" />
+        <Stack direction="row" sx={{ flexWrap: "wrap", gap: "20px" }}>
+          {myMealPlans}
+        </Stack>
+      </PageLayout>
     </Layout>
   );
 };

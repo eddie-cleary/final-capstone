@@ -15,6 +15,7 @@ import {
   Modal,
   Box,
   CircularProgress,
+  useTheme,
 } from "@mui/material";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
 import ShoppingList from "../ShoppingList/ShoppingList";
@@ -24,6 +25,9 @@ import {
   setSuccessMsg,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageLayout from "../../shared/PageLayout";
+import PageTitle from "../../shared/PageTitle";
+import { current } from "@reduxjs/toolkit";
 
 const modalStyles = {
   position: "absolute",
@@ -35,11 +39,16 @@ const modalStyles = {
   maxHeight: "90vh",
   height: "100%",
   width: "85vw",
-  backgroundColor: "white",
+  backgroundColor: "#fff",
   border: "2px solid #000",
+  borderRadius: "20px",
   boxShadow: 24,
   p: 4,
   overflow: "scroll",
+  alignItems: "center",
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
 };
 
 const modalStyle = {
@@ -52,7 +61,7 @@ const modalStyle = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  backgroundColor: "#fff",
+  backgroundColor: "white",
   padding: "15px",
 };
 
@@ -67,6 +76,7 @@ const ViewMealPlan = () => {
   const [showShoppingList, setShowShoppingList] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   useEffect(() => {
     axios
@@ -81,6 +91,20 @@ const ViewMealPlan = () => {
         dispatch(setShowError(true));
       });
   }, [dispatch, id, token]);
+
+  useEffect(() => {
+    console.log("current recipe ", currentRecipe);
+    if (currentRecipe?.id != null && currentRecipe?.steps === undefined) {
+      axios
+        .get(baseUrl + `/recipes/${currentRecipe?.id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+        .then((res) => setCurrentRecipe(res.data))
+        .catch((err) => console.log(err));
+    }
+  }, [currentRecipe, token]);
 
   useEffect(() => {
     if (currentRecipe) {
@@ -122,10 +146,12 @@ const ViewMealPlan = () => {
   const MealRecipe = ({ mealRecipe }) => {
     return (
       <ListItem>
-        <Button onClick={() => setCurrentRecipe(mealRecipe.recipe)}>
-          <Typography sx={{ textTransform: "capitalize" }}>
-            {mealRecipe.recipe.name}
-          </Typography>
+        <Button
+          variant="text-link"
+          onClick={() => setCurrentRecipe(mealRecipe.recipe)}
+          sx={{ color: theme.palette.primary.dark }}
+        >
+          {mealRecipe.recipe.name}
         </Button>
       </ListItem>
     );
@@ -135,7 +161,7 @@ const ViewMealPlan = () => {
     return (
       <ListItem>
         <Stack>
-          <Typography>{meal.title}</Typography>
+          <Typography variant="h6">{meal.title}</Typography>
           <List>
             {meal.mealRecipes.map((mealRecipe, index) => {
               return <MealRecipe key={index} mealRecipe={mealRecipe} />;
@@ -148,9 +174,9 @@ const ViewMealPlan = () => {
 
   const Day = ({ day, index }) => {
     return (
-      <ListItem>
+      <ListItem sx={{ width: "max-content", mb: 8 }}>
         <Stack>
-          <Typography>{`Day ${index + 1}`}</Typography>
+          <Typography variant="h5">{`Day ${index + 1}`}</Typography>
           <List>
             {day.meals.map((meal, index) => (
               <Meal key={index} meal={meal} />
@@ -167,80 +193,107 @@ const ViewMealPlan = () => {
 
   return (
     <Layout>
-      <Box>
-        <Link to={`/mealplans/edit/${mealPlan?.id}`} component={ReactLink}>
-          <Button variant="contained" sx={{ width: "auto" }}>
-            Edit
-          </Button>
-        </Link>
-        <Button
-          onClick={handleDelete}
-          color="warning"
-          variant="contained"
-          sx={{ width: "auto", ml: 2 }}
-        >
-          {isLoading ? <CircularProgress /> : "Delete"}
-        </Button>
-        <Button
-          onClick={() => setShowShoppingList(true)}
-          sx={{ ml: 2 }}
-          variant="contained"
-        >
-          Generate Shopping List
-        </Button>
-      </Box>
-      <Stack sx={{ mt: 4 }}>{dayComponents}</Stack>
-      <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
-        <Stack sx={modalStyles}>
-          <SingleRecipe recipe={currentRecipe} />
+      <PageLayout>
+        <PageTitle title={mealPlan?.title} />
+        <Stack alignItems="center" sx={{ maxWidth: "1100px", width: "100%" }}>
+          <Stack
+            sx={{ width: "100%", maxWidth: "600px" }}
+            direction="row"
+            justifyContent="space-between"
+          >
+            <Box>
+              <Link
+                sx={{ textDecoration: "none" }}
+                to={`/mealplans/edit/${mealPlan?.id}`}
+                component={ReactLink}
+              >
+                <Button variant="btn" sx={{ width: "auto" }}>
+                  Edit
+                </Button>
+              </Link>
+              <Button
+                onClick={handleDelete}
+                color="warning"
+                variant="btn-warning"
+                sx={{ width: "auto", ml: 2 }}
+              >
+                {isLoading ? <CircularProgress /> : "Delete"}
+              </Button>
+            </Box>
+            <Button
+              onClick={() => setShowShoppingList(true)}
+              sx={{ ml: 2 }}
+              variant="btn"
+            >
+              Generate Shopping List
+            </Button>
+          </Stack>
+          <Stack
+            direction="row"
+            sx={{ mt: 12, width: "100%", flexWrap: "wrap" }}
+          >
+            {dayComponents}
+          </Stack>
         </Stack>
-      </Modal>
+        <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
+          <Stack sx={modalStyles}>
+            <SingleRecipe recipe={currentRecipe} />
+          </Stack>
+        </Modal>
 
-      <Modal
-        open={showDeleteModal}
-        keepMounted
-        onClose={() => setShowDeleteModal(false)}
-        aria-labelledby="modal-register"
-        aria-describedby="modal-register"
-      >
-        <Box style={modalStyle}>
-          <form>
-            <Stack alignItems="center">
-              <Typography
-                sx={{ textAlign: "center" }}
-              >{`Are you sure you want to delete mealplan: ${mealPlan?.title}?`}</Typography>
-              <Stack direction="row" sx={{ mt: 2 }}>
-                <Button
-                  variant="contained"
-                  onClick={() => setShowDeleteModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  sx={{ ml: 2 }}
-                  variant="contained"
-                  onClick={deleteMealPlan}
-                  color="warning"
-                >
-                  Delete
-                </Button>
+        <Modal
+          open={showDeleteModal}
+          keepMounted
+          onClose={() => setShowDeleteModal(false)}
+          aria-labelledby="modal-register"
+          aria-describedby="modal-register"
+        >
+          <Box style={modalStyle}>
+            <form>
+              <Stack alignItems="center">
+                <Typography
+                  sx={{ textAlign: "center" }}
+                >{`Are you sure you want to delete mealplan: ${mealPlan?.title}?`}</Typography>
+                <Stack direction="row" sx={{ mt: 2 }}>
+                  <Button
+                    variant="contained"
+                    onClick={() => setShowDeleteModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    sx={{ ml: 2 }}
+                    variant="contained"
+                    onClick={deleteMealPlan}
+                    color="warning"
+                  >
+                    Delete
+                  </Button>
+                </Stack>
               </Stack>
-            </Stack>
-          </form>
-        </Box>
-      </Modal>
+            </form>
+          </Box>
+        </Modal>
 
-      <Modal
-        open={showShoppingList}
-        keepMounted
-        onClose={() => setShowShoppingList(false)}
-        aria-labelledby="modal-shoppinglist"
-        aria-describedby="modal-shoppinglist"
-      >
-        <Stack style={modalStyles}>
-          <ShoppingList mealplan={mealPlan} />
-        </Stack>
-      </Modal>
+        <Modal
+          open={showShoppingList}
+          keepMounted
+          onClose={() => setShowShoppingList(false)}
+          aria-labelledby="modal-shoppinglist"
+          aria-describedby="modal-shoppinglist"
+        >
+          <Stack
+            sx={{
+              "&::-webkit-scrollbar": {
+                display: "none",
+              },
+            }}
+            style={modalStyles}
+          >
+            <ShoppingList mealplan={mealPlan} />
+          </Stack>
+        </Modal>
+      </PageLayout>
     </Layout>
   );
 };

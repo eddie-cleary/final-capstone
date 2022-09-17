@@ -6,6 +6,7 @@ import addRecipeIngredientReducer from "./features/forms/addrecipe/addRecipeIngr
 import mealPlanDataReducer from "./features/forms/mealplan/mealPlanDataSlice";
 import errorsReducer from "./features/forms/errors/errorsSlice";
 import recipesDataReducer from "./features/recipes/recipesDataSlice";
+import layoutReducer from "./features/layout/layout";
 
 export const store = configureStore({
   reducer: {
@@ -16,5 +17,6 @@ export const store = configureStore({
     mealPlanData: mealPlanDataReducer,
     errors: errorsReducer,
     recipes: recipesDataReducer,
+    layout: layoutReducer,
   },
 });

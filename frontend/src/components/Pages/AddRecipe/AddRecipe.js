@@ -5,9 +5,7 @@ import Layout from "../../Layout/Layout";
 const AddRecipe = () => {
   return (
     <Layout>
-      <section>
-        <RecipeForm />
-      </section>
+      <RecipeForm />
     </Layout>
   );
 };

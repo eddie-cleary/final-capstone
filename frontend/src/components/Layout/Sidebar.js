@@ -1,96 +1,115 @@
 import React from "react";
-import { NavLink as ReactNavLink, useNavigate } from "react-router-dom";
-import { Button, Stack } from "@mui/material";
+import {
+  NavLink as ReactNavLink,
+  Link as ReactLink,
+  useNavigate,
+} from "react-router-dom";
+import { Button, Stack, useTheme, Box, Link } from "@mui/material";
 import { deleteUser, addToken } from "../../redux/features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-
-const sidebar = {
-  width: "200px",
-  marginTop: "30px",
-};
+import circleLogo from "../../assets/logo-circle.svg";
 
 const Sidebar = () => {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const roles = useSelector((state) => state.auth.user.roles);
   const isAdmin = roles.some(
     (role) => role.name === "ROLE_ADMIN" || role.name === "ROLE_SUPER_ADMIN"
   );
+  const isMobile = useSelector((state) => state.layout.isMobile);
+
+  const sidebar = {
+    width: isMobile ? "300px" : "330px",
+    backgroundColor: theme.palette.primary.light,
+    height: "100%",
+  };
 
   const linkStyles = {
     width: "100%",
     textDecoration: "none",
-    "&.active": {
-      fontWeight: "bold",
-    },
   };
 
   return (
-    <Stack sx={sidebar}>
+    <Stack alignItems="center" sx={sidebar}>
+      <Box sx={{ mt: 5 }}>
+        <Link component={ReactLink} to="/">
+          <Box
+            component="img"
+            sx={{ maxWidth: isMobile ? "130px" : "250px", width: "100%" }}
+            src={circleLogo}
+            alt="Meal Planner Logo"
+          />
+        </Link>
+      </Box>
       <Button
         to="/allrecipes"
-        sx={linkStyles}
+        sx={{ ...linkStyles, mt: 4 }}
         component={ReactNavLink}
-        variant="text"
+        variant="nav-link"
       >
-        View Recipes
-      </Button>
-      <Button
-        to="/myrecipes"
-        sx={linkStyles}
-        component={ReactNavLink}
-        variant="text"
-      >
-        My Recipes
-      </Button>
-      <Button
-        to="/mymealplans"
-        sx={linkStyles}
-        component={ReactNavLink}
-        variant="text"
-      >
-        My Meal Plans
+        All Recipes
       </Button>
       <Button
         to="/addrecipe"
         sx={linkStyles}
         component={ReactNavLink}
-        variant="text"
+        variant="nav-link"
       >
         Add Recipe
       </Button>
       <Button
-        to="/ingredient/add"
+        to="/myrecipes"
         sx={linkStyles}
         component={ReactNavLink}
-        variant="text"
+        variant="nav-link"
       >
-        Add Ingredient
+        My Recipes
+      </Button>
+      <Button
+        to="/mealplans/add"
+        sx={linkStyles}
+        component={ReactNavLink}
+        variant="nav-link"
+      >
+        Create Meal Plan
+      </Button>
+      <Button
+        to="/mymealplans"
+        sx={linkStyles}
+        component={ReactNavLink}
+        variant="nav-link"
+      >
+        My Meal Plans
       </Button>
       {isAdmin && (
         <Button
           to="/category/add"
           sx={linkStyles}
           component={ReactNavLink}
-          variant="text"
+          variant="nav-link"
         >
           Add Category
         </Button>
       )}
-      <Button
-        to="/mealplans/add"
-        sx={linkStyles}
-        component={ReactNavLink}
-        variant="text"
-      >
-        Add Meal Plan
-      </Button>
+      {isAdmin && (
+        <Button
+          to="/ingredient/add"
+          sx={linkStyles}
+          component={ReactNavLink}
+          variant="nav-link"
+        >
+          Add Ingredient
+        </Button>
+      )}
       <Button
         onClick={() => {
           dispatch(deleteUser());
           dispatch(addToken(null));
           navigate("/");
         }}
+        variant="nav-link"
+        sx={{ ...linkStyles, mt: "auto", mb: 2 }}
       >
         Logout
       </Button>

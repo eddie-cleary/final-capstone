@@ -9,6 +9,7 @@ import {
   setShowError,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageLayout from "../../shared/PageLayout";
 
 const ViewRecipe = () => {
   const token = useSelector((state) => state.auth.token);
@@ -24,7 +25,6 @@ const ViewRecipe = () => {
         },
       })
       .then((res) => {
-        console.log("setting recipe to ", res.data);
         setRecipe(res.data);
       })
       .catch((err) => {
@@ -35,7 +35,9 @@ const ViewRecipe = () => {
 
   return (
     <Layout>
-      <SingleRecipe recipe={recipe} />
+      <PageLayout>
+        <SingleRecipe recipe={recipe} />
+      </PageLayout>
     </Layout>
   );
 };

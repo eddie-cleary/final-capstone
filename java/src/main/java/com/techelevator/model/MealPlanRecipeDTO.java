@@ -18,7 +18,7 @@ import java.util.Set;
 public class MealPlanRecipeDTO {
 
     public MealPlanRecipeDTO(MealRecipe mealRecipe) {
-        this.id = mealRecipe.getId();
+        this.id = mealRecipe.getRecipe().getId();
         this.name = mealRecipe.getRecipe().getName();
 
         for (RecipeIngredient recipeIngredient : mealRecipe.getRecipe().getRecipeIngredients()) {

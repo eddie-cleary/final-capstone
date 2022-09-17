@@ -1,13 +1,16 @@
 import React from "react";
 import MealPlanForm from "../MealPlanForm/MealPlanForm";
 import Layout from "../../Layout/Layout";
+import PageLayout from "../../shared/PageLayout";
+import PageTitle from "../../shared/PageTitle";
 
 const AddMealPlan = () => {
   return (
     <Layout>
-      <section>
+      <PageLayout>
+        <PageTitle title="Create A Meal Plan" />
         <MealPlanForm />
-      </section>
+      </PageLayout>
     </Layout>
   );
 };

@@ -3,7 +3,6 @@ import {
   Stack,
   InputLabel,
   TextField,
-  Typography,
   CircularProgress,
   Button,
 } from "@mui/material";
@@ -18,6 +17,8 @@ import {
   setSuccessMsg,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageTitle from "../../shared/PageTitle";
+import PageLayout from "../../shared/PageLayout";
 
 const AddIngredient = () => {
   const [name, setName] = useState("");
@@ -56,39 +57,31 @@ const AddIngredient = () => {
 
   return (
     <Layout>
-      <section>
-        <Stack>
-          <Stack sx={{ maxWidth: "550px" }}>
-            <Typography variant="h4" element="h1">
-              Add Category
-            </Typography>
-            <form>
-              <Stack sx={{ mt: 5 }}>
-                <InputLabel>Name</InputLabel>
-                <TextField
-                  value={name}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    const re = /^[A-Za-z]+$/;
-                    if (value === "" || re.test(value)) {
-                      setName(value);
-                    }
-                  }}
-                  sx={{ mt: 1 }}
-                  placeholder="Category name"
-                ></TextField>
-                <Button
-                  sx={{ mt: 3 }}
-                  onClick={handleSubmit}
-                  variant="contained"
-                >
-                  {isLoading ? <CircularProgress /> : "Add Category"}
-                </Button>
-              </Stack>
-            </form>
-          </Stack>
+      <PageLayout>
+        <Stack sx={{ maxWidth: "550px", width: "100%" }}>
+          <PageTitle title="Add Category" />
+          <form>
+            <Stack>
+              <InputLabel>Name</InputLabel>
+              <TextField
+                value={name}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  const re = /^[A-Za-z]+$/;
+                  if (value === "" || re.test(value)) {
+                    setName(value);
+                  }
+                }}
+                sx={{ mt: 1 }}
+                placeholder="Category name"
+              ></TextField>
+              <Button sx={{ mt: 3 }} onClick={handleSubmit} variant="btn">
+                {isLoading ? <CircularProgress /> : "Add Category"}
+              </Button>
+            </Stack>
+          </form>
         </Stack>
-      </section>
+      </PageLayout>
       <ErrorDisplay />
     </Layout>
   );

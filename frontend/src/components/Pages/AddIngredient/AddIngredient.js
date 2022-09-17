@@ -21,6 +21,8 @@ import {
   setErrorMsg,
   setShowError,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageTitle from "../../shared/PageTitle";
+import PageLayout from "../../shared/PageLayout";
 
 const AddIngredient = () => {
   const [name, setName] = useState("");
@@ -68,59 +70,51 @@ const AddIngredient = () => {
 
   return (
     <Layout>
-      <section>
-        <Stack>
-          <Stack sx={{ maxWidth: "550px" }}>
-            <Typography variant="h4" element="h1">
-              Add Ingredient
-            </Typography>
-            <form>
-              <Stack sx={{ mt: 5 }}>
-                <InputLabel>Name</InputLabel>
-                <TextField
-                  value={name}
-                  onChange={(e) => {
-                    const { value } = e.target;
-                    const re = /^[A-Za-z]+$/;
-                    if (value === "" || re.test(value)) {
-                      setName(value);
-                    }
-                  }}
-                  sx={{ mt: 1 }}
-                  placeholder="Ingredient name"
-                ></TextField>
-                <FormControl sx={{ mt: 3 }}>
-                  <Typography>Is it a liquid?</Typography>
-                  <RadioGroup
-                    defaultValue="no"
-                    name="radio-buttons-group"
-                    value={liquid}
-                    onChange={(e) => setLiquid(e.target.value)}
-                  >
-                    <FormControlLabel
-                      value={true}
-                      control={<Radio />}
-                      label="Yes"
-                    />
-                    <FormControlLabel
-                      value={false}
-                      control={<Radio />}
-                      label="No"
-                    />
-                  </RadioGroup>
-                </FormControl>
-                <Button
-                  sx={{ mt: 3 }}
-                  onClick={handleSubmit}
-                  variant="contained"
+      <PageLayout>
+        <Stack sx={{ maxWidth: "550px", width: "100%" }}>
+          <PageTitle title="Add Ingredient" />
+          <form>
+            <Stack sx={{ width: "100%" }}>
+              <InputLabel>Name</InputLabel>
+              <TextField
+                value={name}
+                onChange={(e) => {
+                  const { value } = e.target;
+                  const re = /^[A-Za-z]+$/;
+                  if (value === "" || re.test(value)) {
+                    setName(value);
+                  }
+                }}
+                sx={{ mt: 1 }}
+                placeholder="Ingredient name"
+              ></TextField>
+              <FormControl sx={{ mt: 3 }}>
+                <Typography>Is it a liquid?</Typography>
+                <RadioGroup
+                  defaultValue="no"
+                  name="radio-buttons-group"
+                  value={liquid}
+                  onChange={(e) => setLiquid(e.target.value)}
                 >
-                  {isLoading ? <CircularProgress /> : "Add Ingredient"}
-                </Button>
-              </Stack>
-            </form>
-          </Stack>
+                  <FormControlLabel
+                    value={true}
+                    control={<Radio />}
+                    label="Yes"
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label="No"
+                  />
+                </RadioGroup>
+              </FormControl>
+              <Button sx={{ mt: 3 }} onClick={handleSubmit} variant="btn">
+                {isLoading ? <CircularProgress /> : "Add Ingredient"}
+              </Button>
+            </Stack>
+          </form>
         </Stack>
-      </section>
+      </PageLayout>
     </Layout>
   );
 };

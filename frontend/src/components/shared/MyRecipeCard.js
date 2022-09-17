@@ -11,6 +11,7 @@ import {
   Stack,
   IconButton,
   Tooltip,
+  useTheme,
 } from "@mui/material";
 import { Delete, Edit } from "@mui/icons-material";
 import { useState } from "react";
@@ -24,6 +25,7 @@ import {
   setShowSuccess,
   setSuccessMsg,
 } from "../../redux/features/forms/errors/errorsSlice";
+import LikeRecipeButton from "./LikeRecipeButton";
 
 const modalStyle = {
   position: "absolute",
@@ -43,6 +45,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const handleDelete = (e) => {
     e.preventDefault();
@@ -78,43 +81,80 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
 
   return (
     <>
-      <Link component={ReactLink} to={`/recipes/${recipe.id}`}>
-        <Card elevation={5} sx={{ m: 2, height: 340, width: 330 }}>
-          <CardMedia
-            component="img"
-            height="220"
-            image={
-              recipe.imgId &&
-              `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
-            }
-            alt={recipe.name}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5">
-              {recipe.name}
-            </Typography>
+      <Card
+        elevation={5}
+        sx={{
+          m: 2,
+          height: 315,
+          width: 400,
+          borderRadius: "12px",
+          border: `1px solid ${theme.palette.text.main}`,
+          p: 0,
+        }}
+      >
+        <Link
+          sx={{ textDecoration: "none", pb: 0 }}
+          component={ReactLink}
+          to={`/recipes/${recipe.id}`}
+        >
+          <CardContent sx={{ p: 0 }}>
+            <CardMedia
+              component="img"
+              height="210"
+              image={
+                recipe.imgId &&
+                `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
+              }
+              alt={recipe.name}
+            />
           </CardContent>
-          <CardActions
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mt: -1.5,
-              ml: -1,
-            }}
+        </Link>
+        <CardActions
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            flexDirection: "column",
+            alignItems: "flex-start",
+            mt: -2,
+          }}
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            sx={{ width: "100%", mt: 2 }}
           >
-            <Tooltip title="Edit">
-              <IconButton onClick={handleEdit}>
-                <Edit color="primary" />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete">
-              <IconButton onClick={handleDelete}>
-                <Delete color="warning" />
-              </IconButton>
-            </Tooltip>
-          </CardActions>
-        </Card>
-      </Link>
+            <Stack>
+              <Typography sx={{ ml: 1, fontWeight: "bold" }}>
+                {recipe.name}
+              </Typography>
+              <Box></Box>
+            </Stack>
+            <CardActions
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mt: -1.5,
+                ml: -1,
+              }}
+            >
+              <Tooltip title="Edit">
+                <IconButton onClick={handleEdit}>
+                  <Edit color="primary" />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title="Delete">
+                <IconButton onClick={handleDelete}>
+                  <Delete color="warning" />
+                </IconButton>
+              </Tooltip>
+            </CardActions>
+          </Stack>
+        </CardActions>
+      </Card>
+
+      {/* </Card>
+      </Link> */}
       <Modal
         open={showDeleteModal}
         keepMounted

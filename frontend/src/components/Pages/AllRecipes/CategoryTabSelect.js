@@ -13,8 +13,8 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
   const token = useSelector((state) => state.auth.token);
   const allRecipes = useSelector((state) => state.recipes.allRecipes);
   const [tabValue, setTabValue] = useState(0);
-  const [categoryFilter, setCategoryFilter] = useState("All");
-  const [allCategories, setAllCategories] = useState(["All"]);
+  const [categoryFilter, setCategoryFilter] = useState("All Recipes");
+  const [allCategories, setAllCategories] = useState(["All Recipes"]);
   const [categoryTabs, setCategoryTabs] = useState(null);
   const dispatch = useDispatch();
 
@@ -34,13 +34,37 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
 
   useEffect(() => {
     let availableTabs = [
-      <Tab key="99" label="All" />,
-      <Tab key="98" label="Liked" />,
+      <Tab
+        key="99"
+        label="All Recipes"
+        sx={{
+          textTransform: "capitalize",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+        }}
+      />,
+      <Tab
+        key="98"
+        label="Liked"
+        sx={{
+          textTransform: "capitalize",
+          fontWeight: "bold",
+          letterSpacing: "0.5px",
+        }}
+      />,
     ];
 
     availableTabs.push(
       allCategories.map((category, index) => (
-        <Tab key={index} label={category.name} />
+        <Tab
+          key={index}
+          label={category.name}
+          sx={{
+            textTransform: "capitalize",
+            fontWeight: "bold",
+            letterSpacing: "0.5px",
+          }}
+        />
       ))
     );
 
@@ -49,7 +73,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
 
   useEffect(() => {
     const filteredRecipes = allRecipes?.filter((recipe) => {
-      if (categoryFilter === "All") {
+      if (categoryFilter === "All Recipes") {
         return true;
       } else if (categoryFilter === "Liked") {
         if (recipe.liked) {

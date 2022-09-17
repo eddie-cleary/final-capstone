@@ -1,6 +1,7 @@
 import React from "react";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { Stack, Typography, Paper } from "@mui/material";
+import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 const ShoppingList = ({ mealplan }) => {
   let shoppingListObj = {};
@@ -36,7 +37,12 @@ const ShoppingList = ({ mealplan }) => {
 
   const Ingredient = ({ ingredient }) => {
     return (
-      <Typography sx={{ mt: 3 }} variant="h5" element="h3">
+      <Typography
+        sx={{ mt: 3, display: "flex", alignItems: "center" }}
+        variant="h5"
+        element="h3"
+      >
+        <CheckBoxOutlineBlankIcon sx={{ mr: 2 }} />
         {`${ingredient}: ${shoppingListObj[ingredient]}`}
       </Typography>
     );
@@ -49,24 +55,28 @@ const ShoppingList = ({ mealplan }) => {
   );
 
   return (
-    <Paper
-      sx={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        justifyContent: "center",
-        pt: 5,
-      }}
-      elevation={5}
-    >
-      <Stack alignItems="center">
-        <Typography
-          variant="h3"
-          element="h1"
-        >{`${mealplan?.title} Shopping List`}</Typography>
-        {ingredientComponents}
+    <>
+      <Stack
+        sx={{
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          alignItems: "center",
+          pt: 5,
+        }}
+        elevation={5}
+      >
+        <Stack alignItems="center">
+          <Typography
+            textAlign="center"
+            variant="h3"
+            element="h1"
+            sx={{ mb: 3 }}
+          >{`${mealplan?.title} Shopping List`}</Typography>
+          {ingredientComponents}
+        </Stack>
       </Stack>
-    </Paper>
+    </>
   );
 };
 

@@ -9,6 +9,8 @@ import {
   setShowError,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import PageTitle from "../../shared/PageTitle";
+import PageLayout from "../../shared/PageLayout";
 
 const MyRecipes = () => {
   const [recipes, setRecipes] = useState([]);
@@ -47,8 +49,10 @@ const MyRecipes = () => {
 
   return (
     <Layout>
-      <Typography variant="h3">My Recipes</Typography>
-      <Stack direction="row">{recipesList}</Stack>
+      <PageLayout>
+        <PageTitle title="My Recipes" />
+        <Stack direction="row">{recipesList}</Stack>
+      </PageLayout>
     </Layout>
   );
 };
