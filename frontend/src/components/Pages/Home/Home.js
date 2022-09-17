@@ -48,7 +48,7 @@ const Home = () => {
           </Typography>
           <Button variant="contained" sx={btn}>
             <Link
-              to="/recipes/add"
+              to="/addrecipe"
               component={ReactLink}
               underline="none"
               color="black"
@@ -58,7 +58,7 @@ const Home = () => {
           </Button>
           <Button variant="contained" sx={btn}>
             <Link
-              to="/recipes"
+              to="/myrecipes"
               component={ReactLink}
               underline="none"
               color="black"
@@ -69,7 +69,7 @@ const Home = () => {
 
           <Button variant="contained" sx={btn}>
             <Link
-              to="/mealplans"
+              to="/mealplans/add"
               component={ReactLink}
               underline="none"
               color="black"
@@ -79,7 +79,7 @@ const Home = () => {
           </Button>
           <Button variant="contained" sx={btn}>
             <Link
-              to="/mealplans"
+              to="/mymealplans"
               component={ReactLink}
               underline="none"
               color="black"

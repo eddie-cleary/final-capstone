@@ -12,7 +12,6 @@ import java.util.List;
 
 
 @RestController
-@CrossOrigin
 @RequiredArgsConstructor
 @RequestMapping("/mealplans")
 public class MealPlanController {

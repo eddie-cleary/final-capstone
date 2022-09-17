@@ -60,15 +60,12 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
           return recipeCategory === categoryFilter;
         });
       }
+      return "";
     });
-
-    console.log("filtered recipes ", filteredRecipes);
 
     const recipesToDisplay = filteredRecipes?.map((recipe) => {
       return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
     });
-
-    console.log("setting recipes to ", recipesToDisplay);
 
     setRecipesToDisplay(recipesToDisplay);
   }, [categoryFilter, allCategories, setRecipesToDisplay, allRecipes]);

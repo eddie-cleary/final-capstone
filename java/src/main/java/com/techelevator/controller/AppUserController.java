@@ -17,7 +17,6 @@ import java.util.Map;
 
 @RestController
 @Slf4j
-@CrossOrigin
 public class AppUserController {
     @Autowired
     private final AppUserService appUserService;
