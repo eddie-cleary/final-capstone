@@ -123,7 +123,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
             sx={{ width: "100%", mt: 2 }}
           >
             <Stack>
-              <Typography sx={{ ml: 1, fontWeight: "bold" }}>
+              <Typography sx={{ ml: 1, mt: -1, fontWeight: "bold" }}>
                 {recipe.name}
               </Typography>
               <Box></Box>

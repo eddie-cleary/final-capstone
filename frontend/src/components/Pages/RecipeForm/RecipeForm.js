@@ -190,24 +190,12 @@ const RecipeForm = ({ isEdit }) => {
   }, [postObject.imgId, dispatch]);
 
   useEffect(() => {
-    if (isImageUploaded === true) {
-      if (!isEdit) {
-        postToServer();
-      } else {
-        putToServer();
-      }
-      dispatch(setIsImageUploaded(false));
-    }
-  }, [dispatch, isEdit, postToServer, isImageUploaded, putToServer]);
-
-  useEffect(() => {
     if (isImageUploaded && postObject.imgId !== null) {
+      dispatch(setIsImageUploaded(false));
       if (!isEdit) {
         postToServer();
-        dispatch(setIsImageUploaded(false));
       } else {
         putToServer();
-        dispatch(setIsImageUploaded(false));
       }
     }
   }, [
