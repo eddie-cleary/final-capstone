@@ -70,10 +70,10 @@ const AddIngredient = () => {
   return (
     <Layout>
       <PageLayout>
-        <Stack sx={{ maxWidth: "550px", width: "100%" }}>
+        <Stack sx={{ maxWidth: "500px", width: "100%" }}>
           <PageTitle title="Add Ingredient" />
           <form>
-            <Stack sx={{ width: "100%" }}>
+            <Stack sx={{ width: "100%", transform: "scale(0.9)" }}>
               <InputLabel>Name</InputLabel>
               <TextField
                 value={name}

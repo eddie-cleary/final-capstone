@@ -18,8 +18,8 @@ export default function RecipeCard({ recipe }) {
       elevation={5}
       sx={{
         m: 2,
-        height: 315,
-        width: 400,
+        height: 250,
+        width: 320,
         borderRadius: "12px",
         border: `1px solid ${theme.palette.text.main}`,
         p: 0,
@@ -48,7 +48,7 @@ export default function RecipeCard({ recipe }) {
           justifyContent: "space-between",
           flexDirection: "column",
           alignItems: "flex-start",
-          mt: -2,
+          mt: -3.5,
         }}
       >
         <Stack

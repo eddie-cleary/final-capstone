@@ -9,7 +9,7 @@ const PageTitle = ({ title }) => {
     <Typography
       variant={isMobile ? "h4" : "h3"}
       element="h1"
-      sx={{ textAlign: "center", mb: 7, mt: isMobile ? 2 : 0 }}
+      sx={{ textAlign: "center", mb: 4, mt: isMobile ? 2 : 0 }}
     >
       {title}
     </Typography>

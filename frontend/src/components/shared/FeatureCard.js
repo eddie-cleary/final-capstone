@@ -14,14 +14,14 @@ const FeatureCard = ({ image, title, text, cssOverride }) => {
     <Card
       sx={{
         border: `1px solid ${theme.palette.primary.main}`,
-        width: "400px",
+        width: "350px",
         borderRadius: "15px",
       }}
     >
       <CardMedia
         sx={{ objectPosition: "bottom" }}
         component="img"
-        height="200px"
+        height="150px"
         image={image}
         alt={title}
       />

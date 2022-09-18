@@ -109,7 +109,6 @@ mealPlannerTheme = createTheme(mealPlannerTheme, {
           style: {
             color: mealPlannerTheme.palette.text.main,
             textTransform: "capitalize",
-            fontWeight: "bold",
             padding: "12px",
             "&.active": {
               fontWeight: "bold",

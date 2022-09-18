@@ -242,81 +242,83 @@ const RecipeForm = ({ isEdit }) => {
     <PageLayout>
       <form>
         <Stack mb={5} alignItems="center">
-          <Stack sx={{ maxWidth: isMobile ? "95%" : "900px" }}>
+          <Stack sx={{ maxWidth: isMobile ? "95%" : "700px" }}>
             <PageTitle title={isEdit ? "Edit Recipe" : "Add Recipe"} />
-            <Stack sx={{ mt: 3 }}>
-              <InputLabel>Name</InputLabel>
-              <TextField
-                value={name}
-                onChange={(e) => dispatch(setName(e.target.value))}
-                sx={{ mt: 1 }}
-                placeholder="Recipe Name"
-              ></TextField>
-            </Stack>
-            <Stack sx={{ mt: 2 }}>
-              <InputLabel>Description</InputLabel>
-              <TextField
-                sx={{ mt: 1 }}
-                rows={3}
-                multiline
-                placeholder="Description"
-                value={description}
-                onChange={(e) => dispatch(setDescription(e.target.value))}
-              />
-            </Stack>
-            <CategorySelect />
-            <Box sx={{ mt: 3 }}>
-              <Typography sx={{ mb: -3 }}>Ingredients</Typography>
-              <ChosenIngredientsList />
-              <Stack
-                direction="row"
-                alignItems="flex-end"
-                justifyContent="space-evenly"
-                sx={{ mt: 2, gap: "10px" }}
-              >
-                <IngredientSelect />
+            <Box sx={{ transform: "scale(0.85)", mt: -13 }}>
+              <Stack sx={{ mt: 3 }}>
+                <InputLabel>Name</InputLabel>
+                <TextField
+                  value={name}
+                  onChange={(e) => dispatch(setName(e.target.value))}
+                  sx={{ mt: 1 }}
+                  placeholder="Recipe Name"
+                ></TextField>
               </Stack>
+              <Stack sx={{ mt: 2 }}>
+                <InputLabel>Description</InputLabel>
+                <TextField
+                  sx={{ mt: 1 }}
+                  rows={3}
+                  multiline
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => dispatch(setDescription(e.target.value))}
+                />
+              </Stack>
+              <CategorySelect />
+              <Box sx={{ mt: 3 }}>
+                <Typography sx={{ mb: -3 }}>Ingredients</Typography>
+                <ChosenIngredientsList />
+                <Stack
+                  direction="row"
+                  alignItems="flex-end"
+                  justifyContent="space-evenly"
+                  sx={{ mt: 2, gap: "10px" }}
+                >
+                  <IngredientSelect />
+                </Stack>
+              </Box>
+              <Box sx={{ mt: 3 }}>
+                <StepsList />
+              </Box>
+              <RecipeInfo />
+              <Box sx={{ mt: 5 }}>
+                {" "}
+                <ImgDropzone
+                  isEdit={isEdit}
+                  fileInput={fileInput}
+                  setFileInput={setFileInput}
+                />
+              </Box>
+              <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
+                <FormControlLabel
+                  sx={{ textAlign: "center" }}
+                  control={
+                    <Checkbox
+                      checked={liked}
+                      icon={<FavoriteBorder color="warning" />}
+                      checkedIcon={<Favorite color="warning" />}
+                      onChange={(e) => dispatch(setLiked(e.target.checked))}
+                    />
+                  }
+                  label="Mark as favorite?"
+                />
+              </Stack>
+              <Button
+                disabled={isFormValid ? false : true}
+                onClick={handleSubmit}
+                sx={{ mt: 3, width: "100%" }}
+                variant="btn"
+              >
+                {isLoading ? (
+                  <CircularProgress />
+                ) : isEdit ? (
+                  "Edit Recipe"
+                ) : (
+                  "Add Recipe"
+                )}
+              </Button>
             </Box>
-            <Box sx={{ mt: 3 }}>
-              <StepsList />
-            </Box>
-            <RecipeInfo />
-            <Box sx={{ mt: 5 }}>
-              {" "}
-              <ImgDropzone
-                isEdit={isEdit}
-                fileInput={fileInput}
-                setFileInput={setFileInput}
-              />
-            </Box>
-            <Stack sx={{ mt: 5 }} direction="row" justifyContent="center">
-              <FormControlLabel
-                sx={{ textAlign: "center" }}
-                control={
-                  <Checkbox
-                    checked={liked}
-                    icon={<FavoriteBorder color="warning" />}
-                    checkedIcon={<Favorite color="warning" />}
-                    onChange={(e) => dispatch(setLiked(e.target.checked))}
-                  />
-                }
-                label="Mark as favorite?"
-              />
-            </Stack>
-            <Button
-              disabled={isFormValid ? false : true}
-              onClick={handleSubmit}
-              sx={{ mt: 3 }}
-              variant="btn"
-            >
-              {isLoading ? (
-                <CircularProgress />
-              ) : isEdit ? (
-                "Edit Recipe"
-              ) : (
-                "Add Recipe"
-              )}
-            </Button>
           </Stack>
         </Stack>
       </form>

@@ -38,7 +38,6 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
         label="All Recipes"
         sx={{
           textTransform: "capitalize",
-          fontWeight: "bold",
           letterSpacing: "0.5px",
         }}
       />,
@@ -47,7 +46,6 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
         label="Liked"
         sx={{
           textTransform: "capitalize",
-          fontWeight: "bold",
           letterSpacing: "0.5px",
         }}
       />,
@@ -60,7 +58,6 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
           label={category.name}
           sx={{
             textTransform: "capitalize",
-            fontWeight: "bold",
             letterSpacing: "0.5px",
           }}
         />

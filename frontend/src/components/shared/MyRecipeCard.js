@@ -83,8 +83,8 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
         elevation={5}
         sx={{
           m: 2,
-          height: 315,
-          width: 400,
+          height: 250,
+          width: 320,
           borderRadius: "12px",
           border: `1px solid ${theme.palette.text.main}`,
           p: 0,
@@ -98,7 +98,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
           <CardContent sx={{ p: 0 }}>
             <CardMedia
               component="img"
-              height="210"
+              height="170"
               image={
                 recipe.imgId &&
                 `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
@@ -113,7 +113,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
             justifyContent: "space-between",
             flexDirection: "column",
             alignItems: "flex-start",
-            mt: -2,
+            mt: -3.5,
           }}
         >
           <Stack

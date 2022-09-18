@@ -5,7 +5,7 @@ import { Typography } from "@mui/material";
 const footer = (theme) => ({
   backgroundColor: theme.palette.warning.main,
   width: "100%",
-  padding: "25px",
+  padding: "15px",
   height: "100%",
 });
 
@@ -20,7 +20,7 @@ const Footer = () => {
           textAlign="center"
           sx={{
             color: `${theme.palette.white.main}`,
-            fontSize: "27px",
+            fontSize: "22px",
             letterSpacing: "1px",
           }}
         >

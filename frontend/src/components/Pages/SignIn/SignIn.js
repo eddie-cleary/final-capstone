@@ -18,7 +18,7 @@ const SignIn = () => {
     maxWidth: "1200px",
     width: "100%",
     mt: matches ? 4 : 2,
-    p: 2,
+    p: 0,
   };
 
   console.log("base url is ", process.env.REACT_APP_BASE_URL);
@@ -29,7 +29,7 @@ const SignIn = () => {
         <Box
           component="img"
           src={logo}
-          sx={{ height: matches ? "130px" : "100px" }}
+          sx={{ height: matches ? "120px" : "100px" }}
           alt="Meal planner logo"
         />
       </Box>
@@ -38,7 +38,7 @@ const SignIn = () => {
           sx={{
             maxWidth: "450px",
             width: "100%",
-            mt: matches ? 20 : 10,
+            mt: matches ? 4 : 10,
             mx: "auto",
           }}
         >
@@ -55,9 +55,9 @@ const SignIn = () => {
             sx={{
               width: "100%",
               flexWrap: "wrap",
-              gap: "48px",
+              gap: "40px",
               mb: 13,
-              mt: 13,
+              mt: 7,
             }}
           >
             <FeatureCard

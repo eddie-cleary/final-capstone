@@ -186,7 +186,11 @@ const MealPlanForm = ({ isEdit }) => {
         direction="row"
         justifyContent="center"
       >
-        <Stack direction="column" alignItems="center" sx={{ width: "100%" }}>
+        <Stack
+          direction="column"
+          alignItems="center"
+          sx={{ width: "100%", transform: "scale(0.8)", mt: -9 }}
+        >
           <Stack direction="column" sx={{ width: "100%", maxWidth: "470px" }}>
             <TextField
               variant="standard"

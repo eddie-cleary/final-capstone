@@ -20,7 +20,7 @@ const Sidebar = () => {
   const isMobile = useSelector((state) => state.layout.isMobile);
 
   const sidebar = {
-    width: isMobile ? "300px" : "330px",
+    width: isMobile ? "300px" : "280px",
     backgroundColor: theme.palette.primary.light,
     height: "100%",
   };
@@ -36,7 +36,7 @@ const Sidebar = () => {
         <Link component={ReactLink} to="/">
           <Box
             component="img"
-            sx={{ maxWidth: isMobile ? "130px" : "250px", width: "100%" }}
+            sx={{ maxWidth: isMobile ? "130px" : "170px", width: "100%" }}
             src={circleLogo}
             alt="Meal Planner Logo"
           />
