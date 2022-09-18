@@ -77,6 +77,7 @@ public class AppUserServiceImpl implements AppUserService {
                 .activated(true)
                 .roles(Set.of(userRole))
                 .build();
+
         return appUserRepo.save(appUser);
     }
 

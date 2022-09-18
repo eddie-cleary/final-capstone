@@ -77,5 +77,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTConfigurer securityConfigurerAdapter() {
         return new JWTConfigurer(tokenProvider);
     }
+
+
 }
 

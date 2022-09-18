@@ -1,13 +1,15 @@
 package com.techelevator.controller;
 
 import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.techelevator.entity.AppUser;
 import com.techelevator.service.AppUserService;
-import io.github.cdimascio.dotenv.Dotenv;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.security.Principal;
 import java.util.Date;
@@ -21,15 +23,11 @@ public class AppUserController {
     @Autowired
     private final AppUserService appUserService;
 
-    @Autowired
-    private Cloudinary cloudinary;
+    @Value("${CLOUDSECRET}")
+    private String cloudsecret;
 
-    @Autowired
-    private Dotenv dotenv;
-
-    private AppUserController(AppUserService appUserService, Dotenv dotenv) {
+    private AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
-        this.dotenv = dotenv;
     }
 
     @GetMapping
@@ -46,10 +44,17 @@ public class AppUserController {
     @GetMapping("/get-signature")
     public Map<String, String> getCloudinarySignature() {
 
+        Cloudinary cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "djoe",
+                "api_key", "362171829159456",
+                "api_secret", cloudsecret,
+                "secure", true
+        ));
+
         Long timestamp =  new Date().getTime() / 1000;
         String timestampString = timestamp.toString();
 
-        String apiSecret = dotenv.get("CLOUDSECRET");
+        String apiSecret = cloudsecret;
 
         Map<String, Object> paramsToSign = new HashMap<>();
         paramsToSign.put("timestamp", timestampString);
