@@ -19,11 +19,16 @@ const LikeRecipeButton = ({ recipe, setRecipe }) => {
     e.preventDefault();
     setIsLoading(true);
     await axios
-      .put(baseUrl + `/recipes/like/${recipe.id}/${!recipe?.liked}`, "", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        process.env.REACT_APP_BASE_URL +
+          `/recipes/like/${recipe.id}/${!recipe?.liked}`,
+        "",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => loadRecipes())
       .catch((err) => {
         if (err.response?.data?.message) {
@@ -44,7 +49,7 @@ const LikeRecipeButton = ({ recipe, setRecipe }) => {
 
   const loadRecipes = () => {
     axios
-      .get(baseUrl + `/recipes/all`, {
+      .get(process.env.REACT_APP_BASE_URL + `/recipes/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -72,7 +72,7 @@ const RecipeForm = ({ isEdit }) => {
 
   const postToServer = useCallback(() => {
     axios
-      .post(baseUrl + `/recipes/add`, postObject, {
+      .post(process.env.REACT_APP_BASE_URL + `/recipes/add`, postObject, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -93,11 +93,15 @@ const RecipeForm = ({ isEdit }) => {
 
   const putToServer = () => {
     axios
-      .put(baseUrl + `/recipes/${recipeId}`, postObject, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        process.env.REACT_APP_BASE_URL + `/recipes/${recipeId}`,
+        postObject,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         dispatch(setSuccessMsg("Recipe Updated!"));
         dispatch(setShowSuccess(true));
@@ -152,11 +156,14 @@ const RecipeForm = ({ isEdit }) => {
 
     dispatch(setIsImageUploading(true));
 
-    const signatureResponse = await axios.get(baseUrl + "/get-signature", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const signatureResponse = await axios.get(
+      process.env.REACT_APP_BASE_URL + "/get-signature",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     const signature = signatureResponse?.data?.signature;
     const timestamp = signatureResponse?.data?.timestamp;

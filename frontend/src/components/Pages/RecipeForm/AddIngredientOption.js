@@ -27,7 +27,7 @@ const AddIngredientOption = () => {
     if (isFormValid) {
       setIsLoading(true);
       axios
-        .post(baseUrl + "/ingredient", data, {
+        .post(process.env.REACT_APP_BASE_URL + "/ingredient", data, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ const AddIngredientOption = () => {
           setIsFormValid(false);
           setIsLoading(false);
           axios
-            .get(baseUrl + "/ingredient", {
+            .get(process.env.REACT_APP_BASE_URL + "/ingredient", {
               headers: {
                 Authorization: `Bearer ${token}`,
               },

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import Layout from "../../Layout/Layout";
 import MealPlanForm from "../MealPlanForm/MealPlanForm";
 import { CircularProgress } from "@mui/material";
@@ -23,7 +22,7 @@ const EditMealPlan = () => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/mealplans/${id}`, {
+      .get(process.env.REACT_APP_BASE_URL + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

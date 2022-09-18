@@ -19,7 +19,7 @@ const ViewRecipe = () => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/recipes/${id}`, {
+      .get(process.env.REACT_APP_BASE_URL + `/recipes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

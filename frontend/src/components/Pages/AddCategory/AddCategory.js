@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import ErrorDisplay from "../../shared/ErrorDisplay";
 import {
@@ -32,7 +31,7 @@ const AddIngredient = () => {
     const postData = { name };
     setIsLoading(true);
     axios
-      .post(baseUrl + `/category/add`, postData, {
+      .post(process.env.REACT_APP_BASE_URL + `/category/add`, postData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

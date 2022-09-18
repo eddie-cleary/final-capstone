@@ -15,7 +15,6 @@ import {
 } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
-import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
 import {
   setErrorMsg,
@@ -131,7 +130,7 @@ const MealPlanForm = ({ isEdit }) => {
   const postMealPlan = () => {
     console.log("the post object is ", postObject);
     axios
-      .post(baseUrl + `/mealplans`, postObject, {
+      .post(process.env.REACT_APP_BASE_URL + `/mealplans`, postObject, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -152,11 +151,15 @@ const MealPlanForm = ({ isEdit }) => {
   const putMealPlan = () => {
     console.log("the put object is ", postObject);
     axios
-      .put(baseUrl + `/mealplans/${postObject.id}`, postObject, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        process.env.REACT_APP_BASE_URL + `/mealplans/${postObject.id}`,
+        postObject,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
         setSuccessMsg("Meal plan updated!");
         setShowSuccess(true);

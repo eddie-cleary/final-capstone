@@ -20,7 +20,7 @@ const RecipesList = () => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/recipes/all`, {
+      .get(process.env.REACT_APP_BASE_URL + `/recipes/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

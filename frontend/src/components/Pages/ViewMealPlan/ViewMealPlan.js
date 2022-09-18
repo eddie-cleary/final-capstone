@@ -79,7 +79,7 @@ const ViewMealPlan = () => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/mealplans/${id}`, {
+      .get(process.env.REACT_APP_BASE_URL + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -95,7 +95,7 @@ const ViewMealPlan = () => {
     console.log("current recipe ", currentRecipe);
     if (currentRecipe?.id != null && currentRecipe?.steps === undefined) {
       axios
-        .get(baseUrl + `/recipes/${currentRecipe?.id}`, {
+        .get(process.env.REACT_APP_BASE_URL + `/recipes/${currentRecipe?.id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -125,7 +125,7 @@ const ViewMealPlan = () => {
   const deleteMealPlan = () => {
     setIsLoading(true);
     axios
-      .delete(baseUrl + `/mealplans/${id}`, {
+      .delete(process.env.REACT_APP_BASE_URL + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

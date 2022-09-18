@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Layout from "../../Layout/Layout";
 import { useSelector, useDispatch } from "react-redux";
-import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
 import { Stack, List, Box } from "@mui/material";
 import CategoryTabSelect from "./CategoryTabSelect";
@@ -20,7 +19,7 @@ const AllRecipes = () => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/recipes/all`, {
+      .get(process.env.REACT_APP_BASE_URL + `/recipes/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

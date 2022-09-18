@@ -20,7 +20,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
 
   useEffect(() => {
     axios
-      .get(baseUrl + `/category`, {
+      .get(process.env.REACT_APP_BASE_URL + `/category`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

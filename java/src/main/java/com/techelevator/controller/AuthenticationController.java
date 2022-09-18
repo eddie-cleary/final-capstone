@@ -2,10 +2,10 @@ package com.techelevator.controller;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.techelevator.entity.AppUser;
+import com.techelevator.exception.UserAlreadyExistsException;
 import com.techelevator.exception.ValidationException;
 import com.techelevator.model.LoginDTO;
 import com.techelevator.model.RegisterUserDTO;
-import com.techelevator.exception.UserAlreadyExistsException;
 import com.techelevator.repo.RoleRepo;
 import com.techelevator.security.jwt.JWTFilter;
 import com.techelevator.security.jwt.TokenProvider;
