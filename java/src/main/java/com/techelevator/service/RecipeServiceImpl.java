@@ -116,16 +116,11 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public List<Recipe> getMyRecipes(String username) {
+    public List<RecipeResponse> getMyRecipes(String username) {
         log.info("Fetching {}'s myRecipes from database", username);
-//        AppUser appUser = appUserRepo.findByUsername(username);
-//        log.info("User found " + appUser.getUsername());
-//        List<Recipe> recipes = recipeRepo.findByAppUser(appUser);
-//        log.info("The list is " + recipes);
-//        return formatRecipeResponseList(recipes, username);
-//        RecipeResponse recipeResponse = new RecipeResponse();
-        Recipe recipe = new Recipe();
-        return List.of(recipe);
+        AppUser appUser = appUserRepo.findByUsername(username);
+        List<Recipe> recipes = recipeRepo.findByAppUser(appUser);
+        return formatRecipeResponseList(recipes, username);
     }
 
     @Override
@@ -197,8 +192,6 @@ public class RecipeServiceImpl implements RecipeService {
             RecipeResponse recipeResponse = formatRecipeResponse(recipe, username);
             formattedRecipes.add(recipeResponse);
         }
-        log.info("Out of loop");
-        log.info("Formatted recipes are " + formattedRecipes.size());
         return formattedRecipes;
     }
 

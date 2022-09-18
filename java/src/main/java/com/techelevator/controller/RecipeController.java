@@ -43,7 +43,7 @@ public class RecipeController {
     }
 
     @GetMapping("/myRecipes")
-    public List<Recipe> getMyRecipes(Principal principal) {
+    public List<RecipeResponse> getMyRecipes(Principal principal) {
         return recipeService.getMyRecipes(principal.getName());
     }
 
