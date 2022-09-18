@@ -111,6 +111,7 @@ const AddIngredientOption = () => {
             <Button
               disabled={isLoading ? true : false}
               onClick={handleAddIngredient}
+              variant="btn"
             >
               Add Ingredient <AddCircleOutline sx={{ ml: 1 }} />
             </Button>

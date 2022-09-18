@@ -21,8 +21,6 @@ const SignIn = () => {
     p: 0,
   };
 
-  console.log("base url is ", process.env.REACT_APP_BASE_URL);
-
   return (
     <Stack alignItems="center" sx={{ minHeight: "100vh" }}>
       <Stack sx={{ p: 3 }}>

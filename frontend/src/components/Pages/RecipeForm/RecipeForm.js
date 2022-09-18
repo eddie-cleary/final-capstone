@@ -27,7 +27,7 @@ import {
 } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 import {
   setIsLoading,
-  setIsImageUploading,
+  setIsImageUploaded,
   setIsStepsValid,
   setIsRecipeIngredientsValid,
   setIsFormValid,
@@ -57,8 +57,8 @@ const RecipeForm = ({ isEdit }) => {
   const [likedChecked, setLikedChecked] = useState(false);
   const [fileInput, setFileInput] = useState("");
   const isLoading = useSelector((state) => state.addRecipeForm.isLoading);
-  const isImageUploading = useSelector(
-    (state) => state.addRecipeForm.isImageUploading
+  const isImageUploaded = useSelector(
+    (state) => state.addRecipeForm.isImageUploaded
   );
   const isFormValid = useSelector((state) => state.addRecipeForm.isFormValid);
   const isRecipeIngredientsValid = useSelector(
@@ -90,7 +90,7 @@ const RecipeForm = ({ isEdit }) => {
       });
   }, [dispatch, postObject, token]);
 
-  const putToServer = () => {
+  const putToServer = useCallback(() => {
     axios
       .put(
         process.env.REACT_APP_BASE_URL + `/recipes/${recipeId}`,
@@ -113,7 +113,7 @@ const RecipeForm = ({ isEdit }) => {
         dispatch(setIsLoading(false));
         dispatch(resetState());
       });
-  };
+  }, [dispatch, postObject, recipeId, token]);
 
   const handleSubmit = async () => {
     dispatch(setIsLoading(true));
@@ -153,8 +153,6 @@ const RecipeForm = ({ isEdit }) => {
     const API_KEY = "362171829159456";
     const CLOUD_NAME = "djoe";
 
-    dispatch(setIsImageUploading(true));
-
     const signatureResponse = await axios.get(
       process.env.REACT_APP_BASE_URL + "/get-signature",
       {
@@ -186,11 +184,40 @@ const RecipeForm = ({ isEdit }) => {
   };
 
   useEffect(() => {
-    if (isImageUploading) {
-      dispatch(setIsImageUploading(false));
-      postToServer();
+    if (postObject.imgId !== null) {
+      dispatch(setIsImageUploaded(true));
     }
-  }, [postObject.imgId, dispatch, isImageUploading, postToServer]);
+  }, [postObject.imgId, dispatch]);
+
+  useEffect(() => {
+    if (isImageUploaded === true) {
+      if (!isEdit) {
+        postToServer();
+      } else {
+        putToServer();
+      }
+      dispatch(setIsImageUploaded(false));
+    }
+  }, [dispatch, isEdit, postToServer, isImageUploaded, putToServer]);
+
+  useEffect(() => {
+    if (isImageUploaded && postObject.imgId !== null) {
+      if (!isEdit) {
+        postToServer();
+        dispatch(setIsImageUploaded(false));
+      } else {
+        putToServer();
+        dispatch(setIsImageUploaded(false));
+      }
+    }
+  }, [
+    isImageUploaded,
+    dispatch,
+    isEdit,
+    postToServer,
+    putToServer,
+    postObject.imgId,
+  ]);
 
   useEffect(() => {
     const result = postObject.steps.every((step) => {

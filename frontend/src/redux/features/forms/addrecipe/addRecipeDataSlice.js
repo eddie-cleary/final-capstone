@@ -8,7 +8,7 @@ const initialState = {
   servings: 1,
   prepTime: "",
   cookTime: "",
-  imgId: "",
+  imgId: null,
   ingredient: "",
   steps: [""],
   recipeIngredients: [],

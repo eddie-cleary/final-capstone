@@ -4,7 +4,7 @@ const initialState = {
   fileInput: "",
   imgPreview: "",
   isLoading: false,
-  isImageUploading: false,
+  isImageUploaded: false,
   isFormValid: false,
   isStepsValid: false,
   isRecipeIngredientsValid: false,
@@ -32,10 +32,11 @@ export const addRecipeFormSlice = createSlice({
         isLoading: action.payload,
       };
     },
-    setIsImageUploading: (state, action) => {
+    setIsImageUploaded: (state, action) => {
+      console.log("is image uploaded called in redux", action.payload);
       return {
         ...state,
-        isImageUploading: action.payload,
+        isImageUploaded: action.payload,
       };
     },
     setIsFormValid: (state, action) => {
@@ -63,7 +64,7 @@ export const {
   setFileInput,
   setImgPreview,
   setIsLoading,
-  setIsImageUploading,
+  setIsImageUploaded,
   setIsFormValid,
   setIsStepsValid,
   setIsRecipeIngredientsValid,

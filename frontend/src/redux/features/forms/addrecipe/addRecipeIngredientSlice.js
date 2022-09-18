@@ -79,7 +79,6 @@ export const addRecipeIngredientSlice = createSlice({
       };
     },
     setIngredientToCreate: (state, action) => {
-      console.log("setting ingredient to ", action.payload);
       return {
         ...state,
         ingredientToCreate: action.payload,
