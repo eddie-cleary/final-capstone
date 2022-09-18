@@ -3,7 +3,6 @@ import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
 import { calculateQuantity } from "../../../shared/conversions";
-import { baseUrl } from "../../../shared/baseUrl";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import {

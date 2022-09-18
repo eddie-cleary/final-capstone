@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Layout/Layout";
 import { Link as ReactLink, useNavigate } from "react-router-dom";

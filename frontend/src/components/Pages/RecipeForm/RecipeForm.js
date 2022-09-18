@@ -15,7 +15,6 @@ import StepsList from "./StepsList";
 import ChosenIngredientsList from "./ChosenIngredientsList";
 import RecipeInfo from "./RecipeInfo";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import ImgDropzone from "./ImgDropzone";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";

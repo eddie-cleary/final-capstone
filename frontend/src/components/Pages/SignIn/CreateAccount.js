@@ -17,7 +17,6 @@ import {
   setShowSuccess,
 } from "../../../redux/features/forms/errors/errorsSlice";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 
 const CreateAccount = ({ setShowCreateAccount }) => {
   const theme = useTheme();

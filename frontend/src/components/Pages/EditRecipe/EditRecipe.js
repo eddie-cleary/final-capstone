@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { CircularProgress } from "@mui/material";
 import Layout from "../../Layout/Layout";
 import RecipeForm from "../RecipeForm/RecipeForm";

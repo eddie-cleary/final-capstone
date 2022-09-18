@@ -44,7 +44,6 @@ public class DevSpringConfig {
                                 .build();
 
                         appUserService.addUser(brandon);
-
                 };
         }
 

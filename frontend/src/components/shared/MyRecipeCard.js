@@ -18,7 +18,6 @@ import { useState } from "react";
 import { Link as ReactLink, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { baseUrl } from "../../shared/baseUrl";
 import {
   setShowError,
   setErrorMsg,

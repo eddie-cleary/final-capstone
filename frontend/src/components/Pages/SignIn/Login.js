@@ -11,7 +11,6 @@ import {
   useTheme,
 } from "@mui/material";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { addToken, addUser } from "../../../redux/features/auth/authSlice";
 import { useDispatch } from "react-redux";
 import {

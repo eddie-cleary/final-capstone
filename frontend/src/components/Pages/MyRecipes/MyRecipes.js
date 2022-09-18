@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../../Layout/Layout";
 import { Stack } from "@mui/material";
 import axios from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import MyRecipeCard from "../../shared/MyRecipeCard";
 import {
@@ -35,7 +34,7 @@ const MyRecipes = () => {
 
   useEffect(() => {
     loadRecipes();
-  }, [dispatch, token, recipes, loadRecipes]);
+  }, [dispatch, token, loadRecipes]);
 
   const recipesList = recipes.map((recipe) => {
     return (

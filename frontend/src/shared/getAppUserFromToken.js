@@ -1,4 +1,3 @@
-import { baseUrl } from "./baseUrl";
 import axios from "axios";
 
 const getAppUserFromToken = async (token) => {
