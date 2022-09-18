@@ -18,7 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
         if (activeProfile == "dev") {
             registry.addMapping("/**").allowedOrigins("http://localhost:3000");
         } else if (activeProfile == "prod") {
-            registry.addMapping("/**").allowedOrigins("https://main--whimsical-semolina-503a02.netlify.app/");
+            registry.addMapping("/**").allowedOrigins("https://main--whimsical-semolina-503a02.netlify.app");
         }
     }
 }
