@@ -25,7 +25,6 @@ import {
   setShowSuccess,
   setSuccessMsg,
 } from "../../redux/features/forms/errors/errorsSlice";
-import LikeRecipeButton from "./LikeRecipeButton";
 
 const modalStyle = {
   position: "absolute",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   InputLabel,
   Stack,
@@ -51,7 +51,6 @@ const RecipeForm = ({ isEdit }) => {
   const name = useSelector((state) => state.addRecipeData.name);
   const description = useSelector((state) => state.addRecipeData.description);
 
-  const steps = useSelector((state) => state.addRecipeData.steps);
   const recipeIngredients = useSelector(
     (state) => state.addRecipeData.recipeIngredients
   );
@@ -71,9 +70,7 @@ const RecipeForm = ({ isEdit }) => {
   const dispatch = useDispatch();
   const isMobile = useSelector((state) => state.layout.isMobile);
 
-  const postToServer = () => {
-    console.log("the post object", postObject);
-
+  const postToServer = useCallback(() => {
     axios
       .post(baseUrl + `/recipes/add`, postObject, {
         headers: {
@@ -92,7 +89,7 @@ const RecipeForm = ({ isEdit }) => {
         dispatch(setIsLoading(false));
         dispatch(resetState());
       });
-  };
+  }, [dispatch, postObject, token]);
 
   const putToServer = () => {
     axios
@@ -140,7 +137,14 @@ const RecipeForm = ({ isEdit }) => {
         }
       }
     }
-  }, [postObject.recipesLiked]);
+  }, [
+    postObject.recipesLiked,
+    dispatch,
+    isEdit,
+    likedChecked,
+    postObject,
+    user.id,
+  ]);
 
   const uploadImage = async (fileInput) => {
     const API_KEY = "362171829159456";
@@ -180,7 +184,7 @@ const RecipeForm = ({ isEdit }) => {
       dispatch(setIsImageUploading(false));
       postToServer();
     }
-  }, [postObject.imgId]);
+  }, [postObject.imgId, dispatch, isImageUploading, postToServer]);
 
   useEffect(() => {
     const result = postObject.steps.every((step) => {
@@ -190,7 +194,7 @@ const RecipeForm = ({ isEdit }) => {
       return false;
     });
     dispatch(setIsStepsValid(result));
-  }, [postObject.steps]);
+  }, [postObject.steps, dispatch]);
 
   useEffect(() => {
     let result = false;
@@ -204,13 +208,13 @@ const RecipeForm = ({ isEdit }) => {
     }
 
     dispatch(setIsRecipeIngredientsValid(result));
-  }, [postObject.recipeIngredients]);
+  }, [postObject.recipeIngredients, dispatch, recipeIngredients]);
 
   useEffect(() => {
     if (!isEdit) {
       dispatch(resetState());
     }
-  }, []);
+  }, [dispatch, isEdit]);
 
   useEffect(() => {
     if (
@@ -226,7 +230,7 @@ const RecipeForm = ({ isEdit }) => {
     } else {
       dispatch(setIsFormValid(false));
     }
-  }, [postObject, isStepsValid, isRecipeIngredientsValid]);
+  }, [postObject, isStepsValid, isRecipeIngredientsValid, dispatch]);
 
   return (
     <PageLayout>

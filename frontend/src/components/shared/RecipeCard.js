@@ -1,6 +1,5 @@
 import {
   Card,
-  CardHeader,
   CardMedia,
   CardActions,
   Link,

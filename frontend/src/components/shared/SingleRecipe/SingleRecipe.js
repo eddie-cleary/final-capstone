@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Stack,
   Box,
@@ -17,8 +17,6 @@ import cookIcon from "./icons/cooking.png";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import PageTitle from "../PageTitle";
-import { axios } from "axios";
-import { baseUrl } from "../../../shared/baseUrl";
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -87,7 +85,7 @@ const RenderSteps = ({ steps }) => {
   ));
 };
 
-const InfoCard = (props, setCurrentServings, currentServings) => {
+const InfoCard = (props) => {
   return (
     <Stack direction="column" alignItems="center">
       <Box component="img" src={props.img} alt="prepare icon" width="50px" />

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../../Layout/Layout";
-import { Stack, Typography } from "@mui/material";
+import { Stack } from "@mui/material";
 import axios from "axios";
 import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";

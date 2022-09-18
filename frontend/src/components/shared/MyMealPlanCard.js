@@ -1,7 +1,6 @@
 import { Link, Typography, Stack, Avatar, useTheme } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import * as React from "react";
-import { lightGreen } from "@mui/material/colors";
 
 export default function MyMealPlanCard({ title, bgImg, id }) {
   const theme = useTheme();

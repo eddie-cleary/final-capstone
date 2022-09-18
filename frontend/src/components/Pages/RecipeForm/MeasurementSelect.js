@@ -46,7 +46,7 @@ const MeasurementSelect = () => {
 
   useEffect(() => {
     dispatch(setMeasurement(ingredient.liquid ? "Ounce" : "Teaspoon"));
-  }, [ingredient]);
+  }, [ingredient, dispatch]);
 
   const numberSelectors = [];
   for (let i = 0; i < 11; i++) {

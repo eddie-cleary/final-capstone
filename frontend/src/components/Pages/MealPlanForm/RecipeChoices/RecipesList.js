@@ -30,7 +30,7 @@ const RecipesList = () => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       });
-  }, []);
+  }, [dispatch, token]);
 
   return (
     <Stack>

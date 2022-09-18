@@ -30,7 +30,7 @@ const MyMealPlans = () => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       });
-  }, []);
+  }, [token, dispatch]);
 
   const myMealPlans = mealPlans.map((mealPlan, index) => {
     return (

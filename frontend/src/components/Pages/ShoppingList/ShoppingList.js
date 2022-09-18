@@ -1,6 +1,6 @@
 import React from "react";
 import { convertToMeasurement } from "../../../shared/conversions";
-import { Stack, Typography, Paper } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
 
 const ShoppingList = ({ mealplan }) => {

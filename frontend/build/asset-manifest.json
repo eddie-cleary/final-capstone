@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.60c1921c.css",
+    "main.js": "/static/js/main.9ddf68c2.js",
+    "static/media/lobster-all-400-normal.woff": "/static/media/lobster-all-400-normal.c3339a18ebb7bcd1cf74.woff",
+    "static/media/shoppinglist.jpg": "/static/media/shoppinglist.518f1476806edb545cd0.jpg",
+    "static/media/recipes.jpg": "/static/media/recipes.656b2cdba71f9314a20f.jpg",
+    "static/media/lobster-cyrillic-400-normal.woff2": "/static/media/lobster-cyrillic-400-normal.c1f63be72f54fbdd6050.woff2",
+    "static/media/mealplan.jpg": "/static/media/mealplan.408e44816b3989d53d39.jpg",
+    "static/media/lobster-latin-400-normal.woff2": "/static/media/lobster-latin-400-normal.a1df6431b1729a2cf046.woff2",
+    "static/media/lobster-latin-ext-400-normal.woff2": "/static/media/lobster-latin-ext-400-normal.d541f151eb0c09cc452b.woff2",
+    "static/media/cooking.png": "/static/media/cooking.619ac2967ea85fd3ca9a.png",
+    "static/media/white-thumbnail.png": "/static/media/white-thumbnail.23db23158fedb3217650.png",
+    "static/media/logo-circle.svg": "/static/media/logo-circle.7a6eb5cd0f6a39f0892998cafcd18050.svg",
+    "static/media/prepare.png": "/static/media/prepare.eb9f9286bdec6a3f0e96.png",
+    "static/media/logo-square.svg": "/static/media/logo-square.8cba982e5938c90f553cb31d4efeabf7.svg",
+    "static/media/lobster-cyrillic-ext-400-normal.woff2": "/static/media/lobster-cyrillic-ext-400-normal.6c9e9690ad824a8badb4.woff2",
+    "static/media/lobster-vietnamese-400-normal.woff2": "/static/media/lobster-vietnamese-400-normal.cbe7acb56e6ff0a3d26b.woff2",
+    "static/media/servings.png": "/static/media/servings.982d32d3df8c526d0b37.png",
+    "index.html": "/index.html",
+    "main.60c1921c.css.map": "/static/css/main.60c1921c.css.map",
+    "main.9ddf68c2.js.map": "/static/js/main.9ddf68c2.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.60c1921c.css",
+    "static/js/main.9ddf68c2.js"
+  ]
+}

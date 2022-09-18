@@ -8,12 +8,6 @@ const header = (theme) => ({
   width: "100%",
 });
 
-const title = (theme) => ({
-  [theme.breakpoints.down("md")]: {
-    fontSize: "25px",
-  },
-});
-
 const Header = ({ setOpen, open, matches }) => {
   return (
     <Stack
