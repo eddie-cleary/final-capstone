@@ -33,7 +33,7 @@ const Layout = ({ children }) => {
       gridTemplateRows: "min-content 1fr",
     },
     minHeight: "100vh",
-    maxHeight: "100vh",
+    maxHeight: isLg ? "100vh" : "",
   });
 
   const header = {

@@ -23,7 +23,7 @@ const Footer = () => {
           textAlign="center"
           sx={{
             color: `${theme.palette.white.main}`,
-            fontSize: "22px",
+            fontSize: isLg ? "22px" : "18px",
             letterSpacing: "1px",
           }}
         >
