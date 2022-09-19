@@ -33,14 +33,14 @@ export default function ShareButton({ recipe }) {
     document.execCommand(`copy`);
     document.body.removeChild(el);
 
-    dispatch(setSuccessMsg(`Copied ${recipe.name}`));
+    dispatch(setSuccessMsg(`Copied ${recipe?.name}`));
     dispatch(setShowSuccess(true));
   };
 
   const open = Boolean(anchorEl);
   const id = open ? "simple-popper" : undefined;
 
-  const ahref = `${process.env.REACT_APP_BASE_URL}/recipes/${recipe.id}`;
+  const ahref = `${process.env.REACT_APP_BASE_URL}/recipes/${recipe?.id}`;
   return (
     <Box>
       <IconButton aria-describedby={id} type="button" onClick={handleClick}>

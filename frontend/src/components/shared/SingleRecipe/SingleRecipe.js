@@ -19,6 +19,7 @@ import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import PageTitle from "../PageTitle";
 import ReactToPrint from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
+import ShareButton from "../ShareButton";
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -197,7 +198,20 @@ const SingleRecipe = ({ recipe }) => {
           }}
           alt={`Picture of ${recipe?.title}`}
         ></Box>
-        <Stack sx={{ mt: 4 }}>
+        <Typography
+          sx={{ mt: 1 }}
+        >{`Shared by ${recipe?.creatorUsername}`}</Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          sx={{
+            mt: 1,
+            gap: 2,
+            "@media print": {
+              display: "none",
+            },
+          }}
+        >
           <ReactToPrint
             content={() => printComponent.current}
             trigger={() => (
@@ -210,6 +224,7 @@ const SingleRecipe = ({ recipe }) => {
               />
             )}
           />
+          <ShareButton recipe={recipe} />
         </Stack>
         <Typography sx={{ fontSize: "20px", mt: 2, textAlign: "center" }}>
           {recipe?.description}
