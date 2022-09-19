@@ -23,6 +23,7 @@ const SignIn = () => {
             src={logo}
             sx={{ height: matches ? "120px" : "100px" }}
             alt="Meal planner logo"
+            onClick={() => setShowCreateAccount(false)}
           />
         </Box>
         <Box component="main" sx={{ flexGrow: 1 }}>

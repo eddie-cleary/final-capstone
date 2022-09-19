@@ -32,6 +32,7 @@ const Layout = ({ children }) => {
       gridTemplateRows: "min-content 1fr",
     },
     minHeight: "100vh",
+    maxHeight: "100vh",
   });
 
   const header = {
@@ -50,6 +51,7 @@ const Layout = ({ children }) => {
     gridArea: "main",
     padding: isMobile ? "0" : "20px",
     paddingTop: isMobile ? "0" : "50px",
+    overflow: "auto",
   };
 
   const footer = {
