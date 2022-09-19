@@ -5,7 +5,7 @@ import com.techelevator.repo.RoleRepo;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/role")
 public class RoleController {
 
     private RoleRepo roleRepo;
@@ -14,7 +14,7 @@ public class RoleController {
         this.roleRepo = roleRepo;
     }
 
-    @PostMapping("/role")
+    @PostMapping
     public Role addRole(@RequestBody Role role) {
         return roleRepo.save(role);
     }
