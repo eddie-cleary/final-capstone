@@ -40,7 +40,7 @@ export default function RecipeCard({ recipe }) {
               `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
             }
             alt={recipe.name}
-            sx={{ height: 150, objectFit: "cover", objectPosition: "center" }}
+            sx={{ height: 165, objectFit: "cover", objectPosition: "center" }}
           />
           <Box component="div" sx={{ height: "100%" }}>
             <Stack
