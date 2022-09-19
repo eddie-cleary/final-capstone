@@ -2,6 +2,7 @@ import React from "react";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { Stack, Typography } from "@mui/material";
 import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
+import PrintButton from "../../shared/PrintButton";
 
 const ShoppingList = ({ mealplan }) => {
   let shoppingListObj = {};
@@ -66,13 +67,16 @@ const ShoppingList = ({ mealplan }) => {
         }}
         elevation={5}
       >
+        <PrintButton />
         <Stack alignItems="center">
           <Typography
             textAlign="center"
-            variant="h3"
+            variant="h4"
             element="h1"
             sx={{ mb: 3 }}
-          >{`${mealplan?.title} Shopping List`}</Typography>
+          >
+            {`${mealplan?.title} Shopping List`}
+          </Typography>
           {ingredientComponents}
         </Stack>
       </Stack>

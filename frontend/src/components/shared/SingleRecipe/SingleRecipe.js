@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Stack,
   Box,
@@ -17,6 +17,8 @@ import cookIcon from "./icons/cooking.png";
 import { convertToMeasurement } from "../../../shared/conversions";
 import { AddBox, IndeterminateCheckBox } from "@mui/icons-material";
 import PageTitle from "../PageTitle";
+import ReactToPrint from "react-to-print";
+import PrintIcon from "@mui/icons-material/Print";
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -149,14 +151,34 @@ const SingleRecipe = ({ recipe }) => {
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down("lg"));
 
+  const printComponent = useRef();
+
   return (
-    <>
+    <Box
+      sx={{
+        "@media print": {
+          transform: "scale(0.7)",
+          mt: -15,
+        },
+      }}
+      ref={printComponent}
+    >
       <Stack
         direction="column"
-        sx={{ maxWidth: "800px", width: "100%" }}
+        sx={{
+          maxWidth: "800px",
+          width: "100%",
+        }}
         alignItems="center"
       >
-        <PageTitle title={recipe?.name} />
+        <PageTitle
+          title={recipe?.name}
+          sx={{
+            "@media print": {
+              fontSize: "20px",
+            },
+          }}
+        />
         <Box
           component="img"
           src={
@@ -169,10 +191,27 @@ const SingleRecipe = ({ recipe }) => {
             width: "100%",
             maxWidth: "550px",
             objectFit: "cover",
+            "@media print": {
+              display: "none",
+            },
           }}
           alt={`Picture of ${recipe?.title}`}
         ></Box>
-        <Typography sx={{ fontSize: "20px", mt: 5, textAlign: "center" }}>
+        <Stack sx={{ mt: 4 }}>
+          <ReactToPrint
+            content={() => printComponent.current}
+            trigger={() => (
+              <PrintIcon
+                sx={{
+                  "@media print": {
+                    display: "none",
+                  },
+                }}
+              />
+            )}
+          />
+        </Stack>
+        <Typography sx={{ fontSize: "20px", mt: 2, textAlign: "center" }}>
           {recipe?.description}
         </Typography>
         <Stack
@@ -263,7 +302,7 @@ const SingleRecipe = ({ recipe }) => {
           </Box>
         </Stack>
       </Stack>
-    </>
+    </Box>
   );
 };
 
