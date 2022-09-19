@@ -14,17 +14,10 @@ const SignIn = () => {
   const [showCreateAccount, setShowCreateAccount] = useState(false);
   const matches = useMediaQuery("(min-width: 900px)");
 
-  const headerStyles = {
-    maxWidth: "1200px",
-    width: "100%",
-    mt: matches ? 4 : 2,
-    p: 0,
-  };
-
   return (
     <Stack alignItems="center" sx={{ minHeight: "100vh" }}>
-      <Stack sx={{ p: 3 }}>
-        <Box component="header" sx={headerStyles}>
+      <Stack sx={{ px: 3, flexGrow: 1, maxWidth: "1600px", width: "100%" }}>
+        <Box component="header" sx={{ mt: 3 }}>
           <Box
             component="img"
             src={logo}
@@ -37,9 +30,8 @@ const SignIn = () => {
             sx={{
               maxWidth: "450px",
               width: "100%",
-              mt: matches ? 4 : 3,
+              mt: matches ? 5 : 8,
               mx: "auto",
-              transform: matches ? "" : "scale(0.8)",
             }}
           >
             {showCreateAccount ? (

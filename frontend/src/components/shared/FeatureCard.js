@@ -15,6 +15,7 @@ const FeatureCard = ({ image, title, text, cssOverride }) => {
       sx={{
         border: `1px solid ${theme.palette.primary.main}`,
         width: "350px",
+        minHeight: "260px",
         borderRadius: "15px",
       }}
     >

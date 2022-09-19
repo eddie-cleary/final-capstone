@@ -18,8 +18,8 @@ export default function RecipeCard({ recipe }) {
       elevation={5}
       sx={{
         m: 2,
-        height: 250,
-        width: 320,
+        height: 270,
+        width: 340,
         borderRadius: "12px",
         border: `1px solid ${theme.palette.text.main}`,
         p: 0,
@@ -33,7 +33,7 @@ export default function RecipeCard({ recipe }) {
         <CardContent sx={{ p: 0 }}>
           <CardMedia
             component="img"
-            height="210"
+            height="170"
             image={
               recipe.imgId &&
               `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
@@ -54,13 +54,14 @@ export default function RecipeCard({ recipe }) {
         <Stack
           direction="row"
           justifyContent="space-between"
+          alignItems="flex-end"
           sx={{ width: "100%" }}
         >
           <Stack>
-            <Typography sx={{ ml: 1, fontWeight: "bold" }}>
+            <Typography sx={{ ml: 1, mt: 1, fontWeight: "bold" }}>
               {recipe.name}
             </Typography>
-            <Typography sx={{ ml: 1, mt: 1, fontSize: "16px" }}>
+            <Typography sx={{ ml: 1, mt: 2, fontSize: "16px" }}>
               Shared by {recipe.creatorUsername}
             </Typography>
           </Stack>

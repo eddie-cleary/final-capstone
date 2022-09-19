@@ -12,7 +12,7 @@ const Footer = () => {
     width: "100%",
     padding: "15px",
     height: "100%",
-    pl: isMobile ? "" : "280px",
+    pl: isMobile ? "" : "320px",
   });
 
   return (

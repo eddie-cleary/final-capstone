@@ -92,8 +92,12 @@ const AddIngredientOption = () => {
       <Stack textAlign="center">
         <Typography fontWeight="bold">Is it a liquid?</Typography>
         <Stack sx={{ mt: 1 }} direction="row" justifyContent="space-around">
-          <Button onClick={handleYesLiquid}>Yes</Button>
-          <Button onClick={handleNoLiquid}>No</Button>
+          <Button variant="btn" onClick={handleYesLiquid}>
+            Yes
+          </Button>
+          <Button variant="btn" onClick={handleNoLiquid}>
+            No
+          </Button>
         </Stack>
       </Stack>
     );

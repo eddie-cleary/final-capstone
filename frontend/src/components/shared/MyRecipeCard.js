@@ -83,8 +83,8 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
         elevation={5}
         sx={{
           m: 2,
-          height: 250,
-          width: 320,
+          height: 270,
+          width: 340,
           borderRadius: "12px",
           border: `1px solid ${theme.palette.text.main}`,
           p: 0,
@@ -120,10 +120,18 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            sx={{ width: "100%", mt: 2 }}
+            sx={{ width: "100%", mt: 2.5 }}
           >
             <Stack>
-              <Typography sx={{ ml: 1, mt: -1, fontWeight: "bold" }}>
+              <Typography
+                sx={{
+                  ml: 1,
+                  mt: 0,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                  lineHeight: 1.3,
+                }}
+              >
                 {recipe.name}
               </Typography>
               <Box></Box>

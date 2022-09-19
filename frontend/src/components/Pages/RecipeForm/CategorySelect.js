@@ -10,6 +10,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import axios from "axios";
+import { baseUrl } from "../../../shared/baseUrl";
 import { useSelector, useDispatch } from "react-redux";
 import { setRecipeCategories } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 import {
@@ -48,7 +49,7 @@ const CategorySelect = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/category`, {
+      .get(baseUrl + `/category`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

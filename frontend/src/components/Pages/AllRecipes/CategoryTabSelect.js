@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Tabs, Tab } from "@mui/material";
+import { Tabs, Tab, Box } from "@mui/material";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import RecipeCard from "../../shared/RecipeCard";
@@ -12,8 +12,8 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
   const token = useSelector((state) => state.auth.token);
   const allRecipes = useSelector((state) => state.recipes.allRecipes);
   const [tabValue, setTabValue] = useState(0);
-  const [categoryFilter, setCategoryFilter] = useState("All Recipes");
-  const [allCategories, setAllCategories] = useState(["All Recipes"]);
+  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [allCategories, setAllCategories] = useState(["All"]);
   const [categoryTabs, setCategoryTabs] = useState(null);
   const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
     let availableTabs = [
       <Tab
         key="99"
-        label="All Recipes"
+        label="All"
         sx={{
           textTransform: "capitalize",
           letterSpacing: "0.5px",
@@ -69,7 +69,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
 
   useEffect(() => {
     const filteredRecipes = allRecipes?.filter((recipe) => {
-      if (categoryFilter === "All Recipes") {
+      if (categoryFilter === "All") {
         return true;
       } else if (categoryFilter === "Liked") {
         if (recipe.liked) {
@@ -96,16 +96,28 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
   };
 
   return (
-    <Tabs
-      value={tabValue}
-      onChange={handleChange}
-      variant="scrollable"
-      scrollButtons
-      allowScrollButtonsMobile
-      aria-label="filter recipes by category"
+    <Box
+      sx={{
+        maxWidth: {
+          xs: "380px",
+          sm: "500px",
+          md: "500px",
+          lg: "700px",
+          xl: "900px",
+        },
+      }}
     >
-      {categoryTabs}
-    </Tabs>
+      <Tabs
+        value={tabValue}
+        onChange={handleChange}
+        variant="scrollable"
+        scrollButtons="auto"
+        allowScrollButtonsMobile
+        aria-label="filter recipes by category"
+      >
+        {categoryTabs}
+      </Tabs>
+    </Box>
   );
 };
 

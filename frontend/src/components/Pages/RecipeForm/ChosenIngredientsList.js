@@ -12,7 +12,7 @@ const ChosenIngredientsList = () => {
     return <ChosenIngredient index={index} data={ingredient} key={index} />;
   });
 
-  return <Stack>{ingredients}</Stack>;
+  return <Stack sx={{ mt: 2 }}>{ingredients}</Stack>;
 };
 
 export default ChosenIngredientsList;

@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import { addToken, addUser } from "../../../redux/features/auth/authSlice";
@@ -23,6 +24,7 @@ const Login = ({ setShowCreateAccount }) => {
   const [loginForm, setLoginForm] = useState({ username: "", password: "" });
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const md = useMediaQuery("(max-width: 1130px)");
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -71,7 +73,7 @@ const Login = ({ setShowCreateAccount }) => {
   return (
     <>
       <Box sx={{ width: "min-content" }}>
-        <Typography variant="h3" element="h1">
+        <Typography sx={{ fontSize: md ? 50 : 60 }} variant="h3" element="h1">
           Login
         </Typography>
         <Divider

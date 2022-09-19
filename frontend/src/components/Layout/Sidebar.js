@@ -8,6 +8,7 @@ import { Button, Stack, useTheme, Box, Link } from "@mui/material";
 import { deleteUser, addToken } from "../../redux/features/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import circleLogo from "../../assets/logo-circle.svg";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Sidebar = () => {
   const theme = useTheme();
@@ -112,6 +113,7 @@ const Sidebar = () => {
         sx={{ ...linkStyles, mt: "auto", mb: 2 }}
       >
         Logout
+        <LogoutIcon fontSize="small" sx={{ ml: 2 }} />
       </Button>
     </Stack>
   );
