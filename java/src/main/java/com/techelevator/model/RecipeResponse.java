@@ -15,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Builder
 public class RecipeResponse {
-    
+
     public RecipeResponse(Recipe recipe, Long userId) {
         this.id = recipe.getId();
         this.name = recipe.getName();

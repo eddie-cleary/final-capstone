@@ -9,6 +9,7 @@ import {
   TextField,
   Button,
   useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import {
   setShowError,
@@ -43,6 +44,8 @@ const CreateAccount = ({ setShowCreateAccount }) => {
   const [validForm, setValidForm] = useState(false);
 
   const dispatch = useDispatch();
+
+  const md = useMediaQuery("(max-width: 1130px)");
 
   useEffect(() => {
     if (
@@ -167,7 +170,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
   return (
     <>
       <Box sx={{ width: "min-content" }}>
-        <Typography variant="h3" element="h1">
+        <Typography sx={{ fontSize: md ? 40 : 50 }} variant="h3" element="h1">
           Register
         </Typography>
         <Divider
@@ -178,17 +181,17 @@ const CreateAccount = ({ setShowCreateAccount }) => {
           }}
         />
       </Box>
-      <Stack>
-        <FormControl sx={{ mt: 5 }}>
+      <Stack sx={{ mt: 4 }}>
+        <FormControl>
           <TextField
             inputRef={userRef}
             id="username"
             label="Username"
             variant="outlined"
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.toLowerCase())}
             value={username}
             helperText={
-              usernameValid ? " " : "4-15 characters & no special symbols"
+              usernameValid ? " " : "4-15 lowercase characters & no symbols"
             }
             color={usernameColor}
             required
@@ -196,7 +199,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
             aira-invalid={usernameValid ? "false" : "true"}
           ></TextField>
         </FormControl>
-        <FormControl sx={{ mt: 5 }}>
+        <FormControl>
           <TextField
             id="password"
             label="Password"
@@ -205,18 +208,14 @@ const CreateAccount = ({ setShowCreateAccount }) => {
             type="password"
             autoComplete="off"
             value={password}
-            helperText={
-              passwordValid
-                ? " "
-                : "8-18 characters 1 lowercase 1 uppercase 1 number"
-            }
+            helperText={passwordValid ? " " : "8-18 characters 1 number"}
             color={passwordColor}
             required
             onKeyDown={handleKeyDown}
             aria-invalid={passwordValid ? "false" : "true"}
           ></TextField>
         </FormControl>
-        <FormControl sx={{ mt: 5 }}>
+        <FormControl>
           <TextField
             id="confirmPassword"
             label="Confirm Password"
@@ -230,7 +229,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
                 ? "Passwords must match"
                 : confirmPasswordValid
                 ? " "
-                : "8-18 characters 1 lowercase 1 uppercase 1 number"
+                : "8-18 characters 1 number"
             }
             color={confirmPasswordColor}
             required
@@ -238,7 +237,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
             aria-invalid={confirmPasswordValid ? "false" : "true"}
           ></TextField>
         </FormControl>
-        <FormControl sx={{ mt: 5 }}>
+        <FormControl>
           <Button
             disabled={validForm ? false : true}
             variant="btn"

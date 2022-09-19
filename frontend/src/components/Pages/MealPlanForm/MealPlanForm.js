@@ -6,6 +6,7 @@ import {
   Typography,
   CircularProgress,
   Button,
+  Box,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -25,19 +26,28 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 
 const modalStyles = {
+  overflow: "hidden",
+  alignItems: "center",
+  height: "100%",
+  width: "100%",
+};
+
+const modalParentHideScroll = {
+  border: "2px solid #000",
+  borderRadius: "20px",
+  boxShadow: 24,
+  p: 4,
+  height: "100%",
+  width: "85vw",
+  minWidth: "300px",
+  maxWidth: "1200px",
+  maxHeight: "90vh",
+  transform: "translate(-50%, -50%)",
   position: "absolute",
   top: "50%",
   left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: "300px",
-  width: "100%",
-  maxWidth: "90vw",
-  maxHeight: "90vh",
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  overflow: "scroll",
-  p: 4,
+  backgroundColor: "#fff",
+  overflow: "hidden",
 };
 
 const styledInput = {
@@ -228,9 +238,11 @@ const MealPlanForm = ({ isEdit }) => {
         aria-describedby="modal-modal-description"
         keepMounted
       >
-        <Stack sx={modalStyles}>
-          <RecipesList />
-        </Stack>
+        <Box sx={modalParentHideScroll}>
+          <Stack sx={modalStyles}>
+            <RecipesList />
+          </Stack>
+        </Box>
       </Modal>
     </>
   );

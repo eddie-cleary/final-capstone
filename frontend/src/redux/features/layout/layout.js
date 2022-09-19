@@ -1,22 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isMobile: true,
+  isXs: false,
+  isMd: false,
+  isLg: false,
 };
 
 export const layoutSlice = createSlice({
   name: "layout",
   initialState,
   reducers: {
-    setIsMobile: (state, action) => {
+    setIsXs: (state, action) => {
       return {
         ...state,
-        isMobile: action.payload,
+        isXs: action.payload,
+      };
+    },
+    setIsMd: (state, action) => {
+      return {
+        ...state,
+        isMd: action.payload,
+      };
+    },
+    setIsLg: (state, action) => {
+      return {
+        ...state,
+        isLg: action.payload,
       };
     },
   },
 });
 
-export const { setIsMobile } = layoutSlice.actions;
+export const { setIsXs, setIsMd, setIsLg } = layoutSlice.actions;
 
 export default layoutSlice.reducer;

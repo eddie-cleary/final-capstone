@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Stack, List } from "@mui/material";
+import { Stack, Box, Typography } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import RecipeCardAddToMeal from "./RecipeCardAddToMeal";
+import CategoryTabSelect from "../../../shared/CategoryTabSelect";
+import { setAllRecipes } from "../../../../redux/features/recipes/recipesDataSlice";
 import {
   setErrorMsg,
   setShowError,
@@ -10,12 +11,8 @@ import {
 
 const RecipesList = () => {
   const token = useSelector((state) => state.auth.token);
-  const [recipes, setRecipes] = useState();
+  const [recipesToDisplay, setRecipesToDisplay] = useState([]);
   const dispatch = useDispatch();
-
-  const recipeComponents = recipes?.map((recipe, idx) => (
-    <RecipeCardAddToMeal key={idx} recipe={recipe} />
-  ));
 
   useEffect(() => {
     axios
@@ -24,7 +21,7 @@ const RecipesList = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => setRecipes(res.data))
+      .then((res) => dispatch(setAllRecipes(res.data)))
       .catch((err) => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
@@ -32,18 +29,24 @@ const RecipesList = () => {
   }, [dispatch, token]);
 
   return (
-    <Stack>
-      <List
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          flexWrap: "wrap",
-          gap: "20px",
-        }}
-      >
-        {recipeComponents}
-      </List>
-    </Stack>
+    <>
+      <Typography variant="h4">Add a Meal Recipe</Typography>
+      <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+        <CategoryTabSelect
+          isMealRecipes={true}
+          setRecipesToDisplay={setRecipesToDisplay}
+        />
+      </Box>
+      <Box sx={{ mt: 3 }}>
+        <Stack
+          sx={{ justifyContent: "space-evenly" }}
+          direction="row"
+          flexWrap="wrap"
+        >
+          {recipesToDisplay}
+        </Stack>
+      </Box>
+    </>
   );
 };
 

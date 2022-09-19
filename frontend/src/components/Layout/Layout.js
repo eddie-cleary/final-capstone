@@ -9,11 +9,15 @@ import {
   setShowError,
   setShowSuccess,
 } from "../../redux/features/forms/errors/errorsSlice";
-import { setIsMobile } from "../../redux/features/layout/layout";
+import { setIsXs, setIsMd, setIsLg } from "../../redux/features/layout/layout";
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
-  const matches = useMediaQuery("(min-width: 900px)");
+  const matchesXs = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const matchesMd = useMediaQuery((theme) =>
+    theme.breakpoints.between("sm", "md")
+  );
+  const matchesLg = useMediaQuery((theme) => theme.breakpoints.up("md"));
   const dispatch = useDispatch();
   const isMobile = useSelector((state) => state.layout.isMobile);
 
@@ -58,15 +62,23 @@ const Layout = ({ children }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(setIsMobile(!matches));
-  }, [matches, dispatch]);
+    dispatch(setIsXs(matchesXs));
+  }, [matchesXs, dispatch]);
+
+  useEffect(() => {
+    dispatch(setIsMd(matchesMd));
+  }, [matchesMd, dispatch]);
+
+  useEffect(() => {
+    dispatch(setIsLg(matchesLg));
+  }, [matchesLg, dispatch]);
 
   return (
     <>
       <Box sx={gridStyles}>
-        {!matches && (
+        {matchesXs && (
           <Box component="header" sx={header}>
-            <Header open={open} setOpen={setOpen} matches={matches} />
+            <Header open={open} setOpen={setOpen} matches={matchesXs} />
           </Box>
         )}
         <Box component="aside" sx={aside}>

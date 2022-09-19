@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 
 const Footer = () => {
   const theme = useTheme();
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isLg = useSelector((state) => state.layout.isLg);
 
   const footer = (theme) => ({
     backgroundColor: theme.palette.warning.main,
     width: "100%",
     padding: "15px",
     height: "100%",
-    pl: isMobile ? "" : "320px",
+    pl: !isLg ? "" : "320px",
   });
 
   return (

@@ -29,8 +29,8 @@ const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
       >
         <Typography sx={{ mr: 1 }}>{recipe.servings}</Typography>
         <Typography sx={{ width: "calc(100% - 35px)", overflow: "hidden" }}>
-          {recipe.name.length > 10
-            ? recipe.name.substring(0, 10) + "..."
+          {recipe.name.length > 16
+            ? recipe.name.substring(0, 16) + "..."
             : recipe.name}
         </Typography>
       </Stack>

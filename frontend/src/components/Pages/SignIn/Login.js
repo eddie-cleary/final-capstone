@@ -73,7 +73,7 @@ const Login = ({ setShowCreateAccount }) => {
   return (
     <>
       <Box sx={{ width: "min-content" }}>
-        <Typography sx={{ fontSize: md ? 50 : 60 }} variant="h3" element="h1">
+        <Typography sx={{ fontSize: md ? 40 : 50 }} variant="h3" element="h1">
           Login
         </Typography>
         <Divider

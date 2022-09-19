@@ -8,8 +8,13 @@ import {
   setErrorMsg,
   setShowError,
 } from "../../redux/features/forms/errors/errorsSlice";
+import RecipeCardAddToMeal from "../Pages/MealPlanForm/RecipeChoices/RecipeCardAddToMeal";
 
-const CategoryTabSelect = ({ setRecipesToDisplay, isMyRecipes }) => {
+const CategoryTabSelect = ({
+  setRecipesToDisplay,
+  isMyRecipes,
+  isMealRecipes,
+}) => {
   const token = useSelector((state) => state.auth.token);
   const allRecipes = useSelector((state) => state.recipes.allRecipes);
   const [tabValue, setTabValue] = useState(0);
@@ -90,6 +95,10 @@ const CategoryTabSelect = ({ setRecipesToDisplay, isMyRecipes }) => {
       recipesToDisplay = filteredRecipes?.map((recipe) => {
         return <MyRecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
       });
+    } else if (isMealRecipes) {
+      recipesToDisplay = filteredRecipes?.map((recipe, idx) => {
+        return <RecipeCardAddToMeal key={idx} recipe={recipe} />;
+      });
     } else {
       recipesToDisplay = filteredRecipes?.map((recipe) => {
         return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
@@ -97,7 +106,13 @@ const CategoryTabSelect = ({ setRecipesToDisplay, isMyRecipes }) => {
     }
 
     setRecipesToDisplay(recipesToDisplay);
-  }, [allRecipes, categoryFilter, isMyRecipes, setRecipesToDisplay]);
+  }, [
+    allRecipes,
+    categoryFilter,
+    isMyRecipes,
+    isMealRecipes,
+    setRecipesToDisplay,
+  ]);
 
   const handleChange = (e, newValue) => {
     setTabValue(newValue);

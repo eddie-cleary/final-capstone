@@ -3,13 +3,17 @@ import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const PageTitle = ({ title }) => {
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
 
   return (
     <Typography
       variant="pageTitle"
       element="h1"
-      sx={{ textAlign: "center", mb: 4, mt: isMobile ? 2 : 0 }}
+      sx={{
+        textAlign: "center",
+        mb: 4,
+        mt: isXs ? 2 : 0,
+      }}
     >
       {title}
     </Typography>
