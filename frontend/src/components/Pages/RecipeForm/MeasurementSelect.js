@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { MenuItem, Stack, InputLabel, Select } from "@mui/material";
+import {
+  MenuItem,
+  Stack,
+  InputLabel,
+  Select,
+  useMediaQuery,
+} from "@mui/material";
 import { fractionOptions } from "../../../shared/quantityOptions";
 import { useSelector } from "react-redux";
 import {
@@ -19,6 +25,8 @@ const MeasurementSelect = () => {
     (state) => state.addRecipeIngredient.measurement
   );
   const dispatch = useDispatch();
+
+  const matches = useMediaQuery("(max-width: 1080px)");
 
   const measurementOptions = ingredient.liquid
     ? [
@@ -67,8 +75,8 @@ const MeasurementSelect = () => {
   });
 
   return (
-    <Stack direction="row" sx={{ gap: "10px" }}>
-      <Stack>
+    <Stack direction="row" sx={{ gap: "10px", flexGrow: matches ? "1" : "" }}>
+      <Stack sx={{ flexBasis: "initial", flexGrow: "1" }}>
         <InputLabel id="number">Number</InputLabel>
         <Select
           labelId="number"
@@ -82,7 +90,7 @@ const MeasurementSelect = () => {
           {numberSelectors}
         </Select>
       </Stack>
-      <Stack>
+      <Stack sx={{ flexBasis: "initial", flexGrow: matches ? "1" : "" }}>
         <InputLabel id="fraction">Fraction</InputLabel>
         <Select
           labelId="fraction"
@@ -96,7 +104,11 @@ const MeasurementSelect = () => {
           {fractionSelectors}
         </Select>
       </Stack>
-      <Stack>
+      <Stack
+        sx={{
+          flexGrow: matches ? "5" : "",
+        }}
+      >
         <InputLabel id="measurement">Measurement</InputLabel>
         <Select
           labelId="measurement"

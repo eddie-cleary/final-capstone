@@ -1,20 +1,23 @@
 import { Box, useTheme } from "@mui/material";
 import React from "react";
 import { Typography } from "@mui/material";
-
-const footer = (theme) => ({
-  backgroundColor: theme.palette.warning.main,
-  width: "100%",
-  padding: "15px",
-  height: "100%",
-});
+import { useSelector } from "react-redux";
 
 const Footer = () => {
   const theme = useTheme();
+  const isMobile = useSelector((state) => state.layout.isMobile);
+
+  const footer = (theme) => ({
+    backgroundColor: theme.palette.warning.main,
+    width: "100%",
+    padding: "15px",
+    height: "100%",
+    pl: isMobile ? "" : "280px",
+  });
 
   return (
     <Box sx={footer}>
-      <Box sx={{ maxWidth: "2560px" }}>
+      <Box>
         <Typography
           variant="h4"
           textAlign="center"

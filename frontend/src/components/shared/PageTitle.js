@@ -7,7 +7,7 @@ const PageTitle = ({ title }) => {
 
   return (
     <Typography
-      variant={isMobile ? "h4" : "h3"}
+      variant="pageTitle"
       element="h1"
       sx={{ textAlign: "center", mb: 4, mt: isMobile ? 2 : 0 }}
     >

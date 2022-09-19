@@ -54,6 +54,10 @@ let mealPlannerTheme = createTheme({
       fontWeight: "bold",
       fontSize: 22,
     },
+    pageTitle: {
+      fontSize: 46,
+      fontFamily: ["Lobster", "serif"].join(","),
+    },
   },
 });
 

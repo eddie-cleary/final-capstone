@@ -1,4 +1,10 @@
-import { Autocomplete, TextField, Tooltip, Button } from "@mui/material";
+import {
+  Autocomplete,
+  TextField,
+  Tooltip,
+  Button,
+  useMediaQuery,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
 import MeasurementSelect from "./MeasurementSelect";
@@ -51,6 +57,8 @@ const IngredientSelect = () => {
   );
   const dispatch = useDispatch();
 
+  const matches = useMediaQuery("(max-width: 1080px)");
+
   useEffect(() => {
     axios
       .get(process.env.REACT_APP_BASE_URL + `/ingredient`, {
@@ -98,7 +106,7 @@ const IngredientSelect = () => {
       <Autocomplete
         disablePortal
         id="ingredient-select"
-        sx={{ flexGrow: 1 }}
+        sx={{ flexGrow: 1, flexBasis: matches ? "100%" : "" }}
         loading={isIngredientsLoading}
         includeInputInList={true}
         options={allIngredients}

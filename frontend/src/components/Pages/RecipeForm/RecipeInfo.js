@@ -8,6 +8,7 @@ import {
   OutlinedInput,
   InputAdornment,
   MenuItem,
+  useMediaQuery,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -22,10 +23,26 @@ const RecipeInfo = () => {
   const cookTime = useSelector((state) => state.addRecipeData.cookTime);
   const dispatch = useDispatch();
 
+  const matches = useMediaQuery("(max-width: 499px)");
+
   return (
     <>
-      <Stack direction="row" alignItems="flex-end" sx={{ mt: 4 }}>
-        <Box sx={{ minWidth: 120 }}>
+      <Stack
+        direction="row"
+        alignItems="flex-end"
+        sx={{
+          mt: 4,
+          flexWrap: matches ? "wrap" : "",
+          justifyContent: matches ? "space-between" : "",
+        }}
+      >
+        <Box
+          sx={{
+            minWidth: 120,
+            flexBasis: matches ? "100%" : "",
+            mb: matches ? 2 : 0,
+          }}
+        >
           <FormControl fullWidth>
             <InputLabel id="servings-label">Servings</InputLabel>
             <Select
@@ -43,7 +60,7 @@ const RecipeInfo = () => {
             </Select>
           </FormControl>
         </Box>
-        <Box sx={{ mx: 3 }}>
+        <Box sx={{ mx: matches ? "0" : 3, flexBasis: matches ? "48%" : "" }}>
           <OutlinedInput
             id="prepTime"
             value={prepTime}
@@ -57,7 +74,7 @@ const RecipeInfo = () => {
             endAdornment={<InputAdornment position="end">min</InputAdornment>}
           />
         </Box>
-        <Box>
+        <Box sx={{ flexBasis: matches ? "48%" : "" }}>
           <OutlinedInput
             id="cookTime"
             value={cookTime}

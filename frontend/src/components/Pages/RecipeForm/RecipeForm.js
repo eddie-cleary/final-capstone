@@ -8,6 +8,7 @@ import {
   Checkbox,
   CircularProgress,
   Button,
+  useMediaQuery,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import IngredientSelect from "./IngredientSelect";
@@ -68,6 +69,8 @@ const RecipeForm = ({ isEdit }) => {
   const postObject = useSelector((state) => state.addRecipeData);
   const dispatch = useDispatch();
   const isMobile = useSelector((state) => state.layout.isMobile);
+
+  const matches = useMediaQuery("(max-width: 1080px)");
 
   const postToServer = useCallback(() => {
     axios
@@ -282,13 +285,15 @@ const RecipeForm = ({ isEdit }) => {
               </Stack>
               <CategorySelect />
               <Box sx={{ mt: 3 }}>
-                <Typography sx={{ mb: -3 }}>Ingredients</Typography>
+                <Typography sx={{ mb: matches ? 0 : -3 }}>
+                  Ingredients
+                </Typography>
                 <ChosenIngredientsList />
                 <Stack
                   direction="row"
                   alignItems="flex-end"
                   justifyContent="space-evenly"
-                  sx={{ mt: 2, gap: "10px" }}
+                  sx={{ mt: 2, gap: "10px", flexWrap: matches ? "wrap" : "" }}
                 >
                   <IngredientSelect />
                 </Stack>
