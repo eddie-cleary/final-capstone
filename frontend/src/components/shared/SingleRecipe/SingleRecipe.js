@@ -199,7 +199,7 @@ const SingleRecipe = ({ recipe }) => {
           alt={`Picture of ${recipe?.title}`}
         ></Box>
         <Typography
-          sx={{ mt: 1 }}
+          sx={{ mt: 1, fontSize: 19 }}
         >{`Shared by ${recipe?.creatorUsername}`}</Typography>
         <Stack
           direction="row"

@@ -120,6 +120,7 @@ const CategoryTabSelect = ({
     isMyRecipes,
     isMealRecipes,
     setRecipesToDisplay,
+    refreshParent,
   ]);
 
   const handleChange = (e, newValue) => {
