@@ -140,7 +140,7 @@ const SingleRecipe = ({ recipe }) => {
   const recipeCookTime = recipe?.cookTime;
   const [currentServings, setCurrentServings] = useState(1);
 
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
 
   useEffect(() => {
     setCurrentServings(recipe?.servings);
@@ -181,7 +181,7 @@ const SingleRecipe = ({ recipe }) => {
             mt: 8,
             gap: "5vw",
             flexWrap: "wrap",
-            justifyContent: isMobile ? "space-around" : "center",
+            justifyContent: isXs ? "space-around" : "center",
           }}
           justifyContent="center"
           direction="row"
@@ -229,7 +229,7 @@ const SingleRecipe = ({ recipe }) => {
         >
           <Box>
             <Typography
-              sx={{ textAlign: isMobile ? "center" : "left" }}
+              sx={{ textAlign: isXs ? "center" : "left" }}
               variant="h5"
             >
               Ingredients
@@ -252,7 +252,7 @@ const SingleRecipe = ({ recipe }) => {
         <Stack sx={{ mt: 5 }} direction="column">
           <Box>
             <Typography
-              sx={{ textAlign: isMobile ? "center" : "left" }}
+              sx={{ textAlign: isXs ? "center" : "left" }}
               variant="h5"
             >
               Steps

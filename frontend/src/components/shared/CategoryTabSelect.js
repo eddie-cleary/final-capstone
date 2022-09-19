@@ -123,11 +123,11 @@ const CategoryTabSelect = ({
     <Box
       sx={{
         maxWidth: {
-          xs: "380px",
-          sm: "500px",
-          md: "500px",
+          xs: "410px",
+          sm: "600px",
+          md: "800px",
           lg: "700px",
-          xl: "900px",
+          xl: "1000px",
         },
         margin: "0 auto",
       }}

@@ -18,10 +18,10 @@ const Sidebar = () => {
   const isAdmin = roles.some(
     (role) => role.name === "ROLE_ADMIN" || role.name === "ROLE_SUPER_ADMIN"
   );
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
 
   const sidebar = {
-    width: isMobile ? "300px" : "280px",
+    width: isXs ? "300px" : "280px",
     backgroundColor: theme.palette.primary.light,
     height: "100%",
   };
@@ -37,7 +37,7 @@ const Sidebar = () => {
         <Link component={ReactLink} to="/">
           <Box
             component="img"
-            sx={{ maxWidth: isMobile ? "130px" : "170px", width: "100%" }}
+            sx={{ maxWidth: isXs ? "130px" : "170px", width: "100%" }}
             src={circleLogo}
             alt="Meal Planner Logo"
           />

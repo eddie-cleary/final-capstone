@@ -41,10 +41,10 @@ const AllRecipes = () => {
             width: "100%",
 
             maxWidth: {
-              xs: "380px",
+              xs: "410px",
               sm: "600px",
-              md: "700px",
-              lg: "800px",
+              md: "800px",
+              lg: "1000px",
               xl: "1800px",
             },
           }}

@@ -3,12 +3,12 @@ import { Stack } from "@mui/material";
 import { useSelector } from "react-redux";
 
 const PageLayout = ({ children }) => {
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
 
   const pageLayoutStyles = {
     maxWidth: "1900px",
     width: "100%",
-    px: isMobile ? 0 : 5,
+    px: isXs ? 0 : 5,
   };
 
   return (

@@ -17,16 +17,17 @@ const Layout = ({ children }) => {
   const matchesMd = useMediaQuery((theme) =>
     theme.breakpoints.between("sm", "md")
   );
-  const matchesLg = useMediaQuery((theme) => theme.breakpoints.up("md"));
+  const matchesLg = useMediaQuery((theme) => theme.breakpoints.up("lg"));
   const dispatch = useDispatch();
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
+  const isLg = useSelector((state) => state.layout.isLg);
 
   const gridStyles = (theme) => ({
     display: "grid",
     gridTemplateColumns: "330px 1fr",
     gridTemplateRows: "1fr min-content",
     gridTemplateAreas: `"aside main" "footer footer"`,
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       gridTemplateColumns: "1fr",
       gridTemplateAreas: `"header" "main" "footer"`,
       gridTemplateRows: "min-content 1fr",
@@ -37,20 +38,18 @@ const Layout = ({ children }) => {
 
   const header = {
     gridArea: "header",
-    p: isMobile ? 1 : 3,
+    p: isXs ? 1 : 3,
   };
 
   const aside = (theme) => ({
     gridArea: "aside",
-    [theme.breakpoints.down("md")]: {
-      display: "none",
-    },
+    display: !isLg ? "none" : "",
   });
 
   const main = {
     gridArea: "main",
-    padding: isMobile ? "0" : "20px",
-    paddingTop: isMobile ? "0" : "50px",
+    padding: !isLg ? "0" : "20px",
+    paddingTop: !isLg ? "0" : "50px",
     overflow: "auto",
   };
 
@@ -78,7 +77,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Box sx={gridStyles}>
-        {matchesXs && (
+        {!isLg && (
           <Box component="header" sx={header}>
             <Header open={open} setOpen={setOpen} matches={matchesXs} />
           </Box>

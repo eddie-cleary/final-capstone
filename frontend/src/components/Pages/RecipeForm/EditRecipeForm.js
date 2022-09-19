@@ -66,7 +66,7 @@ const EditRecipeForm = () => {
   const isStepsValid = useSelector((state) => state.addRecipeForm.isStepsValid);
   const postObject = useSelector((state) => state.addRecipeData);
   const dispatch = useDispatch();
-  const isMobile = useSelector((state) => state.layout.isMobile);
+  const isXs = useSelector((state) => state.layout.isXs);
   const [isImageUploading, setIsImageUploading] = useState(false);
 
   const matches = useMediaQuery("(max-width: 1080px)");
@@ -198,7 +198,7 @@ const EditRecipeForm = () => {
     <PageLayout>
       <form>
         <Stack mb={5} alignItems="center">
-          <Stack sx={{ maxWidth: isMobile ? "95%" : "700px" }}>
+          <Stack sx={{ maxWidth: isXs ? "95%" : "700px" }}>
             <PageTitle title={"Edit Recipe"} />
             <Box sx={{ transform: "scale(0.85)", mt: -13 }}>
               <Stack sx={{ mt: 3 }}>

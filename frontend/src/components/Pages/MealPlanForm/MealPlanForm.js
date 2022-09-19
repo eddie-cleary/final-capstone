@@ -26,10 +26,10 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 
 const modalStyles = {
-  overflow: "hidden",
   alignItems: "center",
   height: "100%",
   width: "100%",
+  overflow: "auto",
 };
 
 const modalParentHideScroll = {

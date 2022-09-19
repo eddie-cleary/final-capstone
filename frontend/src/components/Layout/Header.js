@@ -3,12 +3,15 @@ import { Stack, Button, Link, Box } from "@mui/material";
 import { Menu } from "@mui/icons-material";
 import { Link as ReactLink } from "react-router-dom";
 import squareLogo from "../../assets/logo-square.svg";
+import { useSelector } from "react-redux";
 
 const header = (theme) => ({
   width: "100%",
 });
 
-const Header = ({ setOpen, open, matches }) => {
+const Header = ({ setOpen, open }) => {
+  const isLg = useSelector((state) => state.layout.isLg);
+
   return (
     <Stack
       direction="row"
@@ -22,7 +25,7 @@ const Header = ({ setOpen, open, matches }) => {
 
       <Button
         sx={{
-          ...(matches && { display: "none" }),
+          ...(isLg && { display: "none" }),
         }}
         onClick={() => setOpen(!open)}
       >
