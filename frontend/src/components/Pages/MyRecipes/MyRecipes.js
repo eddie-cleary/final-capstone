@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useCallback } from "react";
 import Layout from "../../Layout/Layout";
-import { Stack } from "@mui/material";
+import { Stack, Box, List } from "@mui/material";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import MyRecipeCard from "../../shared/MyRecipeCard";
+import CategoryTabSelect from "../../shared/CategoryTabSelect";
 import {
   setShowError,
   setErrorMsg,
 } from "../../../redux/features/forms/errors/errorsSlice";
 import PageTitle from "../../shared/PageTitle";
 import PageLayout from "../../shared/PageLayout";
+import { setAllRecipes } from "../../../redux/features/recipes/recipesDataSlice";
 
 const MyRecipes = () => {
-  const [recipes, setRecipes] = useState([]);
+  const [recipesToDisplay, setRecipesToDisplay] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
 
@@ -24,7 +26,7 @@ const MyRecipes = () => {
         },
       })
       .then((res) => {
-        setRecipes(res.data);
+        dispatch(setAllRecipes(res.data));
       })
       .catch((err) => {
         dispatch(setErrorMsg(err.message));
@@ -36,21 +38,39 @@ const MyRecipes = () => {
     loadRecipes();
   }, [dispatch, token, loadRecipes]);
 
-  const recipesList = recipes.map((recipe) => {
-    return (
-      <MyRecipeCard
-        key={recipe.id}
-        recipe={recipe}
-        refreshParent={loadRecipes}
-      />
-    );
-  });
-
   return (
     <Layout>
       <PageLayout>
-        <PageTitle title="My Recipes" />
-        <Stack direction="row">{recipesList}</Stack>
+        <Stack
+          sx={{
+            width: "100%",
+
+            maxWidth: {
+              xs: "380px",
+              sm: "600px",
+              md: "700px",
+              lg: "800px",
+              xl: "1800px",
+            },
+          }}
+        >
+          <PageTitle title="My Recipes" />
+          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+            <CategoryTabSelect
+              isMyRecipes={true}
+              setRecipesToDisplay={setRecipesToDisplay}
+            />
+          </Box>
+          <List>
+            <Stack
+              sx={{ mt: 5, justifyContent: "space-evenly" }}
+              direction="row"
+              flexWrap="wrap"
+            >
+              {recipesToDisplay}
+            </Stack>
+          </List>
+        </Stack>
       </PageLayout>
     </Layout>
   );

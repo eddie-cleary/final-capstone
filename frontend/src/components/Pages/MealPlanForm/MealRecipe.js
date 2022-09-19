@@ -7,8 +7,6 @@ import { removeRecipeFromMeal } from "../../../redux/features/forms/mealplan/mea
 const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
   const dispatch = useDispatch();
 
-  console.log("recipe is ", recipe);
-
   return (
     <Stack direction="row" alignItems="center" sx={{ mt: 2, width: "100%" }}>
       <Button
@@ -31,7 +29,9 @@ const MealRecipe = ({ recipe, dayIndex, mealIndex, recipeIndex }) => {
       >
         <Typography sx={{ mr: 1 }}>{recipe.servings}</Typography>
         <Typography sx={{ width: "calc(100% - 35px)", overflow: "hidden" }}>
-          {recipe.name}
+          {recipe.name.length > 10
+            ? recipe.name.substring(0, 10) + "..."
+            : recipe.name}
         </Typography>
       </Stack>
     </Stack>

@@ -28,25 +28,26 @@ import PageLayout from "../../shared/PageLayout";
 import PageTitle from "../../shared/PageTitle";
 
 const modalStyles = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  minWidth: "300px",
-  maxWidth: "1200px",
-  maxHeight: "90vh",
-  height: "100%",
-  width: "85vw",
-  backgroundColor: "#fff",
+  overflow: "auto",
+  alignItems: "center",
+};
+
+const modalParentHideScroll = {
   border: "2px solid #000",
   borderRadius: "20px",
   boxShadow: 24,
   p: 4,
-  overflow: "scroll",
-  alignItems: "center",
-  "&::-webkit-scrollbar": {
-    display: "none",
-  },
+  height: "100%",
+  width: "85vw",
+  minWidth: "300px",
+  maxWidth: "1200px",
+  maxHeight: "90vh",
+  transform: "translate(-50%, -50%)",
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  backgroundColor: "#fff",
+  overflow: "hidden",
 };
 
 const modalStyle = {
@@ -58,9 +59,10 @@ const modalStyle = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
+  backgroundColor: "#fff",
   p: 4,
-  backgroundColor: "white",
-  padding: "15px",
+  borderRadius: 3,
+  overflow: "hidden",
 };
 
 const ViewMealPlan = () => {
@@ -149,7 +151,9 @@ const ViewMealPlan = () => {
           onClick={() => setCurrentRecipe(mealRecipe.recipe)}
           sx={{ color: theme.palette.primary.dark }}
         >
-          {mealRecipe.recipe.name}
+          {mealRecipe.recipe.name.length > 15
+            ? mealRecipe.recipe.name.substring(0, 15) + "..."
+            : mealRecipe.recipe.name}
         </Button>
       </ListItem>
     );
@@ -159,7 +163,12 @@ const ViewMealPlan = () => {
     return (
       <ListItem>
         <Stack>
-          <Typography variant="h6">{meal.title}</Typography>
+          <Typography variant="h6">
+            {" "}
+            {meal.title.length > 12
+              ? meal.title.substring(0, 12) + "..."
+              : meal.title}
+          </Typography>
           <List>
             {meal.mealRecipes.map((mealRecipe, index) => {
               return <MealRecipe key={index} mealRecipe={mealRecipe} />;
@@ -246,22 +255,22 @@ const ViewMealPlan = () => {
           aria-labelledby="modal-register"
           aria-describedby="modal-register"
         >
-          <Box style={modalStyle}>
+          <Box sx={modalStyle}>
             <form>
               <Stack alignItems="center">
                 <Typography
                   sx={{ textAlign: "center" }}
-                >{`Are you sure you want to delete mealplan: ${mealPlan?.title}?`}</Typography>
+                >{`Are you sure you want to delete mealplan: "${mealPlan?.title}" ?`}</Typography>
                 <Stack direction="row" sx={{ mt: 2 }}>
                   <Button
-                    variant="contained"
+                    variant="btn"
                     onClick={() => setShowDeleteModal(false)}
                   >
                     Cancel
                   </Button>
                   <Button
                     sx={{ ml: 2 }}
-                    variant="contained"
+                    variant="btn-warning"
                     onClick={deleteMealPlan}
                     color="warning"
                   >
@@ -280,16 +289,11 @@ const ViewMealPlan = () => {
           aria-labelledby="modal-shoppinglist"
           aria-describedby="modal-shoppinglist"
         >
-          <Stack
-            sx={{
-              "&::-webkit-scrollbar": {
-                display: "none",
-              },
-            }}
-            style={modalStyles}
-          >
-            <ShoppingList mealplan={mealPlan} />
-          </Stack>
+          <Box style={modalParentHideScroll}>
+            <Stack style={modalStyles}>
+              <ShoppingList mealplan={mealPlan} />
+            </Stack>
+          </Box>
         </Modal>
       </PageLayout>
     </Layout>

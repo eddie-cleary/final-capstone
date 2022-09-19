@@ -34,9 +34,10 @@ const modalStyle = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
   backgroundColor: "#fff",
-  padding: "15px",
+  p: 4,
+  borderRadius: 3,
+  overflow: "hidden",
 };
 export default function MyRecipeCard({ recipe, refreshParent }) {
   const token = useSelector((state) => state.auth.token);
@@ -151,22 +152,19 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
         aria-labelledby="modal-register"
         aria-describedby="modal-register"
       >
-        <Box style={modalStyle}>
+        <Box sx={modalStyle}>
           <form>
             <Stack alignItems="center">
               <Typography
                 sx={{ textAlign: "center" }}
-              >{`Are you sure you want to delete ${recipe.name}?`}</Typography>
-              <Stack direction="row" sx={{ mt: 2 }}>
-                <Button
-                  variant="contained"
-                  onClick={() => setShowDeleteModal(false)}
-                >
+              >{`Are you sure you want to delete "${recipe.name}?"`}</Typography>
+              <Stack direction="row" sx={{ mt: 4 }}>
+                <Button variant="btn" onClick={() => setShowDeleteModal(false)}>
                   Cancel
                 </Button>
                 <Button
                   sx={{ ml: 2 }}
-                  variant="contained"
+                  variant="btn-warning"
                   onClick={handlePostDelete}
                   color="warning"
                 >

@@ -43,13 +43,13 @@ const EditMealPlan = () => {
 
   useEffect(() => {
     if (isMealPlanLoaded) {
-      if (mealPlan.creatorId === currUserId) {
+      if (mealPlan?.creatorId === currUserId) {
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);
       }
     }
-  }, [isMealPlanLoaded, currUserId, mealPlan.creatorId]);
+  }, [isMealPlanLoaded, currUserId, mealPlan?.creatorId]);
 
   return (
     <Layout>

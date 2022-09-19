@@ -3,7 +3,7 @@ import Layout from "../../Layout/Layout";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { Stack, List, Box } from "@mui/material";
-import CategoryTabSelect from "./CategoryTabSelect";
+import CategoryTabSelect from "../../shared/CategoryTabSelect";
 import {
   setErrorMsg,
   setShowError,
@@ -39,12 +39,13 @@ const AllRecipes = () => {
         <Stack
           sx={{
             width: "100%",
+
             maxWidth: {
               xs: "380px",
               sm: "600px",
               md: "700px",
               lg: "800px",
-              xl: "1000px",
+              xl: "1800px",
             },
           }}
         >
@@ -53,7 +54,11 @@ const AllRecipes = () => {
             <CategoryTabSelect setRecipesToDisplay={setRecipesToDisplay} />
           </Box>
           <List>
-            <Stack sx={{ mt: 8 }} direction="row" flexWrap="wrap">
+            <Stack
+              sx={{ mt: 5, justifyContent: "space-evenly" }}
+              direction="row"
+              flexWrap="wrap"
+            >
               {recipesToDisplay}
             </Stack>
           </List>

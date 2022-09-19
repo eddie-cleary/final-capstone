@@ -12,6 +12,7 @@ import {
   setTitle,
   closeRecipesModal,
   resetState,
+  setMealPlanFormData,
 } from "../../../redux/features/forms/mealplan/mealPlanDataSlice";
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
@@ -128,7 +129,6 @@ const MealPlanForm = ({ isEdit }) => {
   };
 
   const postMealPlan = () => {
-    console.log("the post object is ", postObject);
     axios
       .post(process.env.REACT_APP_BASE_URL + `/mealplans`, postObject, {
         headers: {
@@ -161,10 +161,12 @@ const MealPlanForm = ({ isEdit }) => {
         }
       )
       .then((res) => {
-        setSuccessMsg("Meal plan updated!");
-        setShowSuccess(true);
+        dispatch(setMealPlanFormData(res.data));
+        dispatch(setSuccessMsg("Meal plan updated!"));
+        dispatch(setShowSuccess(true));
       })
       .catch((err) => {
+        console.log(err);
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       })

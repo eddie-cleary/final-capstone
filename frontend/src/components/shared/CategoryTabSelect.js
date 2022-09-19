@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Tabs, Tab, Box } from "@mui/material";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import RecipeCard from "../../shared/RecipeCard";
+import RecipeCard from "./RecipeCard";
+import MyRecipeCard from "./MyRecipeCard";
 import {
   setErrorMsg,
   setShowError,
-} from "../../../redux/features/forms/errors/errorsSlice";
+} from "../../redux/features/forms/errors/errorsSlice";
 
-const CategoryTabSelect = ({ setRecipesToDisplay }) => {
+const CategoryTabSelect = ({ setRecipesToDisplay, isMyRecipes }) => {
   const token = useSelector((state) => state.auth.token);
   const allRecipes = useSelector((state) => state.recipes.allRecipes);
   const [tabValue, setTabValue] = useState(0);
@@ -83,9 +84,17 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
       return "";
     });
 
-    const recipesToDisplay = filteredRecipes?.map((recipe) => {
-      return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
-    });
+    let recipesToDisplay;
+
+    if (isMyRecipes) {
+      recipesToDisplay = filteredRecipes?.map((recipe) => {
+        return <MyRecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
+      });
+    } else {
+      recipesToDisplay = filteredRecipes?.map((recipe) => {
+        return <RecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
+      });
+    }
 
     setRecipesToDisplay(recipesToDisplay);
   }, [categoryFilter, allCategories, setRecipesToDisplay, allRecipes]);
