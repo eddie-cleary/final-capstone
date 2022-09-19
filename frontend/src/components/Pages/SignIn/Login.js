@@ -90,7 +90,13 @@ const Login = ({ setShowCreateAccount }) => {
             id="username"
             label="Username"
             variant="outlined"
-            onChange={handleInputChange}
+            value={loginForm.username}
+            onChange={(e) =>
+              setLoginForm({
+                ...loginForm,
+                [e.target.name]: e.target.value.toLowerCase(),
+              })
+            }
             autoComplete="off"
             name="username"
           ></TextField>
