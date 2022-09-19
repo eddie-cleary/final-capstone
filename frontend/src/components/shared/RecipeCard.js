@@ -1,14 +1,4 @@
-import {
-  Card,
-  CardMedia,
-  CardActions,
-  Link,
-  Typography,
-  useTheme,
-  Stack,
-  CardContent,
-  Box,
-} from "@mui/material";
+import { Link, Typography, useTheme, Stack, Box } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import LikeRecipeButton from "../shared/LikeRecipeButton";
 

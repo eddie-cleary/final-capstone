@@ -1,8 +1,4 @@
 import {
-  Card,
-  CardMedia,
-  CardActions,
-  CardContent,
   Link,
   Button,
   Modal,

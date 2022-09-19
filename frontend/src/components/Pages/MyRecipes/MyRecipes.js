@@ -3,7 +3,6 @@ import Layout from "../../Layout/Layout";
 import { Stack, Box, List } from "@mui/material";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
-import MyRecipeCard from "../../shared/MyRecipeCard";
 import CategoryTabSelect from "../../shared/CategoryTabSelect";
 import {
   setShowError,
