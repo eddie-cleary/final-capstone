@@ -19,7 +19,7 @@ import {
 import PageTitle from "../../shared/PageTitle";
 import PageLayout from "../../shared/PageLayout";
 
-const AddIngredient = () => {
+const AddCategory = () => {
   const [name, setName] = useState("");
   const [isLoading, setIsLoading] = useState();
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ const AddIngredient = () => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Category Added!"));
+        dispatch(setSuccessMsg(`Added category ${name}!`));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
@@ -86,4 +86,4 @@ const AddIngredient = () => {
   );
 };
 
-export default AddIngredient;
+export default AddCategory;

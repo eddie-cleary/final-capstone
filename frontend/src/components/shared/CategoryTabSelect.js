@@ -14,6 +14,7 @@ const CategoryTabSelect = ({
   setRecipesToDisplay,
   isMyRecipes,
   isMealRecipes,
+  refreshParent,
 }) => {
   const token = useSelector((state) => state.auth.token);
   const allRecipes = useSelector((state) => state.recipes.allRecipes);
@@ -93,7 +94,14 @@ const CategoryTabSelect = ({
 
     if (isMyRecipes) {
       recipesToDisplay = filteredRecipes?.map((recipe) => {
-        return <MyRecipeCard sx={{ m: 3 }} key={recipe.id} recipe={recipe} />;
+        return (
+          <MyRecipeCard
+            refreshParent={refreshParent}
+            sx={{ m: 3 }}
+            key={recipe.id}
+            recipe={recipe}
+          />
+        );
       });
     } else if (isMealRecipes) {
       recipesToDisplay = filteredRecipes?.map((recipe, idx) => {

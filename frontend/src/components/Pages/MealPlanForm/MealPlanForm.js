@@ -146,7 +146,7 @@ const MealPlanForm = ({ isEdit }) => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Meal plan saved!"));
+        dispatch(setSuccessMsg("Saved meal plan!"));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
@@ -172,7 +172,7 @@ const MealPlanForm = ({ isEdit }) => {
       )
       .then((res) => {
         dispatch(setMealPlanFormData(res.data));
-        dispatch(setSuccessMsg("Meal plan updated!"));
+        dispatch(setSuccessMsg("Updated meal plan!"));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {

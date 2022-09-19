@@ -32,7 +32,7 @@ const AddIngredientOption = () => {
           },
         })
         .then(() => {
-          dispatch(setSuccessMsg("Ingredient " + data.name + " added!"));
+          dispatch(setSuccessMsg(`Added ingredient ${data.name}!`));
           dispatch(setShowSuccess(true));
         })
         .then(() => {

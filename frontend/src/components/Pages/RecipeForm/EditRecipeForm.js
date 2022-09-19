@@ -83,7 +83,7 @@ const EditRecipeForm = () => {
         }
       )
       .then((res) => {
-        dispatch(setSuccessMsg("Recipe Updated!"));
+        dispatch(setSuccessMsg("Updated recipe!"));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {

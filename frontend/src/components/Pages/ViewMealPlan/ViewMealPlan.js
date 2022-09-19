@@ -132,7 +132,7 @@ const ViewMealPlan = () => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Meal plan deleted!"));
+        dispatch(setSuccessMsg("Deleted meal plan!"));
         dispatch(setShowSuccess(true));
         navigate("/mealplans");
       })

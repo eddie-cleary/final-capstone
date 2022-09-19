@@ -26,6 +26,8 @@ public class ProdSpringConfig {
             roleService.addRole(new Role(null, "ROLE_ADMIN"));
             roleService.addRole(new Role(null, "ROLE_SUPER_ADMIN"));
 
+//            appUserService.addRoleToAppUser("edward", "ROLE_SUPER_ADMIN");
+
         };
     }
 }

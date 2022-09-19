@@ -41,7 +41,7 @@ const AddIngredient = () => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Ingredient Added!"));
+        dispatch(setSuccessMsg(`Added ingredient ${name}!`));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {

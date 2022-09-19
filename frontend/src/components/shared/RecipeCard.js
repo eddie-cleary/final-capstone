@@ -1,6 +1,7 @@
 import { Link, Typography, useTheme, Stack, Box } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import LikeRecipeButton from "../shared/LikeRecipeButton";
+import ShareButton from "./ShareButton";
 
 export default function RecipeCard({ recipe }) {
   const theme = useTheme();
@@ -22,7 +23,7 @@ export default function RecipeCard({ recipe }) {
         component={ReactLink}
         to={`/recipes/${recipe.id}`}
       >
-        <Stack sx={{ height: "100%" }}>
+        <Stack sx={{ height: "100%", maxHeight: "100%", mt: "-7px" }}>
           <Box
             component="img"
             src={
@@ -48,6 +49,9 @@ export default function RecipeCard({ recipe }) {
               </Stack>
               <Box alignSelf="flex-end">
                 <LikeRecipeButton recipe={recipe} />
+                <Box sx={{ ml: "8px" }}>
+                  <ShareButton recipe={recipe} />
+                </Box>
               </Box>
             </Stack>
           </Box>

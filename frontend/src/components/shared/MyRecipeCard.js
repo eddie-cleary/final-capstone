@@ -62,9 +62,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
         },
       })
       .then((res) => {
-        // if response 200
-        // update local state
-        dispatch(setSuccessMsg(`${recipe.name} deleted!`));
+        dispatch(setSuccessMsg(`Deleted ${recipe.name}!`));
         dispatch(setShowSuccess(true));
         refreshParent();
       })
@@ -138,9 +136,6 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
           </Stack>
         </Link>
       </Box>
-
-      {/* </Card>
-      </Link> */}
       <Modal
         open={showDeleteModal}
         keepMounted

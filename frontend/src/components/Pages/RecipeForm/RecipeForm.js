@@ -78,7 +78,7 @@ const RecipeForm = () => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Recipe Added!"));
+        dispatch(setSuccessMsg("Added recipe!"));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {

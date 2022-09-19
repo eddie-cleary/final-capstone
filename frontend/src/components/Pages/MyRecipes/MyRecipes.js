@@ -57,6 +57,7 @@ const MyRecipes = () => {
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <CategoryTabSelect
               isMyRecipes={true}
+              refreshParent={loadRecipes}
               setRecipesToDisplay={setRecipesToDisplay}
             />
           </Box>
