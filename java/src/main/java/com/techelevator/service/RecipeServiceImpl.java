@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -37,6 +38,7 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe newRecipe = new Recipe();
         newRecipe.addRecipePayload(recipePayload);
         newRecipe.setAppUser(recipeCreator);
+        recipeRepo.save(newRecipe);
 
         // Set steps on recipe
         List<Step> newSteps = new ArrayList<>();
@@ -124,6 +126,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
     public RecipeResponse updateRecipe (String username, Long id, RecipePayload recipePayload) throws IllegalAccessException {
         log.info("Updating Recipe for id {}", id);
 
@@ -133,10 +136,11 @@ public class RecipeServiceImpl implements RecipeService {
             Recipe oldRecipe = recipeRepo.findById(id).get();
             oldRecipe.addRecipePayload(recipePayload);
 
-            oldRecipe.getSteps().removeAll(oldRecipe.getSteps());
-
             // Set steps on recipe
+            stepRepo.deleteAll(oldRecipe.getSteps());
+            oldRecipe.getSteps().removeAll(oldRecipe.getSteps());
             List<Step> newSteps = new ArrayList<>();
+            System.out.println("setting new steps");
             for (String step : recipePayload.getSteps()) {
                 Step newStep = Step.builder()
                         .info(step)
@@ -147,6 +151,7 @@ public class RecipeServiceImpl implements RecipeService {
             }
             oldRecipe.setSteps(newSteps);
 
+            recipeIngredientRepo.deleteAll(oldRecipe.getRecipeIngredients());
             oldRecipe.getRecipeIngredients().removeAll(oldRecipe.getRecipeIngredients());
 
             // Set ingredients on recipe
@@ -162,6 +167,8 @@ public class RecipeServiceImpl implements RecipeService {
                 newRecipeIngredients.add(savedRecipeIngredient);
             }
             oldRecipe.setRecipeIngredients(newRecipeIngredients);
+
+//            System.out.println("recipe is " + oldRecipe);
 
             recipeRepo.save(oldRecipe);
 

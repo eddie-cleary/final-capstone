@@ -18,7 +18,7 @@ public class Step {
     private Long id;
     private String info;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "recipe_id", referencedColumnName = "recipe_id")
     @JsonIgnore
     private Recipe recipe;
