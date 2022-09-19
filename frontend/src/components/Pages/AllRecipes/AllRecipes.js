@@ -36,7 +36,18 @@ const AllRecipes = () => {
   return (
     <Layout>
       <PageLayout>
-        <Stack>
+        <Stack
+          sx={{
+            width: "100%",
+            maxWidth: {
+              xs: "380px",
+              sm: "600px",
+              md: "700px",
+              lg: "800px",
+              xl: "1000px",
+            },
+          }}
+        >
           <PageTitle title="All Recipes" />
           <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <CategoryTabSelect setRecipesToDisplay={setRecipesToDisplay} />

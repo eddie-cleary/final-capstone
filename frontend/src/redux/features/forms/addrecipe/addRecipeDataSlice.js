@@ -114,6 +114,7 @@ export const addRecipeDataSlice = createSlice({
     setRecipeFormData: (state, action) => {
       console.log("setting recipe to ", action.payload);
       return {
+        ...state,
         ...action.payload,
       };
     },

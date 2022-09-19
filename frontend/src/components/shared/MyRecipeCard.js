@@ -79,8 +79,8 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
 
   return (
     <>
-      <Card
-        elevation={5}
+      <Box
+        component="article"
         sx={{
           m: 2,
           height: 270,
@@ -88,6 +88,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
           borderRadius: "12px",
           border: `1px solid ${theme.palette.text.main}`,
           p: 0,
+          overflow: "hidden",
         }}
       >
         <Link
@@ -95,69 +96,51 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
           component={ReactLink}
           to={`/recipes/${recipe.id}`}
         >
-          <CardContent sx={{ p: 0 }}>
-            <CardMedia
+          <Stack sx={{ height: "100%" }}>
+            <Box
               component="img"
-              height="170"
-              image={
+              src={
                 recipe.imgId &&
                 `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
               }
               alt={recipe.name}
+              sx={{ height: 150, objectFit: "cover", objectPosition: "center" }}
             />
-          </CardContent>
-        </Link>
-        <CardActions
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            mt: -3.5,
-          }}
-        >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ width: "100%", mt: 2.5 }}
-          >
-            <Stack>
-              <Typography
-                sx={{
-                  ml: 1,
-                  mt: 0,
-                  fontSize: 20,
-                  fontWeight: "bold",
-                  lineHeight: 1.3,
-                }}
+            <Box component="div" sx={{ height: "100%" }}>
+              <Stack
+                direction="row"
+                sx={{ height: "100%", p: 1.5 }}
+                justifyContent="space-between"
               >
-                {recipe.name}
-              </Typography>
-              <Box></Box>
-            </Stack>
-            <CardActions
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                mt: -1.5,
-                ml: -1,
-              }}
-            >
-              <Tooltip title="Edit">
-                <IconButton onClick={handleEdit}>
-                  <Edit color="primary" />
-                </IconButton>
-              </Tooltip>
-              <Tooltip title="Delete">
-                <IconButton onClick={handleDelete}>
-                  <Delete color="warning" />
-                </IconButton>
-              </Tooltip>
-            </CardActions>
+                <Stack justifyContent="space-between" sx={{ width: "100%" }}>
+                  <Typography sx={{ textAlign: "center" }} variant="titleSmall">
+                    {recipe.name.length > 50
+                      ? recipe.name.substring(0, 70) + "..."
+                      : recipe.name}
+                  </Typography>
+                  <Stack
+                    flexDirection="row"
+                    justifyContent="center"
+                    alignSelf="flex-end"
+                    sx={{ width: "100%", mb: -0.5 }}
+                  >
+                    <Tooltip sx={{ mr: 2 }} title="Edit">
+                      <IconButton onClick={handleEdit}>
+                        <Edit fontSize="small" color="primary" />
+                      </IconButton>
+                    </Tooltip>
+                    <Tooltip title="Delete">
+                      <IconButton onClick={handleDelete}>
+                        <Delete fontSize="small" color="warning" />
+                      </IconButton>
+                    </Tooltip>
+                  </Stack>
+                </Stack>
+              </Stack>
+            </Box>
           </Stack>
-        </CardActions>
-      </Card>
+        </Link>
+      </Box>
 
       {/* </Card>
       </Link> */}

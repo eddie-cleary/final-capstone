@@ -105,6 +105,7 @@ const CategoryTabSelect = ({ setRecipesToDisplay }) => {
           lg: "700px",
           xl: "900px",
         },
+        margin: "0 auto",
       }}
     >
       <Tabs

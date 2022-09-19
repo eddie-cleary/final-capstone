@@ -58,6 +58,17 @@ let mealPlannerTheme = createTheme({
       fontSize: 46,
       fontFamily: ["Lobster", "serif"].join(","),
     },
+    textSmall: {
+      fontSize: 14,
+      fontFamily: ["Roboto, sans-serif"].join(","),
+      color: "#5C6755",
+    },
+    titleSmall: {
+      fontSize: 17,
+      fontFamily: ["Roboto, sans-serif"].join(","),
+      fontWeight: "bold",
+      color: "#5C6755",
+    },
   },
 });
 

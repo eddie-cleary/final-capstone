@@ -43,9 +43,10 @@ import {
 import PageTitle from "../../shared/PageTitle";
 import PageLayout from "../../shared/PageLayout";
 
-const RecipeForm = () => {
+const EditRecipeForm = () => {
   const token = useSelector((state) => state.auth.token);
 
+  const recipeId = useSelector((state) => state.addRecipeData.id);
   const name = useSelector((state) => state.addRecipeData.name);
   const description = useSelector((state) => state.addRecipeData.description);
 
@@ -63,22 +64,26 @@ const RecipeForm = () => {
     (state) => state.addRecipeForm.isRecipeIngredientsValid
   );
   const isStepsValid = useSelector((state) => state.addRecipeForm.isStepsValid);
-  const [isImageUploading, setIsImageUploading] = useState(false);
   const postObject = useSelector((state) => state.addRecipeData);
   const dispatch = useDispatch();
-
   const isMobile = useSelector((state) => state.layout.isMobile);
+  const [isImageUploading, setIsImageUploading] = useState(false);
+
   const matches = useMediaQuery("(max-width: 1080px)");
 
-  const postToServer = useCallback(() => {
+  const putToServer = useCallback(() => {
     axios
-      .post(process.env.REACT_APP_BASE_URL + `/recipes/add`, postObject, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .put(
+        process.env.REACT_APP_BASE_URL + `/recipes/${recipeId}`,
+        postObject,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((res) => {
-        dispatch(setSuccessMsg("Recipe Added!"));
+        dispatch(setSuccessMsg("Recipe Updated!"));
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
@@ -89,7 +94,7 @@ const RecipeForm = () => {
         dispatch(setIsLoading(false));
         dispatch(resetState());
       });
-  }, [dispatch, postObject, token]);
+  }, [dispatch, postObject, recipeId, token]);
 
   const handleSubmit = async () => {
     dispatch(setIsLoading(true));
@@ -97,10 +102,11 @@ const RecipeForm = () => {
       uploadImage(fileInput);
       return;
     }
-    postToServer();
+    putToServer();
   };
 
   const uploadImage = async (fileInput) => {
+    dispatch(setImgId(""));
     setIsImageUploading(true);
     const API_KEY = "362171829159456";
     const CLOUD_NAME = "djoe";
@@ -142,11 +148,11 @@ const RecipeForm = () => {
   }, [postObject.imgId, dispatch, isImageUploading]);
 
   useEffect(() => {
-    if (isImageUploaded && postObject.imgId !== null) {
+    if (isImageUploaded && postObject.imgId) {
       dispatch(setIsImageUploaded(false));
-      postToServer();
+      putToServer();
     }
-  }, [isImageUploaded, dispatch, postToServer, postObject.imgId]);
+  }, [isImageUploaded, dispatch, putToServer, postObject.imgId]);
 
   useEffect(() => {
     const result = postObject.steps.every((step) => {
@@ -173,10 +179,6 @@ const RecipeForm = () => {
   }, [postObject.recipeIngredients, dispatch, recipeIngredients]);
 
   useEffect(() => {
-    dispatch(resetState());
-  }, [dispatch]);
-
-  useEffect(() => {
     if (
       postObject.name.length > 2 &&
       postObject.description.length > 2 &&
@@ -197,7 +199,7 @@ const RecipeForm = () => {
       <form>
         <Stack mb={5} alignItems="center">
           <Stack sx={{ maxWidth: isMobile ? "95%" : "700px" }}>
-            <PageTitle title={"Add Recipe"} />
+            <PageTitle title={"Edit Recipe"} />
             <Box sx={{ transform: "scale(0.85)", mt: -13 }}>
               <Stack sx={{ mt: 3 }}>
                 <InputLabel>Name</InputLabel>
@@ -241,6 +243,7 @@ const RecipeForm = () => {
               <Box sx={{ mt: 5 }}>
                 {" "}
                 <ImgDropzone
+                  isEdit={true}
                   fileInput={fileInput}
                   setFileInput={setFileInput}
                 />
@@ -265,7 +268,7 @@ const RecipeForm = () => {
                 sx={{ mt: 3, width: "100%" }}
                 variant="btn"
               >
-                {isLoading ? <CircularProgress /> : "Add Recipe"}
+                {isLoading ? <CircularProgress /> : "Edit Recipe"}
               </Button>
             </Box>
           </Stack>
@@ -275,4 +278,4 @@ const RecipeForm = () => {
   );
 };
 
-export default RecipeForm;
+export default EditRecipeForm;

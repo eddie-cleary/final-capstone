@@ -1,6 +1,5 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import ProtectedRoutes from "./components/Routes/ProtectedRoutes";
-import Home from "./components/Pages/Home/Home";
 import ViewRecipe from "./components/Pages/ViewRecipe/ViewRecipe";
 import { useEffect, useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -48,8 +47,7 @@ function App() {
   return (
     <Routes>
       <Route element={<ProtectedRoutes />}>
-        <Route exact path="/" element={<Home />} />
-        <Route exact path="/home" element={<Home />} />
+        <Route exact path="/" element={<Navigate to="/allrecipes" replace />} />
         <Route exact path="/allrecipes" element={<AllRecipes />} />
         <Route exact path="/mymealplans" element={<MyMealPlans />} />
         <Route exact path="/mealplans/add" element={<AddMealPlan />} />

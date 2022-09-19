@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { CircularProgress } from "@mui/material";
 import Layout from "../../Layout/Layout";
-import RecipeForm from "../RecipeForm/RecipeForm";
+import EditRecipeForm from "../RecipeForm/EditRecipeForm";
 import { setRecipeFormData } from "../../../redux/features/forms/addrecipe/addRecipeDataSlice";
 import {
   setErrorMsg,
@@ -12,15 +12,17 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 
 const EditRecipe = () => {
+  console.log("rendering edit recipe");
   const currUserId = useSelector((state) => state.auth.user.id);
   const token = useSelector((state) => state.auth.token);
   const { id } = useParams();
   const [recipe, setRecipe] = useState();
-  const [isRecipeLoaded, setisRecipeLoaded] = useState(false);
+  const [isRecipeLoaded, setIsRecipeLoaded] = useState(false);
   const [isAuthorized, setIsAuthorized] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("sending get request for recipe id");
     axios
       .get(process.env.REACT_APP_BASE_URL + `/recipes/${id}`, {
         headers: {
@@ -32,16 +34,18 @@ const EditRecipe = () => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       })
-      .then(() => setisRecipeLoaded(true));
+      .then(() => setIsRecipeLoaded(true));
   }, [dispatch, id, token]);
 
   useEffect(() => {
+    console.log("setting form data");
     if (isRecipeLoaded && isAuthorized) {
       dispatch(setRecipeFormData(recipe));
     }
   }, [isRecipeLoaded, isAuthorized, dispatch, recipe]);
 
   useEffect(() => {
+    console.log("setting recipe is loaded");
     if (isRecipeLoaded) {
       if (recipe.creatorId === currUserId) {
         setIsAuthorized(true);
@@ -54,7 +58,7 @@ const EditRecipe = () => {
   return (
     <Layout>
       {!isRecipeLoaded && <CircularProgress />}
-      {isRecipeLoaded && isAuthorized && <RecipeForm isEdit={true} />}
+      {isRecipeLoaded && isAuthorized && <EditRecipeForm />}
     </Layout>
   );
 };
