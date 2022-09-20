@@ -20,6 +20,7 @@ import PageTitle from "../PageTitle";
 import ReactToPrint from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import ShareButton from "../ShareButton";
+import imagePlaceholder from "../../../assets/remade-recipe-placeholder.png"
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -185,7 +186,7 @@ const SingleRecipe = ({ recipe }) => {
           src={
             recipe?.imgId
               ? `https://res.cloudinary.com/djoe/image/upload/c_fill/${recipe?.imgId}.jpg`
-              : ""
+              : `${imagePlaceholder}`
           }
           sx={{
             aspectRatio: "1/1",
