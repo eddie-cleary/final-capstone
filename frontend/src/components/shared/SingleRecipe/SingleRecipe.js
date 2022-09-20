@@ -24,6 +24,7 @@ import imagePlaceholder from "../../../assets/remade-recipe-placeholder.png"
 import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
+  const theme = useTheme();
   let renderedIngredients = ingredients?.map((ingredient) => {
     const { quantity: quantityTsp, liquid } = ingredient;
     let convertedMeasurement = convertToMeasurement(
@@ -36,17 +37,33 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
     const isOdd = index % 2 !== 0 ? true : false;
 
     return (
-      <ListItem
-        sx={{
-          width: "fit-content",
-          minWidth: "50%",
-          textAlign: isOdd ? "right" : "left",
-        }}
-        key={index}
-      >
-        <TakeoutDiningIcon />
-        <ListItemText primary={ingredient} />
-      </ListItem>
+        <Stack direction="row" mb= {4}>
+          <Stack
+          sx={{
+            backgroundColor: theme.palette.primary.light,
+            display: "flex",
+            width: "50px",
+            height: "50px",
+            borderRadius: "25px",
+            justifyContent: "center",
+            alignItems: "center",
+            direction: "row",
+            marginLeft: "15px"
+          }}
+        >
+        <TakeoutDiningIcon sx={{ ml: 2.6, mr: 2.5 }} />
+        </Stack>
+        <ListItem
+          sx={{
+            width: "fit-content",
+            minWidth: "50%",
+            textAlign: isOdd ? "right" : "left",
+          }}
+          key={index}
+        >
+          <ListItemText primary={ingredient} />
+        </ListItem>
+      </Stack>
     );
   });
 };
@@ -288,27 +305,29 @@ const SingleRecipe = ({ recipe }) => {
         >
           <Box>
             <Typography
-              sx={{ textAlign: isXs ? "center" : "left" }}
+              sx={{ textAlign: isXs ? "center" : "left"}}
               variant="h5"
             >
               Ingredients
             </Typography>
             <List
               sx={{
-                mt: 4,
+                mt: 5,
                 display: "flex",
                 flexWrap: "wrap",
                 justifyContent: "space-between",
               }}
             >
+              <Stack direction="column" ml={.5}>
               <RenderIngredients
                 ingredients={recipe?.recipeIngredients}
                 currentServings={currentServings}
               />
+              </Stack>
             </List>
           </Box>
         </Stack>
-        <Stack sx={{ mt: 5 }} direction="column">
+        <Stack sx={{ mt: 2 }} direction="column">
           <Box>
             <Typography
               sx={{ textAlign: isXs ? "center" : "left" }}
@@ -316,7 +335,7 @@ const SingleRecipe = ({ recipe }) => {
             >
               Steps
             </Typography>
-            <List sx={{ mt: 4, mb: 5 }}>
+            <List sx={{ mt: 2, mb: 5 }}>
               <RenderSteps steps={recipe?.steps} />
             </List>
           </Box>
