@@ -4,7 +4,6 @@ import {
   Tooltip,
   Button,
   useMediaQuery,
-  Box,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
