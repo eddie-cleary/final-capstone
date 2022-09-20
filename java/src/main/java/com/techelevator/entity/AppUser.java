@@ -16,6 +16,7 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name="app_user")
 public class AppUser {
 
    @Id
@@ -31,8 +32,8 @@ public class AppUser {
    @JsonIgnore
    private boolean activated;
 
-   @ManyToMany
-   private Set<Role> roles = new HashSet<>();
+   @ManyToMany(mappedBy = "appUserRoles")
+   private Set<Role> appUserRoles = new HashSet<>();
 
    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
    @JsonIgnore
@@ -53,7 +54,7 @@ public class AppUser {
               ", username='" + username + '\'' +
               ", password='" + password + '\'' +
               ", activated=" + activated +
-              ", roles=" + roles +
+              ", roles=" + appUserRoles +
               '}';
    }
 }

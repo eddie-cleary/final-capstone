@@ -4,6 +4,7 @@ import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Role;
 import com.techelevator.exception.ApiException;
 import com.techelevator.exception.UserAlreadyExistsException;
+import com.techelevator.model.PasswordChangeDTO;
 import com.techelevator.model.RegisterUserDTO;
 import com.techelevator.repo.AppUserRepo;
 import com.techelevator.repo.RoleRepo;
@@ -13,6 +14,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -43,13 +45,13 @@ public class AppUserServiceImpl implements AppUserService {
         log.info("Saving new Role {} to AppUser {}", roleName, username);
         AppUser appUser = appUserRepo.findByUsername(username);
         Role role = roleRepo.findByName(roleName);
-        for (Role userRole : appUser.getRoles()) {
+        for (Role userRole : appUser.getAppUserRoles()) {
             if (role == userRole) {
                 log.warn("User {} already has role {}", username, role.getName());
                 throw new ApiException("User already has that role");
             }
         }
-        appUser.getRoles().add(role);
+        appUser.getAppUserRoles().add(role);
         return appUserRepo.save(appUser);
     }
 
@@ -75,7 +77,7 @@ public class AppUserServiceImpl implements AppUserService {
                 .username(newUser.getUsername())
                 .password(passwordEncoder.encode(newUser.getPassword()))
                 .activated(true)
-                .roles(Set.of(userRole))
+                .appUserRoles(Set.of(userRole))
                 .build();
 
         return appUserRepo.save(appUser);
@@ -85,5 +87,16 @@ public class AppUserServiceImpl implements AppUserService {
     public List<AppUser> getUsers() {
         log.info("Fetching all AppUsers from database");
         return appUserRepo.findAll();
+    }
+
+    @Override
+    @Transactional
+    public Boolean changePassword(String username, PasswordChangeDTO passwordChangeDTO) {
+        AppUser appUser = getUser(username);
+        if (passwordEncoder.matches(passwordChangeDTO.getOldPassword(), appUser.getPassword())) {
+            appUser.setPassword(passwordEncoder.encode(passwordChangeDTO.getNewPassword()));
+            return true;
+        }
+        return false;
     }
 }

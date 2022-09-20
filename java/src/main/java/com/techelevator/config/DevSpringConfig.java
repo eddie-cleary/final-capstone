@@ -28,23 +28,26 @@ public class DevSpringConfig {
         @Bean
         CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {
                 return args -> {
-
-                        roleService.addRole(new Role(null, "ROLE_USER"));
-                        roleService.addRole(new Role(null, "ROLE_ADMIN"));
-                        roleService.addRole(new Role(null, "ROLE_SUPER_ADMIN"));
-
-                        Role userRole = roleRepo.findByName("ROLE_USER");
-                        Role adminRole = roleRepo.findByName("ROLE_ADMIN");
-
                         AppUser brandon = AppUser.builder()
                                 .username("brandon")
                                 .password(passwordEncoder.encode("brandon123"))
                                 .activated(true)
-                                .roles(Set.of(userRole, adminRole))
                                 .build();
 
                         appUserService.addUser(brandon);
+
+                        Role userRole = Role.builder()
+                                .name("ROLE_USER")
+                                .appUserRoles(Set.of(brandon))
+                                .build();
+
+                        Role adminRole = Role.builder()
+                                .name("ROLE_ADMIN")
+                                .appUserRoles(Set.of(brandon))
+                                .build();
+
+                        roleRepo.save(userRole);
+                        roleRepo.save(adminRole);
                 };
         }
-
 }
