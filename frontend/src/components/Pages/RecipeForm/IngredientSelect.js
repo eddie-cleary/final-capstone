@@ -4,6 +4,7 @@ import {
   Tooltip,
   Button,
   useMediaQuery,
+  Box,
 } from "@mui/material";
 import React, { useEffect } from "react";
 import { Add } from "@mui/icons-material";
@@ -106,7 +107,13 @@ const IngredientSelect = () => {
       <Autocomplete
         disablePortal
         id="ingredient-select"
-        sx={{ flexGrow: 1, flexBasis: matches ? "100%" : "" }}
+        sx={{
+          flexGrow: 1,
+          flexBasis: matches ? "100%" : "",
+          "& #ingredient-select": {
+            textTransform: "capitalize",
+          },
+        }}
         loading={isIngredientsLoading}
         includeInputInList={true}
         options={allIngredients}
@@ -117,7 +124,7 @@ const IngredientSelect = () => {
         onChange={(e) => {
           const choice = e.target.textContent;
           allIngredients.every((validIngredient) => {
-            if (choice === validIngredient.name) {
+            if (choice.toLowerCase() === validIngredient.name.toLowerCase()) {
               dispatch(setMeasurement(""));
               dispatch(setIngredient(validIngredient));
               dispatch(setIsIngredientValid(true));

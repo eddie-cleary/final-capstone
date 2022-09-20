@@ -15,7 +15,7 @@ const ChosenIngredient = ({ index, data }) => {
     <Stack direction="row" sx={{ flexWrap: "nowrap", alignItems: "center" }}>
       <Stack sx={{ flexGrow: 1 }}>
         <InputLabel>&nbsp;</InputLabel>
-        <Typography>
+        <Typography sx={{ textTransform: "capitalize" }}>
           {data.name} {convertToMeasurement(data.quantity)}
         </Typography>
       </Stack>

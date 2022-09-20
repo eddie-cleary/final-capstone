@@ -15,7 +15,6 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const roles = useSelector((state) => state.auth.user.appUserRoles);
-  console.log("roles found ", roles);
   const isAdmin = roles?.some(
     (role) => role.name === "ROLE_ADMIN" || role.name === "ROLE_SUPER_ADMIN"
   );
