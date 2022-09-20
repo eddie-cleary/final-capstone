@@ -21,6 +21,7 @@ import ReactToPrint from "react-to-print";
 import PrintIcon from "@mui/icons-material/Print";
 import ShareButton from "../ShareButton";
 import imagePlaceholder from "../../../assets/remade-recipe-placeholder.png"
+import TakeoutDiningIcon from '@mui/icons-material/TakeoutDining';
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   let renderedIngredients = ingredients?.map((ingredient) => {
@@ -43,6 +44,7 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
         }}
         key={index}
       >
+        <TakeoutDiningIcon />
         <ListItemText primary={ingredient} />
       </ListItem>
     );
