@@ -15,7 +15,7 @@ const Sidebar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const roles = useSelector((state) => state.auth.user.roles);
-  const isAdmin = roles.some(
+  const isAdmin = roles?.some(
     (role) => role.name === "ROLE_ADMIN" || role.name === "ROLE_SUPER_ADMIN"
   );
   const isXs = useSelector((state) => state.layout.isXs);
