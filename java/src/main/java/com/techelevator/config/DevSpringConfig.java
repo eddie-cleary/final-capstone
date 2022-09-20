@@ -2,6 +2,7 @@ package com.techelevator.config;
 
 import com.techelevator.entity.AppUser;
 import com.techelevator.entity.Role;
+import com.techelevator.repo.AppUserRepo;
 import com.techelevator.repo.RoleRepo;
 import com.techelevator.service.AppUserService;
 import com.techelevator.service.RecipeService;
@@ -24,6 +25,9 @@ public class DevSpringConfig {
 
         @Autowired
         private PasswordEncoder passwordEncoder;
+
+        @Autowired
+        private AppUserRepo appUserRepo;
 
         @Bean
         CommandLineRunner run(AppUserService appUserService, RoleService roleService, RecipeService recipeService) {

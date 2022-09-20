@@ -27,11 +27,11 @@ public class Role {
    private Long id;
    private String name;
 
-   @ManyToMany
+   @ManyToMany(fetch = FetchType.EAGER)
    @JoinTable(
            name = "appuser_roles",
-           joinColumns = @JoinColumn(name = "appuser_id"),
-           inverseJoinColumns = @JoinColumn(name = "role_id"))
+           joinColumns = @JoinColumn(name = "role_id"),
+           inverseJoinColumns = @JoinColumn(name = "appuser_id"))
    @JsonIgnore
    private Set<AppUser> appUserRoles = new HashSet<>();
 

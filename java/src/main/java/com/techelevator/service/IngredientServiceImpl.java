@@ -23,6 +23,7 @@ public class IngredientServiceImpl implements IngredientService{
 
     @Override
     public Ingredient addIngredient(Ingredient ingredient) throws ApiException {
+        ingredient.setName(ingredient.getName().toLowerCase());
         Ingredient ingredientFound = ingredientRepo.findByName(ingredient.getName());
         if (Objects.nonNull(ingredientFound)) {
             throw new ApiException("Ingredient " + ingredient.getName() + " already exists.");

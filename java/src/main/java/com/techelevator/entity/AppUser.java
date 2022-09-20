@@ -32,7 +32,7 @@ public class AppUser {
    @JsonIgnore
    private boolean activated;
 
-   @ManyToMany(mappedBy = "appUserRoles")
+   @ManyToMany(mappedBy = "appUserRoles", fetch = FetchType.EAGER)
    private Set<Role> appUserRoles = new HashSet<>();
 
    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
