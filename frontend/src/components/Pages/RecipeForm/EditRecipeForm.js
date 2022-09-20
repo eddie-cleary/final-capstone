@@ -231,7 +231,14 @@ const EditRecipeForm = () => {
                   direction="row"
                   alignItems="flex-end"
                   justifyContent="space-evenly"
-                  sx={{ mt: 2, gap: "10px", flexWrap: matches ? "wrap" : "" }}
+                  sx={{
+                    mt: 2,
+                    gap: "10px",
+                    flexWrap: matches ? "wrap" : "",
+                    ".MuiAutocomplete-listbox": {
+                      textTransform: "capitalize !important",
+                    },
+                  }}
                 >
                   <IngredientSelect />
                 </Stack>
