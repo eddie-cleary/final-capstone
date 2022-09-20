@@ -11,6 +11,7 @@ import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Slf4j
@@ -106,6 +107,7 @@ public class MealPlanServiceImpl implements MealPlanService {
     }
 
     @Override
+    @Transactional
     public MealPlanResponse updateMealPlan(String username, Long id, MealPlanDTO mealPlanDTO) throws IllegalAccessException {
         log.info("User \"{}\" is updating meal id {}", username, id);
         AppUser appUser = appUserRepo.findByUsername(username);
@@ -113,18 +115,23 @@ public class MealPlanServiceImpl implements MealPlanService {
 
         if (id == mealPlanDTO.getId() && appUser.getId() == mealPlanRepo.findById(id).get().getAppUser().getId()) {
 
-            mealPlanRepo.deleteById(oldMealPlan.getId());
+//            mealPlanRepo.deleteById(oldMealPlan.getId());
+//
+//            MealPlan newMealPlan = new MealPlan();
+//            newMealPlan.setTitle(mealPlanDTO.getTitle());
+//            newMealPlan.setAppUser(appUser);
+//            mealPlanRepo.save(newMealPlan);
 
-            MealPlan newMealPlan = new MealPlan();
-            newMealPlan.setTitle(mealPlanDTO.getTitle());
-            newMealPlan.setAppUser(appUser);
-            mealPlanRepo.save(newMealPlan);
+            oldMealPlan.setTitle(mealPlanDTO.getTitle());
 
-            // Set days
+            dayRepo.deleteAll(oldMealPlan.getDays());
+            oldMealPlan.getDays().removeAll(oldMealPlan.getDays());
+
+//            // Set days
             Set<Day> newDays = new HashSet<>();
             for (DayDTO dayDTO : mealPlanDTO.getDays()) {
                 Day newDay = new Day();
-                newDay.setMealPlan(newMealPlan);
+                newDay.setMealPlan(oldMealPlan);
                 dayRepo.save(newDay);
 
                 Set<Meal> newMeals = new HashSet<>();
@@ -151,10 +158,10 @@ public class MealPlanServiceImpl implements MealPlanService {
                 newDay.setMeals(newMeals);
                 newDays.add(newDay);
             }
-            newMealPlan.setDays(newDays);
-            mealPlanRepo.save(newMealPlan);
+            oldMealPlan.setDays(newDays);
+            mealPlanRepo.save(oldMealPlan);
 
-            return this.getMealPlanById(username, newMealPlan.getId());
+            return this.getMealPlanById(username, oldMealPlan.getId());
         } else {
             throw new IllegalAccessException("You are not authorized to update this meal plan.");
         }

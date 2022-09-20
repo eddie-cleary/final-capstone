@@ -30,6 +30,8 @@ public class RecipeServiceImpl implements RecipeService {
 
     private final CategoryRepo categoryRepo;
 
+    private final MealRecipeRepo mealRecipeRepo;
+
     @Override
     public RecipeResponse addRecipe(String username, RecipePayload recipePayload) {
         AppUser recipeCreator = appUserRepo.findByUsername(username);
@@ -178,15 +180,55 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @Transactional
+    public void deleteRecipeContents(Recipe recipe) {
+        stepRepo.deleteAll(recipe.getSteps());
+        recipe.getSteps().removeAll(recipe.getSteps());
+
+        recipeIngredientRepo.deleteAll(recipe.getRecipeIngredients());
+        recipe.getRecipeIngredients().removeAll(recipe.getRecipeIngredients());
+
+        mealRecipeRepo.deleteAll(recipe.getMealRecipes());
+        recipe.getMealRecipes().removeAll(recipe.getMealRecipes());
+
+        recipe.removeCategories();
+        recipe.removeLikes();
+        recipe.removeSteps();
+        recipe.removeRecipeIngredients();
+
+        recipeRepo.delete(recipe);
+    }
+
+    @Override
+    @Transactional
     public Boolean deleteRecipe(String username, Long recipeId) throws IllegalAccessException {
         //Validate user is deleting their own recipe
         log.info("Attemping to delete recipe id: {}. Requested by {}", recipeId, username);
         Recipe recipe = recipeRepo.findById(recipeId).get();
         AppUser currentUser = appUserRepo.findByUsername(username);
+
         if (currentUser.getId().equals(recipe.getAppUser().getId())) {
-            recipeRepo.deleteById(recipeId);
-            log.info("Successfully deleted recipe with id of: {}", recipeId);
-            return true;
+
+        stepRepo.deleteAll(recipe.getSteps());
+        recipe.getSteps().removeAll(recipe.getSteps());
+
+        recipeIngredientRepo.deleteAll(recipe.getRecipeIngredients());
+        recipe.getRecipeIngredients().removeAll(recipe.getRecipeIngredients());
+
+        mealRecipeRepo.deleteAll(recipe.getMealRecipes());
+        recipe.getMealRecipes().removeAll(recipe.getMealRecipes());
+
+        recipe.removeCategories();
+        recipe.removeLikes();
+
+        AppUser parentUser = appUserRepo.findByUsername(username);
+        parentUser.getRecipes().remove(recipe);
+
+        recipeRepo.deleteById(recipe.getId());
+
+        log.info("Successfully deleted recipe with id of: {}", recipeId);
+
+        return true;
         }
         throw new IllegalAccessException("You are not authorized to delete this recipe.");
     }

@@ -48,13 +48,16 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<MealRecipe> mealRecipes = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name="recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
     private Set<Category> recipeCategory = new HashSet<>();
+
+//    @ManyToMany(mappedBy = "recipeCategory", fetch = FetchType.EAGER)
+//    private Set<Category> recipeCategory = new HashSet<>();
 
     @ManyToMany
     @JoinTable(
@@ -75,6 +78,52 @@ public class Recipe {
         this.prepTime = recipePayload.getPrepTime();
         this.servings = recipePayload.getServings();
         this.imgId = recipePayload.getImgId();
+    }
+
+    public void removeCategory(Category category) {
+        this.getRecipeCategory().remove(category);
+        category.getRecipeCategory().remove(this);
+    }
+
+    public void removeCategories() {
+        for (Category category : new HashSet<>(recipeCategory)){
+            removeCategory(category);
+        }
+    }
+
+    public void removeLike(AppUser appUser) {
+        this.getRecipesLiked().remove(appUser);
+        appUser.getRecipesLiked().remove(this);
+    }
+
+    public void removeLikes() {
+        for (AppUser appUser : new HashSet<>(recipesLiked)) {
+            removeLike(appUser);
+        }
+    }
+
+    public void removeStep(Step step) {
+        this.getSteps().remove(step);
+    }
+
+    public void removeSteps() {
+        for (Step step : new HashSet<>(steps)) {
+            removeStep(step);
+        }
+    }
+
+    public void removeRecipeIngredient(RecipeIngredient recipeIngredient) {
+        this.getRecipeIngredients().remove(recipeIngredient);
+    }
+
+    public void removeRecipeIngredients() {
+        for (RecipeIngredient recipeIngredient : new HashSet<>(recipeIngredients)) {
+            removeRecipeIngredient(recipeIngredient);
+        }
+    }
+
+    public void removeAppUser() {
+        this.appUser = null;
     }
 
     @Override

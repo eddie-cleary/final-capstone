@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -24,9 +25,17 @@ public class Category {
     @NotNull
     private String name;
 
-    @ManyToMany(mappedBy = "recipeCategory")
+    @ManyToMany(mappedBy = "recipeCategory", cascade = CascadeType.ALL)
     @JsonIgnore
     Set<Recipe> recipeCategory = new HashSet<>();
+
+//    @ManyToMany
+//    @JoinTable(
+//            name = "recipe_category",
+//            joinColumns = @JoinColumn(name = "category_id"),
+//            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+//    @JsonIgnore
+//    private Set<Recipe> recipeCategory = new HashSet<>();
 
     public void addRecipe(Recipe recipe) {
         this.recipeCategory.add(recipe);

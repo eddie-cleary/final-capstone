@@ -1,5 +1,6 @@
 package com.techelevator.service;
 
+import com.techelevator.entity.Recipe;
 import com.techelevator.model.RecipePayload;
 import com.techelevator.model.RecipeResponse;
 
@@ -13,4 +14,5 @@ public interface RecipeService {
     List<RecipeResponse> getMyRecipes(String username);
     RecipeResponse updateRecipe (String username, Long id, RecipePayload recipePayload) throws IllegalAccessException;
     Boolean deleteRecipe (String username, Long recipeId) throws IllegalAccessException;
+    void deleteRecipeContents(Recipe recipe);
 }

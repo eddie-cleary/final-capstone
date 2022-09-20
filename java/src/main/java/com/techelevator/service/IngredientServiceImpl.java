@@ -24,7 +24,7 @@ public class IngredientServiceImpl implements IngredientService{
     @Override
     public Ingredient addIngredient(Ingredient ingredient) throws ApiException {
         ingredient.setName(ingredient.getName().toLowerCase());
-        Ingredient ingredientFound = ingredientRepo.findByName(ingredient.getName());
+        Ingredient ingredientFound = ingredientRepo.findByName(ingredient.getName().toLowerCase());
         if (Objects.nonNull(ingredientFound)) {
             throw new ApiException("Ingredient " + ingredient.getName() + " already exists.");
         }
@@ -33,7 +33,7 @@ public class IngredientServiceImpl implements IngredientService{
 
     @Override
     public Ingredient getIngredientByName(String name) throws ApiException {
-        Ingredient ingredientFound = ingredientRepo.findByName(name);
+        Ingredient ingredientFound = ingredientRepo.findByName(name.toLowerCase());
         if (Objects.isNull(ingredientFound)) {
             throw new ResourceNotFoundException("Ingredient not found.");
         }
