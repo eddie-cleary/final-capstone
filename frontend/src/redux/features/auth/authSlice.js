@@ -4,7 +4,7 @@ const initialState = {
   user: {
     id: null,
     username: "",
-    authorities: ["USER"],
+    appUserRoles: [],
   },
   token: null,
   isModalLogin: false,
@@ -21,7 +21,7 @@ export const authSlice = createSlice({
         user: {
           id: action.payload.id,
           username: action.payload.username,
-          roles: action.payload.roles,
+          appUserRoles: action.payload.appUserRoles,
         },
       };
     },

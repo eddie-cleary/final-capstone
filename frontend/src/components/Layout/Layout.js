@@ -9,7 +9,11 @@ import {
   setShowError,
   setShowSuccess,
 } from "../../redux/features/forms/errors/errorsSlice";
-import { setIsXs, setIsMd, setIsLg } from "../../redux/features/layout/layout";
+import {
+  setIsXs,
+  setIsMd,
+  setIsLg,
+} from "../../redux/features/layout/layoutSlice";
 
 const Layout = ({ children }) => {
   const [open, setOpen] = useState(false);
