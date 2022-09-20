@@ -10,6 +10,7 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import axios from "axios";
 import { addToken, addUser } from "../../../redux/features/auth/authSlice";
@@ -25,6 +26,7 @@ const Login = ({ setShowCreateAccount }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const md = useMediaQuery("(max-width: 1130px)");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
     e.preventDefault();
@@ -42,6 +44,7 @@ const Login = ({ setShowCreateAccount }) => {
   };
 
   const handleLogin = async () => {
+    setIsLoading(true);
     const data = {
       username: loginForm.username,
       password: loginForm.password,
@@ -67,6 +70,9 @@ const Login = ({ setShowCreateAccount }) => {
           dispatch(setErrorMsg("Login Failed"));
         }
         dispatch(setShowError(true));
+      })
+      .then(() => {
+        setIsLoading(false);
       });
   };
 
@@ -119,7 +125,7 @@ const Login = ({ setShowCreateAccount }) => {
             variant="btn"
             sx={{ p: 1.5, textTransform: "capitalize" }}
           >
-            Login
+            {isLoading ? <CircularProgress /> : "Login"}
           </Button>
         </FormControl>
         <Typography sx={{ alignSelf: "center", mt: 2 }}>

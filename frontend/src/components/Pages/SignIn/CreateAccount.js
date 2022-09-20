@@ -10,6 +10,7 @@ import {
   Button,
   useTheme,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 import {
   setShowError,
@@ -21,6 +22,7 @@ import axios from "axios";
 
 const CreateAccount = ({ setShowCreateAccount }) => {
   const theme = useTheme();
+  const [isLoading, setIsLoading] = useState(false);
 
   const userRef = useRef();
   const errRef = useRef();
@@ -129,6 +131,8 @@ const CreateAccount = ({ setShowCreateAccount }) => {
   };
 
   const handleSubmit = async () => {
+    setIsLoading(true);
+
     const data = {
       username: username,
       password: password,
@@ -161,6 +165,9 @@ const CreateAccount = ({ setShowCreateAccount }) => {
           }
           dispatch(setShowError(true));
           errRef.current.focus();
+        })
+        .then(() => {
+          setIsLoading(false);
         });
     } else {
       dispatch(setErrorMsg("Password and Confirm password must match"));
@@ -245,7 +252,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
             onClick={handleSubmit}
             sx={{ p: 1.5, textTransform: "capitalize" }}
           >
-            Create Account
+            {isLoading ? <CircularProgress /> : "Create Account"}
           </Button>
         </FormControl>
         <Typography sx={{ alignSelf: "center", mt: 2 }}>
