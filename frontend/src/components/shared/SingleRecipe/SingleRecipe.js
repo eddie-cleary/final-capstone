@@ -164,6 +164,8 @@ const SingleRecipe = ({ recipe }) => {
           transform: "scale(0.7)",
           mt: -15,
         },
+        width: "100%",
+        maxWidth: "800px",
       }}
       ref={printComponent}
     >

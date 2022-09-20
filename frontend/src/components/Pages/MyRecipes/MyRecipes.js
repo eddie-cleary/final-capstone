@@ -11,11 +11,15 @@ import {
 import PageTitle from "../../shared/PageTitle";
 import PageLayout from "../../shared/PageLayout";
 import { setAllRecipes } from "../../../redux/features/recipes/recipesDataSlice";
+import AddMoreContent from "../../shared/AddMoreContent";
 
 const MyRecipes = () => {
   const [recipesToDisplay, setRecipesToDisplay] = useState([]);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
+  const [isRecipesLoading, setIsRecipesLoading] = useState(true);
+  const recipesFound = useSelector((state) => state.recipes.allRecipes);
+  const [showAddLink, setShowAddLink] = useState(false);
 
   const loadRecipes = useCallback(() => {
     axios
@@ -26,6 +30,7 @@ const MyRecipes = () => {
       })
       .then((res) => {
         dispatch(setAllRecipes(res.data));
+        setIsRecipesLoading(false);
       })
       .catch((err) => {
         dispatch(setErrorMsg(err.message));
@@ -36,6 +41,14 @@ const MyRecipes = () => {
   useEffect(() => {
     loadRecipes();
   }, [dispatch, token, loadRecipes]);
+
+  useEffect(() => {
+    if (!isRecipesLoading) {
+      if (recipesFound.length === 0) {
+        setShowAddLink(true);
+      }
+    }
+  }, [isRecipesLoading, recipesFound]);
 
   return (
     <Layout>
@@ -54,22 +67,28 @@ const MyRecipes = () => {
           }}
         >
           <PageTitle title="My Recipes" />
-          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
-            <CategoryTabSelect
-              isMyRecipes={true}
-              refreshParent={loadRecipes}
-              setRecipesToDisplay={setRecipesToDisplay}
-            />
-          </Box>
-          <List>
-            <Stack
-              sx={{ mt: 5, justifyContent: "space-evenly" }}
-              direction="row"
-              flexWrap="wrap"
-            >
-              {recipesToDisplay}
-            </Stack>
-          </List>
+          {!showAddLink && (
+            <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
+              <CategoryTabSelect
+                isMyRecipes={true}
+                refreshParent={loadRecipes}
+                setRecipesToDisplay={setRecipesToDisplay}
+              />
+            </Box>
+          )}
+          {showAddLink ? (
+            <AddMoreContent content="recipes" contentLink="addrecipe" />
+          ) : (
+            <List>
+              <Stack
+                sx={{ mt: 5, justifyContent: "space-evenly" }}
+                direction="row"
+                flexWrap="wrap"
+              >
+                {recipesToDisplay}
+              </Stack>
+            </List>
+          )}
         </Stack>
       </PageLayout>
     </Layout>
