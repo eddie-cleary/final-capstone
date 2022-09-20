@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -77,8 +76,13 @@ public class AppUserServiceImpl implements AppUserService {
                 .username(newUser.getUsername())
                 .password(passwordEncoder.encode(newUser.getPassword()))
                 .activated(true)
-                .appUserRoles(Set.of(userRole))
                 .build();
+
+        this.addUser(appUser);
+
+        userRole.getAppUserRoles().add(appUser);
+
+        roleRepo.save(userRole);
 
         return appUserRepo.save(appUser);
     }

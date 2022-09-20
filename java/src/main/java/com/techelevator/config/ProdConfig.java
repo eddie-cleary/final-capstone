@@ -13,6 +13,6 @@ public class ProdConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("https://main--whimsical-semolina-503a02.netlify.app").allowedHeaders("*");
+        registry.addMapping("/**").allowedOrigins("https://whimsical-semolina-503a02.netlify.app").allowedHeaders("*");
     }
 }
