@@ -12,7 +12,6 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 
 const EditRecipe = () => {
-  console.log("rendering edit recipe");
   const currUserId = useSelector((state) => state.auth.user.id);
   const token = useSelector((state) => state.auth.token);
   const { id } = useParams();
@@ -22,7 +21,6 @@ const EditRecipe = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("sending get request for recipe id");
     axios
       .get(process.env.REACT_APP_BASE_URL + `/recipes/${id}`, {
         headers: {
@@ -38,14 +36,12 @@ const EditRecipe = () => {
   }, [dispatch, id, token]);
 
   useEffect(() => {
-    console.log("setting form data");
     if (isRecipeLoaded && isAuthorized) {
       dispatch(setRecipeFormData(recipe));
     }
   }, [isRecipeLoaded, isAuthorized, dispatch, recipe]);
 
   useEffect(() => {
-    console.log("setting recipe is loaded");
     if (isRecipeLoaded) {
       if (recipe.creatorId === currUserId) {
         setIsAuthorized(true);

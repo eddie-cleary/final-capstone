@@ -59,7 +59,7 @@ const CategoryTabSelect = ({
     ];
 
     availableTabs.push(
-      allCategories.map((category, index) => (
+      allCategories?.map((category, index) => (
         <Tab
           key={index}
           label={category.name}

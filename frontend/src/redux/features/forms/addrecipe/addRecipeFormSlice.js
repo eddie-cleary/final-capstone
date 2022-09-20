@@ -33,7 +33,6 @@ export const addRecipeFormSlice = createSlice({
       };
     },
     setIsImageUploaded: (state, action) => {
-      console.log("is image uploaded called in redux", action.payload);
       return {
         ...state,
         isImageUploaded: action.payload,

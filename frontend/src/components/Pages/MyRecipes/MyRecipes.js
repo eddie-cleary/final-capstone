@@ -77,7 +77,7 @@ const MyRecipes = () => {
             </Box>
           )}
           {showAddLink ? (
-            <AddMoreContent content="recipes" contentLink="addrecipe" />
+            <AddMoreContent content="recipes" contentLink="/addrecipe" />
           ) : (
             <List>
               <Stack

@@ -87,7 +87,7 @@ const CategorySelect = () => {
           )}
           MenuProps={MenuProps}
         >
-          {allCategories.map((category) => (
+          {allCategories?.map((category) => (
             <MenuItem
               key={category}
               value={category}

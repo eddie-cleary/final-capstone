@@ -159,7 +159,6 @@ const MealPlanForm = ({ isEdit }) => {
   };
 
   const putMealPlan = () => {
-    console.log("the put object is ", postObject);
     axios
       .put(
         process.env.REACT_APP_BASE_URL + `/mealplans/${postObject.id}`,

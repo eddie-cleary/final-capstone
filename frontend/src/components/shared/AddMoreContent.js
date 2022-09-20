@@ -10,7 +10,7 @@ const AddMoreContent = ({ content, contentLink }) => {
         <Link
           component={ReactLink}
           sx={{ textDecoration: "none" }}
-          to="/myrecipes"
+          to={contentLink}
         >
           <Button sx={{ mt: 2 }} variant="btn">
             Add {content}

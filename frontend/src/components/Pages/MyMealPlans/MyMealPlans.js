@@ -11,10 +11,13 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 import PageLayout from "../../shared/PageLayout";
 import PageTitle from "../../shared/PageTitle";
+import AddMoreContent from "../../shared/AddMoreContent";
 
 const MyMealPlans = () => {
   const token = useSelector((state) => state.auth.token);
   const [mealPlans, setMealPlans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [showAddLink, setShowAddLink] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -24,12 +27,23 @@ const MyMealPlans = () => {
           Authorization: `Bearer ${token}`,
         },
       })
-      .then((res) => setMealPlans(res.data))
+      .then((res) => {
+        setMealPlans(res.data);
+        setIsLoading(false);
+      })
       .catch((err) => {
         dispatch(setErrorMsg(err.message));
         dispatch(setShowError(true));
       });
   }, [token, dispatch]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      if (mealPlans.length === 0) {
+        setShowAddLink(true);
+      }
+    }
+  }, [isLoading, mealPlans]);
 
   const myMealPlans = mealPlans.map((mealPlan, index) => {
     return (
@@ -46,9 +60,13 @@ const MyMealPlans = () => {
     <Layout>
       <PageLayout>
         <PageTitle title="My Meal Plans" />
-        <Stack direction="row" sx={{ flexWrap: "wrap", gap: "20px" }}>
-          {myMealPlans}
-        </Stack>
+        {showAddLink ? (
+          <AddMoreContent content="meal plans" contentLink="/mealplans/add" />
+        ) : (
+          <Stack direction="row" sx={{ flexWrap: "wrap", gap: "20px" }}>
+            {myMealPlans}
+          </Stack>
+        )}
       </PageLayout>
     </Layout>
   );

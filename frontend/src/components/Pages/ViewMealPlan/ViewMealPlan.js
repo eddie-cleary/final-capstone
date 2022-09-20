@@ -93,7 +93,6 @@ const ViewMealPlan = () => {
   }, [dispatch, id, token]);
 
   useEffect(() => {
-    console.log("current recipe ", currentRecipe);
     if (currentRecipe?.id != null && currentRecipe?.steps === undefined) {
       axios
         .get(process.env.REACT_APP_BASE_URL + `/recipes/${currentRecipe?.id}`, {
