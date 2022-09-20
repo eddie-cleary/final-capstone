@@ -17,6 +17,10 @@ import ViewMealPlan from "./components/Pages/ViewMealPlan/ViewMealPlan";
 import EditMealPlan from "./components/Pages/EditMealPlan/EditMealPlan";
 import AddCategory from "./components/Pages/AddCategory/AddCategory";
 import { Navigate } from "react-router-dom";
+import {
+  setShowError,
+  setErrorMsg,
+} from "./redux/features/forms/errors/errorsSlice";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,7 +31,18 @@ function App() {
       if (token !== "null") {
         const user = await getAppUserFromToken(token)
           .then((res) => res)
-          .catch((err) => console.log(err));
+          .catch((err) => {
+            if (err.response?.data?.message) {
+              dispatch(setErrorMsg(err.response.data.message));
+            } else if (err.response?.statusText) {
+              dispatch(setErrorMsg(err.response.statusText));
+            } else if (err.request) {
+              dispatch(setErrorMsg("Network error."));
+            } else {
+              dispatch(setErrorMsg("Error"));
+            }
+            dispatch(setShowError(true));
+          });
         await dispatch(addUser(user));
         await dispatch(addToken(token));
       }

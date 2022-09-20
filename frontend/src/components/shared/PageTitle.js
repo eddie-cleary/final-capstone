@@ -13,6 +13,7 @@ const PageTitle = ({ title }) => {
         textAlign: "center",
         mb: 4,
         mt: isXs ? 2 : 0,
+        textTransform: "capitalize",
       }}
     >
       {title}

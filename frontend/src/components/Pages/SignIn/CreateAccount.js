@@ -164,6 +164,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
         });
     } else {
       dispatch(setErrorMsg("Password and Confirm password must match"));
+      dispatch(setShowError(true));
     }
   };
 

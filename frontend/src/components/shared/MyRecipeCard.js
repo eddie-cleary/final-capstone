@@ -20,6 +20,7 @@ import {
   setShowSuccess,
   setSuccessMsg,
 } from "../../redux/features/forms/errors/errorsSlice";
+import imagePlaceHolder from "../../assets/remade-recipe-placeholder.png";
 
 const modalStyle = {
   position: "absolute",
@@ -67,7 +68,15 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
         refreshParent();
       })
       .catch((err) => {
-        dispatch(setErrorMsg(`Error deleting recipe. ${err.message}`));
+        if (err.response?.data?.message) {
+          dispatch(setErrorMsg(err.response.data.message));
+        } else if (err.response?.statusText) {
+          dispatch(setErrorMsg(err.response.statusText));
+        } else if (err.request) {
+          dispatch(setErrorMsg("Network error."));
+        } else {
+          dispatch(setErrorMsg("Error"));
+        }
         dispatch(setShowError(true));
       });
   };
@@ -95,11 +104,16 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
             <Box
               component="img"
               src={
-                recipe.imgId &&
-                `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
+                recipe?.imgId
+                  ? `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
+                  : `${imagePlaceHolder}`
               }
               alt={recipe.name}
-              sx={{ height: 150, objectFit: "cover", objectPosition: "center" }}
+              sx={{
+                height: 165,
+                objectFit: recipe?.imgId ? "cover" : "contain",
+                objectPosition: "center",
+              }}
             />
             <Box component="div" sx={{ height: "100%" }}>
               <Stack
@@ -108,14 +122,14 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
                 justifyContent="space-between"
               >
                 <Stack justifyContent="space-between" sx={{ width: "100%" }}>
-                  <Typography sx={{ textAlign: "center" }} variant="titleSmall">
+                  <Typography sx={{ textAlign: "left" }} variant="titleSmall">
                     {recipe.name.length > 50
                       ? recipe.name.substring(0, 70) + "..."
                       : recipe.name}
                   </Typography>
                   <Stack
                     flexDirection="row"
-                    justifyContent="center"
+                    justifyContent="flex-end"
                     alignSelf="flex-end"
                     sx={{ width: "100%", mb: -0.5 }}
                   >

@@ -29,7 +29,15 @@ const EditMealPlan = () => {
       })
       .then((res) => setMealPlan(res.data))
       .catch((err) => {
-        dispatch(setErrorMsg(err.message));
+        if (err.response?.data?.message) {
+          dispatch(setErrorMsg(err.response.data.message));
+        } else if (err.response?.statusText) {
+          dispatch(setErrorMsg(err.response.statusText));
+        } else if (err.request) {
+          dispatch(setErrorMsg("Network error."));
+        } else {
+          dispatch(setErrorMsg("Error"));
+        }
         dispatch(setShowError(true));
       })
       .then(() => setIsMealPlanLoaded(true));

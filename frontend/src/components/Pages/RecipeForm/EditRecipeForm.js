@@ -87,7 +87,15 @@ const EditRecipeForm = () => {
         dispatch(setShowSuccess(true));
       })
       .catch((err) => {
-        dispatch(setErrorMsg(err.message));
+        if (err.response?.data?.message) {
+          dispatch(setErrorMsg(err.response.data.message));
+        } else if (err.response?.statusText) {
+          dispatch(setErrorMsg(err.response.statusText));
+        } else if (err.request) {
+          dispatch(setErrorMsg("Network error."));
+        } else {
+          dispatch(setErrorMsg("Error"));
+        }
         dispatch(setShowError(true));
       })
       .then(() => {
@@ -275,7 +283,7 @@ const EditRecipeForm = () => {
                 sx={{ mt: 3, width: "100%" }}
                 variant="btn"
               >
-                {isLoading ? <CircularProgress /> : "Edit Recipe"}
+                {isLoading ? <CircularProgress /> : "Update Recipe"}
               </Button>
             </Box>
           </Stack>

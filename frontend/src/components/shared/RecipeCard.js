@@ -2,6 +2,7 @@ import { Link, Typography, useTheme, Stack, Box } from "@mui/material";
 import { Link as ReactLink } from "react-router-dom";
 import LikeRecipeButton from "../shared/LikeRecipeButton";
 import ShareButton from "./ShareButton";
+import imagePlaceHolder from "../../assets/remade-recipe-placeholder.png";
 
 export default function RecipeCard({ recipe }) {
   const theme = useTheme();
@@ -27,11 +28,16 @@ export default function RecipeCard({ recipe }) {
           <Box
             component="img"
             src={
-              recipe.imgId &&
-              `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
+              recipe?.imgId
+                ? `https://res.cloudinary.com/djoe/image/upload/c_fill,h_500,w_500/${recipe.imgId}.jpg`
+                : `${imagePlaceHolder}`
             }
             alt={recipe.name}
-            sx={{ height: 165, objectFit: "cover", objectPosition: "center" }}
+            sx={{
+              height: 165,
+              objectFit: recipe?.imgId ? "cover" : "contain",
+              objectPosition: "center",
+            }}
           />
           <Box component="div" sx={{ height: "100%" }}>
             <Stack
