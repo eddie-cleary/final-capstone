@@ -91,7 +91,7 @@ const ShoppingList = ({ mealplan }) => {
           )}
         />
 
-        <Stack alignItems="center" sx={{ mb: 3 }}>
+        <Stack alignItems="center" sx={{ pb: 3 }}>
           <Typography
             textAlign="center"
             variant="h4"
