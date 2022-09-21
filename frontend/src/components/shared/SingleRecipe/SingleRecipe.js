@@ -278,10 +278,10 @@ const SingleRecipe = ({ recipe }) => {
       <Box
         sx={{
           "@media print": {
-            transform: "scale(0.7)",
-            transformOrigin: "top center",
-            mx: "auto",
-            mt: 5,
+            // transform: "scale(0.7)",
+            // transformOrigin: "top center",
+            // mx: "auto",
+            // mt: 5,
           },
           width: "100%",
           maxWidth: "800px",
