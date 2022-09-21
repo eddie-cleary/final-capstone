@@ -150,7 +150,14 @@ const RenderSteps = ({ steps }) => {
   ));
 
   return renderedSteps?.map((step, index) => (
-    <ListItem key={index}>
+    <ListItem
+      sx={{
+        "@media print": {
+          breakBefore: "auto",
+        },
+      }}
+      key={index}
+    >
       <ListItemText primary={step} />
     </ListItem>
   ));
@@ -272,7 +279,9 @@ const SingleRecipe = ({ recipe }) => {
         sx={{
           "@media print": {
             transform: "scale(0.7)",
-            mt: -15,
+            transformOrigin: "top center",
+            mx: "auto",
+            mt: 5,
           },
           width: "100%",
           maxWidth: "800px",
@@ -438,7 +447,12 @@ const SingleRecipe = ({ recipe }) => {
               </List>
             </Box>
           </Stack>
-          <Stack sx={{ mt: 2 }} direction="column">
+          <Stack
+            sx={{
+              mt: 2,
+            }}
+            direction="column"
+          >
             <Box>
               <Typography
                 sx={{ textAlign: isXs ? "center" : "left" }}
@@ -446,7 +460,12 @@ const SingleRecipe = ({ recipe }) => {
               >
                 Steps
               </Typography>
-              <List sx={{ mt: 2, mb: 5 }}>
+              <List
+                sx={{
+                  mt: 2,
+                  mb: 5,
+                }}
+              >
                 <RenderSteps steps={recipe?.steps} />
               </List>
             </Box>
