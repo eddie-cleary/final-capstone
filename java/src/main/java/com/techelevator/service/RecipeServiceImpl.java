@@ -169,7 +169,26 @@ public class RecipeServiceImpl implements RecipeService {
             }
             oldRecipe.setRecipeIngredients(newRecipeIngredients);
 
-//            System.out.println("recipe is " + oldRecipe);
+            oldRecipe.removeCategories();
+            for (Category category : oldRecipe.getRecipeCategory()) {
+                category.getRecipeCategory().remove(oldRecipe);
+                categoryRepo.save(category);
+            }
+            // Set categories on recipe
+            Set<Category> newRecipeCategories = new HashSet<>();
+            for (String categoryName : recipePayload.getRecipeCategories()) {
+                Category category = categoryRepo.findByName(categoryName);
+                category.addRecipe(oldRecipe);
+                newRecipeCategories.add(category);
+            }
+            oldRecipe.setRecipeCategory(newRecipeCategories);
+
+            appUser.getRecipesLiked().remove(oldRecipe);
+            appUserRepo.save(appUser);
+
+            if (recipePayload.isLiked()) {
+                oldRecipe.addUserToLiked(appUser);
+            }
 
             recipeRepo.save(oldRecipe);
 

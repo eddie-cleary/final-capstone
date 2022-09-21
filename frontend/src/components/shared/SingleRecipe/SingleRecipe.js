@@ -90,7 +90,6 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
           sx={{
             backgroundColor: theme.palette.primary.light,
             display: "flex",
-            width: "50px",
             height: "50px",
             borderRadius: "25px",
             justifyContent: "center",
@@ -107,9 +106,8 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
         </Stack>
         <ListItem
           sx={{
-            width: "fit-content",
-            minWidth: "50%",
-            textAlign: isOdd ? "right" : "left",
+            width: "100%",
+            textAlign: "left",
           }}
           key={index}
         >
@@ -417,7 +415,7 @@ const SingleRecipe = ({ recipe }) => {
               mt: 8,
             }}
           >
-            <Box>
+            <Box sx={{ width: "100%" }}>
               <Typography
                 sx={{ textAlign: isXs ? "center" : "left" }}
                 variant="h5"
@@ -428,8 +426,8 @@ const SingleRecipe = ({ recipe }) => {
                 sx={{
                   mt: 5,
                   display: "flex",
-                  flexWrap: "wrap",
-                  justifyContent: "space-between",
+                  justifyContent: "flex-start",
+                  width: "100%",
                 }}
               >
                 <Stack direction="column" ml={0.5}>
