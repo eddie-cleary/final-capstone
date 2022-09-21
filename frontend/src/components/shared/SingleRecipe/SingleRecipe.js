@@ -23,6 +23,7 @@ import {
   IndeterminateCheckBox,
   Edit,
   Delete,
+  LocalDrink,
 } from "@mui/icons-material";
 import PageTitle from "../PageTitle";
 import ReactToPrint from "react-to-print";
@@ -38,6 +39,7 @@ import {
   setSuccessMsg,
   setShowSuccess,
 } from "../../../redux/features/forms/errors/errorsSlice";
+import LocalDrinkIcon from "@mui/icons-material/LocalDrink";
 
 const modalStyle = {
   position: "absolute",
@@ -56,15 +58,15 @@ const modalStyle = {
 
 let RenderIngredients = ({ ingredients, currentServings }) => {
   const theme = useTheme();
-  let renderedIngredients = ingredients?.map((ingredient) => {
+  ingredients?.forEach((ingredient) => {
     const { quantity: quantityTsp, liquid } = ingredient;
     let convertedMeasurement = convertToMeasurement(
       quantityTsp * currentServings,
       liquid
     );
-    return convertedMeasurement + " of " + ingredient.name;
+    ingredient.text = convertedMeasurement + " of " + ingredient.name;
   });
-  return renderedIngredients?.map((ingredient, index) => {
+  return ingredients?.map((ingredient, index) => {
     const isOdd = index % 2 !== 0 ? true : false;
 
     return (
@@ -82,7 +84,11 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
             marginLeft: "15px",
           }}
         >
-          <TakeoutDiningIcon sx={{ ml: 2.6, mr: 2.5 }} />
+          {ingredient.liquid ? (
+            <LocalDrinkIcon />
+          ) : (
+            <TakeoutDiningIcon sx={{ ml: 2.6, mr: 2.5 }} />
+          )}
         </Stack>
         <ListItem
           sx={{
@@ -92,7 +98,7 @@ let RenderIngredients = ({ ingredients, currentServings }) => {
           }}
           key={index}
         >
-          <ListItemText primary={ingredient} />
+          <ListItemText primary={ingredient.text} />
         </ListItem>
       </Stack>
     );
