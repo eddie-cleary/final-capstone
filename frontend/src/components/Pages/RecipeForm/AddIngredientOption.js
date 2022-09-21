@@ -77,11 +77,11 @@ const AddIngredientOption = () => {
   }, [data.liquid, data, data.name.length]);
 
   const handleYesLiquid = () => {
-    setData({ ...data, liquid: true });
+    setData({ name: data.name.trim(), liquid: true });
   };
 
   const handleNoLiquid = () => {
-    setData({ ...data, liquid: false });
+    setData({ name: data.name.trim(), liquid: false });
   };
 
   const handleAddIngredient = (e) => {
