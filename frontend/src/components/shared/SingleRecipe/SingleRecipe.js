@@ -94,6 +94,8 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
             alignItems: "center",
             direction: "row",
             marginLeft: "15px",
+            minWidth: "50px",
+            width: "50px",
           }}
         >
           {ingredient.liquid ? (
