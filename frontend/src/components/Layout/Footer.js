@@ -1,14 +1,13 @@
-import { Box, useTheme } from "@mui/material";
+import { Box, useTheme, Link, Typography } from "@mui/material";
 import React, { useState, useEffect } from "react";
-import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 
 const Footer = () => {
-  const theme = useTheme();
   const isLg = useSelector((state) => state.layout.isLg);
   const location = useLocation();
   const [isLocationHome, setIsLocationHome] = useState(false);
+  const theme = useTheme();
 
   const footer = (theme) => ({
     backgroundColor: theme.palette.warning.main,
@@ -24,6 +23,16 @@ const Footer = () => {
     }
   }, [location]);
 
+  const textLink = {
+    color: "#fff",
+    cursor: "pointer",
+    textDecorationThickness: "2px",
+    textDecorationColor: theme.palette.primary.dark,
+    "&:hover": {
+      color: theme.palette.primary.dark,
+    },
+  };
+
   return (
     <Box sx={footer}>
       <Box>
@@ -36,7 +45,30 @@ const Footer = () => {
             letterSpacing: "1px",
           }}
         >
-          Created by Edward Cleary, Chantele Lohr, and Brandon Vo
+          Created by{" "}
+          <Link
+            target="_blank"
+            sx={textLink}
+            href="https://linkedin.com/in/edward-cleary"
+          >
+            Edward Cleary
+          </Link>
+          ,{" "}
+          <Link
+            target="_blank"
+            sx={textLink}
+            href="https://linkedin.com/in/chantele-lohr"
+          >
+            Chantele Lohr
+          </Link>
+          , and{" "}
+          <Link
+            target="_blank"
+            sx={textLink}
+            href="https://linkedin.com/in/brandynvo"
+          >
+            Brandon Vo
+          </Link>
         </Typography>
       </Box>
     </Box>
