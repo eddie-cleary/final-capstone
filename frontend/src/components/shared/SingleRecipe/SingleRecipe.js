@@ -23,7 +23,6 @@ import {
   IndeterminateCheckBox,
   Edit,
   Delete,
-  LocalDrink,
 } from "@mui/icons-material";
 import PageTitle from "../PageTitle";
 import ReactToPrint from "react-to-print";
