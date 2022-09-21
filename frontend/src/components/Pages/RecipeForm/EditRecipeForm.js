@@ -42,6 +42,7 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 import PageTitle from "../../shared/PageTitle";
 import PageLayout from "../../shared/PageLayout";
+import { useNavigate } from "react-router-dom";
 
 const EditRecipeForm = () => {
   const token = useSelector((state) => state.auth.token);
@@ -68,6 +69,7 @@ const EditRecipeForm = () => {
   const dispatch = useDispatch();
   const isXs = useSelector((state) => state.layout.isXs);
   const [isImageUploading, setIsImageUploading] = useState(false);
+  const navigate = useNavigate();
 
   const matches = useMediaQuery("(max-width: 1080px)");
 
@@ -86,6 +88,7 @@ const EditRecipeForm = () => {
       .then((res) => {
         dispatch(setSuccessMsg("Updated recipe!"));
         dispatch(setShowSuccess(true));
+        navigate("/myrecipes");
       })
       .catch((err) => {
         if (err.response?.data?.message) {
@@ -103,7 +106,7 @@ const EditRecipeForm = () => {
         dispatch(setIsLoading(false));
         dispatch(resetState());
       });
-  }, [dispatch, postObject, recipeId, token]);
+  }, [dispatch, postObject, recipeId, token, navigate]);
 
   const handleSubmit = async () => {
     dispatch(setIsLoading(true));
