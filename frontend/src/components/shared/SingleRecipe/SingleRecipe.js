@@ -113,7 +113,7 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
           }}
           key={index}
         >
-          <ListItemText primary={ingredient.text} />
+          <ListItemText sx={{ textAlign: "left" }} primary={ingredient.text} />
         </ListItem>
       </Stack>
     );

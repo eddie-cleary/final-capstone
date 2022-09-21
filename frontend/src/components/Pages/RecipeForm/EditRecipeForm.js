@@ -88,7 +88,7 @@ const EditRecipeForm = () => {
       .then((res) => {
         dispatch(setSuccessMsg("Updated recipe!"));
         dispatch(setShowSuccess(true));
-        navigate("/myrecipes");
+        navigate(`/recipes/${recipeId}`);
       })
       .catch((err) => {
         if (err.response?.data?.message) {
