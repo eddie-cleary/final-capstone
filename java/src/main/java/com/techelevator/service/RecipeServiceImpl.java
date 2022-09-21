@@ -132,9 +132,9 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeResponse updateRecipe (String username, Long id, RecipePayload recipePayload) throws IllegalAccessException {
         log.info("Updating Recipe for id {}", id);
 
-        AppUser appUser = appUserService.getUser(username);
-        if (id == recipePayload.getId() && appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
 
+        AppUser appUser = appUserService.getUser(username);
+        if (appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
             Recipe oldRecipe = recipeRepo.findById(id).get();
             oldRecipe.addRecipePayload(recipePayload);
 
@@ -142,7 +142,6 @@ public class RecipeServiceImpl implements RecipeService {
             stepRepo.deleteAll(oldRecipe.getSteps());
             oldRecipe.getSteps().removeAll(oldRecipe.getSteps());
             List<Step> newSteps = new ArrayList<>();
-            System.out.println("setting new steps");
             for (String step : recipePayload.getSteps()) {
                 Step newStep = Step.builder()
                         .info(step)

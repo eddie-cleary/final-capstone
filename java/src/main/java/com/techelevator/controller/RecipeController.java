@@ -1,6 +1,5 @@
 package com.techelevator.controller;
 
-import com.techelevator.entity.Recipe;
 import com.techelevator.model.RecipePayload;
 import com.techelevator.model.RecipeResponse;
 import com.techelevator.service.RecipeService;
@@ -39,6 +38,7 @@ public class RecipeController {
 
     @PutMapping("/{id}")
     public RecipeResponse updateRecipe(Principal principal, @PathVariable Long id, @RequestBody RecipePayload recipePayload) throws IllegalAccessException {
+        System.out.println("user accessing controller is " + principal.getName());
         return recipeService.updateRecipe(principal.getName(), id, recipePayload);
     }
 
