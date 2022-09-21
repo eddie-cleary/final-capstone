@@ -23,10 +23,6 @@ export const fractionOptions = [
     label: "0",
   },
   {
-    value: 1 / 8,
-    label: "1/8",
-  },
-  {
     value: 1 / 4,
     label: "1/4",
   },
