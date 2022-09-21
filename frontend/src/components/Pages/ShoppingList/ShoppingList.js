@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useRef } from "react";
 import { convertToMeasurement } from "../../../shared/conversions";
-import { Stack, Typography } from "@mui/material";
-import CheckBoxOutlineBlankIcon from "@mui/icons-material/CheckBoxOutlineBlank";
-import PrintButton from "../../shared/PrintButton";
+import { Stack, Typography, IconButton } from "@mui/material";
+import { CheckBoxOutlineBlank, Print } from "@mui/icons-material/";
+import ReactToPrint from "react-to-print";
 
 const ShoppingList = ({ mealplan }) => {
   let shoppingListObj = {};
@@ -42,7 +42,7 @@ const ShoppingList = ({ mealplan }) => {
         sx={{ mt: 3, display: "flex", alignItems: "center" }}
         element="h3"
       >
-        <CheckBoxOutlineBlankIcon sx={{ mr: 2 }} />
+        <CheckBoxOutlineBlank sx={{ mr: 2 }} />
         <Typography
           sx={{ mr: 1, textTransform: "capitalize" }}
           variant="titleSmall"
@@ -60,6 +60,8 @@ const ShoppingList = ({ mealplan }) => {
     )
   );
 
+  const printComponent = useRef();
+
   return (
     <>
       <Stack
@@ -71,9 +73,25 @@ const ShoppingList = ({ mealplan }) => {
           pt: 5,
         }}
         elevation={5}
+        ref={printComponent}
       >
-        <PrintButton sx={{ cursor: "pointer" }} />
-        <Stack alignItems="center">
+        <ReactToPrint
+          content={() => printComponent.current}
+          trigger={() => (
+            <IconButton
+              sx={{
+                "@media print": {
+                  display: "none",
+                },
+                cursor: "pointer",
+              }}
+            >
+              <Print />
+            </IconButton>
+          )}
+        />
+
+        <Stack alignItems="center" sx={{ mb: 3 }}>
           <Typography
             textAlign="center"
             variant="h4"
