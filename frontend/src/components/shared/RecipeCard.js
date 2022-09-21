@@ -45,13 +45,31 @@ export default function RecipeCard({ recipe }) {
               sx={{ height: "100%", p: 1.5 }}
               justifyContent="space-between"
             >
-              <Stack justifyContent="space-between">
-                <Typography variant="titleSmall">
+              <Stack justifyContent="center" sx={{ width: "100%" }}>
+                <Typography
+                  sx={{
+                    height: "50%",
+                    mt: "auto",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                  variant="titleSmall"
+                >
                   {recipe.name.length > 50
                     ? recipe.name.substring(0, 60) + "..."
                     : recipe.name}
                 </Typography>
-                <Typography variant="textSmall">{`Shared by ${recipe.creatorUsername}`}</Typography>
+                <Typography
+                  sx={{
+                    mt: "auto",
+                    height: "50%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-end",
+                    mb: 1,
+                  }}
+                  variant="textSmall"
+                >{`Shared by ${recipe.creatorUsername}`}</Typography>
               </Stack>
               <Box alignSelf="flex-end">
                 <LikeRecipeButton recipe={recipe} />
