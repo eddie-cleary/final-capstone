@@ -37,7 +37,6 @@ const modalParentHideScroll = {
   border: "2px solid #000",
   borderRadius: "20px",
   boxShadow: 24,
-  p: 4,
   height: "100%",
   width: "85vw",
   minWidth: "300px",
@@ -49,6 +48,7 @@ const modalParentHideScroll = {
   left: "50%",
   backgroundColor: "#fff",
   overflow: "hidden",
+  pt: 4,
 };
 
 const modalStyle = {
@@ -264,8 +264,8 @@ const ViewMealPlan = () => {
 
         {/* Recipe Modal */}
         <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
-          <Box style={modalParentHideScroll}>
-            <Stack style={modalStyles}>
+          <Box sx={modalParentHideScroll}>
+            <Stack sx={modalStyles}>
               <SingleRecipe recipe={currentRecipe} />
             </Stack>
           </Box>
