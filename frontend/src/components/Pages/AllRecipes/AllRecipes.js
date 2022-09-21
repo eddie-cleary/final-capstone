@@ -58,7 +58,7 @@ const AllRecipes = () => {
           }}
         >
           <PageTitle title="All Recipes" />
-          <Box sx={{ width: "100%", bgcolor: "background.paper", my: -3 }}>
+          <Box sx={{ width: "100%", bgcolor: "background.paper" }}>
             <CategoryTabSelect setRecipesToDisplay={setRecipesToDisplay} />
           </Box>
           <List>

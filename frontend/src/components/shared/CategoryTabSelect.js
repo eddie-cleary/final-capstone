@@ -23,6 +23,7 @@ const CategoryTabSelect = ({
   const [allCategories, setAllCategories] = useState(["All"]);
   const [categoryTabs, setCategoryTabs] = useState(null);
   const dispatch = useDispatch();
+  const isXs = useSelector((state) => state.layout.isXs);
 
   useEffect(() => {
     axios
@@ -147,6 +148,7 @@ const CategoryTabSelect = ({
           xl: "1000px",
         },
         margin: "0 auto",
+        mb: isXs ? -3 : 0,
       }}
     >
       <Tabs

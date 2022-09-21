@@ -11,8 +11,8 @@ const PageTitle = ({ title }) => {
       element="h1"
       sx={{
         textAlign: "center",
-        mb: 4,
         mt: isXs ? 2 : 0,
+        mb: isXs ? 0 : 4,
         textTransform: "capitalize",
       }}
     >
