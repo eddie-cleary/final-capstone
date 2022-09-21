@@ -40,11 +40,16 @@ const ShoppingList = ({ mealplan }) => {
     return (
       <Typography
         sx={{ mt: 3, display: "flex", alignItems: "center" }}
-        variant="h5"
         element="h3"
       >
         <CheckBoxOutlineBlankIcon sx={{ mr: 2 }} />
-        {`${ingredient}: ${shoppingListObj[ingredient]}`}
+        <Typography
+          sx={{ mr: 1, textTransform: "capitalize" }}
+          variant="titleSmall"
+        >
+          {ingredient}:
+        </Typography>
+        <Typography>{shoppingListObj[ingredient]}</Typography>
       </Typography>
     );
   };
@@ -67,17 +72,17 @@ const ShoppingList = ({ mealplan }) => {
         }}
         elevation={5}
       >
-        <PrintButton />
+        <PrintButton sx={{ cursor: "pointer" }} />
         <Stack alignItems="center">
           <Typography
             textAlign="center"
             variant="h4"
             element="h1"
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, textTransform: "capitalize" }}
           >
             {`${mealplan?.title} Shopping List`}
           </Typography>
-          {ingredientComponents}
+          <Stack>{ingredientComponents}</Stack>
         </Stack>
       </Stack>
     </>

@@ -285,6 +285,7 @@ const SingleRecipe = ({ recipe }) => {
           },
           width: "100%",
           maxWidth: "800px",
+          backgroundColor: "#fff",
         }}
         ref={printComponent}
       >

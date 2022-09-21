@@ -30,6 +30,7 @@ import PageTitle from "../../shared/PageTitle";
 const modalStyles = {
   overflow: "auto",
   alignItems: "center",
+  height: "100%",
 };
 
 const modalParentHideScroll = {
@@ -56,7 +57,6 @@ const modalStyle = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
   backgroundColor: "#fff",
@@ -181,7 +181,7 @@ const ViewMealPlan = () => {
     return (
       <ListItem>
         <Stack>
-          <Typography variant="h6">
+          <Typography variant="titleSmall">
             {" "}
             {meal.title.length > 12
               ? meal.title.substring(0, 12) + "..."
@@ -255,15 +255,20 @@ const ViewMealPlan = () => {
           </Stack>
           <Stack
             direction="row"
+            alignItems="flex-start"
             sx={{ mt: 12, width: "100%", flexWrap: "wrap" }}
           >
             {dayComponents}
           </Stack>
         </Stack>
+
+        {/* Recipe Modal */}
         <Modal keepMounted open={showRecipeModal} onClose={handleCloseModal}>
-          <Stack sx={modalStyles}>
-            <SingleRecipe recipe={currentRecipe} />
-          </Stack>
+          <Box style={modalParentHideScroll}>
+            <Stack style={modalStyles}>
+              <SingleRecipe recipe={currentRecipe} />
+            </Stack>
+          </Box>
         </Modal>
 
         <Modal
