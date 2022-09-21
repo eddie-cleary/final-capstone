@@ -1,5 +1,9 @@
 const Fraction = require("fractional").Fraction;
 
+// m = measurement
+// mq = measurementQuantity (in 1/8 teaspoons)
+// rq = remaining quantity
+
 export const convertToMeasurement = (rq, liquid) => {
   // turns quantity of 1/8 teaspoons into a string.
   // string can contain multiple measurements like "1 cup 2 teaspoons"
@@ -7,10 +11,6 @@ export const convertToMeasurement = (rq, liquid) => {
 
   let counts = {};
   // handle everything from teaspoon and up (see line 62)
-
-  // m = measurement
-  // mq = measurementQuantity (in 1/8 teaspoons)
-  // rq = remaining quantity
 
   for (let m in mq) {
     while (

@@ -16,7 +16,7 @@ const ChosenIngredient = ({ index, data }) => {
       <Stack sx={{ flexGrow: 1 }}>
         <InputLabel>&nbsp;</InputLabel>
         <Typography sx={{ textTransform: "capitalize" }}>
-          {data.name} {convertToMeasurement(data.quantity)}
+          {data.name} {convertToMeasurement(data.quantity, data.liquid)}
         </Typography>
       </Stack>
       <Button

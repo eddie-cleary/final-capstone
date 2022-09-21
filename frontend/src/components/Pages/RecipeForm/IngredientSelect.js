@@ -132,10 +132,6 @@ const IngredientSelect = () => {
           const choice = e.target.textContent;
           allIngredients.every((validIngredient) => {
             if (choice.toLowerCase() === validIngredient.name.toLowerCase()) {
-              console.log(
-                "setting ingredient in component to ",
-                validIngredient
-              );
               dispatch(setMeasurement(""));
               dispatch(setIngredient(validIngredient));
               dispatch(setIsIngredientValid(true));

@@ -80,7 +80,6 @@ export const addRecipeDataSlice = createSlice({
       };
     },
     setIngredient: (state, action) => {
-      console.log("setting ingredient to ", action.payload);
       return {
         ...state,
         ingredient: action.payload,
