@@ -18,7 +18,7 @@ const AddIngredientOption = () => {
   const token = useSelector((state) => state.auth.token);
   const [isLoading, setIsLoading] = useState(false);
   const [askIsLiquid, setAskIsLiquid] = useState(null);
-  const [data, setData] = useState({ name: "" });
+  const [data, setData] = useState({ name: "", liquid: "" });
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useDispatch();
 
@@ -60,6 +60,9 @@ const AddIngredientOption = () => {
             dispatch(setErrorMsg("Error"));
           }
           dispatch(setShowError(true));
+        })
+        .then(() => {
+          setData({ name: "", liquid: "" });
         });
     }
   }, [data, ingredientToCreate, token, dispatch, isFormValid]);
@@ -67,18 +70,18 @@ const AddIngredientOption = () => {
   useEffect(() => {
     if (data.name.length > 2) {
       data.name[0].toUpperCase();
-      if (data.isLiquid === true || data.isLiquid === false) {
+      if (typeof data.liquid === "boolean") {
         setIsFormValid(true);
       }
     }
-  }, [data.isLiquid, data, data.name.length]);
+  }, [data.liquid, data, data.name.length]);
 
   const handleYesLiquid = () => {
-    setData({ ...data, isLiquid: true });
+    setData({ ...data, liquid: true });
   };
 
   const handleNoLiquid = () => {
-    setData({ ...data, isLiquid: false });
+    setData({ ...data, liquid: false });
   };
 
   const handleAddIngredient = (e) => {
