@@ -82,8 +82,6 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
       ingredient.name;
   });
   return ingredients?.map((ingredient, index) => {
-    const isOdd = index % 2 !== 0 ? true : false;
-
     return (
       <Stack key={index} direction="row" mb={4}>
         <Stack
