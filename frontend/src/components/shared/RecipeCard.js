@@ -52,6 +52,7 @@ export default function RecipeCard({ recipe }) {
                     mt: "auto",
                     display: "flex",
                     flexDirection: "column",
+                    justifyContent: "flex-end",
                   }}
                   variant="titleSmall"
                 >
