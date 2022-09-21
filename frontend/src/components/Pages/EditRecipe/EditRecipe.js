@@ -22,7 +22,7 @@ const EditRecipe = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/recipes/${id}`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/recipes/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

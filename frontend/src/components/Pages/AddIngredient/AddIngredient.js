@@ -35,7 +35,7 @@ const AddIngredient = () => {
     const postData = { name, liquid };
     setIsLoading(true);
     axios
-      .post(process.env.REACT_APP_BASE_URL + `/ingredient`, postData, {
+      .post(process.env.REACT_APP_SERVER_URL + `/ingredient`, postData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

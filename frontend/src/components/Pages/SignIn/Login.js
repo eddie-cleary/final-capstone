@@ -51,7 +51,7 @@ const Login = ({ setShowCreateAccount }) => {
     };
 
     axios
-      .post(process.env.REACT_APP_BASE_URL + "/login", data)
+      .post(process.env.REACT_APP_SERVER_URL + "/login", data)
       .then((res) => {
         setLoginForm({
           username: "",

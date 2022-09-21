@@ -234,7 +234,7 @@ const SingleRecipe = ({ recipe }) => {
   const handlePostDelete = () => {
     setShowDeleteModal(false);
     axios
-      .delete(process.env.REACT_APP_BASE_URL + `/recipes/${recipe.id}`, {
+      .delete(process.env.REACT_APP_SERVER_URL + `/recipes/${recipe.id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

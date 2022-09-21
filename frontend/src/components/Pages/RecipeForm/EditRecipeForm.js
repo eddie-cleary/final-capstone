@@ -77,7 +77,7 @@ const EditRecipeForm = () => {
     console.log("sending ", postObject);
     axios
       .put(
-        process.env.REACT_APP_BASE_URL + `/recipes/${recipeId}`,
+        process.env.REACT_APP_SERVER_URL + `/recipes/${recipeId}`,
         postObject,
         {
           headers: {
@@ -124,7 +124,7 @@ const EditRecipeForm = () => {
     const CLOUD_NAME = "djoe";
 
     const signatureResponse = await axios.get(
-      process.env.REACT_APP_BASE_URL + "/get-signature",
+      process.env.REACT_APP_SERVER_URL + "/get-signature",
       {
         headers: {
           Authorization: `Bearer ${token}`,

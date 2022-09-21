@@ -31,7 +31,7 @@ const AddCategory = () => {
     const postData = { name };
     setIsLoading(true);
     axios
-      .post(process.env.REACT_APP_BASE_URL + `/category/add`, postData, {
+      .post(process.env.REACT_APP_SERVER_URL + `/category/add`, postData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

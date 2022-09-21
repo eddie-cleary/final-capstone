@@ -19,7 +19,7 @@ const LikeRecipeButton = ({ recipe, setRecipe }) => {
     setIsLoading(true);
     await axios
       .put(
-        process.env.REACT_APP_BASE_URL +
+        process.env.REACT_APP_SERVER_URL +
           `/recipes/like/${recipe.id}/${!recipe?.liked}`,
         "",
         {
@@ -48,7 +48,7 @@ const LikeRecipeButton = ({ recipe, setRecipe }) => {
 
   const loadRecipes = () => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/recipes/all`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/recipes/all`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

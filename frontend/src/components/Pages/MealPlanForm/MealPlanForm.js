@@ -140,7 +140,7 @@ const MealPlanForm = ({ isEdit }) => {
 
   const postMealPlan = () => {
     axios
-      .post(process.env.REACT_APP_BASE_URL + `/mealplans`, postObject, {
+      .post(process.env.REACT_APP_SERVER_URL + `/mealplans`, postObject, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -169,7 +169,7 @@ const MealPlanForm = ({ isEdit }) => {
   const putMealPlan = () => {
     axios
       .put(
-        process.env.REACT_APP_BASE_URL + `/mealplans/${postObject.id}`,
+        process.env.REACT_APP_SERVER_URL + `/mealplans/${postObject.id}`,
         postObject,
         {
           headers: {

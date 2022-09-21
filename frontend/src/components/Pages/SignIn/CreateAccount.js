@@ -145,7 +145,7 @@ const CreateAccount = ({ setShowCreateAccount }) => {
     }
     if (password === confirmPassword) {
       await axios
-        .post(process.env.REACT_APP_BASE_URL + "/register", data)
+        .post(process.env.REACT_APP_SERVER_URL + "/register", data)
         .then((res) => {
           dispatch(setSuccessMsg("Success!"));
           dispatch(setShowSuccess(true));

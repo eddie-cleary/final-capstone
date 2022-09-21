@@ -22,7 +22,7 @@ const MyMealPlans = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/mealplans`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/mealplans`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

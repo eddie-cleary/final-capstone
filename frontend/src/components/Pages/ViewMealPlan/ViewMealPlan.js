@@ -80,7 +80,7 @@ const ViewMealPlan = () => {
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/mealplans/${id}`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -103,11 +103,14 @@ const ViewMealPlan = () => {
   useEffect(() => {
     if (currentRecipe?.id != null && currentRecipe?.steps === undefined) {
       axios
-        .get(process.env.REACT_APP_BASE_URL + `/recipes/${currentRecipe?.id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
+        .get(
+          process.env.REACT_APP_SERVER_URL + `/recipes/${currentRecipe?.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
         .then((res) => setCurrentRecipe(res.data))
         .catch((err) => console.log(err));
     }
@@ -133,7 +136,7 @@ const ViewMealPlan = () => {
   const deleteMealPlan = () => {
     setIsLoading(true);
     axios
-      .delete(process.env.REACT_APP_BASE_URL + `/mealplans/${id}`, {
+      .delete(process.env.REACT_APP_SERVER_URL + `/mealplans/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

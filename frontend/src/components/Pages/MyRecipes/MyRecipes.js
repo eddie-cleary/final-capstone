@@ -23,7 +23,7 @@ const MyRecipes = () => {
 
   const loadRecipes = useCallback(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/recipes/myRecipes`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/recipes/myRecipes`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

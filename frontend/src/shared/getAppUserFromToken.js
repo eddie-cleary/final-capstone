@@ -2,7 +2,7 @@ import axios from "axios";
 
 const getAppUserFromToken = async (token) => {
   const user = await axios
-    .get(process.env.REACT_APP_BASE_URL + `/verifyUser`, {
+    .get(process.env.REACT_APP_SERVER_URL + `/verifyUser`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

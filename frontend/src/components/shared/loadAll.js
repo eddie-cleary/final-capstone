@@ -11,7 +11,7 @@ export const loadAllIngredients = () => {
   const dispatch = store.dispatch();
 
   axios
-    .get(process.env.REACT_APP_BASE_URL + "/ingredient", {
+    .get(process.env.REACT_APP_SERVER_URL + "/ingredient", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

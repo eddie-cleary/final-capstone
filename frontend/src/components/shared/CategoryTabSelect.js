@@ -26,7 +26,7 @@ const CategoryTabSelect = ({
 
   useEffect(() => {
     axios
-      .get(process.env.REACT_APP_BASE_URL + `/category`, {
+      .get(process.env.REACT_APP_SERVER_URL + `/category`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -72,7 +72,7 @@ const RecipeForm = () => {
 
   const postToServer = useCallback(() => {
     axios
-      .post(process.env.REACT_APP_BASE_URL + `/recipes/add`, postObject, {
+      .post(process.env.REACT_APP_SERVER_URL + `/recipes/add`, postObject, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -106,7 +106,7 @@ const RecipeForm = () => {
     const CLOUD_NAME = "djoe";
 
     const signatureResponse = await axios.get(
-      process.env.REACT_APP_BASE_URL + "/get-signature",
+      process.env.REACT_APP_SERVER_URL + "/get-signature",
       {
         headers: {
           Authorization: `Bearer ${token}`,
