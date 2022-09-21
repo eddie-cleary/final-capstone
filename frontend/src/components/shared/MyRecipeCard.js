@@ -121,7 +121,11 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
                 sx={{ height: "100%", p: 1.5 }}
                 justifyContent="space-between"
               >
-                <Stack justifyContent="space-between" sx={{ width: "100%" }}>
+                <Stack
+                  justifyContent="space-between"
+                  alignItems="center"
+                  sx={{ width: "100%" }}
+                >
                   <Typography sx={{ textAlign: "left" }} variant="titleSmall">
                     {recipe.name.length > 50
                       ? recipe.name.substring(0, 70) + "..."
@@ -129,8 +133,7 @@ export default function MyRecipeCard({ recipe, refreshParent }) {
                   </Typography>
                   <Stack
                     flexDirection="row"
-                    justifyContent="flex-end"
-                    alignSelf="flex-end"
+                    justifyContent="center"
                     sx={{ width: "100%", mb: -0.5 }}
                   >
                     <Tooltip sx={{ mr: 2 }} title="Edit">
