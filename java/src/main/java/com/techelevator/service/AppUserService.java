@@ -14,6 +14,6 @@ public interface AppUserService {
     AppUser getUser(String username);
     List<AppUser> getUsers();
     AppUser addNewUser(RegisterUserDTO newUser);
-
     Boolean changePassword(String username, PasswordChangeDTO passwordChangeDTO);
+    Boolean deleteUser(String username);
 }

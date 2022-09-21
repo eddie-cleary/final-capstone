@@ -57,4 +57,15 @@ public class AppUser {
               ", roles=" + appUserRoles +
               '}';
    }
+
+   public void removeRole(Role role) {
+      this.getAppUserRoles().remove(role);
+      role.getAppUserRoles().remove(this);
+   }
+
+   public void removeRoles() {
+      for (Role role : new HashSet<>(appUserRoles)) {
+         removeRole(role);
+      }
+   }
 }

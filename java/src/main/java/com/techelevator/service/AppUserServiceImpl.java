@@ -103,4 +103,20 @@ public class AppUserServiceImpl implements AppUserService {
         }
         return false;
     }
+
+    @Override
+    @Transactional
+    public Boolean deleteUser(String username) {
+        AppUser appUser = appUserRepo.findByUsername(username);
+        for (Role role : appUser.getAppUserRoles()) {
+            role.getAppUserRoles().remove(appUser);
+            roleRepo.save(role);
+        }
+        appUserRepo.deleteById(appUser.getId());
+        AppUser appUserFound = appUserRepo.findByUsername(username);
+        if (Objects.isNull(appUserFound)) {
+            return true;
+        }
+        return false;
+    }
 }

@@ -73,4 +73,9 @@ public class AppUserController {
 
         return response;
     }
+
+    @DeleteMapping("/user/delete/{username}")
+    public boolean deleteUser(@PathVariable String username) {
+        return appUserService.deleteUser(username);
+    }
 }
