@@ -72,6 +72,7 @@ const EditRecipeForm = () => {
   const matches = useMediaQuery("(max-width: 1080px)");
 
   const putToServer = useCallback(() => {
+    console.log("sending ", postObject);
     axios
       .put(
         process.env.REACT_APP_BASE_URL + `/recipes/${recipeId}`,

@@ -55,12 +55,17 @@ const modalStyle = {
   overflow: "hidden",
 };
 
-let RenderIngredients = ({ ingredients, currentServings }) => {
+let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
   const theme = useTheme();
+
   ingredients?.forEach((ingredient) => {
     const { quantity: quantityTsp, liquid } = ingredient;
+    console.log(
+      "computed servings is ",
+      Math.floor(quantityTsp * (currentServings / initialServings))
+    );
     let convertedMeasurement = convertToMeasurement(
-      quantityTsp * currentServings,
+      quantityTsp * (currentServings / initialServings),
       liquid
     );
     ingredient.text = convertedMeasurement + " of " + ingredient.name;
@@ -198,6 +203,7 @@ const SingleRecipe = ({ recipe }) => {
   const recipePrepTime = recipe?.prepTime;
   const recipeCookTime = recipe?.cookTime;
   const [currentServings, setCurrentServings] = useState(1);
+  const [initialServings, setInitialServings] = useState(1);
   const userId = useSelector((state) => state.auth.user.id);
   const token = useSelector((state) => state.auth.token);
   const isXs = useSelector((state) => state.layout.isXs);
@@ -245,6 +251,7 @@ const SingleRecipe = ({ recipe }) => {
 
   useEffect(() => {
     setCurrentServings(recipe?.servings);
+    setInitialServings(recipe?.servings);
   }, [recipe]);
 
   const theme = useTheme();
@@ -418,6 +425,7 @@ const SingleRecipe = ({ recipe }) => {
                   <RenderIngredients
                     ingredients={recipe?.recipeIngredients}
                     currentServings={currentServings}
+                    initialServings={initialServings}
                   />
                 </Stack>
               </List>
