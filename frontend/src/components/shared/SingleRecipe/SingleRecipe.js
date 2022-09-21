@@ -60,12 +60,22 @@ let RenderIngredients = ({ ingredients, currentServings, initialServings }) => {
 
   ingredients?.forEach((ingredient) => {
     const { quantity: quantityTsp, liquid } = ingredient;
-    let convertedMeasurement = convertToMeasurement(
-      Math.floor(
-        Math.floor(quantityTsp * (currentServings / initialServings)) / 6
-      ) * 6,
-      liquid
-    );
+    let convertedMeasurement;
+    if (liquid)
+      convertedMeasurement = convertToMeasurement(
+        Math.floor(
+          Math.floor(quantityTsp * (currentServings / initialServings)) / 6
+        ) * 6,
+        liquid
+      );
+    else {
+      convertedMeasurement = convertToMeasurement(
+        Math.floor(
+          Math.floor(quantityTsp * (currentServings / initialServings)) / 2
+        ) * 2,
+        liquid
+      );
+    }
     ingredient.text =
       (convertedMeasurement ? convertedMeasurement : "0") +
       " of " +
