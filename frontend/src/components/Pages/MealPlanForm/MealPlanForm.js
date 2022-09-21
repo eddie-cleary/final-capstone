@@ -68,6 +68,7 @@ const MealPlanForm = ({ isEdit }) => {
   const [currentErrors, setCurrentErrors] = useState();
   const [validForm, setValidForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const isXs = useSelector((state) => state.layout.isXs);
 
   useEffect(() => {
     const newErrorList = [];
@@ -208,7 +209,7 @@ const MealPlanForm = ({ isEdit }) => {
   return (
     <>
       <Stack
-        sx={{ width: "100%", maxWidth: "1200px" }}
+        sx={{ width: "100%", maxWidth: "1200px", mt: isXs ? 3 : 0 }}
         direction="row"
         justifyContent="center"
       >
