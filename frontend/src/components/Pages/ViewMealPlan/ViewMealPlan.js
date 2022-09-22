@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,6 +15,7 @@ import {
   Box,
   CircularProgress,
   useTheme,
+  IconButton,
 } from "@mui/material";
 import SingleRecipe from "../../shared/SingleRecipe/SingleRecipe";
 import ShoppingList from "../ShoppingList/ShoppingList";
@@ -26,6 +27,8 @@ import {
 } from "../../../redux/features/forms/errors/errorsSlice";
 import PageLayout from "../../shared/PageLayout";
 import PageTitle from "../../shared/PageTitle";
+import ReactToPrint from "react-to-print";
+import { Print } from "@mui/icons-material";
 
 const modalStyles = {
   overflow: "auto",
@@ -217,13 +220,25 @@ const ViewMealPlan = () => {
     <Day key={index} day={day} index={index} />
   ));
 
+  const printComponent = useRef();
+
   return (
     <Layout>
       <PageLayout>
         <PageTitle title={mealPlan?.title} />
-        <Stack alignItems="center" sx={{ maxWidth: "1100px", width: "100%" }}>
+        <Stack
+          alignItems="center"
+          sx={{ maxWidth: "1100px", width: "100%" }}
+          ref={printComponent}
+        >
           <Stack
-            sx={{ width: "100%", maxWidth: "600px" }}
+            sx={{
+              width: "100%",
+              maxWidth: "600px",
+              "@media print": {
+                display: "none",
+              },
+            }}
             direction="row"
             justifyContent="space-between"
           >
@@ -253,6 +268,14 @@ const ViewMealPlan = () => {
             >
               Generate Shopping List
             </Button>
+            <ReactToPrint
+              content={() => printComponent.current}
+              trigger={() => (
+                <IconButton>
+                  <Print />
+                </IconButton>
+              )}
+            />
           </Stack>
           <Stack
             direction="row"
