@@ -74,9 +74,9 @@ const ViewMealPlan = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShoppingList, setShowShoppingList] = useState(false);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -144,6 +144,7 @@ const ViewMealPlan = () => {
       .then((res) => {
         dispatch(setSuccessMsg("Deleted meal plan!"));
         dispatch(setShowSuccess(true));
+        setShowDeleteModal(false);
         navigate("/mymealplans");
       })
       .catch((err) => {
