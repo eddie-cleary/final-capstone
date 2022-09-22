@@ -134,7 +134,7 @@ public class RecipeServiceImpl implements RecipeService {
 
 
         AppUser appUser = appUserService.getUser(username);
-        if (appUser.getId() == recipeRepo.findById(id).get().getAppUser().getId()) {
+        if ( appUser.getId().equals(recipeRepo.findById(id).get().getAppUser().getId())) {
             Recipe oldRecipe = recipeRepo.findById(id).get();
             oldRecipe.addRecipePayload(recipePayload);
 

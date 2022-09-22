@@ -113,21 +113,17 @@ public class MealPlanServiceImpl implements MealPlanService {
         AppUser appUser = appUserRepo.findByUsername(username);
         MealPlan oldMealPlan = mealPlanRepo.findById(id).get();
 
-        if (id == mealPlanDTO.getId() && appUser.getId() == mealPlanRepo.findById(id).get().getAppUser().getId()) {
+        System.out.println(id + " equals " + mealPlanDTO.getId() + " is " + (id.equals(mealPlanDTO.getId())));
+        System.out.println(appUser.getId() + " equals " + mealPlanRepo.findById(id).get().getAppUser().getId() + " is " + (id == mealPlanDTO.getId() && appUser.getId() == mealPlanRepo.findById(id).get().getAppUser().getId()));
 
-//            mealPlanRepo.deleteById(oldMealPlan.getId());
-//
-//            MealPlan newMealPlan = new MealPlan();
-//            newMealPlan.setTitle(mealPlanDTO.getTitle());
-//            newMealPlan.setAppUser(appUser);
-//            mealPlanRepo.save(newMealPlan);
+        if (id.equals(mealPlanDTO.getId()) && appUser.getId().equals(mealPlanRepo.findById(id).get().getAppUser().getId())) {
 
             oldMealPlan.setTitle(mealPlanDTO.getTitle());
 
             dayRepo.deleteAll(oldMealPlan.getDays());
             oldMealPlan.getDays().removeAll(oldMealPlan.getDays());
 
-//            // Set days
+            // Set days
             Set<Day> newDays = new HashSet<>();
             for (DayDTO dayDTO : mealPlanDTO.getDays()) {
                 Day newDay = new Day();
@@ -168,12 +164,22 @@ public class MealPlanServiceImpl implements MealPlanService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteMealPlan(String username, Long mealPlanId) throws IllegalAccessException {
         log.info("User \"{}\" is deleting meal with id {}", username, mealPlanId);
         AppUser appUser = appUserRepo.findByUsername(username);
 
-        if (appUser.getId() == mealPlanRepo.getOne(mealPlanId).getAppUser().getId()) {
-            mealPlanRepo.deleteById(mealPlanId);
+        if (appUser.getId().equals(mealPlanRepo.getOne(mealPlanId).getAppUser().getId())) {
+
+            MealPlan mealPlan = mealPlanRepo.findById(mealPlanId).get();
+            dayRepo.deleteAll(mealPlan.getDays());
+            mealPlan.getDays().removeAll(mealPlan.getDays());
+
+            AppUser parentUser = appUserRepo.findByUsername(username);
+            parentUser.getMealPlans().remove(mealPlan);
+
+            mealPlanRepo.deleteById(mealPlan.getId());
+
             return true;
         } else {
             throw new IllegalAccessException("You are not authorized to delete this meal plan.");
