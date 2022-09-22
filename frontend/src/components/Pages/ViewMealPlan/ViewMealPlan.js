@@ -169,8 +169,8 @@ const ViewMealPlan = () => {
           onClick={() => setCurrentRecipe(mealRecipe.recipe)}
           sx={{ color: theme.palette.primary.dark }}
         >
-          {mealRecipe.recipe.name.length > 15
-            ? mealRecipe.recipe.name.substring(0, 15) + "..."
+          {mealRecipe.recipe.name.length > 22
+            ? mealRecipe.recipe.name.substring(0, 22) + "..."
             : mealRecipe.recipe.name}
         </Button>
       </ListItem>
