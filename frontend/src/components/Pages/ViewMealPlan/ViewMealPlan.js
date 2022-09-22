@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import Layout from "../../Layout/Layout";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, useNavigate } from "react-router-dom";
 import {
   Typography,
   ListItem,
@@ -76,6 +76,7 @@ const ViewMealPlan = () => {
   const [showShoppingList, setShowShoppingList] = useState(false);
   const dispatch = useDispatch();
   const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -144,8 +145,7 @@ const ViewMealPlan = () => {
         dispatch(setSuccessMsg("Deleted meal plan!"));
         dispatch(setShowSuccess(true));
         setShowDeleteModal(false);
-        console.log("navigating to mymealplans");
-        // navigate("/mymealplans");
+        navigate("/mymealplans");
       })
       .catch((err) => {
         if (err.response?.data?.message) {
