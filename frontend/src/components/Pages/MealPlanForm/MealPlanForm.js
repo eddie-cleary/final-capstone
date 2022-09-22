@@ -151,9 +151,8 @@ const MealPlanForm = ({ isEdit }) => {
         },
       })
       .then((res) => {
-        dispatch(setSuccessMsg("Saved meal plan!"));
+        dispatch(setSuccessMsg("Added meal plan!"));
         dispatch(setShowSuccess(true));
-        navigate("/mymealplans");
       })
       .catch((err) => {
         if (err.response?.data?.message) {
@@ -187,7 +186,6 @@ const MealPlanForm = ({ isEdit }) => {
         dispatch(setMealPlanFormData(res.data));
         dispatch(setSuccessMsg("Updated meal plan!"));
         dispatch(setShowSuccess(true));
-        navigate("/mymealplans");
       })
       .catch((err) => {
         if (err.response?.data?.message) {

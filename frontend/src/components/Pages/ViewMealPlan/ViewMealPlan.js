@@ -145,6 +145,7 @@ const ViewMealPlan = () => {
         dispatch(setSuccessMsg("Deleted meal plan!"));
         dispatch(setShowSuccess(true));
         setShowDeleteModal(false);
+        console.log("navigating to mymealplans");
         navigate("/mymealplans");
       })
       .catch((err) => {
