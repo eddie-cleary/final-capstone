@@ -144,7 +144,7 @@ const ViewMealPlan = () => {
       .then((res) => {
         dispatch(setSuccessMsg("Deleted meal plan!"));
         dispatch(setShowSuccess(true));
-        navigate("/mealplans");
+        navigate("/mymealplans");
       })
       .catch((err) => {
         if (err.response?.data?.message) {

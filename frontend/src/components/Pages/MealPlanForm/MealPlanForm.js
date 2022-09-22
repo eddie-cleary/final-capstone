@@ -18,6 +18,7 @@ import {
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import {
   setErrorMsg,
   setShowError,
@@ -69,6 +70,7 @@ const MealPlanForm = ({ isEdit }) => {
   const [validForm, setValidForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isXs = useSelector((state) => state.layout.isXs);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const newErrorList = [];
@@ -107,7 +109,7 @@ const MealPlanForm = ({ isEdit }) => {
 
     postObject.days.forEach((day) => {
       day.meals?.forEach((meal) => {
-        if (meal.recipes?.length === 0) {
+        if (meal.mealRecipes?.length === 0) {
           newErrorList.push("Each meal must have at least 1 recipe.");
         }
       });
@@ -117,6 +119,7 @@ const MealPlanForm = ({ isEdit }) => {
       setValidForm(true);
     } else {
       setValidForm(false);
+      setIsLoading(false);
     }
 
     setCurrentErrors(newErrorList);
@@ -132,6 +135,7 @@ const MealPlanForm = ({ isEdit }) => {
     if (!validForm) {
       dispatch(setErrorMsg(formatErrors()));
       dispatch(setShowError(true));
+      setIsLoading(false);
     } else if (!isEdit) {
       postMealPlan();
     } else {
@@ -149,6 +153,7 @@ const MealPlanForm = ({ isEdit }) => {
       .then((res) => {
         dispatch(setSuccessMsg("Saved meal plan!"));
         dispatch(setShowSuccess(true));
+        navigate("/mymealplans");
       })
       .catch((err) => {
         if (err.response?.data?.message) {
