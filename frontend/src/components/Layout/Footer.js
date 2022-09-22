@@ -14,7 +14,7 @@ const Footer = () => {
     width: "100%",
     padding: "15px",
     height: "100%",
-    pl: !isLg || !isLocationHome ? "" : "320px",
+    pl: !isLg || isLocationHome ? "" : "320px",
   });
 
   useEffect(() => {

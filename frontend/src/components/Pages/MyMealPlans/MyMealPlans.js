@@ -19,6 +19,7 @@ const MyMealPlans = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showAddLink, setShowAddLink] = useState(false);
   const dispatch = useDispatch();
+  const isXs = useSelector((state) => state.layout.isXs);
 
   useEffect(() => {
     axios
@@ -71,7 +72,14 @@ const MyMealPlans = () => {
         {showAddLink ? (
           <AddMoreContent content="meal plans" contentLink="/mealplans/add" />
         ) : (
-          <Stack direction="row" sx={{ flexWrap: "wrap", gap: "20px" }}>
+          <Stack
+            sx={{
+              flexWrap: "wrap",
+              gap: "20px",
+              flexDirection: isXs ? "column" : "row",
+              mt: isXs ? 3 : 0,
+            }}
+          >
             {myMealPlans}
           </Stack>
         )}
