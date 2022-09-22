@@ -18,7 +18,6 @@ import {
 import DaysList from "./DaysList";
 import RecipesList from "./RecipeChoices/RecipesList";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import {
   setErrorMsg,
   setShowError,
@@ -70,7 +69,6 @@ const MealPlanForm = ({ isEdit }) => {
   const [validForm, setValidForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const isXs = useSelector((state) => state.layout.isXs);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const newErrorList = [];
