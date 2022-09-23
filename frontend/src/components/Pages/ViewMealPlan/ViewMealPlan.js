@@ -77,6 +77,7 @@ const ViewMealPlan = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showShoppingList, setShowShoppingList] = useState(false);
+  const isLg = useSelector((state) => state.layout.isLg);
   const dispatch = useDispatch();
   const theme = useTheme();
   const navigate = useNavigate();
@@ -238,11 +239,12 @@ const ViewMealPlan = () => {
               "@media print": {
                 display: "none",
               },
+              flexDirection: !isLg ? "column" : "row",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
-            direction="row"
-            justifyContent="space-between"
           >
-            <Box>
+            <Box sx={{ mt: !isLg ? 2 : 0 }}>
               <Link
                 sx={{ textDecoration: "none" }}
                 to={`/mealplans/edit/${mealPlan?.id}`}
@@ -263,7 +265,7 @@ const ViewMealPlan = () => {
             </Box>
             <Button
               onClick={() => setShowShoppingList(true)}
-              sx={{ ml: 2 }}
+              sx={{ ml: 2, mt: !isLg ? 2 : 0 }}
               variant="btn"
             >
               Generate Shopping List
@@ -271,16 +273,20 @@ const ViewMealPlan = () => {
             <ReactToPrint
               content={() => printComponent.current}
               trigger={() => (
-                <IconButton>
+                <IconButton sx={{ mt: !isLg ? 2 : 0 }}>
                   <Print />
                 </IconButton>
               )}
             />
           </Stack>
           <Stack
-            direction="row"
-            alignItems="flex-start"
-            sx={{ mt: 12, width: "100%", flexWrap: "wrap" }}
+            sx={{
+              mt: 12,
+              width: "100%",
+              flexWrap: "wrap",
+              alignItems: !isLg ? "center" : "flex-start",
+              flexDirection: !isLg ? "column" : "row",
+            }}
           >
             {dayComponents}
           </Stack>
